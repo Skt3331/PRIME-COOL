@@ -1,0 +1,175 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ice: var(--ice);
+  --color-electric: var(--electric);
+  --color-ember: var(--ember);
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Deep midnight industrial palette */
+  --background: oklch(0.16 0.03 250);
+  --foreground: oklch(0.97 0.01 230);
+
+  --card: oklch(0.21 0.035 252);
+  --card-foreground: oklch(0.97 0.01 230);
+
+  --popover: oklch(0.21 0.035 252);
+  --popover-foreground: oklch(0.97 0.01 230);
+
+  /* Electric cyan primary */
+  --primary: oklch(0.82 0.16 210);
+  --primary-foreground: oklch(0.16 0.03 250);
+
+  --secondary: oklch(0.27 0.04 252);
+  --secondary-foreground: oklch(0.97 0.01 230);
+
+  --muted: oklch(0.24 0.035 252);
+  --muted-foreground: oklch(0.72 0.02 240);
+
+  --accent: oklch(0.55 0.18 255);
+  --accent-foreground: oklch(0.97 0.01 230);
+
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.97 0.01 230);
+
+  --border: oklch(0.32 0.04 250 / 60%);
+  --input: oklch(0.27 0.04 252);
+  --ring: oklch(0.82 0.16 210);
+
+  --ice: oklch(0.92 0.06 215);
+  --electric: oklch(0.7 0.22 260);
+  --ember: oklch(0.72 0.19 45);
+
+  --gradient-hero: radial-gradient(
+      ellipse at top right,
+      color-mix(in oklab, var(--primary) 35%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at bottom left,
+      color-mix(in oklab, var(--electric) 30%, transparent) 0%,
+      transparent 55%
+    ),
+    linear-gradient(180deg, var(--background), oklch(0.12 0.03 252));
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--ice)
+  );
+  --gradient-electric: linear-gradient(
+    135deg,
+    var(--electric),
+    var(--primary)
+  );
+  --gradient-card: linear-gradient(
+    160deg,
+    color-mix(in oklab, var(--card) 92%, var(--primary) 8%),
+    var(--card)
+  );
+
+  --shadow-glow: 0 0 60px -10px color-mix(in oklab, var(--primary) 60%, transparent);
+  --shadow-elegant: 0 20px 60px -20px oklch(0 0 0 / 50%);
+  --shadow-card: 0 1px 0 0 oklch(1 0 0 / 4%) inset,
+    0 30px 60px -30px oklch(0 0 0 / 60%);
+
+  --grid-line: oklch(1 0 0 / 4%);
+}
+
+.dark {
+  /* same tokens — site is dark-first */
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@utility text-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility surface-card {
+  background: var(--gradient-card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+}
+
+@utility glow-ring {
+  box-shadow: var(--shadow-glow);
+}
+
+@keyframes pulse-ring {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@utility animate-pulse-ring {
+  animation: pulse-ring 3s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@utility animate-float {
+  animation: float-slow 6s ease-in-out infinite;
+}

@@ -1,0 +1,1460 @@
+import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { getPublicProjects, getCmsSettings, getPublicBlogs } from "../lib/api";
+import heroImage from "@/assets/hero.png";
+import logo from "@/assets/logo.png";
+import projectFreezer from "@/assets/project_freezer.png";
+import projectCoolingTower from "@/assets/project_cooling_tower.png";
+import projectAcRollout from "@/assets/project_ac_rollout.png";
+import serviceAc from "@/assets/service_ac.png";
+import serviceFridge from "@/assets/service_fridge.png";
+import serviceWasher from "@/assets/service_washer.png";
+import serviceHeavyMech from "@/assets/service_heavy_mech.png";
+import serviceElectrical from "@/assets/service_electrical.png";
+import serviceOverhauls from "@/assets/service_overhauls.png";
+import serviceAmc from "@/assets/service_amc.png";
+import { WhatsAppWidget } from "../components/WhatsAppWidget";
+import {
+  Snowflake,
+  Wind,
+  Wrench,
+  Cog,
+  Factory,
+  Refrigerator,
+  WashingMachine,
+  Gauge,
+  Zap,
+  ShieldCheck,
+  Phone,
+  MapPin,
+  Clock,
+  ArrowRight,
+  CircuitBoard,
+  ThermometerSnowflake,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Youtube,
+  Twitter,
+  Mail,
+} from "lucide-react";
+
+export const Route = createFileRoute("/")({
+  loader: async () => {
+    const [{ projects }, { settings }, { blogs }] = await Promise.all([
+      getPublicProjects(),
+      getCmsSettings(),
+      getPublicBlogs(),
+    ]);
+    return { projects, cms: settings, blogs };
+  },
+  head: ({ loaderData }) => {
+    const seo = loaderData?.cms?.seo?.home;
+    if (!seo) return { meta: [] };
+    return {
+      meta: [
+        { title: seo.title },
+        { name: "description", content: seo.description },
+        { property: "og:title", content: seo.ogTitle },
+        { property: "og:description", content: seo.ogDescription },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: seo.title },
+        { name: "twitter:description", content: seo.description },
+      ],
+      links: [{ rel: "canonical", href: "/" }],
+    };
+  },
+  component: Index,
+});
+
+const domesticServices = [
+  {
+    icon: ThermometerSnowflake,
+    title: "Air Conditioning Systems",
+    desc: "Split, window & centralized AC troubleshooting, jet/dry chemical cleaning, gas charging and precision installation.",
+    image: serviceAc,
+  },
+  {
+    icon: Refrigerator,
+    title: "Refrigeration Units",
+    desc: "Repair & temperature calibration for domestic fridges, commercial deep freezers and retail display chillers.",
+    image: serviceFridge,
+  },
+  {
+    icon: WashingMachine,
+    title: "Washing Machine Service",
+    desc: "Top-load, front-load & semi-automatic — drum alignment, motor repair and electronic fault resolution.",
+    image: serviceWasher,
+  },
+];
+
+const industrialServices = [
+  {
+    icon: Factory,
+    title: "Heavy Mechanical Maintenance",
+    desc: "Routine & emergency servicing for plant machinery, large ventilation networks and cooling towers.",
+    image: serviceHeavyMech,
+  },
+  {
+    icon: CircuitBoard,
+    title: "Component & Electrical Precision",
+    desc: "Capacitors, complex wiring, industrial valves and pressure gauges — installed, calibrated, and verified.",
+    image: serviceElectrical,
+  },
+  {
+    icon: Cog,
+    title: "Equipment Overhauls",
+    desc: "High-capacity overhauls and diagnostics designed to minimise downtime and protect factory throughput.",
+    image: serviceOverhauls,
+  },
+  {
+    icon: ShieldCheck,
+    title: "Preventative AMCs",
+    desc: "Tailored Annual Maintenance Contracts that prevent failures and extend the life of demanding equipment.",
+    image: serviceAmc,
+  },
+];
+
+const stats = [
+  { value: "24/7", label: "Rapid Response" },
+  { value: "2", label: "Industrial Hubs Served" },
+  { value: "100%", label: "Engineered Reliability" },
+  { value: "AMC", label: "Zero-Downtime Plans" },
+];
+
+const regions = [
+  "Wagholi",
+  "Lonikand",
+  "Kesnand",
+  "Koregaon Bhima",
+  "Shikrapur",
+  "Karegaon MIDC",
+  "Ranjangaon MIDC",
+  "Shirur",
+];
+
+function Index() {
+  const { projects, cms, blogs } = Route.useLoaderData();
+
+  return (
+    <div className="min-h-screen text-foreground">
+      <Header cms={cms} />
+      <main>
+        <Hero hero={cms.hero} />
+        <Stats />
+        <Portfolio projects={projects} />
+        <Services />
+        <Industrial />
+        <BlogsPreview blogs={blogs} />
+        <ResourceHub />
+        <Catalog />
+        <Testimonials />
+        <About />
+        <Coverage />
+        <Faq faqs={cms.faqs} />
+        <Contact cms={cms} />
+      </main>
+      <Footer cms={cms} />
+      {cms?.whatsapp && <WhatsAppWidget whatsapp={cms.whatsapp} />}
+    </div>
+  );
+}
+
+function ResourceHub() {
+  return (
+    <section id="resources-promo" className="py-24 border-t border-border bg-card/10 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,color-mix(in_oklab,var(--primary)_6%,transparent),transparent_50%)] pointer-events-none" />
+      <div className="relative mx-auto max-w-7xl px-6">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-5 space-y-6">
+            <SectionHeader
+              tag="Field & Engineering Resources"
+              title="HVAC/R Calculators, Formula Libraries & Troubleshooting Tools"
+              subtitle="Empowering technicians and plant managers with interactive sizing utilities, refrigerant Antoine pressure-temperature charts, and diagnosis checklists."
+            />
+            <div className="pt-2">
+              <Link
+                to="/resources"
+                className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 transition glow-ring"
+              >
+                Enter Resource Hub <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+          
+          <div className="lg:col-span-7 grid sm:grid-cols-2 gap-4">
+            <div className="surface-card rounded-2xl p-5 space-y-3 border border-border/60 hover:border-primary/40 transition">
+              <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary">
+                <Gauge className="h-4.5 w-4.5" />
+              </div>
+              <h3 className="font-display font-semibold text-foreground text-sm">Superheat &amp; Subcooling Tools</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">Calculate operational subcooling and superheat instantly to check system charging levels.</p>
+              <div className="flex gap-2">
+                <Link to="/tools/superheat-calculator" className="text-xs text-primary font-semibold hover:underline">Superheat &rarr;</Link>
+                <span className="text-border text-muted-foreground/30">|</span>
+                <Link to="/tools/subcooling-calculator" className="text-xs text-primary font-semibold hover:underline">Subcooling &rarr;</Link>
+              </div>
+            </div>
+
+            <div className="surface-card rounded-2xl p-5 space-y-3 border border-border/60 hover:border-primary/40 transition">
+              <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary">
+                <Zap className="h-4.5 w-4.5" />
+              </div>
+              <h3 className="font-display font-semibold text-foreground text-sm">Calculators &amp; Converters</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">Calculate BTU heat load sizing, AC tonnage requirements, vacuum conversions, and CFM airflow.</p>
+              <div className="flex gap-2">
+                <Link to="/tools/btu-calculator" className="text-xs text-primary font-semibold hover:underline">BTU Sizer &rarr;</Link>
+                <span className="text-border text-muted-foreground/30">|</span>
+                <Link to="/tools/tonnage-calculator" className="text-xs text-primary font-semibold hover:underline">Tonnage &rarr;</Link>
+              </div>
+            </div>
+
+            <div className="surface-card rounded-2xl p-5 space-y-3 border border-border/60 hover:border-primary/40 transition">
+              <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary">
+                <Wrench className="h-4.5 w-4.5" />
+              </div>
+              <h3 className="font-display font-semibold text-foreground text-sm">Troubleshooting Wizard</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">Use our step-by-step diagnostic tree wizard to trace compressor, coil, and suction pressure faults.</p>
+              <Link to="/interactive/wizard" className="text-xs text-primary font-semibold hover:underline block">Diagnose Faults &rarr;</Link>
+            </div>
+
+            <div className="surface-card rounded-2xl p-5 space-y-3 border border-border/60 hover:border-primary/40 transition">
+              <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary">
+                <ThermometerSnowflake className="h-4.5 w-4.5" />
+              </div>
+              <h3 className="font-display font-semibold text-foreground text-sm">Refrigerant PT Charts</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">Dedicated Antoine saturation reference tables for R134a, R410A, R32, R404A, and R407C.</p>
+              <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs">
+                <Link to="/refrigerants/r410a" className="text-primary hover:underline">R410A</Link>
+                <Link to="/refrigerants/r32" className="text-primary hover:underline">R32</Link>
+                <Link to="/refrigerants/r134a" className="text-primary hover:underline">R134a</Link>
+                <Link to="/refrigerants/r404a" className="text-primary hover:underline">R404A</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Header({ cms }: { cms: any }) {
+  const socials = cms?.socials || {};
+  const phone = socials.phone || "+917507408461";
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border">
+      <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
+        <Link to="/" hash="top" className="flex items-center gap-2.5">
+          <img src={logo} alt="Prime Cool logo" className="h-9 w-9" />
+          <span className="font-display font-bold text-lg tracking-tight">
+            Prime <span className="text-gradient">Cool</span>
+          </span>
+        </Link>
+        <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
+          <Link to="/" hash="services" className="hover:text-foreground transition">Services</Link>
+          <Link to="/" hash="catalog" className="hover:text-foreground transition">Catalog</Link>
+          <Link to="/portfolio" className="hover:text-foreground transition">Projects</Link>
+          <Link to="/blogs" className="hover:text-foreground transition">Blogs</Link>
+          <Link to="/resources" className="hover:text-foreground transition text-primary font-semibold">Resources Hub</Link>
+          <Link to="/" hash="about" className="hover:text-foreground transition">About</Link>
+          <Link to="/" hash="contact" className="hover:text-foreground transition">Contact</Link>
+        </nav>
+        <div className="flex items-center gap-3">
+          <a
+            href={`tel:${phone.replace(/\s+/g, "")}`}
+            className="inline-flex items-center gap-2 rounded-full border border-border p-2 sm:px-3 sm:py-1.5 text-xs font-medium hover:bg-card transition"
+            title="Call Support"
+          >
+            <Phone className="h-4 w-4 text-primary" />
+            <span className="hidden sm:inline">{phone}</span>
+          </a>
+          <Link
+            to="/booking"
+            search={{}}
+            className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:opacity-90 transition glow-ring"
+          >
+            <Clock className="h-4 w-4" />
+            <span>Book Online</span>
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function Hero({ hero }: { hero: any }) {
+  return (
+    <section
+      id="top"
+      className="relative pt-32 pb-24 md:pt-44 md:pb-32 overflow-hidden"
+      style={{ background: "var(--gradient-hero)" }}
+    >
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none"
+        style={{
+          backgroundImage: `url(${heroImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center right",
+          maskImage:
+            "linear-gradient(to left, black 0%, black 40%, transparent 90%)",
+          WebkitMaskImage:
+            "linear-gradient(to left, black 0%, black 40%, transparent 90%)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground mb-6">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse-ring" />
+            Pune · Wagholi–Shirur corridor · Karegaon · Ranjangaon
+          </div>
+
+          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05]">
+            {hero.title1}
+            <br />
+            <span className="text-gradient">{hero.title2}</span>
+          </h1>
+
+          <p className="mt-6 text-lg text-muted-foreground max-w-xl">
+            {hero.subtitle}
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              to={hero.cta1Link}
+              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 transition glow-ring"
+            >
+              {hero.cta1Text} <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a
+              href={hero.cta2Link}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-6 py-3 text-sm font-semibold hover:bg-card transition"
+            >
+              <Phone className="h-4 w-4 text-primary" /> {hero.cta2Text}
+            </a>
+          </div>
+
+          <div className="mt-10 flex items-center gap-6 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4 text-primary" /> Rapid Response
+            </div>
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 text-primary" /> AMC Backed
+            </div>
+            <div className="flex items-center gap-2">
+              <Zap className="h-4 w-4 text-primary" /> Industrial Grade
+            </div>
+          </div>
+        </div>
+
+        <div className="relative hidden lg:block">
+          <div className="relative aspect-square rounded-3xl surface-card overflow-hidden glow-ring">
+            <img
+              src={heroImage}
+              alt="Futuristic HVAC and industrial cooling visualization"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-background/80 via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between rounded-2xl border border-border bg-background/70 backdrop-blur-md p-4">
+              <div>
+                <div className="text-xs text-muted-foreground">Live Service</div>
+                <div className="font-display font-semibold">Cooling Tower · Ranjangaon</div>
+              </div>
+              <div className="text-right">
+                <div className="text-xs text-muted-foreground">Status</div>
+                <div className="text-sm font-semibold text-primary">Optimal</div>
+              </div>
+            </div>
+          </div>
+          <div className="absolute -top-4 -left-4 animate-float">
+            <div className="surface-card rounded-2xl px-4 py-3 flex items-center gap-3">
+              <Snowflake className="h-5 w-5 text-primary" />
+              <div className="text-xs">
+                <div className="font-semibold">-3°C</div>
+                <div className="text-muted-foreground">Refrigerant Optimal</div>
+              </div>
+            </div>
+          </div>
+          <div className="absolute -bottom-4 -right-4 animate-float" style={{ animationDelay: "1.5s" }}>
+            <div className="surface-card rounded-2xl px-4 py-3 flex items-center gap-3">
+              <Gauge className="h-5 w-5 text-primary" />
+              <div className="text-xs">
+                <div className="font-semibold">5.2 bar</div>
+                <div className="text-muted-foreground">Pressure Verified</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Stats() {
+  return (
+    <section className="border-y border-border bg-card/30">
+      <div className="mx-auto max-w-7xl px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
+        {stats.map((s) => (
+          <div key={s.label} className="text-center md:text-left">
+            <div className="font-display text-3xl md:text-4xl font-bold text-gradient">
+              {s.value}
+            </div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground mt-1">
+              {s.label}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Services() {
+  return (
+    <section id="services" className="py-24">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          tag="Domestic & Commercial"
+          title="Climate & appliance solutions, sharper than service-as-usual."
+          subtitle="Trained technicians, genuine parts, and verifiable diagnostics for every home and storefront."
+        />
+        <div className="mt-12 grid md:grid-cols-3 gap-6">
+          {domesticServices.map((s) => (
+            <ServiceCard key={s.title} {...s} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Industrial() {
+  return (
+    <section id="industrial" className="py-24 relative overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-60"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--electric) 25%, transparent), transparent 60%)",
+        }}
+      />
+      <div className="relative mx-auto max-w-7xl px-6">
+        <SectionHeader
+          tag="Heavy Industrial"
+          title="Factory-grade mechanical engineering, on-call."
+          subtitle="Karegaon and Ranjangaon manufacturing zones rely on us to keep production lines running."
+        />
+        <div className="mt-12 grid md:grid-cols-2 gap-6">
+          {industrialServices.map((s) => (
+            <ServiceCard key={s.title} {...s} large />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ServiceCard({
+  icon: Icon,
+  title,
+  desc,
+  image,
+  large,
+}: {
+  icon: typeof Wrench;
+  title: string;
+  desc: string;
+  image: string;
+  large?: boolean;
+}) {
+  return (
+    <Link
+      to="/booking"
+      search={{ service: title }}
+      className="group surface-card rounded-2xl hover:border-primary/40 transition relative overflow-hidden flex flex-col h-full"
+    >
+      {/* Service Card Thumbnail */}
+      <div className="aspect-video relative overflow-hidden bg-muted border-b border-border/40">
+        <img
+          src={image}
+          alt={title}
+          className="object-cover w-full h-full group-hover:scale-105 transition duration-500"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
+      </div>
+
+      {/* Card Content Body */}
+      <div className={`p-6 ${large ? "md:p-8" : ""} flex-1 flex flex-col justify-between relative`}>
+        <div
+          aria-hidden
+          className="absolute -top-12 -right-12 h-32 w-32 rounded-full opacity-0 group-hover:opacity-100 transition pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle, color-mix(in oklab, var(--primary) 35%, transparent), transparent 70%)",
+          }}
+        />
+        <div className="relative">
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 text-primary mb-5">
+            <Icon className="h-6 w-6" />
+          </div>
+          <h3 className="font-display text-xl font-semibold mb-2">{title}</h3>
+          <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function SectionHeader({
+  tag,
+  title,
+  subtitle,
+}: {
+  tag: string;
+  title: string;
+  subtitle: string;
+}) {
+  return (
+    <div className="max-w-2xl">
+      <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-4">
+        <span className="h-px w-8 bg-primary" />
+        {tag}
+      </div>
+      <h2 className="font-display text-3xl md:text-4xl font-bold leading-tight">
+        {title}
+      </h2>
+      <p className="mt-4 text-muted-foreground">{subtitle}</p>
+    </div>
+  );
+}
+
+const coverageDetails: Record<string, {
+  status: string;
+  eta: string;
+  services: string[];
+  type: string;
+  load: number;
+}> = {
+  "Wagholi": { 
+    status: "Active Route (High Priority)", 
+    eta: "Under 38 minutes", 
+    services: ["AC Servicing", "Washing Machines", "Display Chillers"], 
+    type: "Mixed Route", 
+    load: 88 
+  },
+  "Lonikand": { 
+    status: "Active Route", 
+    eta: "Under 45 minutes", 
+    services: ["Domestic AC", "Refrigeration", "Electrical Panels"], 
+    type: "Domestic Route", 
+    load: 74 
+  },
+  "Kesnand": { 
+    status: "Active Route", 
+    eta: "Under 50 minutes", 
+    services: ["AC Install & Repair", "Washing Machines"], 
+    type: "Domestic Route", 
+    load: 60 
+  },
+  "Koregaon Bhima": { 
+    status: "Active Corridor (MIDC Adjacent)", 
+    eta: "Under 55 minutes", 
+    services: ["Commercial Refrigeration", "Domestic Appliance", "Heavy Mechanical"], 
+    type: "Mixed Route", 
+    load: 81 
+  },
+  "Shikrapur": { 
+    status: "Active Route (Hub Centre)", 
+    eta: "Under 40 minutes", 
+    services: ["Chillers", "Washing Machines", "Industrial AMCs"], 
+    type: "Mixed Route", 
+    load: 85 
+  },
+  "Karegaon MIDC": { 
+    status: "Embedded Engineering SLA", 
+    eta: "Under 4 hours (Contract SLA)", 
+    services: ["Heavy Machinery", "Cooling Towers", "AMCs"], 
+    type: "Heavy Industrial", 
+    load: 92 
+  },
+  "Ranjangaon MIDC": { 
+    status: "Embedded Engineering SLA", 
+    eta: "Under 4 hours (Contract SLA)", 
+    services: ["Heavy Machinery", "Cooling Towers", "Chillers"], 
+    type: "Heavy Industrial", 
+    load: 90 
+  },
+  "Shirur": { 
+    status: "Active Corridor Terminal", 
+    eta: "Under 60 minutes", 
+    services: ["Appliance Diagnostics", "AC Troubleshooting", "Commercial AMC"], 
+    type: "Mixed Route", 
+    load: 70 
+  }
+};
+
+function Coverage() {
+  const [selectedRegion, setSelectedRegion] = useState("Wagholi");
+  const details = coverageDetails[selectedRegion] || coverageDetails["Wagholi"];
+
+  return (
+    <section id="coverage" className="py-24 border-t border-border bg-slate-950/20 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--electric)_5%,transparent),transparent_50%)] pointer-events-none" />
+      <div className="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-12 gap-12 items-center">
+        
+        {/* Left Column: Interactive Selector */}
+        <div className="lg:col-span-6 space-y-6">
+          <SectionHeader
+            tag="Service Footprint"
+            title="Interactive Route Sizer & SLA Coverage Calculator."
+            subtitle="Select a dynamic region along our main Wagholi–Shirur corridor to see dispatch telemetry, response times, and available parts."
+          />
+          
+          <div className="relative max-w-sm">
+            <label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground block mb-2">
+              Select Site Location
+            </label>
+            <select
+              value={selectedRegion}
+              onChange={(e) => setSelectedRegion(e.target.value)}
+              className="block w-full rounded-xl border border-border bg-slate-900/90 px-4 py-3 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition cursor-pointer"
+            >
+              {regions.map((r) => (
+                <option key={r} value={r} className="bg-slate-900 text-foreground">{r}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Location Telemetry Card */}
+          <div className="surface-card rounded-2xl p-6 border border-border/80 relative overflow-hidden shadow-xl backdrop-blur-sm">
+            <div className="absolute top-0 right-0 h-24 w-24 bg-gradient-to-bl from-primary/10 to-transparent pointer-events-none rounded-tr-2xl" />
+            
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="text-[10px] font-mono uppercase tracking-wider text-primary">
+                  {details.type}
+                </div>
+                <h3 className="font-display text-2xl font-bold text-foreground mt-1">
+                  {selectedRegion}
+                </h3>
+              </div>
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-xs text-emerald-400 font-mono">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                SLA ONLINE
+              </span>
+            </div>
+
+            <div className="mt-6 grid grid-cols-2 gap-4 border-t border-border/40 pt-4">
+              <div>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <Clock className="h-3.5 w-3.5 text-primary shrink-0" />
+                  Response SLA
+                </div>
+                <div className="mt-1 font-display font-semibold text-gradient text-sm">
+                  {details.eta}
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <MapPin className="h-3.5 w-3.5 text-primary shrink-0" />
+                  Route Status
+                </div>
+                <div className="mt-1 text-xs text-foreground font-medium truncate">
+                  {details.status}
+                </div>
+              </div>
+            </div>
+
+            {/* Load Capacity Gauge */}
+            <div className="mt-6">
+              <div className="flex justify-between text-xs font-mono text-muted-foreground mb-1.5">
+                <span>Route Capacity Density</span>
+                <span className="text-primary font-bold">{details.load}% Optimal Load</span>
+              </div>
+              <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-primary to-electric transition-all duration-700 rounded-full"
+                  style={{ width: `${details.load}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Available Spares List */}
+            <div className="mt-6 pt-4 border-t border-border/40">
+              <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mb-2">
+                Active Spares Stocked
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {details.services.map((svc) => (
+                  <span key={svc} className="rounded-md border border-border/60 bg-slate-900/60 px-2.5 py-1 text-xs text-foreground">
+                    {svc}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Live Dispatch Hub */}
+        <div className="lg:col-span-6 space-y-6">
+          <div className="surface-card rounded-3xl p-8 relative overflow-hidden border border-border/60 shadow-2xl bg-slate-900/50 backdrop-blur-sm">
+            <div className="absolute top-4 right-4 animate-pulse">
+              <span className="inline-flex items-center gap-1 rounded-full bg-red-500/10 border border-red-500/20 px-2.5 py-0.5 text-[10px] font-mono text-red-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
+                LIVE COMMAND
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3 mb-6">
+              <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400">
+                <Wind className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="font-display text-lg font-bold">Technician Dispatch Console</h3>
+                <p className="text-xs text-muted-foreground">Global routing system monitor</p>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4 mb-6">
+              <div className="bg-slate-950/40 p-4 rounded-xl border border-border/40">
+                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Active Field Units</div>
+                <div className="text-xl font-bold mt-1 text-foreground flex items-baseline gap-1">
+                  3 Deployed <span className="text-xs font-normal text-muted-foreground font-mono">/ Standby</span>
+                </div>
+              </div>
+              
+              <div className="bg-slate-950/40 p-4 rounded-xl border border-border/40">
+                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Lead Dispatcher</div>
+                <div className="text-xl font-bold mt-1 text-foreground">
+                  S. K. Temgire <span className="text-xs text-primary font-mono font-normal block mt-0.5">Proprietor &amp; Lead</span>
+                </div>
+              </div>
+
+              <div className="bg-slate-950/40 p-4 rounded-xl border border-border/40">
+                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Average Arrival SLA</div>
+                <div className="text-xl font-bold mt-1 text-gradient">
+                  42.8 min <span className="text-xs text-muted-foreground font-mono font-normal">Global</span>
+                </div>
+              </div>
+
+              <div className="bg-slate-950/40 p-4 rounded-xl border border-border/40">
+                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Workmanship SLA</div>
+                <div className="text-xl font-bold mt-1 text-foreground">
+                  100% Genuine <span className="text-xs text-primary font-mono font-normal block mt-0.5">OEM parts warranty</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Simulated Live Dispatch Terminal Logs */}
+            <div className="bg-slate-950/80 rounded-2xl border border-primary/10 p-5 font-mono text-[11px] text-sky-400 space-y-2.5">
+              <div className="flex items-center justify-between text-foreground font-semibold border-b border-border/60 pb-2">
+                <div className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                  <span>Real-time Dispatch Log</span>
+                </div>
+                <span className="text-[9px] text-muted-foreground font-mono">TELEMETRY_ON</span>
+              </div>
+              <div className="space-y-1.5 text-muted-foreground font-mono leading-relaxed max-h-[120px] overflow-y-auto">
+                <div>[10:14:02] <span className="text-primary font-semibold">SYS_DISPATCH:</span> Connection active on Wagholi corridor.</div>
+                <div>[10:16:45] <span className="text-purple-400 font-semibold">UNIT_01:</span> Compressor diagnostic active at Wagholi.</div>
+                <div>[10:19:12] <span className="text-emerald-400 font-semibold">UNIT_02:</span> Routine preventative AMC check complete at Karegaon.</div>
+                <div>[10:20:00] <span className="text-sky-400 font-semibold">UNIT_03:</span> Standby monitoring active on Shikrapur bypass route.</div>
+                <div>[10:22:15] <span className="text-amber-400 font-semibold">SYS_DISPATCH:</span> Global GPS mapping coordinates handshake complete.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+function Contact({ cms }: { cms: any }) {
+  const socials = cms?.socials || {};
+  const phone = socials.phone || "+917507408461";
+  const email = socials.email || "support@primecool.in";
+
+  return (
+    <section id="contact" className="py-24">
+      <div className="mx-auto max-w-5xl px-6">
+        <div
+          className="relative overflow-hidden rounded-3xl border border-border p-10 md:p-14"
+          style={{ background: "var(--gradient-hero)" }}
+        >
+          <div className="grid md:grid-cols-2 gap-10 items-center relative">
+            <div>
+              <h2 className="font-display text-3xl md:text-4xl font-bold leading-tight">
+                Need service <span className="text-gradient">today?</span>
+              </h2>
+              <p className="mt-4 text-muted-foreground">
+                Get in touch directly. Domestic, commercial, or industrial — we'll dispatch
+                the right technician along the Wagholi–Shirur route.
+              </p>
+              <div className="mt-8 space-y-3">
+                <a
+                  href={`tel:${phone.replace(/\s+/g, "")}`}
+                  className="flex items-center gap-3 rounded-2xl surface-card p-4 hover:border-primary/40 transition"
+                >
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                    <Phone className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <div className="text-xs text-muted-foreground">Call Support</div>
+                    <div className="font-display font-semibold">{phone}</div>
+                  </div>
+                </a>
+                
+                {email && (
+                  <a
+                    href={`mailto:${email}`}
+                    className="flex items-center gap-3 rounded-2xl surface-card p-4 hover:border-primary/40 transition"
+                  >
+                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-accent-foreground">
+                      <Mail className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <div className="text-xs text-muted-foreground">Email Support</div>
+                      <div className="font-display font-semibold">{email}</div>
+                    </div>
+                  </a>
+                )}
+              </div>
+            </div>
+
+            <div className="surface-card rounded-2xl p-6">
+              <div className="text-xs uppercase tracking-wider text-muted-foreground">Proprietor</div>
+              <div className="font-display text-2xl font-bold mt-1">Saurav Kailas Temgire</div>
+
+              <div className="mt-6 grid grid-cols-2 gap-4 text-sm">
+                <Info icon={MapPin} label="Region" value="Pune, Maharashtra" />
+                <Info icon={Clock} label="Hours" value="Rapid 24/7" />
+                <Info icon={Factory} label="Hubs" value="Karegaon · Ranjangaon" />
+                <Info icon={Wrench} label="Specialty" value="HVAC · Industrial" />
+              </div>
+
+              <a
+                href={`tel:${phone.replace(/\s+/g, "")}`}
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary text-primary-foreground px-5 py-3 text-sm font-semibold hover:opacity-90 transition"
+              >
+                Request a Visit <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Info({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof Wrench;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div>
+      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        <Icon className="h-3.5 w-3.5" />
+        {label}
+      </div>
+      <div className="mt-0.5 font-medium">{value}</div>
+    </div>
+  );
+}
+
+function Footer({ cms }: { cms: any }) {
+  const socials = cms?.socials || {};
+
+  return (
+    <footer className="border-t border-border py-12 bg-card/10">
+      <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-muted-foreground">
+        <div className="flex flex-col items-center md:items-start gap-2">
+          <div className="flex items-center gap-2">
+            <img src={logo} alt="Prime Cool logo" className="h-6 w-6" loading="lazy" />
+            <span className="font-semibold text-foreground">Prime Cool</span>
+            <span>— Saurav Kailas Temgire</span>
+          </div>
+          <div className="text-xs text-muted-foreground/60">
+            Pune · Wagholi–Shirur Corridor · Karegaon · Ranjangaon
+          </div>
+        </div>
+
+        {/* Social Links Row */}
+        <div className="flex items-center gap-4">
+          {socials.facebook && (
+            <a href={socials.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200" title="Facebook">
+              <Facebook className="h-5 w-5" />
+            </a>
+          )}
+          {socials.instagram && (
+            <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200" title="Instagram">
+              <Instagram className="h-5 w-5" />
+            </a>
+          )}
+          {socials.linkedin && (
+            <a href={socials.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200" title="LinkedIn">
+              <Linkedin className="h-5 w-5" />
+            </a>
+          )}
+          {socials.youtube && (
+            <a href={socials.youtube} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200" title="YouTube">
+              <Youtube className="h-5 w-5" />
+            </a>
+          )}
+          {socials.twitter && (
+            <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200" title="Twitter / X">
+              <Twitter className="h-5 w-5" />
+            </a>
+          )}
+        </div>
+
+        <div className="flex items-center gap-4 text-xs">
+          {socials.email && (
+            <>
+              <a href={`mailto:${socials.email}`} className="hover:text-foreground transition underline">{socials.email}</a>
+              <span className="text-border">|</span>
+            </>
+          )}
+          <Link to="/admin" className="hover:text-foreground transition underline">Admin Panel</Link>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ------------------------------ Catalog ------------------------------ */
+
+const catalogGroups = [
+  {
+    icon: WashingMachine,
+    title: "Domestic Appliance Components",
+    items: [
+      "Rotary & reciprocating AC compressors",
+      "Digital & capillary thermostats",
+      "Washing machine motors & gearboxes",
+      "PCB control boards & inverter modules",
+      "Fan motors, blowers & evaporator coils",
+    ],
+    brands: ["Voltas", "LG", "Samsung", "Daikin", "Bosch", "Whirlpool", "IFB", "Hitachi"],
+  },
+  {
+    icon: Factory,
+    title: "Heavy Industrial Parts",
+    items: [
+      "Cooling tower fills, drift eliminators & nozzles",
+      "Industrial-grade run & start capacitors",
+      "Calibrated pressure & vacuum gauges",
+      "Heavy-duty ball, gate & butterfly valves",
+      "Commercial refrigerants — R-32, R-410A, R-134a, R-407C",
+    ],
+    brands: ["Danfoss", "Emerson", "Carrier", "Honeywell", "Bitzer", "Copeland", "Schneider"],
+  },
+];
+
+const amcTiers = [
+  {
+    name: "Basic Home Care",
+    audience: "Apartments & residences",
+    price: "Starter",
+    icon: Snowflake,
+    points: [
+      "2 scheduled AC / appliance visits per year",
+      "Jet cleaning + gas pressure check",
+      "Priority booking on the Wagholi–Shirur route",
+      "10% off genuine spare parts",
+    ],
+  },
+  {
+    name: "Commercial Routine",
+    audience: "Shops, clinics, offices",
+    price: "Most chosen",
+    icon: ShieldCheck,
+    points: [
+      "Quarterly preventative servicing",
+      "Display chiller & deep-freezer temperature audit",
+      "Sub-24h response window",
+      "Logged diagnostics report after every visit",
+    ],
+    featured: true,
+  },
+  {
+    name: "Industrial Zero-Downtime",
+    audience: "MIDC plants & factories",
+    price: "Enterprise",
+    icon: Factory,
+    points: [
+      "Monthly on-site engineer rounds",
+      "Cooling tower, valve & gauge calibration",
+      "Emergency dispatch SLA — under 4 hours",
+      "Spare capacitors & refrigerant pre-staged on site",
+    ],
+  },
+];
+
+function Catalog() {
+  return (
+    <section id="catalog" className="py-24 border-t border-border">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          tag="Catalog & AMC Tiers"
+          title="Parts we stock. Brands we trust. Contracts we honour."
+          subtitle="A transparent view of the components our engineers carry and the maintenance plans built around them."
+        />
+
+        <div className="mt-12 grid lg:grid-cols-2 gap-6">
+          {catalogGroups.map((g) => (
+            <div key={g.title} className="surface-card rounded-2xl p-8">
+              <div className="flex items-center gap-3 mb-5">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 text-primary">
+                  <g.icon className="h-5 w-5" />
+                </span>
+                <h3 className="font-display text-xl font-semibold">{g.title}</h3>
+              </div>
+              <ul className="space-y-2.5 text-sm text-muted-foreground">
+                {g.items.map((i) => (
+                  <li key={i} className="flex gap-2.5">
+                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                    {i}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-6 pt-5 border-t border-border">
+                <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
+                  Brands serviced
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {g.brands.map((b) => (
+                    <span
+                      key={b}
+                      className="rounded-md border border-border bg-background/40 px-2.5 py-1 text-xs"
+                    >
+                      {b}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16">
+          <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
+            <h3 className="font-display text-2xl md:text-3xl font-bold">
+              Annual Maintenance Contracts
+            </h3>
+            <p className="text-sm text-muted-foreground max-w-md">
+              Three tiers, engineered for the scale you operate at — from a single split AC to a full MIDC production line.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {amcTiers.map((t) => (
+              <div
+                key={t.name}
+                className={`surface-card rounded-2xl p-7 relative ${
+                  t.featured ? "border-primary/50 glow-ring" : ""
+                }`}
+              >
+                {t.featured && (
+                  <span className="absolute -top-3 left-7 inline-flex items-center rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider px-2.5 py-1">
+                    {t.price}
+                  </span>
+                )}
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary">
+                    <t.icon className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <div className="font-display font-semibold">{t.name}</div>
+                    <div className="text-xs text-muted-foreground">{t.audience}</div>
+                  </div>
+                </div>
+                <ul className="space-y-2.5 text-sm">
+                  {t.points.map((p) => (
+                    <li key={p} className="flex gap-2.5 text-muted-foreground">
+                      <ShieldCheck className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="#contact"
+                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background/40 px-4 py-2.5 text-sm font-semibold hover:bg-primary hover:text-primary-foreground hover:border-primary transition"
+                >
+                  Enquire <ArrowRight className="h-4 w-4" />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ Portfolio ------------------------------ */
+
+const defaultProjects = [
+  {
+    location: "Wagholi · Commercial",
+    title: "Emergency Deep Freezer Revival",
+    image: projectFreezer,
+    summary:
+      "A retail grocer's 1,200L commercial deep freezer failed at 11:42 PM. Our on-call engineer arrived within 38 minutes, diagnosed a failed start capacitor and refrigerant leak, sealed the line, recharged R-404A and restored sub-zero hold before opening hours.",
+    metrics: [
+      { value: "38 min", label: "On-site response" },
+      { value: "₹1.8L", label: "Stock loss prevented" },
+      { value: "0", label: "Hours of trading lost" },
+    ],
+  },
+  {
+    location: "Karegaon MIDC · Industrial",
+    title: "Cooling Tower Complete Overhaul",
+    image: projectCoolingTower,
+    summary:
+      "Replaced degraded PVC fills, drift eliminators and corroded distribution nozzles on a 350 TR induced-draft cooling tower. Realigned the gearbox, balanced the fan blades and calibrated the make-up water valves — restoring designed approach temperature.",
+    metrics: [
+      { value: "+22%", label: "Thermal efficiency" },
+      { value: "−18%", label: "Power draw" },
+      { value: "3 days", label: "Total turnaround" },
+    ],
+  },
+  {
+    location: "Shikrapur · Corporate",
+    title: "14-Unit AC Rollout + AMC",
+    image: projectAcRollout,
+    summary:
+      "Designed and installed 14 inverter split ACs across two corporate floors with custom copper runs and concealed drain lines. Onboarded the client to our Commercial Routine AMC with quarterly servicing and a logged diagnostics dashboard.",
+    metrics: [
+      { value: "14", label: "Units commissioned" },
+      { value: "4 yr", label: "AMC contracted" },
+      { value: "100%", label: "Genuine OEM parts" },
+    ],
+  },
+];
+
+const getProjectImage = (p: any, index: number) => {
+  if (p.image) return p.image;
+  if (p.title?.toLowerCase().includes("freezer") || p.title?.toLowerCase().includes("refrigeration")) {
+    return projectFreezer;
+  }
+  if (p.title?.toLowerCase().includes("tower") || p.title?.toLowerCase().includes("chiller")) {
+    return projectCoolingTower;
+  }
+  if (p.title?.toLowerCase().includes("ac") || p.title?.toLowerCase().includes("split")) {
+    return projectAcRollout;
+  }
+  const fallbacks = [projectFreezer, projectCoolingTower, projectAcRollout];
+  return fallbacks[index % 3];
+};
+
+function Portfolio({ projects }: { projects: any[] }) {
+  const displayProjects = (projects && projects.length > 0) ? projects.slice(0, 3) : defaultProjects;
+
+  return (
+    <section id="portfolio" className="py-24 relative">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          tag="Project Portfolio"
+          title="Field-tested. Metrics, not marketing."
+          subtitle="Selected case studies from along the Wagholi–Shirur corridor and MIDC manufacturing hubs."
+        />
+        <div className="mt-12 grid lg:grid-cols-3 gap-6">
+          {displayProjects.map((p, idx) => {
+            const img = getProjectImage(p, idx);
+            return (
+              <article
+                key={p.title}
+                className="surface-card rounded-2xl overflow-hidden hover:border-primary/40 transition flex flex-col group"
+              >
+                <div className="aspect-video relative overflow-hidden bg-muted">
+                  <img
+                    src={img}
+                    alt={p.title}
+                    className="object-cover w-full h-full group-hover:scale-105 transition duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute top-4 left-4 inline-flex items-center rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md px-2.5 py-0.5 text-[10px] text-primary font-semibold font-mono uppercase">
+                    {p.location.split('·')[1]?.trim() || "PROJECT"}
+                  </div>
+                </div>
+                
+                <div className="p-6 flex-1 flex flex-col justify-between">
+                  <div className="space-y-2">
+                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold block">{p.location.split('·')[0]?.trim()}</span>
+                    <h3 className="font-display text-lg font-bold text-foreground group-hover:text-primary transition">{p.title}</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{p.summary}</p>
+                  </div>
+                  
+                  <div className="mt-6 grid grid-cols-3 gap-2 pt-4 border-t border-border/40 text-center">
+                    {p.metrics?.map((m: any) => (
+                      <div key={m.label}>
+                        <div className="font-display text-sm font-bold text-gradient">
+                          {m.value}
+                        </div>
+                        <div className="text-[9px] uppercase tracking-wider text-muted-foreground mt-0.5 truncate" title={m.label}>
+                          {m.label}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+        <div className="mt-12 flex justify-center">
+          <Link
+            to="/portfolio"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-6 py-3 text-sm font-semibold hover:bg-card transition"
+          >
+            <span>View All Projects</span>
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ Testimonials ------------------------------ */
+
+const testimonials = [
+  {
+    quote:
+      "Our chiller failed mid-shift at the Ranjangaon plant. Prime Cool had an engineer on site in under three hours with a replacement capacitor already in the van. That kind of preparedness is rare.",
+    name: "Mahesh Patil",
+    role: "Plant Manager, Auto-Component Manufacturing · Ranjangaon MIDC",
+  },
+  {
+    quote:
+      "Saurav's team installed three split ACs and ran a full diagnostic on our old window unit. Clean copper work, no shortcuts, and they showed me exactly what they were doing.",
+    name: "Aarti Deshpande",
+    role: "Homeowner · Wagholi",
+  },
+  {
+    quote:
+      "The cooling tower overhaul came in on budget and a day ahead of schedule. Approach temperature is back in spec and we've already seen the power bill drop. Highly engineered work.",
+    name: "Sandeep Kulkarni",
+    role: "Maintenance Head, Karegaon MIDC",
+  },
+  {
+    quote:
+      "We signed the Commercial Routine AMC for our clinic. Quarterly visits are logged, technicians are on time, and the chiller hasn't tripped since they rebalanced the refrigerant.",
+    name: "Dr. Neha Joshi",
+    role: "Director, Diagnostic Clinic · Shikrapur",
+  },
+];
+
+const trustSignals = [
+  { icon: ShieldCheck, label: "100% Genuine OEM Parts" },
+  { icon: Gauge, label: "Verified Diagnostics Reports" },
+  { icon: Zap, label: "Certified Electrical Safety" },
+  { icon: Clock, label: "Logged Service Timelines" },
+];
+
+function Testimonials() {
+  return (
+    <section className="py-24 border-t border-border bg-card/20">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          tag="Trust & Reviews"
+          title="What homeowners and plant managers say."
+          subtitle="Verified feedback from clients across our domestic and industrial routes."
+        />
+
+        <div className="mt-12 grid md:grid-cols-2 gap-6">
+          {testimonials.map((t) => (
+            <figure key={t.name} className="surface-card rounded-2xl p-7">
+              <blockquote className="text-foreground leading-relaxed">
+                <span className="text-primary text-3xl font-display leading-none mr-1">“</span>
+                {t.quote}
+              </blockquote>
+              <figcaption className="mt-5 pt-5 border-t border-border">
+                <div className="font-semibold">{t.name}</div>
+                <div className="text-xs text-muted-foreground mt-0.5">{t.role}</div>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3">
+          {trustSignals.map((s) => (
+            <div
+              key={s.label}
+              className="surface-card rounded-xl p-4 flex items-center gap-3"
+            >
+              <s.icon className="h-5 w-5 text-primary shrink-0" />
+              <span className="text-sm font-medium">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ About ------------------------------ */
+
+function About() {
+  return (
+    <section id="about" className="py-24">
+      <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-5 gap-12 items-center">
+        <div className="lg:col-span-3">
+          <SectionHeader
+            tag="About Prime Cool"
+            title="Founded on mechanical precision. Run by engineers who answer the phone."
+            subtitle="Prime Cool was built to close the gap between fly-by-night appliance repair and slow corporate service contracts."
+          />
+          <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
+            <p>
+              Led by proprietor <span className="text-foreground font-semibold">Saurav Kailas Temgire</span>,
+              the team operates a dedicated rapid-response route through Wagholi, Lonikand, Shikrapur and Shirur,
+              with embedded engineers serving the Karegaon and Ranjangaon manufacturing zones.
+            </p>
+            <p>
+              From a single split AC in a Wagholi flat to a 350 TR cooling tower inside an MIDC plant,
+              every job is approached the same way — verified diagnostics, genuine parts, logged outcomes.
+              No improvisation. No shortcuts.
+            </p>
+          </div>
+        </div>
+
+        <div className="lg:col-span-2 surface-card rounded-3xl p-8">
+          <div className="flex items-center gap-4">
+            <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-display font-bold text-lg">
+              SKT
+            </span>
+            <div>
+              <div className="font-display text-lg font-bold">Saurav Kailas Temgire</div>
+              <div className="text-xs text-muted-foreground">Proprietor & Lead Engineer</div>
+            </div>
+          </div>
+          <div className="mt-6 space-y-3 text-sm">
+            {[
+              "Hands-on experience across HVAC, refrigeration & heavy mechanical systems",
+              "Direct accountability — calls answered by the proprietor, not a call centre",
+              "Field team trained on OEM service protocols",
+            ].map((p) => (
+              <div key={p} className="flex gap-3 text-muted-foreground">
+                <ShieldCheck className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                <span>{p}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ FAQ ------------------------------ */
+
+function Faq({ faqs }: { faqs: any[] }) {
+  return (
+    <section className="py-24 border-t border-border">
+      <div className="mx-auto max-w-4xl px-6">
+        <SectionHeader
+          tag="FAQ"
+          title="Frequently asked questions."
+          subtitle="Straight answers about response times, AMCs, coverage and warranties."
+        />
+        <div className="mt-10 space-y-3">
+          {faqs.map((f) => (
+            <details
+              key={f.id || f.q}
+              className="surface-card rounded-xl p-5 group"
+            >
+              <summary className="flex items-center justify-between cursor-pointer list-none font-display font-semibold">
+                <span>{f.q}</span>
+                <span className="ml-4 inline-flex h-7 w-7 items-center justify-center rounded-full border border-border text-primary group-open:rotate-45 transition">
+                  +
+                </span>
+              </summary>
+              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BlogsPreview({ blogs }: { blogs: any[] }) {
+  const displayBlogs = blogs ? blogs.slice(0, 3) : [];
+  if (displayBlogs.length === 0) return null;
+
+  return (
+    <section id="blogs-preview" className="py-24 border-t border-border bg-slate-950/10 relative overflow-hidden">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="flex items-end justify-between flex-wrap gap-4 mb-12">
+          <SectionHeader
+            tag="Resource & Industry Knowledge"
+            title="Read our latest engineering articles & maintenance logs."
+            subtitle="Straight from our technicians along the Wagholi–Shirur route and MIDC zones."
+          />
+          <Link
+            to="/blogs"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-6 py-3 text-sm font-semibold hover:bg-card transition"
+          >
+            <span>View All Articles</span>
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {displayBlogs.map((blog) => (
+            <Link
+              key={blog.id}
+              to="/blogs/$slug"
+              params={{ slug: blog.slug }}
+              className="group surface-card rounded-2xl overflow-hidden hover:border-primary/40 transition flex flex-col h-full bg-background/25"
+            >
+              {blog.image && (
+                <div className="aspect-video relative overflow-hidden bg-muted">
+                  <img
+                    src={blog.image}
+                    alt={blog.title}
+                    className="object-cover w-full h-full group-hover:scale-105 transition duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent pointer-events-none" />
+                </div>
+              )}
+              <div className="p-6 flex-1 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <span className="text-[10px] uppercase font-bold text-primary font-mono">
+                    {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                  <h3 className="font-display text-base font-bold text-foreground group-hover:text-primary transition line-clamp-2">
+                    {blog.title}
+                  </h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
+                    {blog.summary}
+                  </p>
+                </div>
+                <div className="mt-4 pt-4 border-t border-border/40 flex items-center text-xs text-primary font-semibold group-hover:underline">
+                  Read Article &rarr;
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
