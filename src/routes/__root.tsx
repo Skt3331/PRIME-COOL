@@ -8,15 +8,16 @@ import {
   Scripts,
   useRouterState,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.webp";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { trackVisit, getCmsSettings } from "../lib/api";
 import { Toaster } from "sonner";
-
-
+import { AiDiagnosticsWidget } from "../components/AiDiagnosticsWidget";
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -107,15 +108,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", type: "image/png", href: logo },
       { rel: "stylesheet", href: appCss },
       {
-        rel: "preconnect",
-        href: "https://fonts.googleapis.com",
-      },
-      {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com",
-        crossOrigin: "anonymous",
-      },
-      {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap",
       },
@@ -145,15 +137,18 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const { cms } = Route.useLoaderData();
   const { location } = useRouterState();
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   useEffect(() => {
     // Increment visit counter once per browser session
     if (typeof window !== "undefined" && !sessionStorage.getItem("prime_cool_visit_tracked")) {
-      trackVisit().then(() => {
-        sessionStorage.setItem("prime_cool_visit_tracked", "true");
-      }).catch((err) => {
-        console.error("Failed to track visit:", err);
-      });
+      trackVisit()
+        .then(() => {
+          sessionStorage.setItem("prime_cool_visit_tracked", "true");
+        })
+        .catch((err) => {
+          console.error("Failed to track visit:", err);
+        });
     }
   }, []);
 
@@ -171,16 +166,30 @@ function RootComponent() {
     }
   }, [location.hash, location.pathname]);
 
+  // Page View tracking for GA4
+  useEffect(() => {
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("event", "page_view", {
+        page_path: location.pathname + location.search + location.hash,
+        page_title: document.title,
+      });
+    }
+  }, [location.pathname, location.search, location.hash]);
+
   return (
     <QueryClientProvider client={queryClient}>
       {cms?.theme && (
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
           :root {
             --primary: ${cms.theme.primary} !important;
             --electric: ${cms.theme.electric} !important;
             --background: ${cms.theme.background} !important;
           }
-        `}} />
+        `,
+          }}
+        />
       )}
       <script
         type="application/ld+json"
@@ -188,53 +197,92 @@ function RootComponent() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
-            "name": "Prime Cool",
-            "image": "https://primecool.in/assets/logo.png",
+            name: "Prime Cool",
+            image: "https://primecool.in/assets/logo.webp",
             "@id": "https://primecool.in/#localbusiness",
-            "url": "https://primecool.in",
-            "telephone": cms?.socials?.phone || "+917507408461",
-            "email": cms?.socials?.email || "support@primecool.in",
-            "priceRange": "$$",
-            "address": {
+            url: "https://primecool.in",
+            telephone: cms?.socials?.phone || "+917507408461",
+            email: cms?.socials?.email || "support@primecool.in",
+            priceRange: "$$",
+            address: {
               "@type": "PostalAddress",
-              "streetAddress": "Wagholi-Shirur Corridor",
-              "addressLocality": "Pune",
-              "addressRegion": "Maharashtra",
-              "postalCode": "412207",
-              "addressCountry": "IN"
+              streetAddress: "Wagholi-Shirur Corridor",
+              addressLocality: "Pune",
+              addressRegion: "Maharashtra",
+              postalCode: "412207",
+              addressCountry: "IN",
             },
-            "geo": {
+            geo: {
               "@type": "GeoCoordinates",
-              "latitude": 18.5793,
-              "longitude": 73.9850
+              latitude: 18.5793,
+              longitude: 73.985,
             },
-            "openingHoursSpecification": {
+            openingHoursSpecification: {
               "@type": "OpeningHoursSpecification",
-              "dayOfWeek": [
+              dayOfWeek: [
                 "Monday",
                 "Tuesday",
                 "Wednesday",
                 "Thursday",
                 "Friday",
                 "Saturday",
-                "Sunday"
+                "Sunday",
               ],
-              "opens": "00:00",
-              "closes": "23:59"
+              opens: "00:00",
+              closes: "23:59",
             },
-            "sameAs": [
+            sameAs: [
               cms?.socials?.facebook,
               cms?.socials?.instagram,
               cms?.socials?.linkedin,
               cms?.socials?.youtube,
-              cms?.socials?.twitter
-            ].filter(Boolean)
-          })
+              cms?.socials?.twitter,
+            ].filter(Boolean),
+          }),
         }}
       />
+      {/* Global Header */}
+      {!isAdminRoute && <Header cms={cms} />}
+
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className={!isAdminRoute ? "pt-16" : ""}>
+        <Outlet />
+      </div>
+
+      {/* Global Footer */}
+      {!isAdminRoute && <Footer cms={cms} />}
+
+      {/* Google Analytics 4 Script (Deferred) */}
+      <DeferredGTM />
+      <AiDiagnosticsWidget />
       <Toaster position="top-right" theme="dark" closeButton richColors />
     </QueryClientProvider>
+  );
+}
+
+function DeferredGTM() {
+  const [load, setLoad] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setLoad(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!load) return null;
+
+  return (
+    <>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-PC12345678" />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PC12345678', { send_page_view: false });
+      `,
+        }}
+      />
+    </>
   );
 }

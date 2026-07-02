@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { getAvailableSlots, createBooking, getCmsSettings } from "../lib/api";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import {
   CalendarRange,
   Clock,
@@ -167,10 +167,22 @@ function BookingPage() {
               </span>
             </Link>
             <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-              <Link to="/" className="hover:text-foreground transition">Home</Link>
-              <Link to="/portfolio" className="hover:text-foreground transition">Projects</Link>
-              <Link to="/blogs" className="hover:text-foreground transition">Blogs</Link>
-              <Link to="/booking" search={{}} className="hover:text-foreground transition text-primary font-semibold">Book Service</Link>
+              <Link to="/" className="hover:text-foreground transition">
+                Home
+              </Link>
+              <Link to="/portfolio" className="hover:text-foreground transition">
+                Projects
+              </Link>
+              <Link to="/blogs" className="hover:text-foreground transition">
+                Blogs
+              </Link>
+              <Link
+                to="/booking"
+                search={{}}
+                className="hover:text-foreground transition text-primary font-semibold"
+              >
+                Book Service
+              </Link>
             </nav>
             <div className="flex items-center gap-3 sm:gap-4">
               <a
@@ -181,7 +193,10 @@ function BookingPage() {
                 <PhoneIcon className="h-4 w-4 text-primary" />
                 <span className="hidden sm:inline">{cmsPhone}</span>
               </a>
-              <Link to="/" className="text-sm hover:text-primary transition flex items-center gap-1.5">
+              <Link
+                to="/"
+                className="text-sm hover:text-primary transition flex items-center gap-1.5"
+              >
                 <Home className="h-4 w-4" />
                 <span>Back Home</span>
               </Link>
@@ -201,9 +216,11 @@ function BookingPage() {
                 Your request is <span className="text-gradient">registered!</span>
               </h1>
               <p className="text-muted-foreground leading-relaxed">
-                Thank you for choosing Prime Cool. Lead engineer <strong>Saurav Temgire</strong> is reviewing your booking against active technician schedules on the Wagholi–Shirur route.
+                Thank you for choosing Prime Cool. Lead engineer <strong>Saurav Temgire</strong> is
+                reviewing your booking against active technician schedules on the Wagholi–Shirur
+                route.
               </p>
-              
+
               <div className="surface-card rounded-2xl p-5 border border-border space-y-3.5 text-sm">
                 <div className="flex justify-between border-b border-border/50 pb-2">
                   <span className="text-muted-foreground">Booking ID</span>
@@ -215,7 +232,9 @@ function BookingPage() {
                 </div>
                 <div className="flex justify-between border-b border-border/50 pb-2">
                   <span className="text-muted-foreground">Service Type</span>
-                  <span className="font-medium text-right max-w-[200px] truncate">{bookedData.serviceType}</span>
+                  <span className="font-medium text-right max-w-[200px] truncate">
+                    {bookedData.serviceType}
+                  </span>
                 </div>
                 <div className="flex justify-between border-b border-border/50 pb-2">
                   <span className="text-muted-foreground">Date</span>
@@ -247,18 +266,20 @@ function BookingPage() {
             <div className="relative mx-auto w-full max-w-[340px]">
               {/* Glow background */}
               <div className="absolute inset-0 bg-primary/20 rounded-[40px] filter blur-xl animate-pulse-ring" />
-              
+
               {/* Smartphone Frame */}
               <div className="relative border-4 border-muted bg-neutral-900 rounded-[38px] p-3 shadow-2xl overflow-hidden aspect-[9/18] flex flex-col">
                 {/* Speaker/Camera notch */}
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-4 bg-neutral-900 rounded-full flex items-center justify-center z-20">
                   <div className="w-12 h-1 bg-neutral-800 rounded-full mb-1" />
                 </div>
-                
+
                 {/* WhatsApp header */}
                 <div className="bg-[#075e54] text-white pt-4 pb-3 px-3 rounded-t-[26px] flex items-center justify-between text-xs z-10">
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 font-bold text-[10px]">PC</span>
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 font-bold text-[10px]">
+                      PC
+                    </span>
                     <div>
                       <div className="font-bold">Prime Cool Service</div>
                       <div className="text-[9px] opacity-80">Online</div>
@@ -278,16 +299,24 @@ function BookingPage() {
                   <div className="relative bg-[#d9fdd3] p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] self-start text-xs border border-emerald-100">
                     {/* Speech bubble tail */}
                     <div className="absolute top-0 -left-1.5 w-0 h-0 border-t-[8px] border-t-[#d9fdd3] border-l-[8px] border-l-transparent" />
-                    
-                    <p className="font-semibold text-emerald-800 text-[10px] mb-1">✓ Verified Business</p>
+
+                    <p className="font-semibold text-emerald-800 text-[10px] mb-1">
+                      ✓ Verified Business
+                    </p>
                     <p className="leading-relaxed">
-                      Hi <strong>{bookedData.customerName}</strong>, your booking request for <strong>{bookedData.serviceType}</strong> on {getFriendlyDateString(bookedData.date)} at <strong>{bookedData.timeSlot}</strong> has been RECEIVED by Prime Cool.
+                      Hi <strong>{bookedData.customerName}</strong>, your booking request for{" "}
+                      <strong>{bookedData.serviceType}</strong> on{" "}
+                      {getFriendlyDateString(bookedData.date)} at{" "}
+                      <strong>{bookedData.timeSlot}</strong> has been RECEIVED by Prime Cool.
                     </p>
                     <p className="mt-2 leading-relaxed">
-                      Proprietor Saurav Temgire will coordinate and confirm details shortly. We stock genuine spares on route.
+                      Proprietor Saurav Temgire will coordinate and confirm details shortly. We
+                      stock genuine spares on route.
                     </p>
                     <div className="text-right text-[9px] text-neutral-400 mt-1 flex items-center justify-end gap-0.5">
-                      <span>{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                      <span>
+                        {new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                      </span>
                       <span className="text-blue-500">✓✓</span>
                     </div>
                   </div>
@@ -297,7 +326,9 @@ function BookingPage() {
                     <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                     <div>
                       <strong>Simulated Notification</strong>
-                      <div className="text-neutral-600 mt-0.5">This replicates the message logged to the database system.</div>
+                      <div className="text-neutral-600 mt-0.5">
+                        This replicates the message logged to the database system.
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -331,10 +362,22 @@ function BookingPage() {
             </span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-foreground transition">Home</Link>
-            <Link to="/portfolio" className="hover:text-foreground transition">Projects</Link>
-            <Link to="/blogs" className="hover:text-foreground transition">Blogs</Link>
-            <Link to="/booking" search={{}} className="hover:text-foreground transition text-primary font-semibold">Book Service</Link>
+            <Link to="/" className="hover:text-foreground transition">
+              Home
+            </Link>
+            <Link to="/portfolio" className="hover:text-foreground transition">
+              Projects
+            </Link>
+            <Link to="/blogs" className="hover:text-foreground transition">
+              Blogs
+            </Link>
+            <Link
+              to="/booking"
+              search={{}}
+              className="hover:text-foreground transition text-primary font-semibold"
+            >
+              Book Service
+            </Link>
           </nav>
           <div className="flex items-center gap-3 sm:gap-4">
             <a
@@ -368,7 +411,8 @@ function BookingPage() {
               Schedule your mechanical <span className="text-gradient">service today.</span>
             </h1>
             <p className="mt-3 text-sm text-muted-foreground">
-              Select your service, choose an available date, and pick a time slot. We will allocate the correct engineer and dispatch them along the Wagholi–Shirur route.
+              Select your service, choose an available date, and pick a time slot. We will allocate
+              the correct engineer and dispatch them along the Wagholi–Shirur route.
             </p>
           </div>
 
@@ -377,7 +421,9 @@ function BookingPage() {
             <div className="lg:col-span-7 space-y-6">
               <div className="surface-card rounded-2xl p-6 border border-border">
                 <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2">
-                  <span className="h-6 w-6 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center text-xs font-semibold">1</span>
+                  <span className="h-6 w-6 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center text-xs font-semibold">
+                    1
+                  </span>
                   Select Required Service
                 </h2>
                 <div className="grid sm:grid-cols-2 gap-3">
@@ -403,12 +449,16 @@ function BookingPage() {
 
               <div className="surface-card rounded-2xl p-6 border border-border">
                 <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2">
-                  <span className="h-6 w-6 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center text-xs font-semibold">2</span>
+                  <span className="h-6 w-6 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center text-xs font-semibold">
+                    2
+                  </span>
                   Provide Contact Information
                 </h2>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="text-xs text-muted-foreground">Full Name</Label>
+                    <Label htmlFor="name" className="text-xs text-muted-foreground">
+                      Full Name
+                    </Label>
                     <div className="relative">
                       <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -424,7 +474,9 @@ function BookingPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-xs text-muted-foreground">Phone Number (WhatsApp Active)</Label>
+                    <Label htmlFor="phone" className="text-xs text-muted-foreground">
+                      Phone Number (WhatsApp Active)
+                    </Label>
                     <div className="relative">
                       <PhoneIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -440,7 +492,9 @@ function BookingPage() {
                   </div>
 
                   <div className="sm:col-span-2 space-y-2">
-                    <Label htmlFor="email" className="text-xs text-muted-foreground">Email Address (For Invoices & AMC Logs)</Label>
+                    <Label htmlFor="email" className="text-xs text-muted-foreground">
+                      Email Address (For Invoices & AMC Logs)
+                    </Label>
                     <div className="relative">
                       <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -455,7 +509,9 @@ function BookingPage() {
                   </div>
 
                   <div className="sm:col-span-2 space-y-2">
-                    <Label htmlFor="notes" className="text-xs text-muted-foreground">Issue Description / Special Instructions</Label>
+                    <Label htmlFor="notes" className="text-xs text-muted-foreground">
+                      Issue Description / Special Instructions
+                    </Label>
                     <div className="relative">
                       <FileText className="absolute left-3.5 top-3 h-4 w-4 text-muted-foreground" />
                       <Textarea
@@ -475,7 +531,9 @@ function BookingPage() {
             <div className="lg:col-span-5 space-y-6">
               <div className="surface-card rounded-2xl p-5 border border-border">
                 <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2">
-                  <span className="h-6 w-6 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center text-xs font-semibold">3</span>
+                  <span className="h-6 w-6 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center text-xs font-semibold">
+                    3
+                  </span>
                   Choose Date & Time Slot
                 </h2>
 
@@ -505,7 +563,7 @@ function BookingPage() {
                     </div>
                   ) : (slotData as any)?.slots && (slotData as any).slots.length > 0 ? (
                     <div className="grid grid-cols-2 gap-2">
-                      {((slotData as any).slots).map((slot: any) => (
+                      {(slotData as any).slots.map((slot: any) => (
                         <button
                           key={slot.time}
                           type="button"
@@ -515,8 +573,8 @@ function BookingPage() {
                             !slot.available
                               ? "bg-muted/10 border-border/20 text-muted-foreground/30 line-through cursor-not-allowed"
                               : selectedSlot === slot.time
-                              ? "border-primary bg-primary text-primary-foreground font-bold shadow-glow"
-                              : "border-border bg-card/30 text-foreground hover:border-primary/50"
+                                ? "border-primary bg-primary text-primary-foreground font-bold shadow-glow"
+                                : "border-border bg-card/30 text-foreground hover:border-primary/50"
                           }`}
                         >
                           {slot.time}
@@ -538,12 +596,19 @@ function BookingPage() {
                     <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 text-xs leading-relaxed space-y-1">
                       <div className="font-semibold text-primary">Summary:</div>
                       <div>{selectedService}</div>
-                      <div>{getFriendlyDateString(formattedDate)} at {selectedSlot}</div>
+                      <div>
+                        {getFriendlyDateString(formattedDate)} at {selectedSlot}
+                      </div>
                     </div>
                   )}
                   <Button
                     type="submit"
-                    disabled={bookingMutation.isPending || !selectedService || !selectedDate || !selectedSlot}
+                    disabled={
+                      bookingMutation.isPending ||
+                      !selectedService ||
+                      !selectedDate ||
+                      !selectedSlot
+                    }
                     className="w-full rounded-xl py-3 font-semibold glow-ring flex items-center justify-center gap-2"
                   >
                     {bookingMutation.isPending ? (
@@ -557,6 +622,31 @@ function BookingPage() {
                       </>
                     )}
                   </Button>
+
+                  <div className="relative flex items-center py-2">
+                    <div className="flex-grow border-t border-border/50"></div>
+                    <span className="flex-shrink-0 mx-4 text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
+                      or reach out directly
+                    </span>
+                    <div className="flex-grow border-t border-border/50"></div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <a
+                      href={`https://api.whatsapp.com/send/?phone=${cmsPhone.replace(/\\D/g, "")}&text=Hi+Prime+Cool%2C+I+need+a+service.`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-500 hover:bg-emerald-500/20 transition"
+                    >
+                      <MessageSquare className="h-4 w-4" /> WhatsApp
+                    </a>
+                    <a
+                      href={`tel:${cmsPhone.replace(/\\s+/g, "")}`}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-slate-900/60 px-4 py-3 text-sm font-semibold hover:bg-card transition"
+                    >
+                      <PhoneIcon className="h-4 w-4 text-primary" /> Call Now
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -568,11 +658,17 @@ function BookingPage() {
       <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground bg-card/10">
         <div>Pune · Wagholi–Shirur Corridor · Karegaon MIDC · Ranjangaon MIDC</div>
         <div className="mt-2 flex items-center justify-center gap-4">
-          <Link to="/" className="hover:text-foreground">Home</Link>
+          <Link to="/" className="hover:text-foreground">
+            Home
+          </Link>
           <span>·</span>
-          <Link to="/portfolio" className="hover:text-foreground">Previous Works</Link>
+          <Link to="/portfolio" className="hover:text-foreground">
+            Previous Works
+          </Link>
           <span>·</span>
-          <Link to="/admin" className="hover:text-foreground">Admin Panel</Link>
+          <Link to="/admin" className="hover:text-foreground">
+            Admin Panel
+          </Link>
         </div>
       </footer>
     </div>

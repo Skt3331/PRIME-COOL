@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { loginAdmin } from "../../lib/auth";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import { Lock, User, KeyRound, ArrowRight, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,7 @@ function LoginPage() {
         // Set secure cookie client-side
         document.cookie = `session_token=${result.token}; path=/; max-age=604800; SameSite=Strict`;
         toast.success("Successfully authenticated!");
-        
+
         // Invalidate router context so beforeLoad runs again
         await router.invalidate();
         // Redirect to admin panel
@@ -56,7 +56,7 @@ function LoginPage() {
     <div className="min-h-screen bg-background flex flex-col justify-center items-center px-6 relative overflow-hidden">
       {/* Background radial glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,color-mix(in_oklab,var(--primary)_25%,transparent),transparent_50%)] pointer-events-none" />
-      
+
       <div className="w-full max-w-[420px] relative">
         {/* Glow rings */}
         <div className="absolute -top-12 -left-12 h-36 w-36 rounded-full bg-primary/10 blur-2xl pointer-events-none" />
@@ -76,7 +76,9 @@ function LoginPage() {
 
           <form onSubmit={handleLogin} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-xs text-muted-foreground">Admin Username</Label>
+              <Label htmlFor="username" className="text-xs text-muted-foreground">
+                Admin Username
+              </Label>
               <div className="relative">
                 <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-muted-foreground" />
                 <Input
@@ -93,7 +95,9 @@ function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-xs text-muted-foreground">Security Key / Password</Label>
+              <Label htmlFor="password" className="text-xs text-muted-foreground">
+                Security Key / Password
+              </Label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-muted-foreground" />
                 <Input
@@ -115,7 +119,15 @@ function LoginPage() {
               <div>
                 <strong>Default Credentials Seeded:</strong>
                 <div className="mt-0.5">
-                  Use username <code className="bg-yellow-500/10 px-1 py-0.5 rounded font-mono font-bold">admin</code> and password <code className="bg-yellow-500/10 px-1 py-0.5 rounded font-mono font-bold">admin123</code>.
+                  Use username{" "}
+                  <code className="bg-yellow-500/10 px-1 py-0.5 rounded font-mono font-bold">
+                    admin
+                  </code>{" "}
+                  and password{" "}
+                  <code className="bg-yellow-500/10 px-1 py-0.5 rounded font-mono font-bold">
+                    admin123
+                  </code>
+                  .
                 </div>
               </div>
             </div>

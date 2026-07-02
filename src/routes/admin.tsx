@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, redirect, useRouter } from "@tanstack/react-router";
 import { checkAuthSession, logoutAdmin } from "../lib/auth";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import {
   LayoutDashboard,
   Briefcase,
@@ -43,7 +43,7 @@ function AdminLayout() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = Route.useSearch(); // Just checking if they are in route
-  
+
   // We can determine current path from router state
   const pathname = router.state.location.pathname;
 

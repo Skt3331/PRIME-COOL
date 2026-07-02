@@ -40,6 +40,11 @@ export interface Blog {
   content: string; // Markdown or text
   summary: string;
   image?: string; // Image path
+  category?: string;
+  author?: string;
+  seoTitle?: string;
+  seoDesc?: string;
+  updatedAt?: string;
   createdAt: string;
 }
 
@@ -88,6 +93,29 @@ export interface CmsTheme {
   background: string;
 }
 
+export interface CmsServiceItem {
+  id: string;
+  category: "domestic" | "industrial";
+  title: string;
+  desc: string;
+  image: string;
+  icon: string;
+}
+
+export interface CmsAmcTier {
+  name: string;
+  audience: string;
+  price: string;
+  icon: string;
+  points: string[];
+  featured?: boolean;
+}
+
+export interface CmsStat {
+  value: string;
+  label: string;
+}
+
 export interface CmsFaq {
   id: string;
   q: string;
@@ -129,6 +157,10 @@ export interface CmsSettings {
   whatsapp: CmsWhatsApp;
   socials: CmsSocials;
   smtp: CmsSmtp;
+  stats?: CmsStat[];
+  services?: CmsServiceItem[];
+  amcTiers?: CmsAmcTier[];
+  regions?: string[];
 }
 
 export interface DbSchema {
@@ -146,7 +178,7 @@ function getAppRoot(): string {
   try {
     const currentFilePath = fileURLToPath(import.meta.url);
     const currentDir = path.dirname(currentFilePath);
-    
+
     if (currentDir.includes("dist\\server\\assets") || currentDir.includes("dist/server/assets")) {
       return path.resolve(currentDir, "..", "..", "..");
     } else if (currentDir.includes("dist\\server") || currentDir.includes("dist/server")) {
@@ -194,7 +226,10 @@ const writeQueue = new WriteQueue();
 
 // Password hashing
 function hashPassword(password: string, salt: string): string {
-  return crypto.createHash("sha256").update(password + salt).digest("hex");
+  return crypto
+    .createHash("sha256")
+    .update(password + salt)
+    .digest("hex");
 }
 
 function getInitialData(): DbSchema {
@@ -290,9 +325,10 @@ Both brands offer high ISEER ratings (typically between 5.0 and 5.4 for 5-star m
 - **Hitachi**: Features robust build quality but complex PCB boards. Servicing requires certified diagnostic tools.
 
 At Prime Cool, we service and install both brands along the Wagholi–Shirur route. For high-humidity zones like Pune east, Hitachi is highly recommended, whereas for raw cooling speed, Daikin leads.`,
-        summary: "An engineering comparison between Daikin and Hitachi split AC systems, looking at cooling curves, compressor tech, and maintenance overheads in India.",
+        summary:
+          "An engineering comparison between Daikin and Hitachi split AC systems, looking at cooling curves, compressor tech, and maintenance overheads in India.",
         image: "/uploads/blogs/daikin-vs-hitachi.jpg",
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       },
       {
         id: "blog-2",
@@ -318,10 +354,11 @@ If the magnetic rubber gasket is torn or warped, warm humid air continuously lea
 A gas leak in the capillary or evaporator coil will cause the compressor to run continuously without cooling. This requires locating the leak, sealing it, vacuuming the system, and recharging R-134a or R-600a.
 
 If you are located between Wagholi and Shirur, Prime Cool technicians carry replacement capacitors, gaskets, and gas-charging kits for rapid same-day response.`,
-        summary: "A practical troubleshooting checklist for homeowners to diagnose refrigerator cooling issues, from dusty coils to capacitor failure.",
+        summary:
+          "A practical troubleshooting checklist for homeowners to diagnose refrigerator cooling issues, from dusty coils to capacitor failure.",
         image: "/uploads/blogs/fridge-not-cooling.jpg",
-        createdAt: new Date(Date.now() - 3 * 86400000).toISOString()
-      }
+        createdAt: new Date(Date.now() - 3 * 86400000).toISOString(),
+      },
     ],
     notifications: [
       {
@@ -329,7 +366,8 @@ If you are located between Wagholi and Shirur, Prime Cool technicians carry repl
         recipient: "+919876543210",
         type: "whatsapp",
         status: "sent",
-        message: "Hi Rahul Sharma, your booking for Washing Machine Service on tomorrow at 11:00 AM has been CONFIRMED by Prime Cool. Lead engineer Saurav Temgire will contact you shortly.",
+        message:
+          "Hi Rahul Sharma, your booking for Washing Machine Service on tomorrow at 11:00 AM has been CONFIRMED by Prime Cool. Lead engineer Saurav Temgire will contact you shortly.",
         sentAt: new Date().toISOString(),
       },
       {
@@ -338,7 +376,8 @@ If you are located between Wagholi and Shirur, Prime Cool technicians carry repl
         type: "email",
         status: "sent",
         subject: "Booking Received — Prime Cool",
-        message: "Hello Karan Malhotra,\n\nWe have received your booking request for Air Conditioning Systems on day after tomorrow at 03:00 PM. We are currently verifying engineer availability along the Wagholi–Shirur route and will confirm shortly.\n\nThank you for choosing Prime Cool.\nProprietor Saurav Temgire",
+        message:
+          "Hello Karan Malhotra,\n\nWe have received your booking request for Air Conditioning Systems on day after tomorrow at 03:00 PM. We are currently verifying engineer availability along the Wagholi–Shirur route and will confirm shortly.\n\nThank you for choosing Prime Cool.\nProprietor Saurav Temgire",
         sentAt: new Date().toISOString(),
       },
     ],
@@ -353,7 +392,8 @@ If you are located between Wagholi and Shirur, Prime Cool technicians carry repl
       hero: {
         title1: "Engineered cooling.",
         title2: "Mechanical precision.",
-        subtitle: "Prime Cool is a premier provider of HVAC, appliance repair, and heavy industrial mechanical solutions — from your home AC to factory-scale cooling towers.",
+        subtitle:
+          "Prime Cool is a premier provider of HVAC, appliance repair, and heavy industrial mechanical solutions — from your home AC to factory-scale cooling towers.",
         cta1Text: "Book a Service",
         cta1Link: "/booking",
         cta2Text: "7507408461",
@@ -362,19 +402,24 @@ If you are located between Wagholi and Shirur, Prime Cool technicians carry repl
       seo: {
         home: {
           title: "Prime Cool — HVAC, Appliance & Industrial Mechanical Solutions",
-          description: "Rapid-response HVAC, refrigeration, washing machine and heavy industrial mechanical service across Pune, Wagholi to Shirur, Karegaon and Ranjangaon.",
+          description:
+            "Rapid-response HVAC, refrigeration, washing machine and heavy industrial mechanical service across Pune, Wagholi to Shirur, Karegaon and Ranjangaon.",
           ogTitle: "Prime Cool — Engineered Climate & Mechanical Solutions",
-          ogDescription: "From split ACs to factory cooling towers — precision engineering, AMCs, and zero-downtime maintenance.",
+          ogDescription:
+            "From split ACs to factory cooling towers — precision engineering, AMCs, and zero-downtime maintenance.",
         },
         booking: {
           title: "Book a Service — Prime Cool Mechanical Solutions",
-          description: "Schedule rapid-response HVAC, appliance repair, or industrial mechanical servicing in Pune. Check live slot availability and book online.",
+          description:
+            "Schedule rapid-response HVAC, appliance repair, or industrial mechanical servicing in Pune. Check live slot availability and book online.",
           ogTitle: "Book Online — Prime Cool Mechanical Solutions",
-          ogDescription: "Schedule rapid-response servicing. Select a date, time slot, and service type.",
+          ogDescription:
+            "Schedule rapid-response servicing. Select a date, time slot, and service type.",
         },
         portfolio: {
           title: "Previous Works & Case Studies — Prime Cool",
-          description: "Check out our previous works, client projects, and mechanical engineering case studies across Pune.",
+          description:
+            "Check out our previous works, client projects, and mechanical engineering case studies across Pune.",
           ogTitle: "Portfolio — Prime Cool",
           ogDescription: "Case studies and maintenance logs from Wagholi–Shirur and MIDC plants.",
         },
@@ -443,10 +488,13 @@ If you are located between Wagholi and Shirur, Prime Cool technicians carry repl
 
 let sqlPool: mysql.Pool | null = null;
 let isMySQLActive = false;
+let hasAttemptedConnection = false;
 
 export async function getMySQLPool(): Promise<mysql.Pool | null> {
   if (sqlPool) return sqlPool;
+  if (hasAttemptedConnection) return null;
 
+  hasAttemptedConnection = true;
   try {
     const envPath = path.resolve(getAppRoot(), ".env");
     const envContent = await fs.readFile(envPath, "utf-8");
@@ -458,7 +506,10 @@ export async function getMySQLPool(): Promise<mysql.Pool | null> {
       if (match) {
         const key = match[1].trim();
         let value = match[2].trim();
-        if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+        if (
+          (value.startsWith('"') && value.endsWith('"')) ||
+          (value.startsWith("'") && value.endsWith("'"))
+        ) {
           value = value.slice(1, -1);
         }
         process.env[key] = value;
@@ -476,6 +527,9 @@ export async function getMySQLPool(): Promise<mysql.Pool | null> {
 
   if (host && user && database) {
     try {
+      console.log(
+        `Connecting to MySQL at host: "${host}" (port: ${port}, user: "${user}", database: "${database}")...`,
+      );
       sqlPool = mysql.createPool({
         host,
         port,
@@ -492,7 +546,7 @@ export async function getMySQLPool(): Promise<mysql.Pool | null> {
       conn.release();
       isMySQLActive = true;
       console.log("Successfully connected to MySQL database!");
-      
+
       // Auto initialize tables
       await initializeMySQLTables(sqlPool);
       return sqlPool;
@@ -529,10 +583,11 @@ async function initializeMySQLTables(p: mysql.Pool) {
   const [adminRows]: any = await p.query("SELECT COUNT(*) as cnt FROM admin_settings");
   if (adminRows[0].cnt === 0) {
     const initial = getInitialData();
-    await p.query(
-      "INSERT INTO admin_settings (username, passwordHash, salt) VALUES (?, ?, ?)",
-      [initial.adminSettings.username, initial.adminSettings.passwordHash, initial.adminSettings.salt]
-    );
+    await p.query("INSERT INTO admin_settings (username, passwordHash, salt) VALUES (?, ?, ?)", [
+      initial.adminSettings.username,
+      initial.adminSettings.passwordHash,
+      initial.adminSettings.salt,
+    ]);
   }
 
   // 3. sessions
@@ -579,7 +634,16 @@ async function initializeMySQLTables(p: mysql.Pool) {
     for (const item of initial.portfolio) {
       await p.query(
         "INSERT INTO portfolio (id, location, title, summary, category, metrics_json, image, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        [item.id, item.location, item.title, item.summary, item.category, JSON.stringify(item.metrics), item.image || null, item.createdAt]
+        [
+          item.id,
+          item.location,
+          item.title,
+          item.summary,
+          item.category,
+          JSON.stringify(item.metrics),
+          item.image || null,
+          item.createdAt,
+        ],
       );
     }
   }
@@ -621,16 +685,51 @@ async function initializeMySQLTables(p: mysql.Pool) {
       content LONGTEXT NOT NULL,
       summary TEXT NOT NULL,
       image TEXT,
+      category VARCHAR(100),
+      author VARCHAR(255),
+      seoTitle VARCHAR(500),
+      seoDesc TEXT,
+      updatedAt VARCHAR(50),
       createdAt VARCHAR(50) NOT NULL
     )
   `);
+  // Migrate existing blogs table if columns are missing
+  try {
+    const [blogCols]: any = await p.query("SHOW COLUMNS FROM blogs");
+    const colNames = blogCols.map((c: any) => c.Field);
+    if (!colNames.includes("category"))
+      await p.query("ALTER TABLE blogs ADD COLUMN category VARCHAR(100) DEFAULT NULL");
+    if (!colNames.includes("author"))
+      await p.query("ALTER TABLE blogs ADD COLUMN author VARCHAR(255) DEFAULT NULL");
+    if (!colNames.includes("seoTitle"))
+      await p.query("ALTER TABLE blogs ADD COLUMN seoTitle VARCHAR(500) DEFAULT NULL");
+    if (!colNames.includes("seoDesc"))
+      await p.query("ALTER TABLE blogs ADD COLUMN seoDesc TEXT DEFAULT NULL");
+    if (!colNames.includes("updatedAt"))
+      await p.query("ALTER TABLE blogs ADD COLUMN updatedAt VARCHAR(50) DEFAULT NULL");
+  } catch (migrateErr) {
+    console.warn("Blog column migration warning:", migrateErr);
+  }
   const [blogsRows]: any = await p.query("SELECT COUNT(*) as cnt FROM blogs");
   if (blogsRows[0].cnt === 0) {
     const initial = getInitialData();
     for (const blog of initial.blogs) {
       await p.query(
-        "INSERT INTO blogs (id, title, slug, content, summary, image, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [blog.id, blog.title, blog.slug, blog.content, blog.summary, blog.image || null, blog.createdAt]
+        "INSERT INTO blogs (id, title, slug, content, summary, image, category, author, seoTitle, seoDesc, updatedAt, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          blog.id,
+          blog.title,
+          blog.slug,
+          blog.content,
+          blog.summary,
+          blog.image || null,
+          (blog as any).category || null,
+          (blog as any).author || null,
+          (blog as any).seoTitle || null,
+          (blog as any).seoDesc || null,
+          (blog as any).updatedAt || null,
+          blog.createdAt,
+        ],
       );
     }
   }
@@ -651,7 +750,15 @@ export async function readDb(): Promise<DbSchema> {
         db.cms = initial.cms;
         updated = true;
       } else {
-        const cmsKeys: (keyof CmsSettings)[] = ["hero", "seo", "theme", "faqs", "whatsapp", "socials", "smtp"];
+        const cmsKeys: (keyof CmsSettings)[] = [
+          "hero",
+          "seo",
+          "theme",
+          "faqs",
+          "whatsapp",
+          "socials",
+          "smtp",
+        ];
         for (const key of cmsKeys) {
           if (db.cms[key] === undefined) {
             db.cms[key] = initial.cms[key] as any;
@@ -704,11 +811,13 @@ export async function getBookings(): Promise<Booking[]> {
   }
   const db = await readDb();
   return db.bookings.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );
 }
 
-export async function addBooking(booking: Omit<Booking, "id" | "createdAt" | "status">): Promise<Booking> {
+export async function addBooking(
+  booking: Omit<Booking, "id" | "createdAt" | "status">,
+): Promise<Booking> {
   const newBooking: Booking = {
     ...booking,
     id: `b-${crypto.randomBytes(4).toString("hex")}`,
@@ -732,7 +841,7 @@ export async function addBooking(booking: Omit<Booking, "id" | "createdAt" | "st
           newBooking.notes || null,
           newBooking.status,
           newBooking.createdAt,
-        ]
+        ],
       );
       return newBooking;
     } catch (err) {
@@ -746,7 +855,10 @@ export async function addBooking(booking: Omit<Booking, "id" | "createdAt" | "st
   return newBooking;
 }
 
-export async function updateBookingStatus(id: string, status: Booking["status"]): Promise<Booking | null> {
+export async function updateBookingStatus(
+  id: string,
+  status: Booking["status"],
+): Promise<Booking | null> {
   const p = await getMySQLPool();
   if (p && isMySQLActive) {
     try {
@@ -802,7 +914,7 @@ export async function getProjects(): Promise<Project[]> {
 
   const db = await readDb();
   return db.portfolio.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );
 }
 
@@ -827,7 +939,7 @@ export async function addProject(project: Omit<Project, "id" | "createdAt">): Pr
           JSON.stringify(newProject.metrics),
           newProject.image || null,
           newProject.createdAt,
-        ]
+        ],
       );
       return newProject;
     } catch (err) {
@@ -841,25 +953,46 @@ export async function addProject(project: Omit<Project, "id" | "createdAt">): Pr
   return newProject;
 }
 
-export async function updateProject(id: string, project: Partial<Omit<Project, "id" | "createdAt">>): Promise<Project | null> {
+export async function updateProject(
+  id: string,
+  project: Partial<Omit<Project, "id" | "createdAt">>,
+): Promise<Project | null> {
   const p = await getMySQLPool();
   if (p && isMySQLActive) {
     try {
       const updateFields: string[] = [];
       const values: any[] = [];
-      
-      if (project.title !== undefined) { updateFields.push("title = ?"); values.push(project.title); }
-      if (project.location !== undefined) { updateFields.push("location = ?"); values.push(project.location); }
-      if (project.summary !== undefined) { updateFields.push("summary = ?"); values.push(project.summary); }
-      if (project.category !== undefined) { updateFields.push("category = ?"); values.push(project.category); }
-      if (project.metrics !== undefined) { updateFields.push("metrics_json = ?"); values.push(JSON.stringify(project.metrics)); }
-      if (project.image !== undefined) { updateFields.push("image = ?"); values.push(project.image); }
+
+      if (project.title !== undefined) {
+        updateFields.push("title = ?");
+        values.push(project.title);
+      }
+      if (project.location !== undefined) {
+        updateFields.push("location = ?");
+        values.push(project.location);
+      }
+      if (project.summary !== undefined) {
+        updateFields.push("summary = ?");
+        values.push(project.summary);
+      }
+      if (project.category !== undefined) {
+        updateFields.push("category = ?");
+        values.push(project.category);
+      }
+      if (project.metrics !== undefined) {
+        updateFields.push("metrics_json = ?");
+        values.push(JSON.stringify(project.metrics));
+      }
+      if (project.image !== undefined) {
+        updateFields.push("image = ?");
+        values.push(project.image);
+      }
 
       if (updateFields.length > 0) {
         values.push(id);
         await p.query(`UPDATE portfolio SET ${updateFields.join(", ")} WHERE id = ?`, values);
       }
-      
+
       const [rows]: any = await p.query("SELECT * FROM portfolio WHERE id = ?", [id]);
       if (rows.length > 0) {
         return {
@@ -913,11 +1046,13 @@ export async function getNotifications(): Promise<NotificationLog[]> {
 
   const db = await readDb();
   return db.notifications.sort(
-    (a, b) => new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime()
+    (a, b) => new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime(),
   );
 }
 
-export async function addNotification(log: Omit<NotificationLog, "id" | "sentAt">): Promise<NotificationLog> {
+export async function addNotification(
+  log: Omit<NotificationLog, "id" | "sentAt">,
+): Promise<NotificationLog> {
   const newLog: NotificationLog = {
     ...log,
     id: `n-${crypto.randomBytes(4).toString("hex")}`,
@@ -929,7 +1064,15 @@ export async function addNotification(log: Omit<NotificationLog, "id" | "sentAt"
     try {
       await p.query(
         "INSERT INTO notifications (id, recipient, type, status, subject, message, sentAt) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [newLog.id, newLog.recipient, newLog.type, newLog.status, newLog.subject || null, newLog.message, newLog.sentAt]
+        [
+          newLog.id,
+          newLog.recipient,
+          newLog.type,
+          newLog.status,
+          newLog.subject || null,
+          newLog.message,
+          newLog.sentAt,
+        ],
       );
       return newLog;
     } catch (err) {
@@ -1004,7 +1147,11 @@ export async function updateAdminSettings(username: string, newPassword?: string
   if (p && isMySQLActive) {
     try {
       if (newPassword) {
-        await p.query("UPDATE admin_settings SET username = ?, passwordHash = ?, salt = ?", [username, passwordHash, salt]);
+        await p.query("UPDATE admin_settings SET username = ?, passwordHash = ?, salt = ?", [
+          username,
+          passwordHash,
+          salt,
+        ]);
       } else {
         await p.query("UPDATE admin_settings SET username = ?", [username]);
       }
@@ -1030,7 +1177,11 @@ export async function createSession(token: string, username: string): Promise<vo
   const p = await getMySQLPool();
   if (p && isMySQLActive) {
     try {
-      await p.query("INSERT INTO sessions (token, username, expiresAt) VALUES (?, ?, ?)", [token, username, expiresAt]);
+      await p.query("INSERT INTO sessions (token, username, expiresAt) VALUES (?, ?, ?)", [
+        token,
+        username,
+        expiresAt,
+      ]);
       return;
     } catch (err) {
       console.error("MySQL query failed in createSession, falling back:", err);
@@ -1046,7 +1197,10 @@ export async function validateSession(token: string): Promise<string | null> {
   const p = await getMySQLPool();
   if (p && isMySQLActive) {
     try {
-      const [rows]: any = await p.query("SELECT username, expiresAt FROM sessions WHERE token = ?", [token]);
+      const [rows]: any = await p.query(
+        "SELECT username, expiresAt FROM sessions WHERE token = ?",
+        [token],
+      );
       if (rows.length === 0) return null;
       const session = rows[0];
       if (new Date(session.expiresAt).getTime() < Date.now()) {
@@ -1108,7 +1262,9 @@ export async function updateCmsSettings(settings: CmsSettings): Promise<void> {
   const p = await getMySQLPool();
   if (p && isMySQLActive) {
     try {
-      await p.query("UPDATE cms_settings SET settings_json = ? WHERE id = 1", [JSON.stringify(settings)]);
+      await p.query("UPDATE cms_settings SET settings_json = ? WHERE id = 1", [
+        JSON.stringify(settings),
+      ]);
       return;
     } catch (err) {
       console.error("MySQL query failed in updateCmsSettings, falling back:", err);
@@ -1127,16 +1283,19 @@ export async function getFaqs(): Promise<CmsFaq[]> {
 
 export async function addFaq(faq: Omit<CmsFaq, "id">): Promise<CmsFaq> {
   const newFaq = { ...faq, id: `faq-${crypto.randomBytes(4).toString("hex")}` };
-  
+
   const settings = await getCmsSettings();
   settings.faqs.push(newFaq);
   await updateCmsSettings(settings);
   return newFaq;
 }
 
-export async function updateFaq(id: string, faq: Partial<Omit<CmsFaq, "id">>): Promise<CmsFaq | null> {
+export async function updateFaq(
+  id: string,
+  faq: Partial<Omit<CmsFaq, "id">>,
+): Promise<CmsFaq | null> {
   const settings = await getCmsSettings();
-  const idx = settings.faqs.findIndex(f => f.id === id);
+  const idx = settings.faqs.findIndex((f) => f.id === id);
   if (idx === -1) return null;
   settings.faqs[idx] = { ...settings.faqs[idx], ...faq };
   await updateCmsSettings(settings);
@@ -1146,7 +1305,7 @@ export async function updateFaq(id: string, faq: Partial<Omit<CmsFaq, "id">>): P
 export async function deleteFaq(id: string): Promise<boolean> {
   const settings = await getCmsSettings();
   const initialLength = settings.faqs.length;
-  settings.faqs = settings.faqs.filter(f => f.id !== id);
+  settings.faqs = settings.faqs.filter((f) => f.id !== id);
   if (settings.faqs.length === initialLength) return false;
   await updateCmsSettings(settings);
   return true;
@@ -1159,16 +1318,27 @@ export async function getBlogs(): Promise<Blog[]> {
   if (p && isMySQLActive) {
     try {
       const [rows]: any = await p.query("SELECT * FROM blogs ORDER BY createdAt DESC");
-      return rows;
+      return rows.map((r: any) => ({
+        id: r.id,
+        title: r.title,
+        slug: r.slug,
+        content: r.content,
+        summary: r.summary,
+        image: r.image || undefined,
+        category: r.category || undefined,
+        author: r.author || undefined,
+        seoTitle: r.seoTitle || undefined,
+        seoDesc: r.seoDesc || undefined,
+        updatedAt: r.updatedAt || undefined,
+        createdAt: r.createdAt,
+      }));
     } catch (err) {
       console.error("MySQL query failed in getBlogs, falling back:", err);
     }
   }
 
   const db = await readDb();
-  return db.blogs.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  );
+  return db.blogs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }
 
 export async function addBlog(blog: Omit<Blog, "id" | "createdAt">): Promise<Blog> {
@@ -1176,14 +1346,28 @@ export async function addBlog(blog: Omit<Blog, "id" | "createdAt">): Promise<Blo
     ...blog,
     id: `blog-${crypto.randomBytes(4).toString("hex")}`,
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   };
 
   const p = await getMySQLPool();
   if (p && isMySQLActive) {
     try {
       await p.query(
-        "INSERT INTO blogs (id, title, slug, content, summary, image, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [newBlog.id, newBlog.title, newBlog.slug, newBlog.content, newBlog.summary, newBlog.image || null, newBlog.createdAt]
+        "INSERT INTO blogs (id, title, slug, content, summary, image, category, author, seoTitle, seoDesc, updatedAt, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          newBlog.id,
+          newBlog.title,
+          newBlog.slug,
+          newBlog.content,
+          newBlog.summary,
+          newBlog.image || null,
+          newBlog.category || null,
+          newBlog.author || null,
+          newBlog.seoTitle || null,
+          newBlog.seoDesc || null,
+          newBlog.updatedAt || null,
+          newBlog.createdAt,
+        ],
       );
       return newBlog;
     } catch (err) {
@@ -1197,26 +1381,78 @@ export async function addBlog(blog: Omit<Blog, "id" | "createdAt">): Promise<Blo
   return newBlog;
 }
 
-export async function updateBlog(id: string, blog: Partial<Omit<Blog, "id" | "createdAt">>): Promise<Blog | null> {
+export async function updateBlog(
+  id: string,
+  blog: Partial<Omit<Blog, "id" | "createdAt">>,
+): Promise<Blog | null> {
   const p = await getMySQLPool();
   if (p && isMySQLActive) {
     try {
       const updateFields: string[] = [];
       const values: any[] = [];
-      
-      if (blog.title !== undefined) { updateFields.push("title = ?"); values.push(blog.title); }
-      if (blog.slug !== undefined) { updateFields.push("slug = ?"); values.push(blog.slug); }
-      if (blog.content !== undefined) { updateFields.push("content = ?"); values.push(blog.content); }
-      if (blog.summary !== undefined) { updateFields.push("summary = ?"); values.push(blog.summary); }
-      if (blog.image !== undefined) { updateFields.push("image = ?"); values.push(blog.image); }
+
+      if (blog.title !== undefined) {
+        updateFields.push("title = ?");
+        values.push(blog.title);
+      }
+      if (blog.slug !== undefined) {
+        updateFields.push("slug = ?");
+        values.push(blog.slug);
+      }
+      if (blog.content !== undefined) {
+        updateFields.push("content = ?");
+        values.push(blog.content);
+      }
+      if (blog.summary !== undefined) {
+        updateFields.push("summary = ?");
+        values.push(blog.summary);
+      }
+      if (blog.image !== undefined) {
+        updateFields.push("image = ?");
+        values.push(blog.image);
+      }
+      if (blog.category !== undefined) {
+        updateFields.push("category = ?");
+        values.push(blog.category);
+      }
+      if (blog.author !== undefined) {
+        updateFields.push("author = ?");
+        values.push(blog.author);
+      }
+      if (blog.seoTitle !== undefined) {
+        updateFields.push("seoTitle = ?");
+        values.push(blog.seoTitle);
+      }
+      if (blog.seoDesc !== undefined) {
+        updateFields.push("seoDesc = ?");
+        values.push(blog.seoDesc);
+      }
+      updateFields.push("updatedAt = ?");
+      values.push(new Date().toISOString());
 
       if (updateFields.length > 0) {
         values.push(id);
         await p.query(`UPDATE blogs SET ${updateFields.join(", ")} WHERE id = ?`, values);
       }
-      
+
       const [rows]: any = await p.query("SELECT * FROM blogs WHERE id = ?", [id]);
-      if (rows.length > 0) return rows[0];
+      if (rows.length > 0) {
+        const r = rows[0];
+        return {
+          id: r.id,
+          title: r.title,
+          slug: r.slug,
+          content: r.content,
+          summary: r.summary,
+          image: r.image || undefined,
+          category: r.category || undefined,
+          author: r.author || undefined,
+          seoTitle: r.seoTitle || undefined,
+          seoDesc: r.seoDesc || undefined,
+          updatedAt: r.updatedAt || undefined,
+          createdAt: r.createdAt,
+        };
+      }
       return null;
     } catch (err) {
       console.error("MySQL query failed in updateBlog, falling back:", err);

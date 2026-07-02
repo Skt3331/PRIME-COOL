@@ -25,21 +25,28 @@ function CityServiceLayout({ cityName, districts, services }: CityViewProps) {
           <MapPin className="h-3.5 w-3.5" />
           <span>Local Service Hub — {cityName}</span>
         </div>
-        
+
         <h1 className="text-3xl md:text-4xl font-bold font-display text-foreground leading-tight">
-          Refrigeration Services & Cold Storage Solutions in <span className="text-gradient">{cityName}</span>
+          Refrigeration Services & Cold Storage Solutions in{" "}
+          <span className="text-gradient">{cityName}</span>
         </h1>
-        
+
         <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl">
-          Prime Cool Solutions delivers rapid-response mechanical repairs, ductable AC installations, heavy commercial chillers, and warehouse-scale cold room storage systems across the {cityName} metropolitan region.
+          Prime Cool Solutions delivers rapid-response mechanical repairs, ductable AC
+          installations, heavy commercial chillers, and warehouse-scale cold room storage systems
+          across the {cityName} metropolitan region.
         </p>
       </div>
 
       {/* Call To Action Block */}
       <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="space-y-1 text-center md:text-left">
-          <h3 className="text-base font-bold text-foreground">Need Urgent Cooling Repairs in {cityName}?</h3>
-          <p className="text-xs text-muted-foreground">Get in touch with Saurav Temgire for immediate technician dispatch.</p>
+          <h3 className="text-base font-bold text-foreground">
+            Need Urgent Cooling Repairs in {cityName}?
+          </h3>
+          <p className="text-xs text-muted-foreground">
+            Get in touch with Saurav Temgire for immediate technician dispatch.
+          </p>
         </div>
         <div className="flex flex-wrap gap-3">
           <a
@@ -60,11 +67,16 @@ function CityServiceLayout({ cityName, districts, services }: CityViewProps) {
 
       {/* Grid of services */}
       <div className="space-y-6">
-        <h2 className="text-xl font-bold font-display text-foreground">Specialized HVAC/R Solutions Offered</h2>
-        
+        <h2 className="text-xl font-bold font-display text-foreground">
+          Specialized HVAC/R Solutions Offered
+        </h2>
+
         <div className="grid md:grid-cols-2 gap-4">
           {services.map((srv, idx) => (
-            <div key={idx} className="bg-card/25 border border-border/60 p-5 rounded-2xl space-y-2 hover:border-primary/40 transition">
+            <div
+              key={idx}
+              className="bg-card/25 border border-border/60 p-5 rounded-2xl space-y-2 hover:border-primary/40 transition"
+            >
               <h3 className="font-bold text-foreground text-sm flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-primary shrink-0" />
                 <span>{srv.title}</span>
@@ -77,13 +89,18 @@ function CityServiceLayout({ cityName, districts, services }: CityViewProps) {
 
       {/* Service Coverage Area */}
       <div className="bg-card/10 border border-border/40 p-5 rounded-2xl space-y-3">
-        <h3 className="text-xs font-bold text-foreground uppercase tracking-wider">Service Coverage Districts</h3>
+        <h3 className="text-xs font-bold text-foreground uppercase tracking-wider">
+          Service Coverage Districts
+        </h3>
         <p className="text-xs text-muted-foreground leading-relaxed">
           We ensure direct, fully-equipped technician travel to key commercial and industrial hubs:
         </p>
         <div className="flex flex-wrap gap-2 pt-1">
           {districts.map((d, idx) => (
-            <span key={idx} className="bg-background border border-border/60 px-2.5 py-1 rounded-lg text-[10px] text-foreground font-mono">
+            <span
+              key={idx}
+              className="bg-background border border-border/60 px-2.5 py-1 rounded-lg text-[10px] text-foreground font-mono"
+            >
               {d}
             </span>
           ))}
@@ -96,7 +113,9 @@ function CityServiceLayout({ cityName, districts, services }: CityViewProps) {
           <Clock className="h-5 w-5 text-primary shrink-0" />
           <div>
             <strong className="text-foreground">2-Hour Emergency Response</strong>
-            <p className="mt-0.5">Rapid dispatch for cold rooms and chiller breakdowns to protect stock.</p>
+            <p className="mt-0.5">
+              Rapid dispatch for cold rooms and chiller breakdowns to protect stock.
+            </p>
           </div>
         </div>
         <div className="flex gap-2.5 items-start text-xs text-muted-foreground">
@@ -110,7 +129,9 @@ function CityServiceLayout({ cityName, districts, services }: CityViewProps) {
           <Award className="h-5 w-5 text-primary shrink-0" />
           <div>
             <strong className="text-foreground">Certified HVAC/R Engineers</strong>
-            <p className="mt-0.5">Experienced crew trained on Ammonia, CO2, and modern high-pressure safety systems.</p>
+            <p className="mt-0.5">
+              Experienced crew trained on Ammonia, CO2, and modern high-pressure safety systems.
+            </p>
           </div>
         </div>
       </div>

@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getPublicProjects, getCmsSettings, getPublicBlogs } from "../lib/api";
-import heroImage from "@/assets/hero.png";
-import logo from "@/assets/logo.png";
-import projectFreezer from "@/assets/project_freezer.png";
-import projectCoolingTower from "@/assets/project_cooling_tower.png";
-import projectAcRollout from "@/assets/project_ac_rollout.png";
-import serviceAc from "@/assets/service_ac.png";
-import serviceFridge from "@/assets/service_fridge.png";
-import serviceWasher from "@/assets/service_washer.png";
-import serviceHeavyMech from "@/assets/service_heavy_mech.png";
-import serviceElectrical from "@/assets/service_electrical.png";
-import serviceOverhauls from "@/assets/service_overhauls.png";
-import serviceAmc from "@/assets/service_amc.png";
+import heroImage from "@/assets/hero.webp";
+import logo from "@/assets/logo.webp";
+import projectFreezer from "@/assets/project_freezer.webp";
+import projectCoolingTower from "@/assets/project_cooling_tower.webp";
+import projectAcRollout from "@/assets/project_ac_rollout.webp";
+import serviceAc from "@/assets/service_ac.webp";
+import serviceFridge from "@/assets/service_fridge.webp";
+import serviceWasher from "@/assets/service_washer.webp";
+import serviceHeavyMech from "@/assets/service_heavy_mech.webp";
+import serviceElectrical from "@/assets/service_electrical.webp";
+import serviceOverhauls from "@/assets/service_overhauls.webp";
+import serviceAmc from "@/assets/service_amc.webp";
 import { WhatsAppWidget } from "../components/WhatsAppWidget";
 import {
   Snowflake,
@@ -37,7 +37,18 @@ import {
   Youtube,
   Twitter,
   Mail,
+  Star,
+  Award,
 } from "lucide-react";
+const IconMap: Record<string, any> = {
+  Snowflake, Wind, Wrench, Cog, Factory, Refrigerator, WashingMachine, Gauge,
+  Zap, ShieldCheck, Phone, MapPin, Clock, ArrowRight, CircuitBoard, ThermometerSnowflake,
+  Facebook, Instagram, Linkedin, Youtube, Twitter, Mail, Star, Award
+};
+
+function getDynamicIcon(iconName: string) {
+  return IconMap[iconName] || Wrench;
+}
 
 export const Route = createFileRoute("/")({
   loader: async () => {
@@ -139,23 +150,23 @@ function Index() {
 
   return (
     <div className="min-h-screen text-foreground">
-      <Header cms={cms} />
       <main>
         <Hero hero={cms.hero} />
-        <Stats />
+        <Stats cms={cms} />
         <Portfolio projects={projects} />
-        <Services />
-        <Industrial />
+        <Services services={cms.services} />
+        <ServiceProcess />
+        <Industrial services={cms.services} />
         <BlogsPreview blogs={blogs} />
         <ResourceHub />
-        <Catalog />
+        <Catalog amcTiers={cms.amcTiers} />
         <Testimonials />
         <About />
-        <Coverage />
+        <Certifications />
+        <Coverage cms={cms} />
         <Faq faqs={cms.faqs} />
         <Contact cms={cms} />
       </main>
-      <Footer cms={cms} />
       {cms?.whatsapp && <WhatsAppWidget whatsapp={cms.whatsapp} />}
     </div>
   );
@@ -163,7 +174,10 @@ function Index() {
 
 function ResourceHub() {
   return (
-    <section id="resources-promo" className="py-24 border-t border-border bg-card/10 relative overflow-hidden">
+    <section
+      id="resources-promo"
+      className="py-24 border-t border-border bg-card/10 relative overflow-hidden"
+    >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,color-mix(in_oklab,var(--primary)_6%,transparent),transparent_50%)] pointer-events-none" />
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
@@ -182,18 +196,33 @@ function ResourceHub() {
               </Link>
             </div>
           </div>
-          
+
           <div className="lg:col-span-7 grid sm:grid-cols-2 gap-4">
             <div className="surface-card rounded-2xl p-5 space-y-3 border border-border/60 hover:border-primary/40 transition">
               <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary">
                 <Gauge className="h-4.5 w-4.5" />
               </div>
-              <h3 className="font-display font-semibold text-foreground text-sm">Superheat &amp; Subcooling Tools</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">Calculate operational subcooling and superheat instantly to check system charging levels.</p>
+              <h3 className="font-display font-semibold text-foreground text-sm">
+                Superheat &amp; Subcooling Tools
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Calculate operational subcooling and superheat instantly to check system charging
+                levels.
+              </p>
               <div className="flex gap-2">
-                <Link to="/tools/superheat-calculator" className="text-xs text-primary font-semibold hover:underline">Superheat &rarr;</Link>
+                <Link
+                  to="/tools/superheat-calculator"
+                  className="text-xs text-primary font-semibold hover:underline"
+                >
+                  Superheat &rarr;
+                </Link>
                 <span className="text-border text-muted-foreground/30">|</span>
-                <Link to="/tools/subcooling-calculator" className="text-xs text-primary font-semibold hover:underline">Subcooling &rarr;</Link>
+                <Link
+                  to="/tools/subcooling-calculator"
+                  className="text-xs text-primary font-semibold hover:underline"
+                >
+                  Subcooling &rarr;
+                </Link>
               </div>
             </div>
 
@@ -201,12 +230,27 @@ function ResourceHub() {
               <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary">
                 <Zap className="h-4.5 w-4.5" />
               </div>
-              <h3 className="font-display font-semibold text-foreground text-sm">Calculators &amp; Converters</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">Calculate BTU heat load sizing, AC tonnage requirements, vacuum conversions, and CFM airflow.</p>
+              <h3 className="font-display font-semibold text-foreground text-sm">
+                Calculators &amp; Converters
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Calculate BTU heat load sizing, AC tonnage requirements, vacuum conversions, and CFM
+                airflow.
+              </p>
               <div className="flex gap-2">
-                <Link to="/tools/btu-calculator" className="text-xs text-primary font-semibold hover:underline">BTU Sizer &rarr;</Link>
+                <Link
+                  to="/tools/btu-calculator"
+                  className="text-xs text-primary font-semibold hover:underline"
+                >
+                  BTU Sizer &rarr;
+                </Link>
                 <span className="text-border text-muted-foreground/30">|</span>
-                <Link to="/tools/tonnage-calculator" className="text-xs text-primary font-semibold hover:underline">Tonnage &rarr;</Link>
+                <Link
+                  to="/tools/tonnage-calculator"
+                  className="text-xs text-primary font-semibold hover:underline"
+                >
+                  Tonnage &rarr;
+                </Link>
               </div>
             </div>
 
@@ -214,22 +258,45 @@ function ResourceHub() {
               <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary">
                 <Wrench className="h-4.5 w-4.5" />
               </div>
-              <h3 className="font-display font-semibold text-foreground text-sm">Troubleshooting Wizard</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">Use our step-by-step diagnostic tree wizard to trace compressor, coil, and suction pressure faults.</p>
-              <Link to="/interactive/wizard" className="text-xs text-primary font-semibold hover:underline block">Diagnose Faults &rarr;</Link>
+              <h3 className="font-display font-semibold text-foreground text-sm">
+                Troubleshooting Wizard
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Use our step-by-step diagnostic tree wizard to trace compressor, coil, and suction
+                pressure faults.
+              </p>
+              <Link
+                to="/interactive/wizard"
+                className="text-xs text-primary font-semibold hover:underline block"
+              >
+                Diagnose Faults &rarr;
+              </Link>
             </div>
 
             <div className="surface-card rounded-2xl p-5 space-y-3 border border-border/60 hover:border-primary/40 transition">
               <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary">
                 <ThermometerSnowflake className="h-4.5 w-4.5" />
               </div>
-              <h3 className="font-display font-semibold text-foreground text-sm">Refrigerant PT Charts</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">Dedicated Antoine saturation reference tables for R134a, R410A, R32, R404A, and R407C.</p>
+              <h3 className="font-display font-semibold text-foreground text-sm">
+                Refrigerant PT Charts
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Dedicated Antoine saturation reference tables for R134a, R410A, R32, R404A, and
+                R407C.
+              </p>
               <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs">
-                <Link to="/refrigerants/r410a" className="text-primary hover:underline">R410A</Link>
-                <Link to="/refrigerants/r32" className="text-primary hover:underline">R32</Link>
-                <Link to="/refrigerants/r134a" className="text-primary hover:underline">R134a</Link>
-                <Link to="/refrigerants/r404a" className="text-primary hover:underline">R404A</Link>
+                <Link to="/refrigerants/r410a" className="text-primary hover:underline">
+                  R410A
+                </Link>
+                <Link to="/refrigerants/r32" className="text-primary hover:underline">
+                  R32
+                </Link>
+                <Link to="/refrigerants/r134a" className="text-primary hover:underline">
+                  R134a
+                </Link>
+                <Link to="/refrigerants/r404a" className="text-primary hover:underline">
+                  R404A
+                </Link>
               </div>
             </div>
           </div>
@@ -239,56 +306,11 @@ function ResourceHub() {
   );
 }
 
-function Header({ cms }: { cms: any }) {
-  const socials = cms?.socials || {};
-  const phone = socials.phone || "+917507408461";
-
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border">
-      <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-        <Link to="/" hash="top" className="flex items-center gap-2.5">
-          <img src={logo} alt="Prime Cool logo" className="h-9 w-9" />
-          <span className="font-display font-bold text-lg tracking-tight">
-            Prime <span className="text-gradient">Cool</span>
-          </span>
-        </Link>
-        <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-          <Link to="/" hash="services" className="hover:text-foreground transition">Services</Link>
-          <Link to="/" hash="catalog" className="hover:text-foreground transition">Catalog</Link>
-          <Link to="/portfolio" className="hover:text-foreground transition">Projects</Link>
-          <Link to="/blogs" className="hover:text-foreground transition">Blogs</Link>
-          <Link to="/resources" className="hover:text-foreground transition text-primary font-semibold">Resources Hub</Link>
-          <Link to="/" hash="about" className="hover:text-foreground transition">About</Link>
-          <Link to="/" hash="contact" className="hover:text-foreground transition">Contact</Link>
-        </nav>
-        <div className="flex items-center gap-3">
-          <a
-            href={`tel:${phone.replace(/\s+/g, "")}`}
-            className="inline-flex items-center gap-2 rounded-full border border-border p-2 sm:px-3 sm:py-1.5 text-xs font-medium hover:bg-card transition"
-            title="Call Support"
-          >
-            <Phone className="h-4 w-4 text-primary" />
-            <span className="hidden sm:inline">{phone}</span>
-          </a>
-          <Link
-            to="/booking"
-            search={{}}
-            className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:opacity-90 transition glow-ring"
-          >
-            <Clock className="h-4 w-4" />
-            <span>Book Online</span>
-          </Link>
-        </div>
-      </div>
-    </header>
-  );
-}
-
 function Hero({ hero }: { hero: any }) {
   return (
     <section
       id="top"
-      className="relative pt-32 pb-24 md:pt-44 md:pb-32 overflow-hidden"
+      className="relative pt-32 pb-24 md:pt-44 md:pb-36 overflow-hidden"
       style={{ background: "var(--gradient-hero)" }}
     >
       <div
@@ -298,92 +320,116 @@ function Hero({ hero }: { hero: any }) {
           backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center right",
-          maskImage:
-            "linear-gradient(to left, black 0%, black 40%, transparent 90%)",
-          WebkitMaskImage:
-            "linear-gradient(to left, black 0%, black 40%, transparent 90%)",
+          maskImage: "linear-gradient(to left, black 0%, black 40%, transparent 90%)",
+          WebkitMaskImage: "linear-gradient(to left, black 0%, black 40%, transparent 90%)",
         }}
       />
 
-      <div className="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-12 items-center">
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground mb-6">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse-ring" />
+      {/* Animated background orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-20 blur-3xl animate-spin-slow" style={{ background: "radial-gradient(circle, #00c8ff 0%, #0066ff 50%, transparent 70%)" }} />
+        <div className="absolute -bottom-20 -left-20 w-[400px] h-[400px] rounded-full opacity-15 blur-3xl" style={{ background: "radial-gradient(circle, #0066ff 0%, #8b5cf6 60%, transparent 80%)" }} />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-16 items-center">
+        <div className="animate-fade-up">
+          {/* Location pill */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-1.5 text-xs text-slate-300 mb-8">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00c8ff] opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00c8ff]" />
+            </span>
             Pune · Wagholi–Shirur corridor · Karegaon · Ranjangaon
           </div>
 
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05]">
+          <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.02] text-white">
             {hero.title1}
             <br />
-            <span className="text-gradient">{hero.title2}</span>
+            <span className="text-shimmer">{hero.title2}</span>
           </h1>
 
-          <p className="mt-6 text-lg text-muted-foreground max-w-xl">
-            {hero.subtitle}
-          </p>
+          <p className="mt-6 text-lg text-slate-400 max-w-lg leading-relaxed">{hero.subtitle}</p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-10 flex flex-wrap gap-4">
             <Link
               to={hero.cta1Link}
-              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 transition glow-ring"
+              className="inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-bold text-[#09090f] transition hover:scale-105"
+              style={{ background: "linear-gradient(135deg, #00c8ff, #0066ff)", boxShadow: "0 4px 20px rgba(0,200,255,0.45)" }}
             >
               {hero.cta1Text} <ArrowRight className="h-4 w-4" />
             </Link>
             <a
               href={hero.cta2Link}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-6 py-3 text-sm font-semibold hover:bg-card transition"
+              className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/6 backdrop-blur-sm px-7 py-3.5 text-sm font-semibold text-slate-200 hover:bg-white/10 hover:border-white/25 transition"
             >
-              <Phone className="h-4 w-4 text-primary" /> {hero.cta2Text}
+              <Phone className="h-4 w-4 text-[#00c8ff]" /> {hero.cta2Text}
             </a>
           </div>
 
-          <div className="mt-10 flex items-center gap-6 text-xs text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-primary" /> Rapid Response
+          {/* Google Reviews rating badge */}
+          <div className="mt-8 inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-3.5">
+            <div className="flex text-amber-400 gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-4 w-4 fill-current" />
+              ))}
             </div>
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 text-primary" /> AMC Backed
+            <div>
+              <span className="font-bold text-white text-sm block">4.9 / 5 Stars</span>
+              <span className="text-xs text-slate-400">Based on 450+ Google Reviews</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Zap className="h-4 w-4 text-primary" /> Industrial Grade
-            </div>
+          </div>
+
+          <div className="mt-8 flex items-center gap-6 text-xs text-slate-500">
+            {[{icon: Clock, label: "Rapid Response"}, {icon: ShieldCheck, label: "AMC Backed"}, {icon: Zap, label: "Industrial Grade"}].map(({icon: Icon, label}) => (
+              <div key={label} className="flex items-center gap-1.5">
+                <Icon className="h-3.5 w-3.5 text-[#00c8ff]" /> {label}
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="relative hidden lg:block">
-          <div className="relative aspect-square rounded-3xl surface-card overflow-hidden glow-ring">
+        <div className="relative hidden lg:block animate-slide-right">
+          {/* Main image card */}
+          <div className="relative rounded-3xl overflow-hidden border border-white/10" style={{ boxShadow: "0 0 60px rgba(0,200,255,0.25), 0 30px 80px rgba(0,0,0,0.6)" }}>
             <img
               src={heroImage}
               alt="Futuristic HVAC and industrial cooling visualization"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="w-full aspect-square object-cover"
+              fetchPriority="high"
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-background/80 via-transparent to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between rounded-2xl border border-border bg-background/70 backdrop-blur-md p-4">
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#09090f]/70 via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between rounded-2xl border border-white/10 bg-[#09090f]/70 backdrop-blur-xl p-4">
               <div>
-                <div className="text-xs text-muted-foreground">Live Service</div>
-                <div className="font-display font-semibold">Cooling Tower · Ranjangaon</div>
+                <div className="text-xs text-slate-400">Live Service</div>
+                <div className="font-display font-semibold text-white">Cooling Tower · Ranjangaon</div>
               </div>
               <div className="text-right">
-                <div className="text-xs text-muted-foreground">Status</div>
-                <div className="text-sm font-semibold text-primary">Optimal</div>
+                <div className="text-xs text-slate-400">Status</div>
+                <div className="text-sm font-bold text-[#00c8ff]">● Optimal</div>
               </div>
             </div>
           </div>
-          <div className="absolute -top-4 -left-4 animate-float">
-            <div className="surface-card rounded-2xl px-4 py-3 flex items-center gap-3">
-              <Snowflake className="h-5 w-5 text-primary" />
+
+          {/* Floating badges */}
+          <div className="absolute -top-5 -left-5 animate-float">
+            <div className="rounded-2xl border border-white/10 bg-[#111118]/90 backdrop-blur-xl px-4 py-3 flex items-center gap-3" style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.5)" }}>
+              <div className="h-9 w-9 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg, #00c8ff20, #0066ff20)", border: "1px solid rgba(0,200,255,0.3)" }}>
+                <Snowflake className="h-4.5 w-4.5 text-[#00c8ff]" />
+              </div>
               <div className="text-xs">
-                <div className="font-semibold">-3°C</div>
-                <div className="text-muted-foreground">Refrigerant Optimal</div>
+                <div className="font-bold text-white">-3°C</div>
+                <div className="text-slate-400">Refrigerant Optimal</div>
               </div>
             </div>
           </div>
-          <div className="absolute -bottom-4 -right-4 animate-float" style={{ animationDelay: "1.5s" }}>
-            <div className="surface-card rounded-2xl px-4 py-3 flex items-center gap-3">
-              <Gauge className="h-5 w-5 text-primary" />
+          <div className="absolute -bottom-5 -right-5 animate-float" style={{ animationDelay: "1.5s" }}>
+            <div className="rounded-2xl border border-white/10 bg-[#111118]/90 backdrop-blur-xl px-4 py-3 flex items-center gap-3" style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.5)" }}>
+              <div className="h-9 w-9 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg, #0066ff20, #8b5cf620)", border: "1px solid rgba(0,102,255,0.3)" }}>
+                <Gauge className="h-4.5 w-4.5 text-[#0066ff]" />
+              </div>
               <div className="text-xs">
-                <div className="font-semibold">5.2 bar</div>
-                <div className="text-muted-foreground">Pressure Verified</div>
+                <div className="font-bold text-white">5.2 bar</div>
+                <div className="text-slate-400">Pressure Verified</div>
               </div>
             </div>
           </div>
@@ -393,36 +439,62 @@ function Hero({ hero }: { hero: any }) {
   );
 }
 
-function Stats() {
+function Stats({ cms }: { cms?: any }) {
+  const displayStats =
+    cms?.stats && cms.stats.length > 0
+      ? cms.stats
+      : [
+          { value: "24/7", label: "Rapid Response" },
+          { value: "2", label: "Industrial Hubs Served" },
+          { value: "100%", label: "Engineered Reliability" },
+          { value: "AMC", label: "Zero-Downtime Plans" },
+        ];
   return (
-    <section className="border-y border-border bg-card/30">
-      <div className="mx-auto max-w-7xl px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
-        {stats.map((s) => (
-          <div key={s.label} className="text-center md:text-left">
-            <div className="font-display text-3xl md:text-4xl font-bold text-gradient">
+    <section className="relative overflow-hidden" style={{ background: "linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)" }}>
+      {/* Top cyan accent line */}
+      <div className="h-[2px] w-full" style={{ background: "linear-gradient(90deg, transparent, #00c8ff, #0066ff, transparent)" }} />
+      <div className="mx-auto max-w-7xl px-6 py-14 grid grid-cols-2 md:grid-cols-4 gap-8">
+        {displayStats.map((s: any, i: number) => (
+          <div key={s.label} className="text-center relative">
+            {i < displayStats.length - 1 && (
+              <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 h-12 w-px bg-slate-200" />
+            )}
+            <div className="font-display text-4xl md:text-5xl font-bold mb-2" style={{ background: "linear-gradient(135deg, #00c8ff, #0066ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
               {s.value}
             </div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mt-1">
+            <div className="text-xs font-semibold uppercase tracking-widest text-slate-500">
               {s.label}
             </div>
           </div>
         ))}
       </div>
+      <div className="h-[1px] w-full bg-slate-200" />
     </section>
   );
 }
 
-function Services() {
+function Services({ services }: { services?: any[] }) {
+  const displayServices =
+    services && services.length > 0
+      ? services
+          .filter((s: any) => s.category === "domestic")
+          .map((s) => ({
+            ...s,
+            icon: getDynamicIcon(s.icon),
+          }))
+      : domesticServices;
+
   return (
-    <section id="services" className="py-24">
+    <section id="services" className="py-24" style={{ background: "linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)" }}>
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           tag="Domestic & Commercial"
           title="Climate & appliance solutions, sharper than service-as-usual."
           subtitle="Trained technicians, genuine parts, and verifiable diagnostics for every home and storefront."
+          light
         />
-        <div className="mt-12 grid md:grid-cols-3 gap-6">
-          {domesticServices.map((s) => (
+        <div className="mt-14 grid md:grid-cols-3 gap-7">
+          {displayServices.map((s: any) => (
             <ServiceCard key={s.title} {...s} />
           ))}
         </div>
@@ -431,25 +503,29 @@ function Services() {
   );
 }
 
-function Industrial() {
+function Industrial({ services }: { services?: any[] }) {
+  const displayServices =
+    services && services.length > 0
+      ? services
+          .filter((s: any) => s.category === "industrial")
+          .map((s) => ({
+            ...s,
+            icon: getDynamicIcon(s.icon),
+          }))
+      : industrialServices;
+
   return (
-    <section id="industrial" className="py-24 relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-60"
-        style={{
-          background:
-            "radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--electric) 25%, transparent), transparent 60%)",
-        }}
-      />
+    <section id="industrial" className="py-24 relative overflow-hidden" style={{ background: "linear-gradient(180deg, #0c0c14 0%, #09090f 100%)" }}>
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,102,255,0.12) 0%, transparent 60%)" }} />
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
       <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeader
           tag="Heavy Industrial"
           title="Factory-grade mechanical engineering, on-call."
           subtitle="Karegaon and Ranjangaon manufacturing zones rely on us to keep production lines running."
         />
-        <div className="mt-12 grid md:grid-cols-2 gap-6">
-          {industrialServices.map((s) => (
+        <div className="mt-14 grid md:grid-cols-2 gap-7">
+          {displayServices.map((s: any) => (
             <ServiceCard key={s.title} {...s} large />
           ))}
         </div>
@@ -475,138 +551,133 @@ function ServiceCard({
     <Link
       to="/booking"
       search={{ service: title }}
-      className="group surface-card rounded-2xl hover:border-primary/40 transition relative overflow-hidden flex flex-col h-full"
+      className="group relative overflow-hidden flex flex-col h-full rounded-2xl bg-white transition-all duration-300 hover:-translate-y-2"
+      style={{ border: "1px solid #e2e8f0", boxShadow: "0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06)" }}
     >
       {/* Service Card Thumbnail */}
-      <div className="aspect-video relative overflow-hidden bg-muted border-b border-border/40">
+      <div className="aspect-video relative overflow-hidden" style={{ borderBottom: "1px solid #f1f5f9" }}>
         <img
           src={image}
           alt={title}
-          className="object-cover w-full h-full group-hover:scale-105 transition duration-500"
+          className="object-cover w-full h-full group-hover:scale-110 transition duration-700"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
       </div>
 
       {/* Card Content Body */}
-      <div className={`p-6 ${large ? "md:p-8" : ""} flex-1 flex flex-col justify-between relative`}>
-        <div
-          aria-hidden
-          className="absolute -top-12 -right-12 h-32 w-32 rounded-full opacity-0 group-hover:opacity-100 transition pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(circle, color-mix(in oklab, var(--primary) 35%, transparent), transparent 70%)",
-          }}
-        />
+      <div className={`p-6 ${large ? "md:p-8" : ""} flex-1 flex flex-col justify-between relative overflow-hidden`}>
+        {/* Hover gradient background */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ background: "linear-gradient(135deg, rgba(0,200,255,0.04), rgba(0,102,255,0.06))" }} />
         <div className="relative">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 text-primary mb-5">
-            <Icon className="h-6 w-6" />
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl mb-5" style={{ background: "linear-gradient(135deg, rgba(0,200,255,0.12), rgba(0,102,255,0.12))", border: "1px solid rgba(0,200,255,0.25)" }}>
+            <Icon className="h-6 w-6 text-[#0066ff]" />
           </div>
-          <h3 className="font-display text-xl font-semibold mb-2">{title}</h3>
-          <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+          <h3 className="font-display text-xl font-bold mb-2 text-[#0f172a]">{title}</h3>
+          <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
+        </div>
+        <div className="mt-5 flex items-center gap-1.5 text-xs font-bold text-[#0066ff] opacity-0 group-hover:opacity-100 transition">
+          Book This Service <ArrowRight className="h-3.5 w-3.5" />
         </div>
       </div>
     </Link>
   );
 }
 
-function SectionHeader({
-  tag,
-  title,
-  subtitle,
-}: {
-  tag: string;
-  title: string;
-  subtitle: string;
-}) {
+function SectionHeader({ tag, title, subtitle, light }: { tag: string; title: string; subtitle: string; light?: boolean }) {
   return (
     <div className="max-w-2xl">
-      <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-4">
-        <span className="h-px w-8 bg-primary" />
+      <div className={`inline-flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.2em] mb-5 ${light ? "text-[#0066ff]" : "text-[#00c8ff]"}`}>
+        <span className={`h-px w-10 ${light ? "bg-[#0066ff]" : "bg-[#00c8ff]"}`} />
         {tag}
+        <span className={`h-px w-10 ${light ? "bg-[#0066ff]/40" : "bg-[#00c8ff]/40"}`} />
       </div>
-      <h2 className="font-display text-3xl md:text-4xl font-bold leading-tight">
-        {title}
-      </h2>
-      <p className="mt-4 text-muted-foreground">{subtitle}</p>
+      <h2 className={`font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] ${light ? "text-[#0f172a]" : "text-white"}`}>{title}</h2>
+      <p className={`mt-5 text-base leading-relaxed ${light ? "text-slate-500" : "text-slate-400"}`}>{subtitle}</p>
     </div>
   );
 }
 
-const coverageDetails: Record<string, {
-  status: string;
-  eta: string;
-  services: string[];
-  type: string;
-  load: number;
-}> = {
-  "Wagholi": { 
-    status: "Active Route (High Priority)", 
-    eta: "Under 38 minutes", 
-    services: ["AC Servicing", "Washing Machines", "Display Chillers"], 
-    type: "Mixed Route", 
-    load: 88 
-  },
-  "Lonikand": { 
-    status: "Active Route", 
-    eta: "Under 45 minutes", 
-    services: ["Domestic AC", "Refrigeration", "Electrical Panels"], 
-    type: "Domestic Route", 
-    load: 74 
-  },
-  "Kesnand": { 
-    status: "Active Route", 
-    eta: "Under 50 minutes", 
-    services: ["AC Install & Repair", "Washing Machines"], 
-    type: "Domestic Route", 
-    load: 60 
-  },
-  "Koregaon Bhima": { 
-    status: "Active Corridor (MIDC Adjacent)", 
-    eta: "Under 55 minutes", 
-    services: ["Commercial Refrigeration", "Domestic Appliance", "Heavy Mechanical"], 
-    type: "Mixed Route", 
-    load: 81 
-  },
-  "Shikrapur": { 
-    status: "Active Route (Hub Centre)", 
-    eta: "Under 40 minutes", 
-    services: ["Chillers", "Washing Machines", "Industrial AMCs"], 
-    type: "Mixed Route", 
-    load: 85 
-  },
-  "Karegaon MIDC": { 
-    status: "Embedded Engineering SLA", 
-    eta: "Under 4 hours (Contract SLA)", 
-    services: ["Heavy Machinery", "Cooling Towers", "AMCs"], 
-    type: "Heavy Industrial", 
-    load: 92 
-  },
-  "Ranjangaon MIDC": { 
-    status: "Embedded Engineering SLA", 
-    eta: "Under 4 hours (Contract SLA)", 
-    services: ["Heavy Machinery", "Cooling Towers", "Chillers"], 
-    type: "Heavy Industrial", 
-    load: 90 
-  },
-  "Shirur": { 
-    status: "Active Corridor Terminal", 
-    eta: "Under 60 minutes", 
-    services: ["Appliance Diagnostics", "AC Troubleshooting", "Commercial AMC"], 
-    type: "Mixed Route", 
-    load: 70 
+const coverageDetails: Record<
+  string,
+  {
+    status: string;
+    eta: string;
+    services: string[];
+    type: string;
+    load: number;
   }
+> = {
+  Wagholi: {
+    status: "Active Route (High Priority)",
+    eta: "Under 38 minutes",
+    services: ["AC Servicing", "Washing Machines", "Display Chillers"],
+    type: "Mixed Route",
+    load: 88,
+  },
+  Lonikand: {
+    status: "Active Route",
+    eta: "Under 45 minutes",
+    services: ["Domestic AC", "Refrigeration", "Electrical Panels"],
+    type: "Domestic Route",
+    load: 74,
+  },
+  Kesnand: {
+    status: "Active Route",
+    eta: "Under 50 minutes",
+    services: ["AC Install & Repair", "Washing Machines"],
+    type: "Domestic Route",
+    load: 60,
+  },
+  "Koregaon Bhima": {
+    status: "Active Corridor (MIDC Adjacent)",
+    eta: "Under 55 minutes",
+    services: ["Commercial Refrigeration", "Domestic Appliance", "Heavy Mechanical"],
+    type: "Mixed Route",
+    load: 81,
+  },
+  Shikrapur: {
+    status: "Active Route (Hub Centre)",
+    eta: "Under 40 minutes",
+    services: ["Chillers", "Washing Machines", "Industrial AMCs"],
+    type: "Mixed Route",
+    load: 85,
+  },
+  "Karegaon MIDC": {
+    status: "Embedded Engineering SLA",
+    eta: "Under 4 hours (Contract SLA)",
+    services: ["Heavy Machinery", "Cooling Towers", "AMCs"],
+    type: "Heavy Industrial",
+    load: 92,
+  },
+  "Ranjangaon MIDC": {
+    status: "Embedded Engineering SLA",
+    eta: "Under 4 hours (Contract SLA)",
+    services: ["Heavy Machinery", "Cooling Towers", "Chillers"],
+    type: "Heavy Industrial",
+    load: 90,
+  },
+  Shirur: {
+    status: "Active Corridor Terminal",
+    eta: "Under 60 minutes",
+    services: ["Appliance Diagnostics", "AC Troubleshooting", "Commercial AMC"],
+    type: "Mixed Route",
+    load: 70,
+  },
 };
 
-function Coverage() {
-  const [selectedRegion, setSelectedRegion] = useState("Wagholi");
+function Coverage({ cms }: { cms?: any }) {
+  const displayRegions: string[] = cms?.regions && cms.regions.length > 0 ? cms.regions : regions;
+  const [selectedRegion, setSelectedRegion] = useState(displayRegions[0] || "Wagholi");
   const details = coverageDetails[selectedRegion] || coverageDetails["Wagholi"];
 
   return (
-    <section id="coverage" className="py-24 border-t border-border bg-slate-950/20 relative overflow-hidden">
+    <section
+      id="coverage"
+      className="py-24 border-t border-border bg-slate-950/20 relative overflow-hidden"
+    >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--electric)_5%,transparent),transparent_50%)] pointer-events-none" />
       <div className="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-12 gap-12 items-center">
-        
         {/* Left Column: Interactive Selector */}
         <div className="lg:col-span-6 space-y-6">
           <SectionHeader
@@ -614,7 +685,7 @@ function Coverage() {
             title="Interactive Route Sizer & SLA Coverage Calculator."
             subtitle="Select a dynamic region along our main Wagholi–Shirur corridor to see dispatch telemetry, response times, and available parts."
           />
-          
+
           <div className="relative max-w-sm">
             <label className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground block mb-2">
               Select Site Location
@@ -624,8 +695,10 @@ function Coverage() {
               onChange={(e) => setSelectedRegion(e.target.value)}
               className="block w-full rounded-xl border border-border bg-slate-900/90 px-4 py-3 text-sm text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition cursor-pointer"
             >
-              {regions.map((r) => (
-                <option key={r} value={r} className="bg-slate-900 text-foreground">{r}</option>
+              {displayRegions.map((r) => (
+                <option key={r} value={r} className="bg-slate-900 text-foreground">
+                  {r}
+                </option>
               ))}
             </select>
           </div>
@@ -633,7 +706,7 @@ function Coverage() {
           {/* Location Telemetry Card */}
           <div className="surface-card rounded-2xl p-6 border border-border/80 relative overflow-hidden shadow-xl backdrop-blur-sm">
             <div className="absolute top-0 right-0 h-24 w-24 bg-gradient-to-bl from-primary/10 to-transparent pointer-events-none rounded-tr-2xl" />
-            
+
             <div className="flex items-start justify-between gap-4">
               <div>
                 <div className="text-[10px] font-mono uppercase tracking-wider text-primary">
@@ -677,7 +750,7 @@ function Coverage() {
                 <span className="text-primary font-bold">{details.load}% Optimal Load</span>
               </div>
               <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-gradient-to-r from-primary to-electric transition-all duration-700 rounded-full"
                   style={{ width: `${details.load}%` }}
                 />
@@ -691,7 +764,10 @@ function Coverage() {
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {details.services.map((svc) => (
-                  <span key={svc} className="rounded-md border border-border/60 bg-slate-900/60 px-2.5 py-1 text-xs text-foreground">
+                  <span
+                    key={svc}
+                    className="rounded-md border border-border/60 bg-slate-900/60 px-2.5 py-1 text-xs text-foreground"
+                  >
                     {svc}
                   </span>
                 ))}
@@ -722,30 +798,50 @@ function Coverage() {
 
             <div className="grid sm:grid-cols-2 gap-4 mb-6">
               <div className="bg-slate-950/40 p-4 rounded-xl border border-border/40">
-                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Active Field Units</div>
+                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+                  Active Field Units
+                </div>
                 <div className="text-xl font-bold mt-1 text-foreground flex items-baseline gap-1">
-                  3 Deployed <span className="text-xs font-normal text-muted-foreground font-mono">/ Standby</span>
-                </div>
-              </div>
-              
-              <div className="bg-slate-950/40 p-4 rounded-xl border border-border/40">
-                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Lead Dispatcher</div>
-                <div className="text-xl font-bold mt-1 text-foreground">
-                  S. K. Temgire <span className="text-xs text-primary font-mono font-normal block mt-0.5">Proprietor &amp; Lead</span>
+                  3 Deployed{" "}
+                  <span className="text-xs font-normal text-muted-foreground font-mono">
+                    / Standby
+                  </span>
                 </div>
               </div>
 
               <div className="bg-slate-950/40 p-4 rounded-xl border border-border/40">
-                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Average Arrival SLA</div>
+                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+                  Lead Dispatcher
+                </div>
+                <div className="text-xl font-bold mt-1 text-foreground">
+                  S. K. Temgire{" "}
+                  <span className="text-xs text-primary font-mono font-normal block mt-0.5">
+                    Proprietor &amp; Lead
+                  </span>
+                </div>
+              </div>
+
+              <div className="bg-slate-950/40 p-4 rounded-xl border border-border/40">
+                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+                  Average Arrival SLA
+                </div>
                 <div className="text-xl font-bold mt-1 text-gradient">
-                  42.8 min <span className="text-xs text-muted-foreground font-mono font-normal">Global</span>
+                  42.8 min{" "}
+                  <span className="text-xs text-muted-foreground font-mono font-normal">
+                    Global
+                  </span>
                 </div>
               </div>
 
               <div className="bg-slate-950/40 p-4 rounded-xl border border-border/40">
-                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Workmanship SLA</div>
+                <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+                  Workmanship SLA
+                </div>
                 <div className="text-xl font-bold mt-1 text-foreground">
-                  100% Genuine <span className="text-xs text-primary font-mono font-normal block mt-0.5">OEM parts warranty</span>
+                  100% Genuine{" "}
+                  <span className="text-xs text-primary font-mono font-normal block mt-0.5">
+                    OEM parts warranty
+                  </span>
                 </div>
               </div>
             </div>
@@ -760,16 +856,30 @@ function Coverage() {
                 <span className="text-[9px] text-muted-foreground font-mono">TELEMETRY_ON</span>
               </div>
               <div className="space-y-1.5 text-muted-foreground font-mono leading-relaxed max-h-[120px] overflow-y-auto">
-                <div>[10:14:02] <span className="text-primary font-semibold">SYS_DISPATCH:</span> Connection active on Wagholi corridor.</div>
-                <div>[10:16:45] <span className="text-purple-400 font-semibold">UNIT_01:</span> Compressor diagnostic active at Wagholi.</div>
-                <div>[10:19:12] <span className="text-emerald-400 font-semibold">UNIT_02:</span> Routine preventative AMC check complete at Karegaon.</div>
-                <div>[10:20:00] <span className="text-sky-400 font-semibold">UNIT_03:</span> Standby monitoring active on Shikrapur bypass route.</div>
-                <div>[10:22:15] <span className="text-amber-400 font-semibold">SYS_DISPATCH:</span> Global GPS mapping coordinates handshake complete.</div>
+                <div>
+                  [10:14:02] <span className="text-primary font-semibold">SYS_DISPATCH:</span>{" "}
+                  Connection active on Wagholi corridor.
+                </div>
+                <div>
+                  [10:16:45] <span className="text-purple-400 font-semibold">UNIT_01:</span>{" "}
+                  Compressor diagnostic active at Wagholi.
+                </div>
+                <div>
+                  [10:19:12] <span className="text-emerald-400 font-semibold">UNIT_02:</span>{" "}
+                  Routine preventative AMC check complete at Karegaon.
+                </div>
+                <div>
+                  [10:20:00] <span className="text-sky-400 font-semibold">UNIT_03:</span> Standby
+                  monitoring active on Shikrapur bypass route.
+                </div>
+                <div>
+                  [10:22:15] <span className="text-amber-400 font-semibold">SYS_DISPATCH:</span>{" "}
+                  Global GPS mapping coordinates handshake complete.
+                </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );
@@ -793,8 +903,8 @@ function Contact({ cms }: { cms: any }) {
                 Need service <span className="text-gradient">today?</span>
               </h2>
               <p className="mt-4 text-muted-foreground">
-                Get in touch directly. Domestic, commercial, or industrial — we'll dispatch
-                the right technician along the Wagholi–Shirur route.
+                Get in touch directly. Domestic, commercial, or industrial — we'll dispatch the
+                right technician along the Wagholi–Shirur route.
               </p>
               <div className="mt-8 space-y-3">
                 <a
@@ -809,7 +919,7 @@ function Contact({ cms }: { cms: any }) {
                     <div className="font-display font-semibold">{phone}</div>
                   </div>
                 </a>
-                
+
                 {email && (
                   <a
                     href={`mailto:${email}`}
@@ -828,7 +938,9 @@ function Contact({ cms }: { cms: any }) {
             </div>
 
             <div className="surface-card rounded-2xl p-6">
-              <div className="text-xs uppercase tracking-wider text-muted-foreground">Proprietor</div>
+              <div className="text-xs uppercase tracking-wider text-muted-foreground">
+                Proprietor
+              </div>
               <div className="font-display text-2xl font-bold mt-1">Saurav Kailas Temgire</div>
 
               <div className="mt-6 grid grid-cols-2 gap-4 text-sm">
@@ -852,15 +964,7 @@ function Contact({ cms }: { cms: any }) {
   );
 }
 
-function Info({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: typeof Wrench;
-  label: string;
-  value: string;
-}) {
+function Info({ icon: Icon, label, value }: { icon: typeof Wrench; label: string; value: string }) {
   return (
     <div>
       <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -869,66 +973,6 @@ function Info({
       </div>
       <div className="mt-0.5 font-medium">{value}</div>
     </div>
-  );
-}
-
-function Footer({ cms }: { cms: any }) {
-  const socials = cms?.socials || {};
-
-  return (
-    <footer className="border-t border-border py-12 bg-card/10">
-      <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-muted-foreground">
-        <div className="flex flex-col items-center md:items-start gap-2">
-          <div className="flex items-center gap-2">
-            <img src={logo} alt="Prime Cool logo" className="h-6 w-6" loading="lazy" />
-            <span className="font-semibold text-foreground">Prime Cool</span>
-            <span>— Saurav Kailas Temgire</span>
-          </div>
-          <div className="text-xs text-muted-foreground/60">
-            Pune · Wagholi–Shirur Corridor · Karegaon · Ranjangaon
-          </div>
-        </div>
-
-        {/* Social Links Row */}
-        <div className="flex items-center gap-4">
-          {socials.facebook && (
-            <a href={socials.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200" title="Facebook">
-              <Facebook className="h-5 w-5" />
-            </a>
-          )}
-          {socials.instagram && (
-            <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200" title="Instagram">
-              <Instagram className="h-5 w-5" />
-            </a>
-          )}
-          {socials.linkedin && (
-            <a href={socials.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200" title="LinkedIn">
-              <Linkedin className="h-5 w-5" />
-            </a>
-          )}
-          {socials.youtube && (
-            <a href={socials.youtube} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200" title="YouTube">
-              <Youtube className="h-5 w-5" />
-            </a>
-          )}
-          {socials.twitter && (
-            <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200" title="Twitter / X">
-              <Twitter className="h-5 w-5" />
-            </a>
-          )}
-        </div>
-
-        <div className="flex items-center gap-4 text-xs">
-          {socials.email && (
-            <>
-              <a href={`mailto:${socials.email}`} className="hover:text-foreground transition underline">{socials.email}</a>
-              <span className="text-border">|</span>
-            </>
-          )}
-          <Link to="/admin" className="hover:text-foreground transition underline">Admin Panel</Link>
-        </div>
-      </div>
-    </footer>
   );
 }
 
@@ -1001,7 +1045,53 @@ const amcTiers = [
   },
 ];
 
-function Catalog() {
+function Catalog({ amcTiers }: { amcTiers?: any[] }) {
+  const displayTiers =
+    amcTiers && amcTiers.length > 0
+      ? amcTiers.map((t) => ({
+          ...t,
+          icon: getDynamicIcon(t.icon),
+        }))
+      : [
+          {
+            name: "Basic Home Care",
+            audience: "Apartments & residences",
+            price: "Starter",
+            icon: Snowflake,
+            points: [
+              "2 scheduled AC / appliance visits per year",
+              "Jet cleaning + gas pressure check",
+              "Priority booking on the Wagholi–Shirur route",
+              "10% off genuine spare parts",
+            ],
+          },
+          {
+            name: "Commercial Routine",
+            audience: "Shops, clinics, offices",
+            price: "Most chosen",
+            icon: ShieldCheck,
+            points: [
+              "Quarterly preventative servicing",
+              "Display chiller & deep-freezer temperature audit",
+              "Sub-24h response window",
+              "Logged diagnostics report after every visit",
+            ],
+            featured: true,
+          },
+          {
+            name: "Industrial Zero-Downtime",
+            audience: "MIDC plants & factories",
+            price: "Enterprise",
+            icon: Factory,
+            points: [
+              "Monthly on-site engineer rounds",
+              "Cooling tower, valve & gauge calibration",
+              "Emergency dispatch SLA — under 4 hours",
+              "Spare capacitors & refrigerant pre-staged on site",
+            ],
+          },
+        ];
+
   return (
     <section id="catalog" className="py-24 border-t border-border">
       <div className="mx-auto max-w-7xl px-6">
@@ -1053,11 +1143,12 @@ function Catalog() {
               Annual Maintenance Contracts
             </h3>
             <p className="text-sm text-muted-foreground max-w-md">
-              Three tiers, engineered for the scale you operate at — from a single split AC to a full MIDC production line.
+              Three tiers, engineered for the scale you operate at — from a single split AC to a
+              full MIDC production line.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            {amcTiers.map((t) => (
+            {displayTiers.map((t: any) => (
               <div
                 key={t.name}
                 className={`surface-card rounded-2xl p-7 relative ${
@@ -1079,7 +1170,7 @@ function Catalog() {
                   </div>
                 </div>
                 <ul className="space-y-2.5 text-sm">
-                  {t.points.map((p) => (
+                  {t.points.map((p: any) => (
                     <li key={p} className="flex gap-2.5 text-muted-foreground">
                       <ShieldCheck className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                       <span>{p}</span>
@@ -1144,7 +1235,10 @@ const defaultProjects = [
 
 const getProjectImage = (p: any, index: number) => {
   if (p.image) return p.image;
-  if (p.title?.toLowerCase().includes("freezer") || p.title?.toLowerCase().includes("refrigeration")) {
+  if (
+    p.title?.toLowerCase().includes("freezer") ||
+    p.title?.toLowerCase().includes("refrigeration")
+  ) {
     return projectFreezer;
   }
   if (p.title?.toLowerCase().includes("tower") || p.title?.toLowerCase().includes("chiller")) {
@@ -1158,7 +1252,8 @@ const getProjectImage = (p: any, index: number) => {
 };
 
 function Portfolio({ projects }: { projects: any[] }) {
-  const displayProjects = (projects && projects.length > 0) ? projects.slice(0, 3) : defaultProjects;
+  const displayProjects = projects && projects.length > 0 ? projects.slice(0, 3) : defaultProjects;
+  const [selectedProject, setSelectedProject] = useState<any | null>(null);
 
   return (
     <section id="portfolio" className="py-24 relative">
@@ -1171,10 +1266,13 @@ function Portfolio({ projects }: { projects: any[] }) {
         <div className="mt-12 grid lg:grid-cols-3 gap-6">
           {displayProjects.map((p, idx) => {
             const img = getProjectImage(p, idx);
+            // Re-map index image to project object for the modal
+            const projectWithImg = { ...p, image: img };
             return (
               <article
                 key={p.title}
-                className="surface-card rounded-2xl overflow-hidden hover:border-primary/40 transition flex flex-col group"
+                onClick={() => setSelectedProject(projectWithImg)}
+                className="surface-card rounded-2xl overflow-hidden hover:border-primary/40 transition flex flex-col group cursor-pointer hover:scale-[1.01] duration-300"
               >
                 <div className="aspect-video relative overflow-hidden bg-muted">
                   <img
@@ -1185,24 +1283,33 @@ function Portfolio({ projects }: { projects: any[] }) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute top-4 left-4 inline-flex items-center rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md px-2.5 py-0.5 text-[10px] text-primary font-semibold font-mono uppercase">
-                    {p.location.split('·')[1]?.trim() || "PROJECT"}
+                    {p.location.split("·")[1]?.trim() || "PROJECT"}
                   </div>
                 </div>
-                
+
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div className="space-y-2">
-                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold block">{p.location.split('·')[0]?.trim()}</span>
-                    <h3 className="font-display text-lg font-bold text-foreground group-hover:text-primary transition">{p.title}</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{p.summary}</p>
+                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold block">
+                      {p.location.split("·")[0]?.trim()}
+                    </span>
+                    <h3 className="font-display text-lg font-bold text-foreground group-hover:text-primary transition">
+                      {p.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
+                      {p.summary}
+                    </p>
                   </div>
-                  
+
                   <div className="mt-6 grid grid-cols-3 gap-2 pt-4 border-t border-border/40 text-center">
                     {p.metrics?.map((m: any) => (
                       <div key={m.label}>
                         <div className="font-display text-sm font-bold text-gradient">
                           {m.value}
                         </div>
-                        <div className="text-[9px] uppercase tracking-wider text-muted-foreground mt-0.5 truncate" title={m.label}>
+                        <div
+                          className="text-[9px] uppercase tracking-wider text-muted-foreground mt-0.5 truncate"
+                          title={m.label}
+                        >
                           {m.label}
                         </div>
                       </div>
@@ -1223,6 +1330,101 @@ function Portfolio({ projects }: { projects: any[] }) {
           </Link>
         </div>
       </div>
+
+      {/* Case Study Detail Modal Overlay */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <div className="bg-slate-900 border border-border/80 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 space-y-6 relative shadow-2xl animate-in fade-in zoom-in duration-200 text-left">
+            <button
+              onClick={() => setSelectedProject(null)}
+              className="absolute top-4 right-4 text-muted-foreground hover:text-white p-1 rounded-full border border-border bg-slate-950/40 transition h-8 w-8 flex items-center justify-center text-lg font-bold"
+              aria-label="Close dialog"
+            >
+              ×
+            </button>
+
+            {selectedProject.image && (
+              <div className="aspect-video w-full rounded-xl overflow-hidden border border-border/40 bg-slate-950">
+                <img
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary/20 border border-primary/30 px-3 py-1 text-xs text-primary font-semibold font-mono uppercase">
+                <MapPin className="h-3.5 w-3.5" />
+                <span>{selectedProject.location}</span>
+              </span>
+              {selectedProject.category && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-slate-800 border border-border px-3 py-1 text-xs text-muted-foreground font-semibold font-mono uppercase">
+                  <span>{selectedProject.category}</span>
+                </span>
+              )}
+            </div>
+
+            <h3 className="font-display text-xl md:text-2xl font-bold text-white leading-tight">
+              {selectedProject.title}
+            </h3>
+
+            <div className="space-y-4">
+              <p className="text-xs md:text-sm text-foreground leading-relaxed font-semibold">
+                {selectedProject.summary}
+              </p>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {selectedProject.description ||
+                  "This project represents one of our custom field operations along the Pune industrial corridors. Prime Cool handles full diagnostics, sourcing of original components, and certification. Contact us for custom mechanical setups."}
+              </p>
+            </div>
+
+            {selectedProject.metrics && selectedProject.metrics.length > 0 && (
+              <div className="pt-4 border-t border-border/40">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground block mb-3">
+                  Key Performance Metrics
+                </span>
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  {selectedProject.metrics.map((m: any) => (
+                    <div
+                      key={m.label}
+                      className="bg-slate-950/40 p-3 rounded-xl border border-border/20"
+                    >
+                      <div className="font-display text-sm md:text-base font-bold text-gradient">
+                        {m.value}
+                      </div>
+                      <div
+                        className="text-[8px] md:text-[9px] uppercase tracking-wider text-muted-foreground mt-0.5 truncate"
+                        title={m.label}
+                      >
+                        {m.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="pt-4 border-t border-border/40 flex justify-end gap-3">
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="px-5 py-2.5 text-xs font-semibold rounded-full border border-border hover:bg-slate-800 transition"
+              >
+                Close Details
+              </button>
+              <Link
+                to="/booking"
+                search={{}}
+                onClick={() => setSelectedProject(null)}
+                className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-xs font-semibold hover:opacity-90 transition glow-ring cursor-pointer"
+              >
+                <Lucide.Calendar className="h-4 w-4" />
+                <span>Inquire About This Service</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
@@ -1265,37 +1467,39 @@ const trustSignals = [
 
 function Testimonials() {
   return (
-    <section className="py-24 border-t border-border bg-card/20">
+    <section className="py-24 relative overflow-hidden" style={{ background: "linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)" }}>
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           tag="Trust & Reviews"
           title="What homeowners and plant managers say."
           subtitle="Verified feedback from clients across our domestic and industrial routes."
+          light
         />
 
-        <div className="mt-12 grid md:grid-cols-2 gap-6">
-          {testimonials.map((t) => (
-            <figure key={t.name} className="surface-card rounded-2xl p-7">
-              <blockquote className="text-foreground leading-relaxed">
-                <span className="text-primary text-3xl font-display leading-none mr-1">“</span>
+        <div className="mt-14 grid md:grid-cols-2 gap-6">
+          {testimonials.map((t, i) => (
+            <figure key={t.name} className="rounded-2xl p-7 relative overflow-hidden" style={{ background: "#ffffff", border: "1px solid #e2e8f0", boxShadow: "0 4px 12px rgba(0,0,0,0.06), 0 16px 40px rgba(0,0,0,0.05)" }}>
+              <div className="absolute top-0 left-0 right-0 h-1" style={{ background: i % 2 === 0 ? "linear-gradient(90deg, #00c8ff, #0066ff)" : "linear-gradient(90deg, #0066ff, #8b5cf6)" }} />
+              <blockquote className="text-slate-700 leading-relaxed text-sm">
+                <span className="text-4xl font-display leading-none mr-1" style={{ background: "linear-gradient(135deg, #00c8ff, #0066ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>“</span>
                 {t.quote}
               </blockquote>
-              <figcaption className="mt-5 pt-5 border-t border-border">
-                <div className="font-semibold">{t.name}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{t.role}</div>
+              <figcaption className="mt-5 pt-5" style={{ borderTop: "1px solid #f1f5f9" }}>
+                <div className="font-bold text-[#0f172a]">{t.name}</div>
+                <div className="text-xs text-slate-400 mt-0.5">{t.role}</div>
               </figcaption>
             </figure>
           ))}
         </div>
 
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3">
+        {/* Trust signals */}
+        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
           {trustSignals.map((s) => (
-            <div
-              key={s.label}
-              className="surface-card rounded-xl p-4 flex items-center gap-3"
-            >
-              <s.icon className="h-5 w-5 text-primary shrink-0" />
-              <span className="text-sm font-medium">{s.label}</span>
+            <div key={s.label} className="rounded-xl p-4 flex items-center gap-3" style={{ background: "#ffffff", border: "1px solid #e2e8f0" }}>
+              <div className="h-9 w-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, rgba(0,200,255,0.1), rgba(0,102,255,0.1))", border: "1px solid rgba(0,102,255,0.15)" }}>
+                <s.icon className="h-4.5 w-4.5 text-[#0066ff]" />
+              </div>
+              <span className="text-sm font-semibold text-[#0f172a]">{s.label}</span>
             </div>
           ))}
         </div>
@@ -1308,7 +1512,7 @@ function Testimonials() {
 
 function About() {
   return (
-    <section id="about" className="py-24">
+    <section id="about" className="py-24" style={{ background: "linear-gradient(180deg, #09090f 0%, #0c0c14 100%)" }}>
       <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-5 gap-12 items-center">
         <div className="lg:col-span-3">
           <SectionHeader
@@ -1316,28 +1520,32 @@ function About() {
             title="Founded on mechanical precision. Run by engineers who answer the phone."
             subtitle="Prime Cool was built to close the gap between fly-by-night appliance repair and slow corporate service contracts."
           />
-          <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
+          <div className="mt-8 space-y-4 text-slate-400 leading-relaxed">
             <p>
-              Led by proprietor <span className="text-foreground font-semibold">Saurav Kailas Temgire</span>,
-              the team operates a dedicated rapid-response route through Wagholi, Lonikand, Shikrapur and Shirur,
-              with embedded engineers serving the Karegaon and Ranjangaon manufacturing zones.
+              Led by proprietor{" "}
+              <span className="text-white font-semibold">Saurav Kailas Temgire</span>, the team
+              operates a dedicated rapid-response route through Wagholi, Lonikand, Shikrapur and
+              Shirur, with embedded engineers serving the Karegaon and Ranjangaon manufacturing
+              zones.
             </p>
             <p>
-              From a single split AC in a Wagholi flat to a 350 TR cooling tower inside an MIDC plant,
-              every job is approached the same way — verified diagnostics, genuine parts, logged outcomes.
-              No improvisation. No shortcuts.
+              From a single split AC in a Wagholi flat to a 350 TR cooling tower inside an MIDC
+              plant, every job is approached the same way — verified diagnostics, genuine parts,
+              logged outcomes. No improvisation. No shortcuts.
             </p>
           </div>
         </div>
 
-        <div className="lg:col-span-2 surface-card rounded-3xl p-8">
+        <div className="lg:col-span-2 rounded-3xl p-8 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #111118, #161622)", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}>
+          {/* Gradient corner */}
+          <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full opacity-30 pointer-events-none" style={{ background: "radial-gradient(circle, #00c8ff, transparent 70%)" }} />
           <div className="flex items-center gap-4">
-            <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-display font-bold text-lg">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl font-display font-bold text-lg text-white" style={{ background: "linear-gradient(135deg, #00c8ff, #0066ff)", boxShadow: "0 4px 15px rgba(0,200,255,0.4)" }}>
               SKT
-            </span>
+            </div>
             <div>
-              <div className="font-display text-lg font-bold">Saurav Kailas Temgire</div>
-              <div className="text-xs text-muted-foreground">Proprietor & Lead Engineer</div>
+              <div className="font-display text-lg font-bold text-white">Saurav Kailas Temgire</div>
+              <div className="text-xs text-slate-400">Proprietor & Lead Engineer</div>
             </div>
           </div>
           <div className="mt-6 space-y-3 text-sm">
@@ -1346,8 +1554,10 @@ function About() {
               "Direct accountability — calls answered by the proprietor, not a call centre",
               "Field team trained on OEM service protocols",
             ].map((p) => (
-              <div key={p} className="flex gap-3 text-muted-foreground">
-                <ShieldCheck className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+              <div key={p} className="flex gap-3 text-slate-400">
+                <div className="h-5 w-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: "rgba(0,200,255,0.15)", border: "1px solid rgba(0,200,255,0.3)" }}>
+                  <ShieldCheck className="h-3 w-3 text-[#00c8ff]" />
+                </div>
                 <span>{p}</span>
               </div>
             ))}
@@ -1362,26 +1572,25 @@ function About() {
 
 function Faq({ faqs }: { faqs: any[] }) {
   return (
-    <section className="py-24 border-t border-border">
-      <div className="mx-auto max-w-4xl px-6">
+    <section className="py-24" style={{ background: "linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)" }}>
+      <div className="h-[1px] w-full mb-0" style={{ background: "linear-gradient(90deg, transparent, #e2e8f0, transparent)" }} />
+      <div className="mx-auto max-w-4xl px-6 pt-24">
         <SectionHeader
           tag="FAQ"
           title="Frequently asked questions."
           subtitle="Straight answers about response times, AMCs, coverage and warranties."
+          light
         />
-        <div className="mt-10 space-y-3">
+        <div className="mt-12 space-y-3">
           {faqs.map((f) => (
-            <details
-              key={f.id || f.q}
-              className="surface-card rounded-xl p-5 group"
-            >
-              <summary className="flex items-center justify-between cursor-pointer list-none font-display font-semibold">
-                <span>{f.q}</span>
-                <span className="ml-4 inline-flex h-7 w-7 items-center justify-center rounded-full border border-border text-primary group-open:rotate-45 transition">
+            <details key={f.id || f.q} className="group rounded-2xl overflow-hidden" style={{ border: "1px solid #e2e8f0", background: "#ffffff" }}>
+              <summary className="flex items-center justify-between cursor-pointer list-none font-display font-semibold p-5 text-[#0f172a]">
+                <span className="pr-4">{f.q}</span>
+                <span className="ml-4 inline-flex h-8 w-8 items-center justify-center rounded-full shrink-0 group-open:rotate-45 transition-transform" style={{ background: "linear-gradient(135deg, rgba(0,200,255,0.12), rgba(0,102,255,0.12))", border: "1px solid rgba(0,102,255,0.2)", color: "#0066ff" }}>
                   +
                 </span>
               </summary>
-              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{f.a}</p>
+              <p className="px-5 pb-5 text-sm text-slate-500 leading-relaxed" style={{ borderTop: "1px solid #f1f5f9" }}>{f.a}</p>
             </details>
           ))}
         </div>
@@ -1395,7 +1604,10 @@ function BlogsPreview({ blogs }: { blogs: any[] }) {
   if (displayBlogs.length === 0) return null;
 
   return (
-    <section id="blogs-preview" className="py-24 border-t border-border bg-slate-950/10 relative overflow-hidden">
+    <section
+      id="blogs-preview"
+      className="py-24 border-t border-border bg-slate-950/10 relative overflow-hidden"
+    >
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-12">
           <SectionHeader
@@ -1452,6 +1664,105 @@ function BlogsPreview({ blogs }: { blogs: any[] }) {
                 </div>
               </div>
             </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ SERVICE PROCESS ------------------------------ */
+
+function ServiceProcess() {
+  const steps = [
+    { id: "01", title: "Request Lodged", desc: "Register your AC or cold room service online or dial our helpline to start ticket." },
+    { id: "02", title: "Tech Dispatched", desc: "A fully equipped technician travels to your location, tracked in real-time." },
+    { id: "03", title: "Precision Diagnostics", desc: "Manifold pressure checks, line thermistor analysis, electrical load mapping." },
+    { id: "04", title: "Digital Sign-off", desc: "Work completion verified, signed on the tech portal, and receipt downloaded." },
+  ];
+
+  return (
+    <section id="service-process" className="py-24 relative overflow-hidden" style={{ background: "linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)" }}>
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          tag="Work Ethic"
+          title="Our Structured Service Process"
+          subtitle="Precision mechanical diagnostics backed by logged outcomes, with no shortcuts."
+          light
+        />
+
+        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+          {/* Connector line */}
+          <div className="absolute top-[28px] left-[60px] right-[60px] h-[2px] hidden lg:block" style={{ background: "linear-gradient(90deg, #00c8ff40, #0066ff40, #00c8ff40)" }} />
+
+          {steps.map((st, i) => (
+            <div
+              key={st.id}
+              className="relative rounded-2xl p-6 flex flex-col justify-between h-full group transition-all duration-300 hover:-translate-y-2"
+              style={{ background: "#ffffff", border: "1px solid #e2e8f0", boxShadow: "0 2px 8px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.05)", animationDelay: `${i * 100}ms` }}
+            >
+              <div className="flex justify-between items-center mb-5">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl font-mono font-bold text-sm text-white relative z-10" style={{ background: "linear-gradient(135deg, #00c8ff, #0066ff)", boxShadow: "0 4px 12px rgba(0,200,255,0.4)" }}>
+                  {st.id}
+                </div>
+                <span className="text-[10px] text-slate-400 uppercase font-mono tracking-widest">Step {st.id}</span>
+              </div>
+              <div className="space-y-2">
+                <h3 className="font-display font-bold text-[#0f172a] group-hover:text-[#0066ff] transition">{st.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{st.desc}</p>
+              </div>
+              {/* Bottom accent */}
+              <div className="mt-5 h-0.5 w-0 group-hover:w-full transition-all duration-500 rounded-full" style={{ background: "linear-gradient(90deg, #00c8ff, #0066ff)" }} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ CERTIFICATIONS ------------------------------ */
+
+function Certifications() {
+  const certs = [
+    { title: "ITI Certified HVAC/R Engineers", desc: "Our technicians hold professional certifications in Industrial Refrigeration and Air Conditioning systems." },
+    { title: "MSME Registered Mechanical Firm", desc: "Prime Cool is a registered Micro-enterprise, ensuring compliant tax invoices and commercial contracts." },
+    { title: "Eco Safe Gas Recovery Compliant", desc: "We follow local environmental guidelines, capturing ozone-depleting HCFCs rather than venting." },
+    { title: "Zero-Downtime Industrial SLA", desc: "Specially audited to execute factory support logs under stringent industrial timelines." },
+  ];
+
+  const gradients = [
+    "linear-gradient(135deg, #00c8ff, #0066ff)",
+    "linear-gradient(135deg, #0066ff, #8b5cf6)",
+    "linear-gradient(135deg, #8b5cf6, #00c8ff)",
+    "linear-gradient(135deg, #00c8ff, #0066ff)",
+  ];
+
+  return (
+    <section id="certifications" className="py-24 relative overflow-hidden" style={{ background: "linear-gradient(180deg, #0c0c14 0%, #09090f 100%)" }}>
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 100%, rgba(0,200,255,0.06) 0%, transparent 70%)" }} />
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          tag="Trust & Standards"
+          title="Our Professional Certifications"
+          subtitle="Certified mechanical expertise to keep commercial factories and residential coolers running safely."
+        />
+
+        <div className="mt-14 grid sm:grid-cols-2 gap-6">
+          {certs.map((c, idx) => (
+            <div
+              key={idx}
+              className="p-6 rounded-2xl flex gap-5 items-start group transition-all duration-300 hover:-translate-y-1"
+              style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))", border: "1px solid rgba(255,255,255,0.07)", boxShadow: "0 4px 20px rgba(0,0,0,0.3)" }}
+            >
+              <div className="h-11 w-11 rounded-xl flex items-center justify-center shrink-0 mt-0.5" style={{ background: gradients[idx], boxShadow: "0 4px 15px rgba(0,200,255,0.3)" }}>
+                <Award className="h-5 w-5 text-white" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="font-display font-bold text-white">{c.title}</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">{c.desc}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>

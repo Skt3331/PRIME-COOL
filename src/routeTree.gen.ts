@@ -11,59 +11,84 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as GlossaryRouteImport } from './routes/glossary'
+import { Route as EmergencyRouteImport } from './routes/emergency'
 import { Route as BookingRouteImport } from './routes/booking'
 import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as ToolsVoltageDropRouteImport } from './routes/tools/voltage-drop'
 import { Route as ToolsVacuumConvertRouteImport } from './routes/tools/vacuum-convert'
 import { Route as ToolsTonnageCalculatorRouteImport } from './routes/tools/tonnage-calculator'
 import { Route as ToolsTempConvertRouteImport } from './routes/tools/temp-convert'
 import { Route as ToolsSuperheatCalculatorRouteImport } from './routes/tools/superheat-calculator'
 import { Route as ToolsSubcoolingCalculatorRouteImport } from './routes/tools/subcooling-calculator'
+import { Route as ToolsSeerEerCopRouteImport } from './routes/tools/seer-eer-cop'
 import { Route as ToolsPtCalculatorRouteImport } from './routes/tools/pt-calculator'
 import { Route as ToolsPsychrometricRouteImport } from './routes/tools/psychrometric'
 import { Route as ToolsPressureTempRouteImport } from './routes/tools/pressure-temp'
 import { Route as ToolsPipeSizingRouteImport } from './routes/tools/pipe-sizing'
 import { Route as ToolsEnergyCalculatorRouteImport } from './routes/tools/energy-calculator'
+import { Route as ToolsElectricityCostRouteImport } from './routes/tools/electricity-cost'
 import { Route as ToolsDuctCalculatorRouteImport } from './routes/tools/duct-calculator'
 import { Route as ToolsCopEerRouteImport } from './routes/tools/cop-eer'
+import { Route as ToolsCoolingTowerApproachRouteImport } from './routes/tools/cooling-tower-approach'
 import { Route as ToolsCoolingLoadRouteImport } from './routes/tools/cooling-load'
 import { Route as ToolsCompressorCapacityRouteImport } from './routes/tools/compressor-capacity'
 import { Route as ToolsChargeCalculatorRouteImport } from './routes/tools/charge-calculator'
 import { Route as ToolsCfmCalculatorRouteImport } from './routes/tools/cfm-calculator'
 import { Route as ToolsBtuCalculatorRouteImport } from './routes/tools/btu-calculator'
+import { Route as ToolsAirVelocityRouteImport } from './routes/tools/air-velocity'
+import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
 import { Route as RefrigerantsR410aRouteImport } from './routes/refrigerants/r410a'
 import { Route as RefrigerantsR407cRouteImport } from './routes/refrigerants/r407c'
 import { Route as RefrigerantsR404aRouteImport } from './routes/refrigerants/r404a'
 import { Route as RefrigerantsR32RouteImport } from './routes/refrigerants/r32'
 import { Route as RefrigerantsR134aRouteImport } from './routes/refrigerants/r134a'
+import { Route as RefrigerantsSlugRouteImport } from './routes/refrigerants/$slug'
+import { Route as PortalTechnicianRouteImport } from './routes/portal/technician'
+import { Route as PortalCustomerRouteImport } from './routes/portal/customer'
+import { Route as LocationsSlugRouteImport } from './routes/locations/$slug'
 import { Route as InteractiveWizardRouteImport } from './routes/interactive/wizard'
 import { Route as InteractiveSelectorRouteImport } from './routes/interactive/selector'
 import { Route as InteractiveRoiRouteImport } from './routes/interactive/roi'
 import { Route as InteractiveQuizRouteImport } from './routes/interactive/quiz'
 import { Route as InteractiveCostEstimatorRouteImport } from './routes/interactive/cost-estimator'
 import { Route as InteractiveChecklistRouteImport } from './routes/interactive/checklist'
+import { Route as IndustrialTopicRouteImport } from './routes/industrial/$topic'
 import { Route as GuidesWalkInWarmRouteImport } from './routes/guides/walk-in-warm'
 import { Route as GuidesShortCyclingRouteImport } from './routes/guides/short-cycling'
+import { Route as GuidesRefrigeratorNotCoolingRouteImport } from './routes/guides/refrigerator-not-cooling'
+import { Route as GuidesRefrigeratorErrorCodesRouteImport } from './routes/guides/refrigerator-error-codes'
+import { Route as GuidesRefrigerantPressuresChartRouteImport } from './routes/guides/refrigerant-pressures-chart'
 import { Route as GuidesLowSuctionRouteImport } from './routes/guides/low-suction'
 import { Route as GuidesLeakSymptomsRouteImport } from './routes/guides/leak-symptoms'
+import { Route as GuidesHvacDesignGuideRouteImport } from './routes/guides/hvac-design-guide'
 import { Route as GuidesHowToSuperheatRouteImport } from './routes/guides/how-to-superheat'
 import { Route as GuidesHowToSubcoolingRouteImport } from './routes/guides/how-to-subcooling'
 import { Route as GuidesHighHeadRouteImport } from './routes/guides/high-head'
 import { Route as GuidesCoilFreezingRouteImport } from './routes/guides/coil-freezing'
+import { Route as GuidesBrandComparisonsRouteImport } from './routes/guides/brand-comparisons'
 import { Route as GuidesAcNotCoolingRouteImport } from './routes/guides/ac-not-cooling'
+import { Route as GuidesAcLeaksGasChargingRouteImport } from './routes/guides/ac-leaks-gas-charging'
+import { Route as GuidesAcGasChargingRouteImport } from './routes/guides/ac-gas-charging'
 import { Route as FormulasRefrigerationRouteImport } from './routes/formulas/refrigeration'
 import { Route as FormulasHvacRouteImport } from './routes/formulas/hvac'
 import { Route as CitiesPuneRouteImport } from './routes/cities/pune'
 import { Route as CitiesNashikRouteImport } from './routes/cities/nashik'
 import { Route as CitiesMumbaiRouteImport } from './routes/cities/mumbai'
+import { Route as CitiesSlugRouteImport } from './routes/cities/$slug'
+import { Route as BrandsSlugRouteImport } from './routes/brands/$slug'
 import { Route as BlogsSlugRouteImport } from './routes/blogs_.$slug'
 import { Route as AdminPortfolioRouteImport } from './routes/admin/portfolio'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminCmsRouteImport } from './routes/admin/cms'
 import { Route as AdminBlogsRouteImport } from './routes/admin/blogs'
+import { Route as ServicesServiceSlugLocationSlugRouteImport } from './routes/services/$serviceSlug.$locationSlug'
+import { Route as CitiesCitySlugServiceSlugRouteImport } from './routes/cities/$citySlug/$serviceSlug'
+import { Route as BrandsCompareComparisonSlugRouteImport } from './routes/brands/compare.$comparisonSlug'
+import { Route as BrandsSlugApplianceRouteImport } from './routes/brands/$slug.$appliance'
 
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
@@ -73,6 +98,11 @@ const PortfolioRoute = PortfolioRouteImport.update({
 const GlossaryRoute = GlossaryRouteImport.update({
   id: '/glossary',
   path: '/glossary',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmergencyRoute = EmergencyRouteImport.update({
+  id: '/emergency',
+  path: '/emergency',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookingRoute = BookingRouteImport.update({
@@ -105,6 +135,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const ToolsVoltageDropRoute = ToolsVoltageDropRouteImport.update({
+  id: '/tools/voltage-drop',
+  path: '/tools/voltage-drop',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsVacuumConvertRoute = ToolsVacuumConvertRouteImport.update({
   id: '/tools/vacuum-convert',
   path: '/tools/vacuum-convert',
@@ -132,6 +167,11 @@ const ToolsSubcoolingCalculatorRoute =
     path: '/tools/subcooling-calculator',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ToolsSeerEerCopRoute = ToolsSeerEerCopRouteImport.update({
+  id: '/tools/seer-eer-cop',
+  path: '/tools/seer-eer-cop',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsPtCalculatorRoute = ToolsPtCalculatorRouteImport.update({
   id: '/tools/pt-calculator',
   path: '/tools/pt-calculator',
@@ -157,6 +197,11 @@ const ToolsEnergyCalculatorRoute = ToolsEnergyCalculatorRouteImport.update({
   path: '/tools/energy-calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsElectricityCostRoute = ToolsElectricityCostRouteImport.update({
+  id: '/tools/electricity-cost',
+  path: '/tools/electricity-cost',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsDuctCalculatorRoute = ToolsDuctCalculatorRouteImport.update({
   id: '/tools/duct-calculator',
   path: '/tools/duct-calculator',
@@ -167,6 +212,12 @@ const ToolsCopEerRoute = ToolsCopEerRouteImport.update({
   path: '/tools/cop-eer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsCoolingTowerApproachRoute =
+  ToolsCoolingTowerApproachRouteImport.update({
+    id: '/tools/cooling-tower-approach',
+    path: '/tools/cooling-tower-approach',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ToolsCoolingLoadRoute = ToolsCoolingLoadRouteImport.update({
   id: '/tools/cooling-load',
   path: '/tools/cooling-load',
@@ -192,6 +243,16 @@ const ToolsBtuCalculatorRoute = ToolsBtuCalculatorRouteImport.update({
   path: '/tools/btu-calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsAirVelocityRoute = ToolsAirVelocityRouteImport.update({
+  id: '/tools/air-velocity',
+  path: '/tools/air-velocity',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RefrigerantsR410aRoute = RefrigerantsR410aRouteImport.update({
   id: '/refrigerants/r410a',
   path: '/refrigerants/r410a',
@@ -215,6 +276,26 @@ const RefrigerantsR32Route = RefrigerantsR32RouteImport.update({
 const RefrigerantsR134aRoute = RefrigerantsR134aRouteImport.update({
   id: '/refrigerants/r134a',
   path: '/refrigerants/r134a',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefrigerantsSlugRoute = RefrigerantsSlugRouteImport.update({
+  id: '/refrigerants/$slug',
+  path: '/refrigerants/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalTechnicianRoute = PortalTechnicianRouteImport.update({
+  id: '/portal/technician',
+  path: '/portal/technician',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalCustomerRoute = PortalCustomerRouteImport.update({
+  id: '/portal/customer',
+  path: '/portal/customer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsSlugRoute = LocationsSlugRouteImport.update({
+  id: '/locations/$slug',
+  path: '/locations/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InteractiveWizardRoute = InteractiveWizardRouteImport.update({
@@ -248,6 +329,11 @@ const InteractiveChecklistRoute = InteractiveChecklistRouteImport.update({
   path: '/interactive/checklist',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndustrialTopicRoute = IndustrialTopicRouteImport.update({
+  id: '/industrial/$topic',
+  path: '/industrial/$topic',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuidesWalkInWarmRoute = GuidesWalkInWarmRouteImport.update({
   id: '/guides/walk-in-warm',
   path: '/guides/walk-in-warm',
@@ -258,6 +344,24 @@ const GuidesShortCyclingRoute = GuidesShortCyclingRouteImport.update({
   path: '/guides/short-cycling',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GuidesRefrigeratorNotCoolingRoute =
+  GuidesRefrigeratorNotCoolingRouteImport.update({
+    id: '/guides/refrigerator-not-cooling',
+    path: '/guides/refrigerator-not-cooling',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const GuidesRefrigeratorErrorCodesRoute =
+  GuidesRefrigeratorErrorCodesRouteImport.update({
+    id: '/guides/refrigerator-error-codes',
+    path: '/guides/refrigerator-error-codes',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const GuidesRefrigerantPressuresChartRoute =
+  GuidesRefrigerantPressuresChartRouteImport.update({
+    id: '/guides/refrigerant-pressures-chart',
+    path: '/guides/refrigerant-pressures-chart',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const GuidesLowSuctionRoute = GuidesLowSuctionRouteImport.update({
   id: '/guides/low-suction',
   path: '/guides/low-suction',
@@ -266,6 +370,11 @@ const GuidesLowSuctionRoute = GuidesLowSuctionRouteImport.update({
 const GuidesLeakSymptomsRoute = GuidesLeakSymptomsRouteImport.update({
   id: '/guides/leak-symptoms',
   path: '/guides/leak-symptoms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesHvacDesignGuideRoute = GuidesHvacDesignGuideRouteImport.update({
+  id: '/guides/hvac-design-guide',
+  path: '/guides/hvac-design-guide',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuidesHowToSuperheatRoute = GuidesHowToSuperheatRouteImport.update({
@@ -288,9 +397,25 @@ const GuidesCoilFreezingRoute = GuidesCoilFreezingRouteImport.update({
   path: '/guides/coil-freezing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GuidesBrandComparisonsRoute = GuidesBrandComparisonsRouteImport.update({
+  id: '/guides/brand-comparisons',
+  path: '/guides/brand-comparisons',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuidesAcNotCoolingRoute = GuidesAcNotCoolingRouteImport.update({
   id: '/guides/ac-not-cooling',
   path: '/guides/ac-not-cooling',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesAcLeaksGasChargingRoute =
+  GuidesAcLeaksGasChargingRouteImport.update({
+    id: '/guides/ac-leaks-gas-charging',
+    path: '/guides/ac-leaks-gas-charging',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const GuidesAcGasChargingRoute = GuidesAcGasChargingRouteImport.update({
+  id: '/guides/ac-gas-charging',
+  path: '/guides/ac-gas-charging',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FormulasRefrigerationRoute = FormulasRefrigerationRouteImport.update({
@@ -318,6 +443,16 @@ const CitiesMumbaiRoute = CitiesMumbaiRouteImport.update({
   path: '/cities/mumbai',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CitiesSlugRoute = CitiesSlugRouteImport.update({
+  id: '/cities/$slug',
+  path: '/cities/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrandsSlugRoute = BrandsSlugRouteImport.update({
+  id: '/brands/$slug',
+  path: '/brands/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogsSlugRoute = BlogsSlugRouteImport.update({
   id: '/blogs_/$slug',
   path: '/blogs/$slug',
@@ -343,12 +478,36 @@ const AdminBlogsRoute = AdminBlogsRouteImport.update({
   path: '/blogs',
   getParentRoute: () => AdminRoute,
 } as any)
+const ServicesServiceSlugLocationSlugRoute =
+  ServicesServiceSlugLocationSlugRouteImport.update({
+    id: '/services/$serviceSlug/$locationSlug',
+    path: '/services/$serviceSlug/$locationSlug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const CitiesCitySlugServiceSlugRoute =
+  CitiesCitySlugServiceSlugRouteImport.update({
+    id: '/cities/$citySlug/$serviceSlug',
+    path: '/cities/$citySlug/$serviceSlug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const BrandsCompareComparisonSlugRoute =
+  BrandsCompareComparisonSlugRouteImport.update({
+    id: '/brands/compare/$comparisonSlug',
+    path: '/brands/compare/$comparisonSlug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const BrandsSlugApplianceRoute = BrandsSlugApplianceRouteImport.update({
+  id: '/$appliance',
+  path: '/$appliance',
+  getParentRoute: () => BrandsSlugRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/blogs': typeof BlogsRoute
   '/booking': typeof BookingRoute
+  '/emergency': typeof EmergencyRoute
   '/glossary': typeof GlossaryRoute
   '/portfolio': typeof PortfolioRoute
   '/admin/blogs': typeof AdminBlogsRoute
@@ -356,55 +515,80 @@ export interface FileRoutesByFullPath {
   '/admin/login': typeof AdminLoginRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/blogs/$slug': typeof BlogsSlugRoute
+  '/brands/$slug': typeof BrandsSlugRouteWithChildren
+  '/cities/$slug': typeof CitiesSlugRoute
   '/cities/mumbai': typeof CitiesMumbaiRoute
   '/cities/nashik': typeof CitiesNashikRoute
   '/cities/pune': typeof CitiesPuneRoute
   '/formulas/hvac': typeof FormulasHvacRoute
   '/formulas/refrigeration': typeof FormulasRefrigerationRoute
+  '/guides/ac-gas-charging': typeof GuidesAcGasChargingRoute
+  '/guides/ac-leaks-gas-charging': typeof GuidesAcLeaksGasChargingRoute
   '/guides/ac-not-cooling': typeof GuidesAcNotCoolingRoute
+  '/guides/brand-comparisons': typeof GuidesBrandComparisonsRoute
   '/guides/coil-freezing': typeof GuidesCoilFreezingRoute
   '/guides/high-head': typeof GuidesHighHeadRoute
   '/guides/how-to-subcooling': typeof GuidesHowToSubcoolingRoute
   '/guides/how-to-superheat': typeof GuidesHowToSuperheatRoute
+  '/guides/hvac-design-guide': typeof GuidesHvacDesignGuideRoute
   '/guides/leak-symptoms': typeof GuidesLeakSymptomsRoute
   '/guides/low-suction': typeof GuidesLowSuctionRoute
+  '/guides/refrigerant-pressures-chart': typeof GuidesRefrigerantPressuresChartRoute
+  '/guides/refrigerator-error-codes': typeof GuidesRefrigeratorErrorCodesRoute
+  '/guides/refrigerator-not-cooling': typeof GuidesRefrigeratorNotCoolingRoute
   '/guides/short-cycling': typeof GuidesShortCyclingRoute
   '/guides/walk-in-warm': typeof GuidesWalkInWarmRoute
+  '/industrial/$topic': typeof IndustrialTopicRoute
   '/interactive/checklist': typeof InteractiveChecklistRoute
   '/interactive/cost-estimator': typeof InteractiveCostEstimatorRoute
   '/interactive/quiz': typeof InteractiveQuizRoute
   '/interactive/roi': typeof InteractiveRoiRoute
   '/interactive/selector': typeof InteractiveSelectorRoute
   '/interactive/wizard': typeof InteractiveWizardRoute
+  '/locations/$slug': typeof LocationsSlugRoute
+  '/portal/customer': typeof PortalCustomerRoute
+  '/portal/technician': typeof PortalTechnicianRoute
+  '/refrigerants/$slug': typeof RefrigerantsSlugRoute
   '/refrigerants/r134a': typeof RefrigerantsR134aRoute
   '/refrigerants/r32': typeof RefrigerantsR32Route
   '/refrigerants/r404a': typeof RefrigerantsR404aRoute
   '/refrigerants/r407c': typeof RefrigerantsR407cRoute
   '/refrigerants/r410a': typeof RefrigerantsR410aRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/tools/air-velocity': typeof ToolsAirVelocityRoute
   '/tools/btu-calculator': typeof ToolsBtuCalculatorRoute
   '/tools/cfm-calculator': typeof ToolsCfmCalculatorRoute
   '/tools/charge-calculator': typeof ToolsChargeCalculatorRoute
   '/tools/compressor-capacity': typeof ToolsCompressorCapacityRoute
   '/tools/cooling-load': typeof ToolsCoolingLoadRoute
+  '/tools/cooling-tower-approach': typeof ToolsCoolingTowerApproachRoute
   '/tools/cop-eer': typeof ToolsCopEerRoute
   '/tools/duct-calculator': typeof ToolsDuctCalculatorRoute
+  '/tools/electricity-cost': typeof ToolsElectricityCostRoute
   '/tools/energy-calculator': typeof ToolsEnergyCalculatorRoute
   '/tools/pipe-sizing': typeof ToolsPipeSizingRoute
   '/tools/pressure-temp': typeof ToolsPressureTempRoute
   '/tools/psychrometric': typeof ToolsPsychrometricRoute
   '/tools/pt-calculator': typeof ToolsPtCalculatorRoute
+  '/tools/seer-eer-cop': typeof ToolsSeerEerCopRoute
   '/tools/subcooling-calculator': typeof ToolsSubcoolingCalculatorRoute
   '/tools/superheat-calculator': typeof ToolsSuperheatCalculatorRoute
   '/tools/temp-convert': typeof ToolsTempConvertRoute
   '/tools/tonnage-calculator': typeof ToolsTonnageCalculatorRoute
   '/tools/vacuum-convert': typeof ToolsVacuumConvertRoute
+  '/tools/voltage-drop': typeof ToolsVoltageDropRoute
   '/admin/': typeof AdminIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/brands/$slug/$appliance': typeof BrandsSlugApplianceRoute
+  '/brands/compare/$comparisonSlug': typeof BrandsCompareComparisonSlugRoute
+  '/cities/$citySlug/$serviceSlug': typeof CitiesCitySlugServiceSlugRoute
+  '/services/$serviceSlug/$locationSlug': typeof ServicesServiceSlugLocationSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blogs': typeof BlogsRoute
   '/booking': typeof BookingRoute
+  '/emergency': typeof EmergencyRoute
   '/glossary': typeof GlossaryRoute
   '/portfolio': typeof PortfolioRoute
   '/admin/blogs': typeof AdminBlogsRoute
@@ -412,50 +596,74 @@ export interface FileRoutesByTo {
   '/admin/login': typeof AdminLoginRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/blogs/$slug': typeof BlogsSlugRoute
+  '/brands/$slug': typeof BrandsSlugRouteWithChildren
+  '/cities/$slug': typeof CitiesSlugRoute
   '/cities/mumbai': typeof CitiesMumbaiRoute
   '/cities/nashik': typeof CitiesNashikRoute
   '/cities/pune': typeof CitiesPuneRoute
   '/formulas/hvac': typeof FormulasHvacRoute
   '/formulas/refrigeration': typeof FormulasRefrigerationRoute
+  '/guides/ac-gas-charging': typeof GuidesAcGasChargingRoute
+  '/guides/ac-leaks-gas-charging': typeof GuidesAcLeaksGasChargingRoute
   '/guides/ac-not-cooling': typeof GuidesAcNotCoolingRoute
+  '/guides/brand-comparisons': typeof GuidesBrandComparisonsRoute
   '/guides/coil-freezing': typeof GuidesCoilFreezingRoute
   '/guides/high-head': typeof GuidesHighHeadRoute
   '/guides/how-to-subcooling': typeof GuidesHowToSubcoolingRoute
   '/guides/how-to-superheat': typeof GuidesHowToSuperheatRoute
+  '/guides/hvac-design-guide': typeof GuidesHvacDesignGuideRoute
   '/guides/leak-symptoms': typeof GuidesLeakSymptomsRoute
   '/guides/low-suction': typeof GuidesLowSuctionRoute
+  '/guides/refrigerant-pressures-chart': typeof GuidesRefrigerantPressuresChartRoute
+  '/guides/refrigerator-error-codes': typeof GuidesRefrigeratorErrorCodesRoute
+  '/guides/refrigerator-not-cooling': typeof GuidesRefrigeratorNotCoolingRoute
   '/guides/short-cycling': typeof GuidesShortCyclingRoute
   '/guides/walk-in-warm': typeof GuidesWalkInWarmRoute
+  '/industrial/$topic': typeof IndustrialTopicRoute
   '/interactive/checklist': typeof InteractiveChecklistRoute
   '/interactive/cost-estimator': typeof InteractiveCostEstimatorRoute
   '/interactive/quiz': typeof InteractiveQuizRoute
   '/interactive/roi': typeof InteractiveRoiRoute
   '/interactive/selector': typeof InteractiveSelectorRoute
   '/interactive/wizard': typeof InteractiveWizardRoute
+  '/locations/$slug': typeof LocationsSlugRoute
+  '/portal/customer': typeof PortalCustomerRoute
+  '/portal/technician': typeof PortalTechnicianRoute
+  '/refrigerants/$slug': typeof RefrigerantsSlugRoute
   '/refrigerants/r134a': typeof RefrigerantsR134aRoute
   '/refrigerants/r32': typeof RefrigerantsR32Route
   '/refrigerants/r404a': typeof RefrigerantsR404aRoute
   '/refrigerants/r407c': typeof RefrigerantsR407cRoute
   '/refrigerants/r410a': typeof RefrigerantsR410aRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/tools/air-velocity': typeof ToolsAirVelocityRoute
   '/tools/btu-calculator': typeof ToolsBtuCalculatorRoute
   '/tools/cfm-calculator': typeof ToolsCfmCalculatorRoute
   '/tools/charge-calculator': typeof ToolsChargeCalculatorRoute
   '/tools/compressor-capacity': typeof ToolsCompressorCapacityRoute
   '/tools/cooling-load': typeof ToolsCoolingLoadRoute
+  '/tools/cooling-tower-approach': typeof ToolsCoolingTowerApproachRoute
   '/tools/cop-eer': typeof ToolsCopEerRoute
   '/tools/duct-calculator': typeof ToolsDuctCalculatorRoute
+  '/tools/electricity-cost': typeof ToolsElectricityCostRoute
   '/tools/energy-calculator': typeof ToolsEnergyCalculatorRoute
   '/tools/pipe-sizing': typeof ToolsPipeSizingRoute
   '/tools/pressure-temp': typeof ToolsPressureTempRoute
   '/tools/psychrometric': typeof ToolsPsychrometricRoute
   '/tools/pt-calculator': typeof ToolsPtCalculatorRoute
+  '/tools/seer-eer-cop': typeof ToolsSeerEerCopRoute
   '/tools/subcooling-calculator': typeof ToolsSubcoolingCalculatorRoute
   '/tools/superheat-calculator': typeof ToolsSuperheatCalculatorRoute
   '/tools/temp-convert': typeof ToolsTempConvertRoute
   '/tools/tonnage-calculator': typeof ToolsTonnageCalculatorRoute
   '/tools/vacuum-convert': typeof ToolsVacuumConvertRoute
+  '/tools/voltage-drop': typeof ToolsVoltageDropRoute
   '/admin': typeof AdminIndexRoute
   '/resources': typeof ResourcesIndexRoute
+  '/brands/$slug/$appliance': typeof BrandsSlugApplianceRoute
+  '/brands/compare/$comparisonSlug': typeof BrandsCompareComparisonSlugRoute
+  '/cities/$citySlug/$serviceSlug': typeof CitiesCitySlugServiceSlugRoute
+  '/services/$serviceSlug/$locationSlug': typeof ServicesServiceSlugLocationSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -463,6 +671,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/blogs': typeof BlogsRoute
   '/booking': typeof BookingRoute
+  '/emergency': typeof EmergencyRoute
   '/glossary': typeof GlossaryRoute
   '/portfolio': typeof PortfolioRoute
   '/admin/blogs': typeof AdminBlogsRoute
@@ -470,50 +679,74 @@ export interface FileRoutesById {
   '/admin/login': typeof AdminLoginRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/blogs_/$slug': typeof BlogsSlugRoute
+  '/brands/$slug': typeof BrandsSlugRouteWithChildren
+  '/cities/$slug': typeof CitiesSlugRoute
   '/cities/mumbai': typeof CitiesMumbaiRoute
   '/cities/nashik': typeof CitiesNashikRoute
   '/cities/pune': typeof CitiesPuneRoute
   '/formulas/hvac': typeof FormulasHvacRoute
   '/formulas/refrigeration': typeof FormulasRefrigerationRoute
+  '/guides/ac-gas-charging': typeof GuidesAcGasChargingRoute
+  '/guides/ac-leaks-gas-charging': typeof GuidesAcLeaksGasChargingRoute
   '/guides/ac-not-cooling': typeof GuidesAcNotCoolingRoute
+  '/guides/brand-comparisons': typeof GuidesBrandComparisonsRoute
   '/guides/coil-freezing': typeof GuidesCoilFreezingRoute
   '/guides/high-head': typeof GuidesHighHeadRoute
   '/guides/how-to-subcooling': typeof GuidesHowToSubcoolingRoute
   '/guides/how-to-superheat': typeof GuidesHowToSuperheatRoute
+  '/guides/hvac-design-guide': typeof GuidesHvacDesignGuideRoute
   '/guides/leak-symptoms': typeof GuidesLeakSymptomsRoute
   '/guides/low-suction': typeof GuidesLowSuctionRoute
+  '/guides/refrigerant-pressures-chart': typeof GuidesRefrigerantPressuresChartRoute
+  '/guides/refrigerator-error-codes': typeof GuidesRefrigeratorErrorCodesRoute
+  '/guides/refrigerator-not-cooling': typeof GuidesRefrigeratorNotCoolingRoute
   '/guides/short-cycling': typeof GuidesShortCyclingRoute
   '/guides/walk-in-warm': typeof GuidesWalkInWarmRoute
+  '/industrial/$topic': typeof IndustrialTopicRoute
   '/interactive/checklist': typeof InteractiveChecklistRoute
   '/interactive/cost-estimator': typeof InteractiveCostEstimatorRoute
   '/interactive/quiz': typeof InteractiveQuizRoute
   '/interactive/roi': typeof InteractiveRoiRoute
   '/interactive/selector': typeof InteractiveSelectorRoute
   '/interactive/wizard': typeof InteractiveWizardRoute
+  '/locations/$slug': typeof LocationsSlugRoute
+  '/portal/customer': typeof PortalCustomerRoute
+  '/portal/technician': typeof PortalTechnicianRoute
+  '/refrigerants/$slug': typeof RefrigerantsSlugRoute
   '/refrigerants/r134a': typeof RefrigerantsR134aRoute
   '/refrigerants/r32': typeof RefrigerantsR32Route
   '/refrigerants/r404a': typeof RefrigerantsR404aRoute
   '/refrigerants/r407c': typeof RefrigerantsR407cRoute
   '/refrigerants/r410a': typeof RefrigerantsR410aRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/tools/air-velocity': typeof ToolsAirVelocityRoute
   '/tools/btu-calculator': typeof ToolsBtuCalculatorRoute
   '/tools/cfm-calculator': typeof ToolsCfmCalculatorRoute
   '/tools/charge-calculator': typeof ToolsChargeCalculatorRoute
   '/tools/compressor-capacity': typeof ToolsCompressorCapacityRoute
   '/tools/cooling-load': typeof ToolsCoolingLoadRoute
+  '/tools/cooling-tower-approach': typeof ToolsCoolingTowerApproachRoute
   '/tools/cop-eer': typeof ToolsCopEerRoute
   '/tools/duct-calculator': typeof ToolsDuctCalculatorRoute
+  '/tools/electricity-cost': typeof ToolsElectricityCostRoute
   '/tools/energy-calculator': typeof ToolsEnergyCalculatorRoute
   '/tools/pipe-sizing': typeof ToolsPipeSizingRoute
   '/tools/pressure-temp': typeof ToolsPressureTempRoute
   '/tools/psychrometric': typeof ToolsPsychrometricRoute
   '/tools/pt-calculator': typeof ToolsPtCalculatorRoute
+  '/tools/seer-eer-cop': typeof ToolsSeerEerCopRoute
   '/tools/subcooling-calculator': typeof ToolsSubcoolingCalculatorRoute
   '/tools/superheat-calculator': typeof ToolsSuperheatCalculatorRoute
   '/tools/temp-convert': typeof ToolsTempConvertRoute
   '/tools/tonnage-calculator': typeof ToolsTonnageCalculatorRoute
   '/tools/vacuum-convert': typeof ToolsVacuumConvertRoute
+  '/tools/voltage-drop': typeof ToolsVoltageDropRoute
   '/admin/': typeof AdminIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/brands/$slug/$appliance': typeof BrandsSlugApplianceRoute
+  '/brands/compare/$comparisonSlug': typeof BrandsCompareComparisonSlugRoute
+  '/cities/$citySlug/$serviceSlug': typeof CitiesCitySlugServiceSlugRoute
+  '/services/$serviceSlug/$locationSlug': typeof ServicesServiceSlugLocationSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -522,6 +755,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/blogs'
     | '/booking'
+    | '/emergency'
     | '/glossary'
     | '/portfolio'
     | '/admin/blogs'
@@ -529,55 +763,80 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/portfolio'
     | '/blogs/$slug'
+    | '/brands/$slug'
+    | '/cities/$slug'
     | '/cities/mumbai'
     | '/cities/nashik'
     | '/cities/pune'
     | '/formulas/hvac'
     | '/formulas/refrigeration'
+    | '/guides/ac-gas-charging'
+    | '/guides/ac-leaks-gas-charging'
     | '/guides/ac-not-cooling'
+    | '/guides/brand-comparisons'
     | '/guides/coil-freezing'
     | '/guides/high-head'
     | '/guides/how-to-subcooling'
     | '/guides/how-to-superheat'
+    | '/guides/hvac-design-guide'
     | '/guides/leak-symptoms'
     | '/guides/low-suction'
+    | '/guides/refrigerant-pressures-chart'
+    | '/guides/refrigerator-error-codes'
+    | '/guides/refrigerator-not-cooling'
     | '/guides/short-cycling'
     | '/guides/walk-in-warm'
+    | '/industrial/$topic'
     | '/interactive/checklist'
     | '/interactive/cost-estimator'
     | '/interactive/quiz'
     | '/interactive/roi'
     | '/interactive/selector'
     | '/interactive/wizard'
+    | '/locations/$slug'
+    | '/portal/customer'
+    | '/portal/technician'
+    | '/refrigerants/$slug'
     | '/refrigerants/r134a'
     | '/refrigerants/r32'
     | '/refrigerants/r404a'
     | '/refrigerants/r407c'
     | '/refrigerants/r410a'
+    | '/services/$slug'
+    | '/tools/air-velocity'
     | '/tools/btu-calculator'
     | '/tools/cfm-calculator'
     | '/tools/charge-calculator'
     | '/tools/compressor-capacity'
     | '/tools/cooling-load'
+    | '/tools/cooling-tower-approach'
     | '/tools/cop-eer'
     | '/tools/duct-calculator'
+    | '/tools/electricity-cost'
     | '/tools/energy-calculator'
     | '/tools/pipe-sizing'
     | '/tools/pressure-temp'
     | '/tools/psychrometric'
     | '/tools/pt-calculator'
+    | '/tools/seer-eer-cop'
     | '/tools/subcooling-calculator'
     | '/tools/superheat-calculator'
     | '/tools/temp-convert'
     | '/tools/tonnage-calculator'
     | '/tools/vacuum-convert'
+    | '/tools/voltage-drop'
     | '/admin/'
     | '/resources/'
+    | '/brands/$slug/$appliance'
+    | '/brands/compare/$comparisonSlug'
+    | '/cities/$citySlug/$serviceSlug'
+    | '/services/$serviceSlug/$locationSlug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/blogs'
     | '/booking'
+    | '/emergency'
     | '/glossary'
     | '/portfolio'
     | '/admin/blogs'
@@ -585,56 +844,81 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/portfolio'
     | '/blogs/$slug'
+    | '/brands/$slug'
+    | '/cities/$slug'
     | '/cities/mumbai'
     | '/cities/nashik'
     | '/cities/pune'
     | '/formulas/hvac'
     | '/formulas/refrigeration'
+    | '/guides/ac-gas-charging'
+    | '/guides/ac-leaks-gas-charging'
     | '/guides/ac-not-cooling'
+    | '/guides/brand-comparisons'
     | '/guides/coil-freezing'
     | '/guides/high-head'
     | '/guides/how-to-subcooling'
     | '/guides/how-to-superheat'
+    | '/guides/hvac-design-guide'
     | '/guides/leak-symptoms'
     | '/guides/low-suction'
+    | '/guides/refrigerant-pressures-chart'
+    | '/guides/refrigerator-error-codes'
+    | '/guides/refrigerator-not-cooling'
     | '/guides/short-cycling'
     | '/guides/walk-in-warm'
+    | '/industrial/$topic'
     | '/interactive/checklist'
     | '/interactive/cost-estimator'
     | '/interactive/quiz'
     | '/interactive/roi'
     | '/interactive/selector'
     | '/interactive/wizard'
+    | '/locations/$slug'
+    | '/portal/customer'
+    | '/portal/technician'
+    | '/refrigerants/$slug'
     | '/refrigerants/r134a'
     | '/refrigerants/r32'
     | '/refrigerants/r404a'
     | '/refrigerants/r407c'
     | '/refrigerants/r410a'
+    | '/services/$slug'
+    | '/tools/air-velocity'
     | '/tools/btu-calculator'
     | '/tools/cfm-calculator'
     | '/tools/charge-calculator'
     | '/tools/compressor-capacity'
     | '/tools/cooling-load'
+    | '/tools/cooling-tower-approach'
     | '/tools/cop-eer'
     | '/tools/duct-calculator'
+    | '/tools/electricity-cost'
     | '/tools/energy-calculator'
     | '/tools/pipe-sizing'
     | '/tools/pressure-temp'
     | '/tools/psychrometric'
     | '/tools/pt-calculator'
+    | '/tools/seer-eer-cop'
     | '/tools/subcooling-calculator'
     | '/tools/superheat-calculator'
     | '/tools/temp-convert'
     | '/tools/tonnage-calculator'
     | '/tools/vacuum-convert'
+    | '/tools/voltage-drop'
     | '/admin'
     | '/resources'
+    | '/brands/$slug/$appliance'
+    | '/brands/compare/$comparisonSlug'
+    | '/cities/$citySlug/$serviceSlug'
+    | '/services/$serviceSlug/$locationSlug'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/blogs'
     | '/booking'
+    | '/emergency'
     | '/glossary'
     | '/portfolio'
     | '/admin/blogs'
@@ -642,50 +926,74 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/portfolio'
     | '/blogs_/$slug'
+    | '/brands/$slug'
+    | '/cities/$slug'
     | '/cities/mumbai'
     | '/cities/nashik'
     | '/cities/pune'
     | '/formulas/hvac'
     | '/formulas/refrigeration'
+    | '/guides/ac-gas-charging'
+    | '/guides/ac-leaks-gas-charging'
     | '/guides/ac-not-cooling'
+    | '/guides/brand-comparisons'
     | '/guides/coil-freezing'
     | '/guides/high-head'
     | '/guides/how-to-subcooling'
     | '/guides/how-to-superheat'
+    | '/guides/hvac-design-guide'
     | '/guides/leak-symptoms'
     | '/guides/low-suction'
+    | '/guides/refrigerant-pressures-chart'
+    | '/guides/refrigerator-error-codes'
+    | '/guides/refrigerator-not-cooling'
     | '/guides/short-cycling'
     | '/guides/walk-in-warm'
+    | '/industrial/$topic'
     | '/interactive/checklist'
     | '/interactive/cost-estimator'
     | '/interactive/quiz'
     | '/interactive/roi'
     | '/interactive/selector'
     | '/interactive/wizard'
+    | '/locations/$slug'
+    | '/portal/customer'
+    | '/portal/technician'
+    | '/refrigerants/$slug'
     | '/refrigerants/r134a'
     | '/refrigerants/r32'
     | '/refrigerants/r404a'
     | '/refrigerants/r407c'
     | '/refrigerants/r410a'
+    | '/services/$slug'
+    | '/tools/air-velocity'
     | '/tools/btu-calculator'
     | '/tools/cfm-calculator'
     | '/tools/charge-calculator'
     | '/tools/compressor-capacity'
     | '/tools/cooling-load'
+    | '/tools/cooling-tower-approach'
     | '/tools/cop-eer'
     | '/tools/duct-calculator'
+    | '/tools/electricity-cost'
     | '/tools/energy-calculator'
     | '/tools/pipe-sizing'
     | '/tools/pressure-temp'
     | '/tools/psychrometric'
     | '/tools/pt-calculator'
+    | '/tools/seer-eer-cop'
     | '/tools/subcooling-calculator'
     | '/tools/superheat-calculator'
     | '/tools/temp-convert'
     | '/tools/tonnage-calculator'
     | '/tools/vacuum-convert'
+    | '/tools/voltage-drop'
     | '/admin/'
     | '/resources/'
+    | '/brands/$slug/$appliance'
+    | '/brands/compare/$comparisonSlug'
+    | '/cities/$citySlug/$serviceSlug'
+    | '/services/$serviceSlug/$locationSlug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -693,52 +1001,76 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   BlogsRoute: typeof BlogsRoute
   BookingRoute: typeof BookingRoute
+  EmergencyRoute: typeof EmergencyRoute
   GlossaryRoute: typeof GlossaryRoute
   PortfolioRoute: typeof PortfolioRoute
   BlogsSlugRoute: typeof BlogsSlugRoute
+  BrandsSlugRoute: typeof BrandsSlugRouteWithChildren
+  CitiesSlugRoute: typeof CitiesSlugRoute
   CitiesMumbaiRoute: typeof CitiesMumbaiRoute
   CitiesNashikRoute: typeof CitiesNashikRoute
   CitiesPuneRoute: typeof CitiesPuneRoute
   FormulasHvacRoute: typeof FormulasHvacRoute
   FormulasRefrigerationRoute: typeof FormulasRefrigerationRoute
+  GuidesAcGasChargingRoute: typeof GuidesAcGasChargingRoute
+  GuidesAcLeaksGasChargingRoute: typeof GuidesAcLeaksGasChargingRoute
   GuidesAcNotCoolingRoute: typeof GuidesAcNotCoolingRoute
+  GuidesBrandComparisonsRoute: typeof GuidesBrandComparisonsRoute
   GuidesCoilFreezingRoute: typeof GuidesCoilFreezingRoute
   GuidesHighHeadRoute: typeof GuidesHighHeadRoute
   GuidesHowToSubcoolingRoute: typeof GuidesHowToSubcoolingRoute
   GuidesHowToSuperheatRoute: typeof GuidesHowToSuperheatRoute
+  GuidesHvacDesignGuideRoute: typeof GuidesHvacDesignGuideRoute
   GuidesLeakSymptomsRoute: typeof GuidesLeakSymptomsRoute
   GuidesLowSuctionRoute: typeof GuidesLowSuctionRoute
+  GuidesRefrigerantPressuresChartRoute: typeof GuidesRefrigerantPressuresChartRoute
+  GuidesRefrigeratorErrorCodesRoute: typeof GuidesRefrigeratorErrorCodesRoute
+  GuidesRefrigeratorNotCoolingRoute: typeof GuidesRefrigeratorNotCoolingRoute
   GuidesShortCyclingRoute: typeof GuidesShortCyclingRoute
   GuidesWalkInWarmRoute: typeof GuidesWalkInWarmRoute
+  IndustrialTopicRoute: typeof IndustrialTopicRoute
   InteractiveChecklistRoute: typeof InteractiveChecklistRoute
   InteractiveCostEstimatorRoute: typeof InteractiveCostEstimatorRoute
   InteractiveQuizRoute: typeof InteractiveQuizRoute
   InteractiveRoiRoute: typeof InteractiveRoiRoute
   InteractiveSelectorRoute: typeof InteractiveSelectorRoute
   InteractiveWizardRoute: typeof InteractiveWizardRoute
+  LocationsSlugRoute: typeof LocationsSlugRoute
+  PortalCustomerRoute: typeof PortalCustomerRoute
+  PortalTechnicianRoute: typeof PortalTechnicianRoute
+  RefrigerantsSlugRoute: typeof RefrigerantsSlugRoute
   RefrigerantsR134aRoute: typeof RefrigerantsR134aRoute
   RefrigerantsR32Route: typeof RefrigerantsR32Route
   RefrigerantsR404aRoute: typeof RefrigerantsR404aRoute
   RefrigerantsR407cRoute: typeof RefrigerantsR407cRoute
   RefrigerantsR410aRoute: typeof RefrigerantsR410aRoute
+  ServicesSlugRoute: typeof ServicesSlugRoute
+  ToolsAirVelocityRoute: typeof ToolsAirVelocityRoute
   ToolsBtuCalculatorRoute: typeof ToolsBtuCalculatorRoute
   ToolsCfmCalculatorRoute: typeof ToolsCfmCalculatorRoute
   ToolsChargeCalculatorRoute: typeof ToolsChargeCalculatorRoute
   ToolsCompressorCapacityRoute: typeof ToolsCompressorCapacityRoute
   ToolsCoolingLoadRoute: typeof ToolsCoolingLoadRoute
+  ToolsCoolingTowerApproachRoute: typeof ToolsCoolingTowerApproachRoute
   ToolsCopEerRoute: typeof ToolsCopEerRoute
   ToolsDuctCalculatorRoute: typeof ToolsDuctCalculatorRoute
+  ToolsElectricityCostRoute: typeof ToolsElectricityCostRoute
   ToolsEnergyCalculatorRoute: typeof ToolsEnergyCalculatorRoute
   ToolsPipeSizingRoute: typeof ToolsPipeSizingRoute
   ToolsPressureTempRoute: typeof ToolsPressureTempRoute
   ToolsPsychrometricRoute: typeof ToolsPsychrometricRoute
   ToolsPtCalculatorRoute: typeof ToolsPtCalculatorRoute
+  ToolsSeerEerCopRoute: typeof ToolsSeerEerCopRoute
   ToolsSubcoolingCalculatorRoute: typeof ToolsSubcoolingCalculatorRoute
   ToolsSuperheatCalculatorRoute: typeof ToolsSuperheatCalculatorRoute
   ToolsTempConvertRoute: typeof ToolsTempConvertRoute
   ToolsTonnageCalculatorRoute: typeof ToolsTonnageCalculatorRoute
   ToolsVacuumConvertRoute: typeof ToolsVacuumConvertRoute
+  ToolsVoltageDropRoute: typeof ToolsVoltageDropRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
+  BrandsCompareComparisonSlugRoute: typeof BrandsCompareComparisonSlugRoute
+  CitiesCitySlugServiceSlugRoute: typeof CitiesCitySlugServiceSlugRoute
+  ServicesServiceSlugLocationSlugRoute: typeof ServicesServiceSlugLocationSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -755,6 +1087,13 @@ declare module '@tanstack/react-router' {
       path: '/glossary'
       fullPath: '/glossary'
       preLoaderRoute: typeof GlossaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/emergency': {
+      id: '/emergency'
+      path: '/emergency'
+      fullPath: '/emergency'
+      preLoaderRoute: typeof EmergencyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/booking': {
@@ -799,6 +1138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/tools/voltage-drop': {
+      id: '/tools/voltage-drop'
+      path: '/tools/voltage-drop'
+      fullPath: '/tools/voltage-drop'
+      preLoaderRoute: typeof ToolsVoltageDropRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/vacuum-convert': {
       id: '/tools/vacuum-convert'
       path: '/tools/vacuum-convert'
@@ -832,6 +1178,13 @@ declare module '@tanstack/react-router' {
       path: '/tools/subcooling-calculator'
       fullPath: '/tools/subcooling-calculator'
       preLoaderRoute: typeof ToolsSubcoolingCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/seer-eer-cop': {
+      id: '/tools/seer-eer-cop'
+      path: '/tools/seer-eer-cop'
+      fullPath: '/tools/seer-eer-cop'
+      preLoaderRoute: typeof ToolsSeerEerCopRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/pt-calculator': {
@@ -869,6 +1222,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsEnergyCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/electricity-cost': {
+      id: '/tools/electricity-cost'
+      path: '/tools/electricity-cost'
+      fullPath: '/tools/electricity-cost'
+      preLoaderRoute: typeof ToolsElectricityCostRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/duct-calculator': {
       id: '/tools/duct-calculator'
       path: '/tools/duct-calculator'
@@ -881,6 +1241,13 @@ declare module '@tanstack/react-router' {
       path: '/tools/cop-eer'
       fullPath: '/tools/cop-eer'
       preLoaderRoute: typeof ToolsCopEerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/cooling-tower-approach': {
+      id: '/tools/cooling-tower-approach'
+      path: '/tools/cooling-tower-approach'
+      fullPath: '/tools/cooling-tower-approach'
+      preLoaderRoute: typeof ToolsCoolingTowerApproachRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/cooling-load': {
@@ -918,6 +1285,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsBtuCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/air-velocity': {
+      id: '/tools/air-velocity'
+      path: '/tools/air-velocity'
+      fullPath: '/tools/air-velocity'
+      preLoaderRoute: typeof ToolsAirVelocityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/refrigerants/r410a': {
       id: '/refrigerants/r410a'
       path: '/refrigerants/r410a'
@@ -951,6 +1332,34 @@ declare module '@tanstack/react-router' {
       path: '/refrigerants/r134a'
       fullPath: '/refrigerants/r134a'
       preLoaderRoute: typeof RefrigerantsR134aRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refrigerants/$slug': {
+      id: '/refrigerants/$slug'
+      path: '/refrigerants/$slug'
+      fullPath: '/refrigerants/$slug'
+      preLoaderRoute: typeof RefrigerantsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/technician': {
+      id: '/portal/technician'
+      path: '/portal/technician'
+      fullPath: '/portal/technician'
+      preLoaderRoute: typeof PortalTechnicianRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/customer': {
+      id: '/portal/customer'
+      path: '/portal/customer'
+      fullPath: '/portal/customer'
+      preLoaderRoute: typeof PortalCustomerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations/$slug': {
+      id: '/locations/$slug'
+      path: '/locations/$slug'
+      fullPath: '/locations/$slug'
+      preLoaderRoute: typeof LocationsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/interactive/wizard': {
@@ -995,6 +1404,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InteractiveChecklistRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/industrial/$topic': {
+      id: '/industrial/$topic'
+      path: '/industrial/$topic'
+      fullPath: '/industrial/$topic'
+      preLoaderRoute: typeof IndustrialTopicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides/walk-in-warm': {
       id: '/guides/walk-in-warm'
       path: '/guides/walk-in-warm'
@@ -1009,6 +1425,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesShortCyclingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/guides/refrigerator-not-cooling': {
+      id: '/guides/refrigerator-not-cooling'
+      path: '/guides/refrigerator-not-cooling'
+      fullPath: '/guides/refrigerator-not-cooling'
+      preLoaderRoute: typeof GuidesRefrigeratorNotCoolingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/refrigerator-error-codes': {
+      id: '/guides/refrigerator-error-codes'
+      path: '/guides/refrigerator-error-codes'
+      fullPath: '/guides/refrigerator-error-codes'
+      preLoaderRoute: typeof GuidesRefrigeratorErrorCodesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/refrigerant-pressures-chart': {
+      id: '/guides/refrigerant-pressures-chart'
+      path: '/guides/refrigerant-pressures-chart'
+      fullPath: '/guides/refrigerant-pressures-chart'
+      preLoaderRoute: typeof GuidesRefrigerantPressuresChartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides/low-suction': {
       id: '/guides/low-suction'
       path: '/guides/low-suction'
@@ -1021,6 +1458,13 @@ declare module '@tanstack/react-router' {
       path: '/guides/leak-symptoms'
       fullPath: '/guides/leak-symptoms'
       preLoaderRoute: typeof GuidesLeakSymptomsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/hvac-design-guide': {
+      id: '/guides/hvac-design-guide'
+      path: '/guides/hvac-design-guide'
+      fullPath: '/guides/hvac-design-guide'
+      preLoaderRoute: typeof GuidesHvacDesignGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guides/how-to-superheat': {
@@ -1051,11 +1495,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesCoilFreezingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/guides/brand-comparisons': {
+      id: '/guides/brand-comparisons'
+      path: '/guides/brand-comparisons'
+      fullPath: '/guides/brand-comparisons'
+      preLoaderRoute: typeof GuidesBrandComparisonsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guides/ac-not-cooling': {
       id: '/guides/ac-not-cooling'
       path: '/guides/ac-not-cooling'
       fullPath: '/guides/ac-not-cooling'
       preLoaderRoute: typeof GuidesAcNotCoolingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/ac-leaks-gas-charging': {
+      id: '/guides/ac-leaks-gas-charging'
+      path: '/guides/ac-leaks-gas-charging'
+      fullPath: '/guides/ac-leaks-gas-charging'
+      preLoaderRoute: typeof GuidesAcLeaksGasChargingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/ac-gas-charging': {
+      id: '/guides/ac-gas-charging'
+      path: '/guides/ac-gas-charging'
+      fullPath: '/guides/ac-gas-charging'
+      preLoaderRoute: typeof GuidesAcGasChargingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/formulas/refrigeration': {
@@ -1093,6 +1558,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CitiesMumbaiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cities/$slug': {
+      id: '/cities/$slug'
+      path: '/cities/$slug'
+      fullPath: '/cities/$slug'
+      preLoaderRoute: typeof CitiesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/brands/$slug': {
+      id: '/brands/$slug'
+      path: '/brands/$slug'
+      fullPath: '/brands/$slug'
+      preLoaderRoute: typeof BrandsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blogs_/$slug': {
       id: '/blogs_/$slug'
       path: '/blogs/$slug'
@@ -1128,6 +1607,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBlogsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/services/$serviceSlug/$locationSlug': {
+      id: '/services/$serviceSlug/$locationSlug'
+      path: '/services/$serviceSlug/$locationSlug'
+      fullPath: '/services/$serviceSlug/$locationSlug'
+      preLoaderRoute: typeof ServicesServiceSlugLocationSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cities/$citySlug/$serviceSlug': {
+      id: '/cities/$citySlug/$serviceSlug'
+      path: '/cities/$citySlug/$serviceSlug'
+      fullPath: '/cities/$citySlug/$serviceSlug'
+      preLoaderRoute: typeof CitiesCitySlugServiceSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/brands/compare/$comparisonSlug': {
+      id: '/brands/compare/$comparisonSlug'
+      path: '/brands/compare/$comparisonSlug'
+      fullPath: '/brands/compare/$comparisonSlug'
+      preLoaderRoute: typeof BrandsCompareComparisonSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/brands/$slug/$appliance': {
+      id: '/brands/$slug/$appliance'
+      path: '/$appliance'
+      fullPath: '/brands/$slug/$appliance'
+      preLoaderRoute: typeof BrandsSlugApplianceRouteImport
+      parentRoute: typeof BrandsSlugRoute
+    }
   }
 }
 
@@ -1149,57 +1656,93 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface BrandsSlugRouteChildren {
+  BrandsSlugApplianceRoute: typeof BrandsSlugApplianceRoute
+}
+
+const BrandsSlugRouteChildren: BrandsSlugRouteChildren = {
+  BrandsSlugApplianceRoute: BrandsSlugApplianceRoute,
+}
+
+const BrandsSlugRouteWithChildren = BrandsSlugRoute._addFileChildren(
+  BrandsSlugRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   BlogsRoute: BlogsRoute,
   BookingRoute: BookingRoute,
+  EmergencyRoute: EmergencyRoute,
   GlossaryRoute: GlossaryRoute,
   PortfolioRoute: PortfolioRoute,
   BlogsSlugRoute: BlogsSlugRoute,
+  BrandsSlugRoute: BrandsSlugRouteWithChildren,
+  CitiesSlugRoute: CitiesSlugRoute,
   CitiesMumbaiRoute: CitiesMumbaiRoute,
   CitiesNashikRoute: CitiesNashikRoute,
   CitiesPuneRoute: CitiesPuneRoute,
   FormulasHvacRoute: FormulasHvacRoute,
   FormulasRefrigerationRoute: FormulasRefrigerationRoute,
+  GuidesAcGasChargingRoute: GuidesAcGasChargingRoute,
+  GuidesAcLeaksGasChargingRoute: GuidesAcLeaksGasChargingRoute,
   GuidesAcNotCoolingRoute: GuidesAcNotCoolingRoute,
+  GuidesBrandComparisonsRoute: GuidesBrandComparisonsRoute,
   GuidesCoilFreezingRoute: GuidesCoilFreezingRoute,
   GuidesHighHeadRoute: GuidesHighHeadRoute,
   GuidesHowToSubcoolingRoute: GuidesHowToSubcoolingRoute,
   GuidesHowToSuperheatRoute: GuidesHowToSuperheatRoute,
+  GuidesHvacDesignGuideRoute: GuidesHvacDesignGuideRoute,
   GuidesLeakSymptomsRoute: GuidesLeakSymptomsRoute,
   GuidesLowSuctionRoute: GuidesLowSuctionRoute,
+  GuidesRefrigerantPressuresChartRoute: GuidesRefrigerantPressuresChartRoute,
+  GuidesRefrigeratorErrorCodesRoute: GuidesRefrigeratorErrorCodesRoute,
+  GuidesRefrigeratorNotCoolingRoute: GuidesRefrigeratorNotCoolingRoute,
   GuidesShortCyclingRoute: GuidesShortCyclingRoute,
   GuidesWalkInWarmRoute: GuidesWalkInWarmRoute,
+  IndustrialTopicRoute: IndustrialTopicRoute,
   InteractiveChecklistRoute: InteractiveChecklistRoute,
   InteractiveCostEstimatorRoute: InteractiveCostEstimatorRoute,
   InteractiveQuizRoute: InteractiveQuizRoute,
   InteractiveRoiRoute: InteractiveRoiRoute,
   InteractiveSelectorRoute: InteractiveSelectorRoute,
   InteractiveWizardRoute: InteractiveWizardRoute,
+  LocationsSlugRoute: LocationsSlugRoute,
+  PortalCustomerRoute: PortalCustomerRoute,
+  PortalTechnicianRoute: PortalTechnicianRoute,
+  RefrigerantsSlugRoute: RefrigerantsSlugRoute,
   RefrigerantsR134aRoute: RefrigerantsR134aRoute,
   RefrigerantsR32Route: RefrigerantsR32Route,
   RefrigerantsR404aRoute: RefrigerantsR404aRoute,
   RefrigerantsR407cRoute: RefrigerantsR407cRoute,
   RefrigerantsR410aRoute: RefrigerantsR410aRoute,
+  ServicesSlugRoute: ServicesSlugRoute,
+  ToolsAirVelocityRoute: ToolsAirVelocityRoute,
   ToolsBtuCalculatorRoute: ToolsBtuCalculatorRoute,
   ToolsCfmCalculatorRoute: ToolsCfmCalculatorRoute,
   ToolsChargeCalculatorRoute: ToolsChargeCalculatorRoute,
   ToolsCompressorCapacityRoute: ToolsCompressorCapacityRoute,
   ToolsCoolingLoadRoute: ToolsCoolingLoadRoute,
+  ToolsCoolingTowerApproachRoute: ToolsCoolingTowerApproachRoute,
   ToolsCopEerRoute: ToolsCopEerRoute,
   ToolsDuctCalculatorRoute: ToolsDuctCalculatorRoute,
+  ToolsElectricityCostRoute: ToolsElectricityCostRoute,
   ToolsEnergyCalculatorRoute: ToolsEnergyCalculatorRoute,
   ToolsPipeSizingRoute: ToolsPipeSizingRoute,
   ToolsPressureTempRoute: ToolsPressureTempRoute,
   ToolsPsychrometricRoute: ToolsPsychrometricRoute,
   ToolsPtCalculatorRoute: ToolsPtCalculatorRoute,
+  ToolsSeerEerCopRoute: ToolsSeerEerCopRoute,
   ToolsSubcoolingCalculatorRoute: ToolsSubcoolingCalculatorRoute,
   ToolsSuperheatCalculatorRoute: ToolsSuperheatCalculatorRoute,
   ToolsTempConvertRoute: ToolsTempConvertRoute,
   ToolsTonnageCalculatorRoute: ToolsTonnageCalculatorRoute,
   ToolsVacuumConvertRoute: ToolsVacuumConvertRoute,
+  ToolsVoltageDropRoute: ToolsVoltageDropRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
+  BrandsCompareComparisonSlugRoute: BrandsCompareComparisonSlugRoute,
+  CitiesCitySlugServiceSlugRoute: CitiesCitySlugServiceSlugRoute,
+  ServicesServiceSlugLocationSlugRoute: ServicesServiceSlugLocationSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

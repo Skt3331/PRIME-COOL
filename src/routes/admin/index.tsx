@@ -131,7 +131,7 @@ function DashboardPage() {
       data: {
         username: newUsername,
         password: newPassword || undefined,
-      }
+      },
     });
   };
 
@@ -160,14 +160,19 @@ function DashboardPage() {
             System <span className="text-gradient">Overview</span>
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Monitor incoming service requests, check notification delivery logs, and maintain system state.
+            Monitor incoming service requests, check notification delivery logs, and maintain system
+            state.
           </p>
         </div>
         {dbStatusData?.status && (
           <div className="flex items-center gap-2 px-4 py-2 rounded-2xl border border-border bg-card/40 text-xs w-fit">
-            <span className={`h-2.5 w-2.5 rounded-full ${dbStatusData.status.connected ? 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]' : 'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]'}`} />
+            <span
+              className={`h-2.5 w-2.5 rounded-full ${dbStatusData.status.connected ? "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" : "bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]"}`}
+            />
             <span className="font-medium text-muted-foreground">Database:</span>
-            <span className={`font-semibold ${dbStatusData.status.connected ? 'text-emerald-400' : 'text-amber-400'}`}>
+            <span
+              className={`font-semibold ${dbStatusData.status.connected ? "text-emerald-400" : "text-amber-400"}`}
+            >
               {dbStatusData.status.type === "MySQL" ? "MySQL Server" : "JSON Fallback"}
             </span>
             {dbStatusData.status.host && (
@@ -184,7 +189,9 @@ function DashboardPage() {
         {/* Metric: Total visits */}
         <div className="surface-card rounded-2xl p-5 border border-border flex items-center justify-between">
           <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">Total Site Visits</div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">
+              Total Site Visits
+            </div>
             <div className="font-display text-2xl font-bold mt-1.5">{totalVisits}</div>
           </div>
           <div className="h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center">
@@ -195,7 +202,9 @@ function DashboardPage() {
         {/* Metric: Total Bookings */}
         <div className="surface-card rounded-2xl p-5 border border-border flex items-center justify-between">
           <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">Total Bookings</div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">
+              Total Bookings
+            </div>
             <div className="font-display text-2xl font-bold mt-1.5">{totalBookings}</div>
           </div>
           <div className="h-10 w-10 rounded-xl bg-accent/10 border border-accent/20 text-accent flex items-center justify-center">
@@ -206,8 +215,12 @@ function DashboardPage() {
         {/* Metric: Confirmed */}
         <div className="surface-card rounded-2xl p-5 border border-border/80 glow-ring flex items-center justify-between">
           <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">Confirmed Jobs</div>
-            <div className="font-display text-2xl font-bold mt-1.5 text-primary">{confirmedCount}</div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">
+              Confirmed Jobs
+            </div>
+            <div className="font-display text-2xl font-bold mt-1.5 text-primary">
+              {confirmedCount}
+            </div>
           </div>
           <div className="h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center">
             <CheckCircle className="h-5 w-5" />
@@ -217,8 +230,12 @@ function DashboardPage() {
         {/* Metric: Pending */}
         <div className="surface-card rounded-2xl p-5 border border-border flex items-center justify-between">
           <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">Pending Action</div>
-            <div className="font-display text-2xl font-bold mt-1.5 text-yellow-500">{pendingCount}</div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">
+              Pending Action
+            </div>
+            <div className="font-display text-2xl font-bold mt-1.5 text-yellow-500">
+              {pendingCount}
+            </div>
           </div>
           <div className="h-10 w-10 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 flex items-center justify-center">
             <Clock className="h-5 w-5" />
@@ -250,21 +267,23 @@ function DashboardPage() {
                       booking.status === "confirmed"
                         ? "border-emerald-500/20 bg-emerald-500/5"
                         : booking.status === "cancelled"
-                        ? "border-rose-500/10 bg-rose-500/[0.02] opacity-75"
-                        : "border-border/60"
+                          ? "border-rose-500/10 bg-rose-500/[0.02] opacity-75"
+                          : "border-border/60"
                     }`}
                   >
                     <div className="flex flex-wrap items-start justify-between gap-2.5">
                       <div>
                         <div className="flex items-center gap-2 flex-wrap">
-                          <h3 className="font-display font-semibold text-base">{booking.customerName}</h3>
+                          <h3 className="font-display font-semibold text-base">
+                            {booking.customerName}
+                          </h3>
                           <span
                             className={`text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full border ${
                               booking.status === "confirmed"
                                 ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-400"
                                 : booking.status === "cancelled"
-                                ? "bg-rose-500/15 border-rose-500/30 text-rose-400"
-                                : "bg-yellow-500/15 border-yellow-500/30 text-yellow-400"
+                                  ? "bg-rose-500/15 border-rose-500/30 text-rose-400"
+                                  : "bg-yellow-500/15 border-yellow-500/30 text-yellow-400"
                             }`}
                           >
                             {booking.status}
@@ -276,7 +295,9 @@ function DashboardPage() {
                       </div>
 
                       <div className="text-right text-xs">
-                        <div className="font-semibold text-primary">{getFriendlyDateString(booking.date)}</div>
+                        <div className="font-semibold text-primary">
+                          {getFriendlyDateString(booking.date)}
+                        </div>
                         <div className="text-muted-foreground flex items-center gap-1 justify-end mt-0.5">
                           <Clock className="h-3 w-3" />
                           <span>{booking.timeSlot}</span>
@@ -304,7 +325,11 @@ function DashboardPage() {
                           <Button
                             size="sm"
                             variant="ghost"
-                            onClick={() => updateStatusMutation.mutate({ data: { id: booking.id, status: "cancelled" } })}
+                            onClick={() =>
+                              updateStatusMutation.mutate({
+                                data: { id: booking.id, status: "cancelled" },
+                              })
+                            }
                             disabled={updateStatusMutation.isPending}
                             className="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20"
                           >
@@ -313,7 +338,11 @@ function DashboardPage() {
                           </Button>
                           <Button
                             size="sm"
-                            onClick={() => updateStatusMutation.mutate({ data: { id: booking.id, status: "confirmed" } })}
+                            onClick={() =>
+                              updateStatusMutation.mutate({
+                                data: { id: booking.id, status: "confirmed" },
+                              })
+                            }
                             disabled={updateStatusMutation.isPending}
                             className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold"
                           >
@@ -322,7 +351,7 @@ function DashboardPage() {
                           </Button>
                         </>
                       )}
-                      
+
                       {booking.status !== "pending" && (
                         <div className="text-muted-foreground text-[11px] self-center mr-auto flex items-center gap-1 border border-border/40 bg-background/40 px-2 py-0.5 rounded-md">
                           <ShieldCheck className="h-3.5 w-3.5 text-primary" />
@@ -334,7 +363,9 @@ function DashboardPage() {
                         size="sm"
                         variant="ghost"
                         onClick={() => {
-                          if (confirm("Are you sure you want to delete this record from history?")) {
+                          if (
+                            confirm("Are you sure you want to delete this record from history?")
+                          ) {
                             deleteMutation.mutate({ data: { id: booking.id } });
                           }
                         }}
@@ -351,7 +382,9 @@ function DashboardPage() {
               <div className="text-center py-16 border border-dashed border-border rounded-2xl bg-card/10 text-muted-foreground">
                 <Clock className="h-10 w-10 mx-auto opacity-50 mb-3" />
                 <h3 className="font-semibold text-sm">Appointment ledger empty</h3>
-                <p className="text-xs text-muted-foreground mt-1">Bookings submitted on the front-end will render here.</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Bookings submitted on the front-end will render here.
+                </p>
               </div>
             )}
           </div>
@@ -371,7 +404,8 @@ function DashboardPage() {
                   <span className="animate-spin h-3.5 w-3.5 border-2 border-primary border-t-transparent rounded-full" />
                   <span>Loading message logs...</span>
                 </div>
-              ) : (notificationsData as any)?.notifications && (notificationsData as any).notifications.length > 0 ? (
+              ) : (notificationsData as any)?.notifications &&
+                (notificationsData as any).notifications.length > 0 ? (
                 (notificationsData as any).notifications.map((log: any) => (
                   <div
                     key={log.id}
@@ -380,7 +414,10 @@ function DashboardPage() {
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-muted-foreground/80">{log.id}</span>
                       <span className="text-[9px] text-muted-foreground">
-                        {new Date(log.sentAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {new Date(log.sentAt).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
                       </span>
                     </div>
 
@@ -392,9 +429,13 @@ function DashboardPage() {
                       )}
                       <div>
                         <div className="font-bold text-foreground">
-                          {log.type === "whatsapp" ? "WhatsApp SMS" : `Email: ${log.subject || "Alert"}`}
+                          {log.type === "whatsapp"
+                            ? "WhatsApp SMS"
+                            : `Email: ${log.subject || "Alert"}`}
                         </div>
-                        <div className="text-muted-foreground font-semibold mt-0.5">{log.recipient}</div>
+                        <div className="text-muted-foreground font-semibold mt-0.5">
+                          {log.recipient}
+                        </div>
                       </div>
                     </div>
 
@@ -428,7 +469,9 @@ function DashboardPage() {
         <form onSubmit={handleUpdateCredentials} className="space-y-4">
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <Label htmlFor="admin-username" className="text-xs text-muted-foreground">Admin Username</Label>
+              <Label htmlFor="admin-username" className="text-xs text-muted-foreground">
+                Admin Username
+              </Label>
               <Input
                 id="admin-username"
                 type="text"
@@ -438,9 +481,11 @@ function DashboardPage() {
                 required
               />
             </div>
-            
+
             <div className="space-y-1">
-              <Label htmlFor="admin-password" className="text-xs text-muted-foreground">New Security Key (Leave empty to keep current)</Label>
+              <Label htmlFor="admin-password" className="text-xs text-muted-foreground">
+                New Security Key (Leave empty to keep current)
+              </Label>
               <Input
                 id="admin-password"
                 type="password"
@@ -453,7 +498,9 @@ function DashboardPage() {
 
             {newPassword && (
               <div className="sm:col-span-2 space-y-1">
-                <Label htmlFor="admin-confirm" className="text-xs text-muted-foreground">Confirm Security Key</Label>
+                <Label htmlFor="admin-confirm" className="text-xs text-muted-foreground">
+                  Confirm Security Key
+                </Label>
                 <Input
                   id="admin-confirm"
                   type="password"

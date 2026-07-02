@@ -1,28 +1,34 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getPublicBlogs, getCmsSettings } from "../lib/api";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.webp";
 import { ArrowLeft, Clock, Phone, BookOpen, Calendar, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/blogs")({
   loader: async () => {
-    const [{ blogs }, { settings }] = await Promise.all([
-      getPublicBlogs(),
-      getCmsSettings(),
-    ]);
+    const [{ blogs }, { settings }] = await Promise.all([getPublicBlogs(), getCmsSettings()]);
     return { blogs, cms: settings };
   },
   head: ({ loaderData }) => {
     return {
       meta: [
         { title: "Blogs & Technical Guides — Prime Cool" },
-        { name: "description", content: "Expert HVAC, refrigeration, and industrial mechanical blogs and guides." },
+        {
+          name: "description",
+          content: "Expert HVAC, refrigeration, and industrial mechanical blogs and guides.",
+        },
         { property: "og:title", content: "Blogs & Technical Guides — Prime Cool" },
-        { property: "og:description", content: "Expert HVAC, refrigeration, and industrial mechanical blogs and guides." },
+        {
+          property: "og:description",
+          content: "Expert HVAC, refrigeration, and industrial mechanical blogs and guides.",
+        },
         { property: "og:type", content: "website" },
         { property: "og:image", content: logo },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: "Blogs & Technical Guides — Prime Cool" },
-        { name: "twitter:description", content: "Expert HVAC, refrigeration, and industrial mechanical blogs and guides." },
+        {
+          name: "twitter:description",
+          content: "Expert HVAC, refrigeration, and industrial mechanical blogs and guides.",
+        },
       ],
       links: [{ rel: "canonical", href: "/blogs" }],
     };
@@ -47,10 +53,21 @@ function BlogsPage() {
             </span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-foreground transition">Home</Link>
-            <Link to="/portfolio" className="hover:text-foreground transition">Projects</Link>
-            <Link to="/blogs" className="hover:text-foreground transition text-primary font-semibold">Blogs</Link>
-            <Link to="/booking" search={{}} className="hover:text-foreground transition">Book Service</Link>
+            <Link to="/" className="hover:text-foreground transition">
+              Home
+            </Link>
+            <Link to="/portfolio" className="hover:text-foreground transition">
+              Projects
+            </Link>
+            <Link
+              to="/blogs"
+              className="hover:text-foreground transition text-primary font-semibold"
+            >
+              Blogs
+            </Link>
+            <Link to="/booking" search={{}} className="hover:text-foreground transition">
+              Book Service
+            </Link>
           </nav>
           <div className="flex items-center gap-3 sm:gap-4">
             <a
@@ -61,7 +78,10 @@ function BlogsPage() {
               <Phone className="h-4 w-4 text-primary" />
               <span className="hidden sm:inline">{phone}</span>
             </a>
-            <Link to="/" className="text-sm font-medium hover:text-primary transition flex items-center gap-1">
+            <Link
+              to="/"
+              className="text-sm font-medium hover:text-primary transition flex items-center gap-1"
+            >
               <ArrowLeft className="h-4 w-4" />
               <span>Back</span>
             </Link>
@@ -90,7 +110,8 @@ function BlogsPage() {
               Engineering blogs & <span className="text-gradient">technical guides.</span>
             </h1>
             <p className="mt-4 text-sm text-muted-foreground">
-              Deep dives into refrigeration calibration, troubleshooting split AC units, and heavy industrial preventive maintenance.
+              Deep dives into refrigeration calibration, troubleshooting split AC units, and heavy
+              industrial preventive maintenance.
             </p>
           </div>
 
@@ -146,7 +167,9 @@ function BlogsPage() {
             <div className="text-center py-20 border border-dashed border-border rounded-3xl bg-card/10 text-muted-foreground max-w-md mx-auto">
               <BookOpen className="h-10 w-10 mx-auto opacity-50 mb-3" />
               <h3 className="font-semibold text-sm">No articles published yet</h3>
-              <p className="text-xs text-muted-foreground mt-1">Check back later or view our resource calculators.</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Check back later or view our resource calculators.
+              </p>
             </div>
           )}
         </div>

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { getPublicProjects, getCmsSettings } from "../lib/api";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import {
   ArrowLeft,
   ArrowRight,
@@ -18,14 +18,12 @@ import {
   Linkedin,
   Youtube,
   Twitter,
+  Calendar,
 } from "lucide-react";
 
 export const Route = createFileRoute("/portfolio")({
   loader: async () => {
-    const [{ projects }, { settings }] = await Promise.all([
-      getPublicProjects(),
-      getCmsSettings(),
-    ]);
+    const [{ projects }, { settings }] = await Promise.all([getPublicProjects(), getCmsSettings()]);
     return { projects, cms: settings };
   },
   head: ({ loaderData }) => {
@@ -51,6 +49,7 @@ export const Route = createFileRoute("/portfolio")({
 function PortfolioPage() {
   const { projects, cms } = Route.useLoaderData() as { projects: any[]; cms: any };
   const [filter, setFilter] = useState<"all" | "domestic" | "commercial" | "industrial">("all");
+  const [selectedProject, setSelectedProject] = useState<any | null>(null);
   const socials = cms?.socials || {};
   const phone = socials.phone || "+917507408461";
 
@@ -73,44 +72,7 @@ function PortfolioPage() {
   return (
     <div className="min-h-screen text-foreground flex flex-col justify-between">
       {/* Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border">
-        <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <img src={logo} alt="Prime Cool logo" className="h-9 w-9" />
-            <span className="font-display font-bold text-lg tracking-tight">
-              Prime <span className="text-gradient">Cool</span>
-            </span>
-          </Link>
-          <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-foreground transition">Home</Link>
-            <Link to="/portfolio" className="hover:text-foreground transition text-primary font-semibold">Projects</Link>
-            <Link to="/blogs" className="hover:text-foreground transition">Blogs</Link>
-            <Link to="/booking" search={{}} className="hover:text-foreground transition">Book Service</Link>
-          </nav>
-          <div className="flex items-center gap-3 sm:gap-4">
-            <a
-              href={`tel:${phone.replace(/\s+/g, "")}`}
-              className="inline-flex items-center gap-2 rounded-full border border-border p-2 sm:px-3 sm:py-1.5 text-xs font-medium hover:bg-card transition"
-              title="Call Support"
-            >
-              <PhoneIcon className="h-4 w-4 text-primary" />
-              <span className="hidden sm:inline">{phone}</span>
-            </a>
-            <Link to="/" className="text-sm font-medium hover:text-primary transition flex items-center gap-1">
-              <ArrowLeft className="h-4 w-4" />
-              <span>Back</span>
-            </Link>
-            <Link
-              to="/booking"
-              search={{}}
-              className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:opacity-90 transition glow-ring"
-            >
-              <Clock className="h-4 w-4" />
-              <span className="hidden sm:inline">Book Online</span>
-            </Link>
-          </div>
-        </div>
-      </header>
+      {/* Header removed, now in __root.tsx */}
 
       {/* Main Content */}
       <main className="flex-1 pt-28 pb-20 px-6">
@@ -119,13 +81,14 @@ function PortfolioPage() {
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-3">
               <span className="h-px w-6 bg-primary" />
-              Proven Records
+              Engineering Portfolio
             </div>
             <h1 className="font-display text-3xl md:text-5xl font-bold leading-tight">
-              Our case studies & <span className="text-gradient">previous works.</span>
+              Industrial Case Studies & <span className="text-gradient">Previous Works.</span>
             </h1>
             <p className="mt-4 text-sm text-muted-foreground">
-              Review real engineering metrics and outcomes. From domestic AC installations to factory-scale cooling towers, we deliver zero-downtime maintenance.
+              Review real engineering metrics and outcomes. From domestic AC installations to
+              factory-scale cooling towers, we deliver zero-downtime maintenance.
             </p>
           </div>
 
@@ -157,10 +120,14 @@ function PortfolioPage() {
               {filteredProjects.map((p: any, idx: number) => (
                 <article
                   key={p.id}
-                  className="group surface-card rounded-2xl p-7 border border-border flex flex-col justify-between hover:border-primary/40 hover:scale-[1.01] transition-all duration-300 relative overflow-hidden"
+                  onClick={() => setSelectedProject(p)}
+                  className="group surface-card rounded-2xl p-7 border border-border flex flex-col justify-between hover:border-primary/40 hover:scale-[1.01] transition-all duration-300 relative overflow-hidden cursor-pointer"
                 >
                   {/* Subtle float animation applied differently to staggered indexes */}
-                  <div className={idx % 2 === 0 ? "animate-float" : ""} style={{ animationDelay: `${idx * 0.5}s` }}>
+                  <div
+                    className={idx % 2 === 0 ? "animate-float" : ""}
+                    style={{ animationDelay: `${idx * 0.5}s` }}
+                  >
                     {/* Image space if uploaded */}
                     {p.image && (
                       <div className="relative aspect-video rounded-xl overflow-hidden mb-5 border border-border/40 bg-background/50">
@@ -178,7 +145,9 @@ function PortfolioPage() {
                       <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-primary">
                         {p.location}
                       </span>
-                      <span className={`text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full border ${getCategoryColor(p.category)}`}>
+                      <span
+                        className={`text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full border ${getCategoryColor(p.category)}`}
+                      >
                         {p.category}
                       </span>
                     </div>
@@ -213,7 +182,8 @@ function PortfolioPage() {
               <Layers className="h-10 w-10 text-muted-foreground mx-auto mb-4 opacity-50" />
               <h3 className="font-display text-lg font-bold">No projects found</h3>
               <p className="text-sm text-muted-foreground mt-2 px-6">
-                No case studies recorded under the "{filter}" category yet. New projects added in the Admin Panel sync here automatically.
+                No case studies recorded under the "{filter}" category yet. New projects added in
+                the Admin Panel sync here automatically.
               </p>
             </div>
           )}
@@ -222,13 +192,14 @@ function PortfolioPage() {
           <div className="mt-16 bg-gradient-to-r from-card to-background border border-border rounded-3xl p-8 md:p-12 text-center relative overflow-hidden">
             <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-primary/10 blur-3xl" />
             <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-accent/10 blur-3xl" />
-            
+
             <div className="relative max-w-2xl mx-auto space-y-6">
               <h2 className="font-display text-3xl font-bold leading-tight">
                 Need similar engineering <span className="text-gradient">excellence?</span>
               </h2>
               <p className="text-sm text-muted-foreground">
-                Get rapid, AMC-backed support along the Wagholi–Shirur route. Book a technician online or check time slots directly.
+                Get rapid, AMC-backed support along the Wagholi–Shirur route. Book a technician
+                online or check time slots directly.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2">
                 <Link
@@ -250,48 +221,101 @@ function PortfolioPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground bg-card/20 space-y-4">
-        <div className="flex justify-center gap-4 text-muted-foreground">
-          {socials.facebook && (
-            <a href={socials.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition">
-              <Facebook className="h-4.5 w-4.5" />
-            </a>
-          )}
-          {socials.instagram && (
-            <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition">
-              <Instagram className="h-4.5 w-4.5" />
-            </a>
-          )}
-          {socials.linkedin && (
-            <a href={socials.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition">
-              <Linkedin className="h-4.5 w-4.5" />
-            </a>
-          )}
-          {socials.youtube && (
-            <a href={socials.youtube} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition">
-              <Youtube className="h-4.5 w-4.5" />
-            </a>
-          )}
-          {socials.twitter && (
-            <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition">
-              <Twitter className="h-4.5 w-4.5" />
-            </a>
-          )}
-        </div>
-        <div className="flex flex-col items-center justify-center gap-2">
-          <div className="flex items-center gap-2">
-            <img src={logo} alt="Prime Cool logo" className="h-5 w-5" />
-            <span>© {new Date().getFullYear()} Prime Cool — Proprietor Saurav Temgire</span>
+      {/* Case Study Detail Modal Overlay */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <div className="bg-slate-900 border border-border/80 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 space-y-6 relative shadow-2xl animate-in fade-in zoom-in duration-200 text-left">
+            <button
+              onClick={() => setSelectedProject(null)}
+              className="absolute top-4 right-4 text-muted-foreground hover:text-white p-1 rounded-full border border-border bg-slate-950/40 transition h-8 w-8 flex items-center justify-center text-lg font-bold"
+              aria-label="Close dialog"
+            >
+              ×
+            </button>
+
+            {selectedProject.image && (
+              <div className="aspect-video w-full rounded-xl overflow-hidden border border-border/40 bg-slate-950">
+                <img
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary/20 border border-primary/30 px-3 py-1 text-xs text-primary font-semibold font-mono uppercase">
+                <MapPin className="h-3.5 w-3.5" />
+                <span>{selectedProject.location}</span>
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-slate-800 border border-border px-3 py-1 text-xs text-muted-foreground font-semibold font-mono uppercase">
+                <span>{selectedProject.category}</span>
+              </span>
+            </div>
+
+            <h3 className="font-display text-xl md:text-2xl font-bold text-white leading-tight">
+              {selectedProject.title}
+            </h3>
+
+            <div className="space-y-4">
+              <p className="text-xs md:text-sm text-foreground leading-relaxed font-semibold">
+                {selectedProject.summary}
+              </p>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {selectedProject.description ||
+                  "This project represents one of our custom field operations along the Pune industrial corridors. Prime Cool handles full diagnostics, sourcing of original components, and certification. Contact us for custom mechanical setups."}
+              </p>
+            </div>
+
+            {selectedProject.metrics && selectedProject.metrics.length > 0 && (
+              <div className="pt-4 border-t border-border/40">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground block mb-3">
+                  Key Performance Metrics
+                </span>
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  {selectedProject.metrics.map((m: any) => (
+                    <div
+                      key={m.label}
+                      className="bg-slate-950/40 p-3 rounded-xl border border-border/20"
+                    >
+                      <div className="font-display text-sm md:text-base font-bold text-gradient">
+                        {m.value}
+                      </div>
+                      <div
+                        className="text-[8px] md:text-[9px] uppercase tracking-wider text-muted-foreground mt-0.5 truncate"
+                        title={m.label}
+                      >
+                        {m.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="pt-4 border-t border-border/40 flex justify-end gap-3">
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="px-5 py-2.5 text-xs font-semibold rounded-full border border-border hover:bg-slate-800 transition"
+              >
+                Close Details
+              </button>
+              <Link
+                to="/booking"
+                search={{}}
+                onClick={() => setSelectedProject(null)}
+                className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-xs font-semibold hover:opacity-90 transition glow-ring cursor-pointer"
+              >
+                <Calendar className="h-4 w-4" />
+                <span>Inquire About This Service</span>
+              </Link>
+            </div>
           </div>
-          {socials.email && (
-            <a href={`mailto:${socials.email}`} className="hover:text-primary transition underline">
-              {socials.email}
-            </a>
-          )}
-          <div className="text-[10px] text-muted-foreground/60">Wagholi · Lonikand · Koregaon Bhima · Shikrapur · Karegaon · Ranjangaon · Shirur</div>
         </div>
-      </footer>
+      )}
+
+      {/* Footer */}
+      {/* Footer removed, now in __root.tsx */}
     </div>
   );
 }

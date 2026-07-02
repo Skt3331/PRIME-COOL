@@ -2,13 +2,7 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import {
-  getCmsSettings,
-  updateCmsSettings,
-  getFaqs,
-  addFaq,
-  deleteFaq,
-} from "../../lib/api";
+import { getCmsSettings, updateCmsSettings, getFaqs, addFaq, deleteFaq } from "../../lib/api";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -24,14 +18,15 @@ import {
   MessageCircle,
   Share2,
   Mail,
+  BarChart2,
+  MapPin,
+  Wrench,
+  ShieldCheck,
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/cms")({
   loader: async () => {
-    const [cmsResp, faqsResp] = await Promise.all([
-      getCmsSettings(),
-      getFaqs(),
-    ]);
+    const [cmsResp, faqsResp] = await Promise.all([getCmsSettings(), getFaqs()]);
     return { settings: cmsResp.settings, faqs: faqsResp.faqs };
   },
   component: CmsPage,
@@ -41,7 +36,18 @@ function CmsPage() {
   const { settings, faqs: initialFaqs } = Route.useLoaderData();
   const router = useRouter();
 
-  const [activeTab, setActiveTab] = useState<"landing" | "theme" | "seo" | "faq" | "whatsapp" | "socials" | "smtp">("landing");
+  const [activeTab, setActiveTab] = useState<
+    | "landing"
+    | "theme"
+    | "seo"
+    | "faq"
+    | "whatsapp"
+    | "socials"
+    | "smtp"
+    | "stats"
+    | "services"
+    | "amc"
+  >("landing");
 
   // State for Settings
   const [formData, setFormData] = useState(settings);
@@ -62,7 +68,7 @@ function CmsPage() {
       toast.error(err.message || "Failed to update settings");
     },
   });
- 
+
   const addFaqMutation = useMutation({
     mutationFn: async (data: { q: string; a: string }) => {
       return await addFaq({ data });
@@ -71,7 +77,7 @@ function CmsPage() {
       toast.success("FAQ added");
       setFaqs([...faqs, res.faq]);
       setNewFaq({ q: "", a: "" });
-      
+
       // Keep CMS settings synchronized locally just in case
       const updatedSettings = { ...formData, faqs: [...faqs, res.faq] };
       setFormData(updatedSettings);
@@ -79,7 +85,7 @@ function CmsPage() {
     },
     onError: (err) => toast.error(err.message),
   });
- 
+
   const deleteFaqMutation = useMutation({
     mutationFn: async (id: string) => {
       return await deleteFaq({ data: { id } });
@@ -106,6 +112,9 @@ function CmsPage() {
     { id: "theme", label: "Theme Tuner", icon: Palette },
     { id: "seo", label: "Global SEO", icon: Search },
     { id: "faq", label: "FAQ Manager", icon: MessageSquare },
+    { id: "services", label: "Services List", icon: Wrench },
+    { id: "amc", label: "AMC Plans", icon: ShieldCheck },
+    { id: "stats", label: "Stats & Regions", icon: BarChart2 },
     { id: "whatsapp", label: "WhatsApp Widget", icon: MessageCircle },
     { id: "socials", label: "Socials & Support", icon: Share2 },
     { id: "smtp", label: "SMTP Settings", icon: Mail },
@@ -324,15 +333,28 @@ function CmsPage() {
                 </div>
               </div>
             </div>
-            
-            <div className="mt-8 p-6 rounded-2xl border border-border" style={{ background: formData.theme.background }}>
+
+            <div
+              className="mt-8 p-6 rounded-2xl border border-border"
+              style={{ background: formData.theme.background }}
+            >
               <h3 className="text-sm font-semibold mb-3">Live Preview</h3>
               <div className="flex flex-wrap gap-4 items-center">
                 <Button style={{ backgroundColor: formData.theme.primary }}>Primary Button</Button>
-                <div className="text-xl font-bold font-display" style={{ background: `linear-gradient(135deg, ${formData.theme.primary}, ${formData.theme.electric})`, WebkitBackgroundClip: "text", color: "transparent" }}>
+                <div
+                  className="text-xl font-bold font-display"
+                  style={{
+                    background: `linear-gradient(135deg, ${formData.theme.primary}, ${formData.theme.electric})`,
+                    WebkitBackgroundClip: "text",
+                    color: "transparent",
+                  }}
+                >
                   Gradient Text Preview
                 </div>
-                <div className="h-4 w-4 rounded-full animate-pulse" style={{ backgroundColor: formData.theme.electric }}></div>
+                <div
+                  className="h-4 w-4 rounded-full animate-pulse"
+                  style={{ backgroundColor: formData.theme.electric }}
+                ></div>
               </div>
             </div>
 
@@ -349,7 +371,9 @@ function CmsPage() {
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2">
             {(["home", "booking", "portfolio"] as const).map((page) => (
               <div key={page} className="space-y-4">
-                <h2 className="text-lg font-semibold capitalize border-b border-border pb-2">{page} Page SEO</h2>
+                <h2 className="text-lg font-semibold capitalize border-b border-border pb-2">
+                  {page} Page SEO
+                </h2>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>Title Tag</Label>
@@ -427,10 +451,13 @@ function CmsPage() {
         {activeTab === "faq" && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
             <h2 className="text-xl font-semibold mb-4">FAQ Manager</h2>
-            
+
             <div className="space-y-4">
               {faqs.map((faq) => (
-                <div key={faq.id} className="flex gap-4 p-4 rounded-xl border border-border bg-background/50">
+                <div
+                  key={faq.id}
+                  className="flex gap-4 p-4 rounded-xl border border-border bg-background/50"
+                >
                   <div className="flex-1 space-y-2">
                     <div className="font-semibold text-sm">Q: {faq.q}</div>
                     <div className="text-sm text-muted-foreground">A: {faq.a}</div>
@@ -485,7 +512,7 @@ function CmsPage() {
         {activeTab === "whatsapp" && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
             <h2 className="text-xl font-semibold mb-4">Floating WhatsApp Support</h2>
-            
+
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-3 col-span-2 flex items-center gap-3 border p-4 rounded-xl border-border bg-background/50">
                 <input
@@ -500,7 +527,9 @@ function CmsPage() {
                     })
                   }
                 />
-                <Label htmlFor="whatsappEnabled" className="text-base cursor-pointer">Enable Floating WhatsApp Widget</Label>
+                <Label htmlFor="whatsappEnabled" className="text-base cursor-pointer">
+                  Enable Floating WhatsApp Widget
+                </Label>
               </div>
 
               <div className="space-y-2">
@@ -657,9 +686,10 @@ function CmsPage() {
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
             <h2 className="text-xl font-semibold mb-4">SMTP Email Configuration</h2>
             <p className="text-xs text-muted-foreground">
-              Configure SMTP credentials to send transactional confirmation emails using domains like booking@primecool.in.
+              Configure SMTP credentials to send transactional confirmation emails using domains
+              like booking@primecool.in.
             </p>
-            
+
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-3 col-span-2 flex items-center gap-3 border p-4 rounded-xl border-border bg-background/50">
                 <input
@@ -674,7 +704,9 @@ function CmsPage() {
                     })
                   }
                 />
-                <Label htmlFor="smtpEnabled" className="text-base cursor-pointer">Enable Live SMTP Notifications</Label>
+                <Label htmlFor="smtpEnabled" className="text-base cursor-pointer">
+                  Enable Live SMTP Notifications
+                </Label>
               </div>
 
               <div className="space-y-2">
@@ -748,7 +780,9 @@ function CmsPage() {
                     })
                   }
                 />
-                <Label htmlFor="smtpSecure" className="text-sm cursor-pointer">Use Secure SSL/TLS (Port 465)</Label>
+                <Label htmlFor="smtpSecure" className="text-sm cursor-pointer">
+                  Use Secure SSL/TLS (Port 465)
+                </Label>
               </div>
 
               <div className="space-y-2">
@@ -784,6 +818,438 @@ function CmsPage() {
               <Button onClick={handleSaveSettings} disabled={updateMutation.isPending}>
                 <Save className="h-4 w-4 mr-2" />
                 {updateMutation.isPending ? "Saving..." : "Save SMTP Settings"}
+              </Button>
+            </div>
+          </div>
+        )}
+        {activeTab === "stats" && (
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2">
+            {/* Stats Editor */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold flex items-center gap-2">
+                  <BarChart2 className="h-5 w-5 text-primary" /> Hero Stats
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const current = (formData as any).stats || [];
+                    setFormData({
+                      ...formData,
+                      stats: [...current, { value: "", label: "" }],
+                    } as any);
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20 transition"
+                >
+                  <Plus className="h-3.5 w-3.5" /> Add Stat
+                </button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                These four stats appear in the hero band below the main heading (24/7, 2 hubs, 100%,
+                AMC).
+              </p>
+              <div className="space-y-3">
+                {(
+                  (formData as any).stats || [
+                    { value: "24/7", label: "Rapid Response" },
+                    { value: "2", label: "Industrial Hubs Served" },
+                    { value: "100%", label: "Engineered Reliability" },
+                    { value: "AMC", label: "Zero-Downtime Plans" },
+                  ]
+                ).map((stat: any, idx: number) => (
+                  <div key={idx} className="flex items-center gap-3">
+                    <Input
+                      value={stat.value}
+                      placeholder="24/7"
+                      className="w-24 rounded-xl"
+                      onChange={(e) => {
+                        const updated = [...((formData as any).stats || [])];
+                        updated[idx] = { ...updated[idx], value: e.target.value };
+                        setFormData({ ...formData, stats: updated } as any);
+                      }}
+                    />
+                    <Input
+                      value={stat.label}
+                      placeholder="Rapid Response"
+                      className="flex-1 rounded-xl"
+                      onChange={(e) => {
+                        const updated = [...((formData as any).stats || [])];
+                        updated[idx] = { ...updated[idx], label: e.target.value };
+                        setFormData({ ...formData, stats: updated } as any);
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = ((formData as any).stats || []).filter(
+                          (_: any, i: number) => i !== idx,
+                        );
+                        setFormData({ ...formData, stats: updated } as any);
+                      }}
+                      className="p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg transition"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Regions Editor */}
+            <div className="space-y-4 border-t border-border pt-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold flex items-center gap-2">
+                  <MapPin className="h-5 w-5 text-primary" /> Service Regions
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const current = (formData as any).regions || [];
+                    setFormData({ ...formData, regions: [...current, ""] } as any);
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20 transition"
+                >
+                  <Plus className="h-3.5 w-3.5" /> Add Region
+                </button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                These regions appear in the Coverage section dropdown on the home page.
+              </p>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {(
+                  (formData as any).regions || [
+                    "Wagholi",
+                    "Lonikand",
+                    "Kesnand",
+                    "Koregaon Bhima",
+                    "Shikrapur",
+                    "Karegaon MIDC",
+                    "Ranjangaon MIDC",
+                    "Shirur",
+                  ]
+                ).map((region: string, idx: number) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <Input
+                      value={region}
+                      placeholder="Region name"
+                      className="flex-1 rounded-xl"
+                      onChange={(e) => {
+                        const updated = [...((formData as any).regions || [])];
+                        updated[idx] = e.target.value;
+                        setFormData({ ...formData, regions: updated } as any);
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = ((formData as any).regions || []).filter(
+                          (_: any, i: number) => i !== idx,
+                        );
+                        setFormData({ ...formData, regions: updated } as any);
+                      }}
+                      className="p-2 text-rose-400 hover:bg-rose-500/10 rounded-lg transition"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-4 flex justify-end">
+              <Button onClick={handleSaveSettings} disabled={updateMutation.isPending}>
+                <Save className="h-4 w-4 mr-2" />
+                {updateMutation.isPending ? "Saving..." : "Save Stats & Regions"}
+              </Button>
+            </div>
+          </div>
+        )}
+        {activeTab === "services" && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold flex items-center gap-2">
+                <Wrench className="h-5 w-5 text-primary" /> Services Manager
+              </h2>
+              <button
+                type="button"
+                onClick={() => {
+                  const current = (formData as any).services || [];
+                  const newService = {
+                    id: `service-${Math.random().toString(36).substr(2, 9)}`,
+                    category: "domestic",
+                    title: "New Service Title",
+                    desc: "Service description text...",
+                    image: "/projects/p1/1.png",
+                    icon: "Wrench",
+                  };
+                  setFormData({ ...formData, services: [...current, newService] } as any);
+                }}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20 transition"
+              >
+                <Plus className="h-3.5 w-3.5" /> Add Service
+              </button>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Manage the services shown in the domestic and industrial sections of the home page.
+            </p>
+
+            <div className="space-y-4">
+              {((formData as any).services || []).map((service: any, idx: number) => (
+                <div
+                  key={service.id || idx}
+                  className="border border-border/60 rounded-2xl p-4 bg-background/20 space-y-3"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold font-mono text-primary uppercase">
+                      Service #{idx + 1}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = ((formData as any).services || []).filter(
+                          (_: any, i: number) => i !== idx,
+                        );
+                        setFormData({ ...formData, services: updated } as any);
+                      }}
+                      className="p-1.5 text-rose-400 hover:bg-rose-500/10 rounded-lg transition"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-3 text-xs">
+                    <div className="space-y-1">
+                      <Label>Category</Label>
+                      <select
+                        value={service.category}
+                        onChange={(e) => {
+                          const updated = [...((formData as any).services || [])];
+                          updated[idx] = { ...updated[idx], category: e.target.value };
+                          setFormData({ ...formData, services: updated } as any);
+                        }}
+                        className="w-full rounded-lg border border-input bg-background/50 px-2 py-1.5"
+                      >
+                        <option value="domestic">Domestic & Commercial</option>
+                        <option value="industrial">Heavy Industrial</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label>Icon Name (Lucide Icon)</Label>
+                      <Input
+                        value={service.icon}
+                        placeholder="e.g. Snowflake, Refrigerator, Cog"
+                        className="rounded-lg h-8"
+                        onChange={(e) => {
+                          const updated = [...((formData as any).services || [])];
+                          updated[idx] = { ...updated[idx], icon: e.target.value };
+                          setFormData({ ...formData, services: updated } as any);
+                        }}
+                      />
+                    </div>
+
+                    <div className="space-y-1 sm:col-span-2">
+                      <Label>Title</Label>
+                      <Input
+                        value={service.title}
+                        className="rounded-lg h-8"
+                        onChange={(e) => {
+                          const updated = [...((formData as any).services || [])];
+                          updated[idx] = { ...updated[idx], title: e.target.value };
+                          setFormData({ ...formData, services: updated } as any);
+                        }}
+                      />
+                    </div>
+
+                    <div className="space-y-1 sm:col-span-2">
+                      <Label>Description</Label>
+                      <Textarea
+                        value={service.desc}
+                        rows={2}
+                        className="rounded-lg text-xs"
+                        onChange={(e) => {
+                          const updated = [...((formData as any).services || [])];
+                          updated[idx] = { ...updated[idx], desc: e.target.value };
+                          setFormData({ ...formData, services: updated } as any);
+                        }}
+                      />
+                    </div>
+
+                    <div className="space-y-1 sm:col-span-2">
+                      <Label>Image URL / Path</Label>
+                      <Input
+                        value={service.image}
+                        placeholder="/projects/p1/1.png"
+                        className="rounded-lg h-8"
+                        onChange={(e) => {
+                          const updated = [...((formData as any).services || [])];
+                          updated[idx] = { ...updated[idx], image: e.target.value };
+                          setFormData({ ...formData, services: updated } as any);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-4 flex justify-end">
+              <Button onClick={handleSaveSettings} disabled={updateMutation.isPending}>
+                <Save className="h-4 w-4 mr-2" />
+                {updateMutation.isPending ? "Saving..." : "Save Services"}
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "amc" && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold flex items-center gap-2">
+                <ShieldCheck className="h-5 w-5 text-primary" /> AMC Plans Manager
+              </h2>
+              <button
+                type="button"
+                onClick={() => {
+                  const current = (formData as any).amcTiers || [];
+                  const newTier = {
+                    name: "New Tier Name",
+                    audience: "Target audience",
+                    price: "Standard pricing text",
+                    icon: "ShieldCheck",
+                    points: ["Feature point one"],
+                    featured: false,
+                  };
+                  setFormData({ ...formData, amcTiers: [...current, newTier] } as any);
+                }}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary/20 transition"
+              >
+                <Plus className="h-3.5 w-3.5" /> Add AMC Plan
+              </button>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Manage the maintenance plans / pricing cards shown on the home page.
+            </p>
+
+            <div className="space-y-4">
+              {((formData as any).amcTiers || []).map((tier: any, idx: number) => (
+                <div
+                  key={idx}
+                  className="border border-border/60 rounded-2xl p-4 bg-background/20 space-y-3"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold font-mono text-primary uppercase">
+                      Plan #{idx + 1}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = ((formData as any).amcTiers || []).filter(
+                          (_: any, i: number) => i !== idx,
+                        );
+                        setFormData({ ...formData, amcTiers: updated } as any);
+                      }}
+                      className="p-1.5 text-rose-400 hover:bg-rose-500/10 rounded-lg transition"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-3 text-xs">
+                    <div className="space-y-1">
+                      <Label>Plan Name</Label>
+                      <Input
+                        value={tier.name}
+                        className="rounded-lg h-8"
+                        onChange={(e) => {
+                          const updated = [...((formData as any).amcTiers || [])];
+                          updated[idx] = { ...updated[idx], name: e.target.value };
+                          setFormData({ ...formData, amcTiers: updated } as any);
+                        }}
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label>Target Audience</Label>
+                      <Input
+                        value={tier.audience}
+                        className="rounded-lg h-8"
+                        onChange={(e) => {
+                          const updated = [...((formData as any).amcTiers || [])];
+                          updated[idx] = { ...updated[idx], audience: e.target.value };
+                          setFormData({ ...formData, amcTiers: updated } as any);
+                        }}
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label>Price / Tag Text</Label>
+                      <Input
+                        value={tier.price}
+                        placeholder="Starter, Enterprise, Popular..."
+                        className="rounded-lg h-8"
+                        onChange={(e) => {
+                          const updated = [...((formData as any).amcTiers || [])];
+                          updated[idx] = { ...updated[idx], price: e.target.value };
+                          setFormData({ ...formData, amcTiers: updated } as any);
+                        }}
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label>Icon Name (Lucide Icon)</Label>
+                      <Input
+                        value={tier.icon}
+                        placeholder="Snowflake, ShieldCheck, Factory..."
+                        className="rounded-lg h-8"
+                        onChange={(e) => {
+                          const updated = [...((formData as any).amcTiers || [])];
+                          updated[idx] = { ...updated[idx], icon: e.target.value };
+                          setFormData({ ...formData, amcTiers: updated } as any);
+                        }}
+                      />
+                    </div>
+
+                    <div className="flex items-center gap-2 sm:col-span-2 pt-2">
+                      <input
+                        type="checkbox"
+                        id={`featured-${idx}`}
+                        checked={tier.featured || false}
+                        onChange={(e) => {
+                          const updated = [...((formData as any).amcTiers || [])];
+                          updated[idx] = { ...updated[idx], featured: e.target.checked };
+                          setFormData({ ...formData, amcTiers: updated } as any);
+                        }}
+                        className="h-4 w-4 rounded border-border"
+                      />
+                      <Label htmlFor={`featured-${idx}`} className="cursor-pointer">
+                        Highlight / Feature this plan
+                      </Label>
+                    </div>
+
+                    <div className="space-y-1 sm:col-span-2 pt-2">
+                      <Label>Inclusions / Points (one per line)</Label>
+                      <Textarea
+                        value={(tier.points || []).join("\n")}
+                        rows={4}
+                        placeholder="Point 1&#10;Point 2&#10;Point 3"
+                        className="rounded-lg text-xs font-mono"
+                        onChange={(e) => {
+                          const updated = [...((formData as any).amcTiers || [])];
+                          updated[idx] = { ...updated[idx], points: e.target.value.split("\n") };
+                          setFormData({ ...formData, amcTiers: updated } as any);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-4 flex justify-end">
+              <Button onClick={handleSaveSettings} disabled={updateMutation.isPending}>
+                <Save className="h-4 w-4 mr-2" />
+                {updateMutation.isPending ? "Saving..." : "Save AMC Plans"}
               </Button>
             </div>
           </div>

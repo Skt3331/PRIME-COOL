@@ -7,12 +7,28 @@ import crypto from "node:crypto";
 import nodemailer from "nodemailer";
 import { fileURLToPath } from "node:url";
 
+// 60-second in-memory cache for public endpoints
+const publicCache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_TTL = 60 * 1000;
+
+function getCachedData<T>(key: string): T | null {
+  const cached = publicCache.get(key);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return cached.data as T;
+  }
+  return null;
+}
+
+function setCachedData(key: string, data: any) {
+  publicCache.set(key, { data, timestamp: Date.now() });
+}
+
 // Security helper to assert admin authentication in server functions
 function getAppRoot(): string {
   try {
     const currentFilePath = fileURLToPath(import.meta.url);
     const currentDir = path.dirname(currentFilePath);
-    
+
     if (currentDir.includes("dist\\server\\assets") || currentDir.includes("dist/server/assets")) {
       return path.resolve(currentDir, "..", "..", "..");
     } else if (currentDir.includes("dist\\server") || currentDir.includes("dist/server")) {
@@ -87,7 +103,11 @@ export async function getVisitsHelper() {
 }
 
 export async function getPublicProjectsHelper() {
+  const cached = getCachedData("projects");
+  if (cached) return { projects: cached };
+
   const projects = await db.getProjects();
+  setCachedData("projects", projects);
   return { projects };
 }
 
@@ -106,7 +126,7 @@ export async function createProjectHelper(data: {
   imageFile?: { name: string; base64: string };
 }) {
   await requireAdminAuth();
-  
+
   let imageUrl = "";
 
   if (data.imageFile) {
@@ -119,7 +139,7 @@ export async function createProjectHelper(data: {
 
     const buffer = Buffer.from(data.imageFile.base64, "base64");
     await fs.writeFile(filePath, buffer);
-    
+
     imageUrl = `/uploads/portfolio/${filename}`;
   }
 
@@ -183,13 +203,7 @@ export async function getAvailableSlotsHelper(data: { date: string }) {
   const { date } = data;
   if (!date) return { slots: [] };
 
-  const standardSlots = [
-    "09:00 AM",
-    "11:00 AM",
-    "01:00 PM",
-    "03:00 PM",
-    "05:00 PM",
-  ];
+  const standardSlots = ["09:00 AM", "11:00 AM", "01:00 PM", "03:00 PM", "05:00 PM"];
 
   const bookings = await db.getBookings();
   const bookedSlots = bookings
@@ -217,7 +231,7 @@ export async function createBookingHelper(data: {
 
   const bookings = await db.getBookings();
   const isDoubleBooked = bookings.some(
-    (b) => b.date === date && b.timeSlot === timeSlot && b.status !== "cancelled"
+    (b) => b.date === date && b.timeSlot === timeSlot && b.status !== "cancelled",
   );
 
   if (isDoubleBooked) {
@@ -301,7 +315,11 @@ export async function updateBookingStatusHelper(data: {
     const confirmSubject = `Booking Confirmed — Prime Cool`;
     const confirmMessage = `Hello ${updated.customerName},\n\nWe are pleased to inform you that your appointment for ${updated.serviceType} scheduled on ${formattedDate} at ${updated.timeSlot} is now CONFIRMED.\n\nLead engineer Saurav Temgire will arrive at your site. If you have any additional details or requirements, please contact us.\n\nBest regards,\nPrime Cool Solutions\nPrimary: ${cmsPhone}\nEmail: ${cmsEmail}`;
 
-    const confirmEmailStatus = await sendEmailNotification(updated.email, confirmSubject, confirmMessage);
+    const confirmEmailStatus = await sendEmailNotification(
+      updated.email,
+      confirmSubject,
+      confirmMessage,
+    );
 
     await db.addNotification({
       recipient: updated.email,
@@ -314,7 +332,11 @@ export async function updateBookingStatusHelper(data: {
     const cancelSubject = `Booking Cancellation — Prime Cool`;
     const cancelMessage = `Hello ${updated.customerName},\n\nYour appointment request for ${updated.serviceType} scheduled on ${formattedDate} at ${updated.timeSlot} has been cancelled.\n\nIf you have any questions or would like to reschedule, please feel free to call Saurav Temgire at ${cmsPhone}.\n\nBest regards,\nPrime Cool`;
 
-    const cancelEmailStatus = await sendEmailNotification(updated.email, cancelSubject, cancelMessage);
+    const cancelEmailStatus = await sendEmailNotification(
+      updated.email,
+      cancelSubject,
+      cancelMessage,
+    );
 
     await db.addNotification({
       recipient: updated.email,
@@ -340,10 +362,7 @@ export async function getAdminNotificationsHelper() {
   return { notifications };
 }
 
-export async function changeAdminSettingsHelper(data: {
-  username: string;
-  password?: string;
-}) {
+export async function changeAdminSettingsHelper(data: { username: string; password?: string }) {
   await requireAdminAuth();
   await db.updateAdminSettings(data.username, data.password || undefined);
   return { success: true };
@@ -351,7 +370,11 @@ export async function changeAdminSettingsHelper(data: {
 
 // CMS Helpers
 export async function getCmsSettingsHelper() {
+  const cached = getCachedData("cmsSettings");
+  if (cached) return { settings: cached };
+
   const settings = await db.getCmsSettings();
+  setCachedData("cmsSettings", settings);
   return { settings };
 }
 
@@ -388,7 +411,11 @@ export async function deleteFaqHelper(data: { id: string }) {
 
 // Blogs Server Helpers
 export async function getPublicBlogsHelper() {
+  const cached = getCachedData("blogs");
+  if (cached) return { blogs: cached };
+
   const blogs = await db.getBlogs();
+  setCachedData("blogs", blogs);
   return { blogs };
 }
 
@@ -403,6 +430,10 @@ export async function createBlogHelper(data: {
   slug: string;
   content: string;
   summary: string;
+  category?: string;
+  author?: string;
+  seoTitle?: string;
+  seoDesc?: string;
   imageFile?: { name: string; base64: string };
 }) {
   await requireAdminAuth();
@@ -428,6 +459,10 @@ export async function createBlogHelper(data: {
     slug: data.slug,
     content: data.content,
     summary: data.summary,
+    category: data.category,
+    author: data.author,
+    seoTitle: data.seoTitle,
+    seoDesc: data.seoDesc,
     image: imageUrl || undefined,
   });
 
@@ -440,6 +475,10 @@ export async function updateBlogHelper(data: {
   slug?: string;
   content?: string;
   summary?: string;
+  category?: string;
+  author?: string;
+  seoTitle?: string;
+  seoDesc?: string;
   imageFile?: { name: string; base64: string };
 }) {
   await requireAdminAuth();
@@ -482,4 +521,3 @@ export async function getDbStatusHelper() {
   const status = await db.getDbStatus();
   return { status };
 }
-

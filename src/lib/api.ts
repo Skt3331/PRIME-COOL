@@ -30,26 +30,22 @@ import {
 } from "./api-helpers.server";
 
 // 1. Visit Tracking Server Functions
-export const trackVisit = createServerFn({ method: "POST" })
-  .handler(async () => {
-    return await trackVisitHelper();
-  });
+export const trackVisit = createServerFn({ method: "POST" }).handler(async () => {
+  return await trackVisitHelper();
+});
 
-export const getVisits = createServerFn({ method: "GET" })
-  .handler(async () => {
-    return await getVisitsHelper();
-  });
+export const getVisits = createServerFn({ method: "GET" }).handler(async () => {
+  return await getVisitsHelper();
+});
 
 // 2. Portfolio Server Functions
-export const getPublicProjects = createServerFn({ method: "GET" })
-  .handler(async () => {
-    return await getPublicProjectsHelper();
-  });
+export const getPublicProjects = createServerFn({ method: "GET" }).handler(async () => {
+  return await getPublicProjectsHelper();
+});
 
-export const getAdminProjects = createServerFn({ method: "GET" })
-  .handler(async () => {
-    return await getAdminProjectsHelper();
-  });
+export const getAdminProjects = createServerFn({ method: "GET" }).handler(async () => {
+  return await getAdminProjectsHelper();
+});
 
 export const createProject = createServerFn({ method: "POST" })
   .validator(
@@ -60,7 +56,7 @@ export const createProject = createServerFn({ method: "POST" })
       category: z.enum(["domestic", "commercial", "industrial"]),
       metrics: z.array(z.object({ value: z.string(), label: z.string() })),
       imageFile: z.object({ name: z.string(), base64: z.string() }).optional(),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     return await createProjectHelper(data);
@@ -76,7 +72,7 @@ export const updateProject = createServerFn({ method: "POST" })
       category: z.enum(["domestic", "commercial", "industrial"]).optional(),
       metrics: z.array(z.object({ value: z.string(), label: z.string() })).optional(),
       imageFile: z.object({ name: z.string(), base64: z.string() }).optional(),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     return await updateProjectHelper(data);
@@ -105,23 +101,22 @@ export const createBooking = createServerFn({ method: "POST" })
       date: z.string(),
       timeSlot: z.string(),
       notes: z.string().optional(),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     return await createBookingHelper(data);
   });
 
-export const getAdminBookings = createServerFn({ method: "GET" })
-  .handler(async () => {
-    return await getAdminBookingsHelper();
-  });
+export const getAdminBookings = createServerFn({ method: "GET" }).handler(async () => {
+  return await getAdminBookingsHelper();
+});
 
 export const updateBookingStatus = createServerFn({ method: "POST" })
   .validator(
     z.object({
       id: z.string(),
       status: z.enum(["pending", "confirmed", "cancelled"]),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     return await updateBookingStatusHelper(data);
@@ -134,10 +129,9 @@ export const deleteBooking = createServerFn({ method: "POST" })
   });
 
 // 4. Notifications Server Function
-export const getAdminNotifications = createServerFn({ method: "GET" })
-  .handler(async () => {
-    return await getAdminNotificationsHelper();
-  });
+export const getAdminNotifications = createServerFn({ method: "GET" }).handler(async () => {
+  return await getAdminNotificationsHelper();
+});
 
 // 5. Admin Settings Update Function
 export const changeAdminSettings = createServerFn({ method: "POST" })
@@ -145,17 +139,16 @@ export const changeAdminSettings = createServerFn({ method: "POST" })
     z.object({
       username: z.string(),
       password: z.string().optional(),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     return await changeAdminSettingsHelper(data);
   });
 
 // 6. CMS & FAQ Server Functions
-export const getCmsSettings = createServerFn({ method: "GET" })
-  .handler(async () => {
-    return await getCmsSettingsHelper();
-  });
+export const getCmsSettings = createServerFn({ method: "GET" }).handler(async () => {
+  return await getCmsSettingsHelper();
+});
 
 export const updateCmsSettings = createServerFn({ method: "POST" })
   .validator(
@@ -199,7 +192,7 @@ export const updateCmsSettings = createServerFn({ method: "POST" })
           id: z.string(),
           q: z.string(),
           a: z.string(),
-        })
+        }),
       ),
       whatsapp: z.object({
         enabled: z.boolean(),
@@ -225,23 +218,55 @@ export const updateCmsSettings = createServerFn({ method: "POST" })
         fromName: z.string(),
         fromEmail: z.string(),
       }),
-    })
+      stats: z
+        .array(
+          z.object({
+            value: z.string(),
+            label: z.string(),
+          }),
+        )
+        .optional(),
+      services: z
+        .array(
+          z.object({
+            id: z.string(),
+            category: z.enum(["domestic", "industrial"]),
+            title: z.string(),
+            desc: z.string(),
+            image: z.string(),
+            icon: z.string(),
+          }),
+        )
+        .optional(),
+      amcTiers: z
+        .array(
+          z.object({
+            name: z.string(),
+            audience: z.string(),
+            price: z.string(),
+            icon: z.string(),
+            points: z.array(z.string()),
+            featured: z.boolean().optional(),
+          }),
+        )
+        .optional(),
+      regions: z.array(z.string()).optional(),
+    }),
   )
   .handler(async ({ data }) => {
     return await updateCmsSettingsHelper(data);
   });
 
-export const getFaqs = createServerFn({ method: "GET" })
-  .handler(async () => {
-    return await getFaqsHelper();
-  });
+export const getFaqs = createServerFn({ method: "GET" }).handler(async () => {
+  return await getFaqsHelper();
+});
 
 export const addFaq = createServerFn({ method: "POST" })
   .validator(
     z.object({
       q: z.string(),
       a: z.string(),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     return await addFaqHelper(data);
@@ -253,7 +278,7 @@ export const updateFaq = createServerFn({ method: "POST" })
       id: z.string(),
       q: z.string().optional(),
       a: z.string().optional(),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     return await updateFaqHelper(data);
@@ -266,15 +291,13 @@ export const deleteFaq = createServerFn({ method: "POST" })
   });
 
 // 7. Blogs Server Functions
-export const getPublicBlogs = createServerFn({ method: "GET" })
-  .handler(async () => {
-    return await getPublicBlogsHelper();
-  });
+export const getPublicBlogs = createServerFn({ method: "GET" }).handler(async () => {
+  return await getPublicBlogsHelper();
+});
 
-export const getAdminBlogs = createServerFn({ method: "GET" })
-  .handler(async () => {
-    return await getAdminBlogsHelper();
-  });
+export const getAdminBlogs = createServerFn({ method: "GET" }).handler(async () => {
+  return await getAdminBlogsHelper();
+});
 
 export const createBlog = createServerFn({ method: "POST" })
   .validator(
@@ -283,8 +306,12 @@ export const createBlog = createServerFn({ method: "POST" })
       slug: z.string(),
       content: z.string(),
       summary: z.string(),
+      category: z.string().optional(),
+      author: z.string().optional(),
+      seoTitle: z.string().optional(),
+      seoDesc: z.string().optional(),
       imageFile: z.object({ name: z.string(), base64: z.string() }).optional(),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     return await createBlogHelper(data);
@@ -298,8 +325,12 @@ export const updateBlog = createServerFn({ method: "POST" })
       slug: z.string().optional(),
       content: z.string().optional(),
       summary: z.string().optional(),
+      category: z.string().optional(),
+      author: z.string().optional(),
+      seoTitle: z.string().optional(),
+      seoDesc: z.string().optional(),
       imageFile: z.object({ name: z.string(), base64: z.string() }).optional(),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     return await updateBlogHelper(data);
@@ -311,8 +342,6 @@ export const deleteBlog = createServerFn({ method: "POST" })
     return await deleteBlogHelper(data);
   });
 
-export const getDbStatus = createServerFn({ method: "GET" })
-  .handler(async () => {
-    return await getDbStatusHelper();
-  });
-
+export const getDbStatus = createServerFn({ method: "GET" }).handler(async () => {
+  return await getDbStatusHelper();
+});

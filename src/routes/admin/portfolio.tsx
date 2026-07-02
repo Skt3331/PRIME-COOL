@@ -34,7 +34,7 @@ function AdminPortfolioPage() {
   const [summary, setSummary] = useState("");
   const [location, setLocation] = useState("");
   const [category, setCategory] = useState<"domestic" | "commercial" | "industrial">("domestic");
-  
+
   // Storing metrics as a simple array of 3 objects
   const [metric1Val, setMetric1Val] = useState("");
   const [metric1Label, setMetric1Label] = useState("");
@@ -43,7 +43,9 @@ function AdminPortfolioPage() {
   const [metric3Val, setMetric3Val] = useState("");
   const [metric3Label, setMetric3Label] = useState("");
 
-  const [imageFile, setImageFile] = useState<{ name: string; base64: string } | undefined>(undefined);
+  const [imageFile, setImageFile] = useState<{ name: string; base64: string } | undefined>(
+    undefined,
+  );
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   // Query projects
@@ -71,7 +73,7 @@ function AdminPortfolioPage() {
         setMetric3Label("");
         setImageFile(undefined);
         setImagePreview(null);
-        
+
         queryClient.invalidateQueries({ queryKey: ["adminProjects"] });
       } else {
         toast.error("Failed to add project.");
@@ -102,7 +104,7 @@ function AdminPortfolioPage() {
         setMetric3Label("");
         setImageFile(undefined);
         setImagePreview(null);
-        
+
         queryClient.invalidateQueries({ queryKey: ["adminProjects"] });
       } else {
         toast.error("Failed to update project.");
@@ -150,7 +152,7 @@ function AdminPortfolioPage() {
         toast.warning("Image file size must be less than 2MB.");
         return;
       }
-      
+
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64Str = (reader.result as string).split(",")[1];
@@ -227,7 +229,10 @@ function AdminPortfolioPage() {
             {editingProject ? (
               <>
                 <Pencil className="h-5 w-5 text-primary" />
-                Edit Project: <span className="text-muted-foreground font-normal truncate max-w-[200px]">{editingProject.title}</span>
+                Edit Project:{" "}
+                <span className="text-muted-foreground font-normal truncate max-w-[200px]">
+                  {editingProject.title}
+                </span>
               </>
             ) : (
               <>
@@ -239,7 +244,9 @@ function AdminPortfolioPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4 text-sm">
             <div className="space-y-1">
-              <Label htmlFor="proj-title" className="text-xs text-muted-foreground">Project Title</Label>
+              <Label htmlFor="proj-title" className="text-xs text-muted-foreground">
+                Project Title
+              </Label>
               <Input
                 id="proj-title"
                 type="text"
@@ -253,7 +260,9 @@ function AdminPortfolioPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <Label htmlFor="proj-loc" className="text-xs text-muted-foreground">Location & Scale</Label>
+                <Label htmlFor="proj-loc" className="text-xs text-muted-foreground">
+                  Location & Scale
+                </Label>
                 <Input
                   id="proj-loc"
                   type="text"
@@ -266,7 +275,9 @@ function AdminPortfolioPage() {
               </div>
 
               <div className="space-y-1">
-                <Label htmlFor="proj-cat" className="text-xs text-muted-foreground">Category</Label>
+                <Label htmlFor="proj-cat" className="text-xs text-muted-foreground">
+                  Category
+                </Label>
                 <select
                   id="proj-cat"
                   value={category}
@@ -281,7 +292,9 @@ function AdminPortfolioPage() {
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="proj-summary" className="text-xs text-muted-foreground">Detailed Summary</Label>
+              <Label htmlFor="proj-summary" className="text-xs text-muted-foreground">
+                Detailed Summary
+              </Label>
               <Textarea
                 id="proj-summary"
                 placeholder="Describe the problem, the diagnosis, the repair actions, and metrics restored..."
@@ -297,10 +310,12 @@ function AdminPortfolioPage() {
               <Label className="text-xs font-semibold text-primary block border-b border-border/30 pb-1">
                 Project Key Performance Metrics
               </Label>
-              
+
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <Label className="text-[10px] text-muted-foreground">Metric 1 Value (e.g. 38 min)</Label>
+                  <Label className="text-[10px] text-muted-foreground">
+                    Metric 1 Value (e.g. 38 min)
+                  </Label>
                   <Input
                     type="text"
                     placeholder="38 min"
@@ -310,7 +325,9 @@ function AdminPortfolioPage() {
                   />
                 </div>
                 <div>
-                  <Label className="text-[10px] text-muted-foreground">Metric 1 Label (e.g. On-site response)</Label>
+                  <Label className="text-[10px] text-muted-foreground">
+                    Metric 1 Label (e.g. On-site response)
+                  </Label>
                   <Input
                     type="text"
                     placeholder="On-site response"
@@ -323,7 +340,9 @@ function AdminPortfolioPage() {
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <Label className="text-[10px] text-muted-foreground">Metric 2 Value (e.g. +22%)</Label>
+                  <Label className="text-[10px] text-muted-foreground">
+                    Metric 2 Value (e.g. +22%)
+                  </Label>
                   <Input
                     type="text"
                     placeholder="+22%"
@@ -333,7 +352,9 @@ function AdminPortfolioPage() {
                   />
                 </div>
                 <div>
-                  <Label className="text-[10px] text-muted-foreground">Metric 2 Label (e.g. Efficiency)</Label>
+                  <Label className="text-[10px] text-muted-foreground">
+                    Metric 2 Label (e.g. Efficiency)
+                  </Label>
                   <Input
                     type="text"
                     placeholder="Thermal efficiency"
@@ -346,7 +367,9 @@ function AdminPortfolioPage() {
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <Label className="text-[10px] text-muted-foreground">Metric 3 Value (e.g. 3 days)</Label>
+                  <Label className="text-[10px] text-muted-foreground">
+                    Metric 3 Value (e.g. 3 days)
+                  </Label>
                   <Input
                     type="text"
                     placeholder="3 days"
@@ -356,7 +379,9 @@ function AdminPortfolioPage() {
                   />
                 </div>
                 <div>
-                  <Label className="text-[10px] text-muted-foreground">Metric 3 Label (e.g. Turnaround)</Label>
+                  <Label className="text-[10px] text-muted-foreground">
+                    Metric 3 Label (e.g. Turnaround)
+                  </Label>
                   <Input
                     type="text"
                     placeholder="Total turnaround"
@@ -370,7 +395,9 @@ function AdminPortfolioPage() {
 
             {/* File Upload field */}
             <div className="space-y-2">
-              <Label htmlFor="proj-img" className="text-xs text-muted-foreground">Project Illustration / Photo</Label>
+              <Label htmlFor="proj-img" className="text-xs text-muted-foreground">
+                Project Illustration / Photo
+              </Label>
               <div className="flex items-center gap-3">
                 <Input
                   id="proj-img"
@@ -382,7 +409,11 @@ function AdminPortfolioPage() {
               </div>
               {imagePreview && (
                 <div className="relative border border-border rounded-xl overflow-hidden aspect-video bg-neutral-900 mt-2">
-                  <img src={imagePreview} alt="Upload preview" className="absolute inset-0 h-full w-full object-cover" />
+                  <img
+                    src={imagePreview}
+                    alt="Upload preview"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
                   <button
                     type="button"
                     onClick={() => {
@@ -428,8 +459,12 @@ function AdminPortfolioPage() {
                 className="flex-1 rounded-xl py-3 font-semibold mt-2"
               >
                 {editingProject
-                  ? (updateMutation.isPending ? "Saving..." : "Save Changes")
-                  : (createMutation.isPending ? "Publishing..." : "Publish Case Study")}
+                  ? updateMutation.isPending
+                    ? "Saving..."
+                    : "Save Changes"
+                  : createMutation.isPending
+                    ? "Publishing..."
+                    : "Publish Case Study"}
               </Button>
             </div>
           </form>
@@ -476,7 +511,9 @@ function AdminPortfolioPage() {
                         </span>
                       </div>
 
-                      <h3 className="font-display font-semibold text-base leading-snug">{project.title}</h3>
+                      <h3 className="font-display font-semibold text-base leading-snug">
+                        {project.title}
+                      </h3>
                       <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                         {project.summary}
                       </p>
