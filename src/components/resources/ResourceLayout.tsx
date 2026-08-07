@@ -1,5 +1,13 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LOCATIONS, BRANDS, REFRIGERANTS, SERVICES, COMPARISONS, INDUSTRIAL_TOPICS, APPLIANCES } from "../../lib/sitemap-constants";
+import {
+  LOCATIONS,
+  BRANDS,
+  REFRIGERANTS,
+  SERVICES,
+  COMPARISONS,
+  INDUSTRIAL_TOPICS,
+  APPLIANCES,
+} from "../../lib/sitemap-constants";
 import logo from "../../assets/logo.webp";
 import {
   Calculator,
@@ -43,10 +51,11 @@ export function ResourceLayout({
   const socials = cms?.socials || {};
   const phone = socials.phone || "+917507408461";
 
-
-
   function formatName(slug: string) {
-    return slug.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    return slug
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
   }
 
   const categories = [
@@ -95,7 +104,7 @@ export function ResourceLayout({
     {
       name: "All Services",
       icon: BookOpen,
-      items: SERVICES.map(s => ({ name: formatName(s), path: `/services/${s}` })),
+      items: SERVICES.map((s) => ({ name: formatName(s), path: `/services/${s}` })),
     },
     {
       name: "Formulas & Reference",
@@ -120,37 +129,47 @@ export function ResourceLayout({
     {
       name: "Locations & Hubs",
       icon: MapPin,
-      items: LOCATIONS.map(l => ({ name: formatName(l), path: `/locations/${l}` })),
+      items: LOCATIONS.map((l) => ({ name: formatName(l), path: `/locations/${l}` })),
     },
     {
       name: "Services by Location",
       icon: MapPin,
-      items: SERVICES.flatMap(s => LOCATIONS.map(l => ({ name: `${formatName(s)} in ${formatName(l)}`, path: `/services/${s}/${l}` }))),
+      items: SERVICES.flatMap((s) =>
+        LOCATIONS.map((l) => ({
+          name: `${formatName(s)} in ${formatName(l)}`,
+          path: `/services/${s}/${l}`,
+        })),
+      ),
     },
     {
       name: "Brands Supported",
       icon: MapPin,
-      items: BRANDS.map(b => ({ name: formatName(b), path: `/brands/${b}` })),
+      items: BRANDS.map((b) => ({ name: formatName(b), path: `/brands/${b}` })),
     },
     {
       name: "Brand Appliances",
       icon: BookOpen,
-      items: BRANDS.flatMap(b => APPLIANCES.map(a => ({ name: `${formatName(b)} ${a.toUpperCase()}`, path: `/brands/${b}/${a}` }))),
+      items: BRANDS.flatMap((b) =>
+        APPLIANCES.map((a) => ({
+          name: `${formatName(b)} ${a.toUpperCase()}`,
+          path: `/brands/${b}/${a}`,
+        })),
+      ),
     },
     {
       name: "Brand Comparisons",
       icon: BookOpen,
-      items: COMPARISONS.map(c => ({ name: formatName(c), path: `/brands/compare/${c}` })),
+      items: COMPARISONS.map((c) => ({ name: formatName(c), path: `/brands/compare/${c}` })),
     },
     {
       name: "Refrigerants Data",
       icon: Thermometer,
-      items: REFRIGERANTS.map(r => ({ name: r.toUpperCase(), path: `/refrigerants/${r}` })),
+      items: REFRIGERANTS.map((r) => ({ name: r.toUpperCase(), path: `/refrigerants/${r}` })),
     },
     {
       name: "Industrial Solutions",
       icon: FileText,
-      items: INDUSTRIAL_TOPICS.map(t => ({ name: formatName(t), path: `/industrial/${t}` })),
+      items: INDUSTRIAL_TOPICS.map((t) => ({ name: formatName(t), path: `/industrial/${t}` })),
     },
   ];
 
@@ -165,17 +184,20 @@ export function ResourceLayout({
   }, [pathname]);
 
   return (
-    <div className="min-h-screen text-foreground flex flex-col justify-between">
+    <div className="min-h-screen text-foreground flex flex-col justify-between relative overflow-hidden bg-background">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,200,255,0.05),transparent_50%)] pointer-events-none" />
+      <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
+
       {/* Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-[#09090f]/85 border-b border-white/8 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-black/60 border-b border-border shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
         <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5 group">
             <div className="relative">
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#00c8ff]/30 to-[#0066ff]/20 blur-lg group-hover:blur-xl transition-all" />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#00ffcc]/30 to-[#00c8ff]/20 blur-lg group-hover:blur-xl transition-all" />
               <img src={logo} alt="Prime Cool logo" className="relative h-9 w-9" />
             </div>
             <span className="font-display font-bold text-lg tracking-tight text-white">
-              Prime <span className="text-gradient">Cool</span>
+              Prime <span className="text-shimmer">Cool</span>
             </span>
           </Link>
           <div className="flex items-center gap-3">
@@ -268,7 +290,9 @@ export function ResourceLayout({
                           }`}
                         >
                           <span>{item.name}</span>
-                          <ChevronRight className={`h-3 w-3 shrink-0 transition ${isActive ? "text-[#00c8ff] opacity-100 translate-x-1" : "opacity-0"}`} />
+                          <ChevronRight
+                            className={`h-3 w-3 shrink-0 transition ${isActive ? "text-[#00c8ff] opacity-100 translate-x-1" : "opacity-0"}`}
+                          />
                         </Link>
                       );
                     })}
@@ -292,12 +316,23 @@ export function ResourceLayout({
             </div>
 
             {/* Inner Content Area */}
-            <div className="rounded-3xl border border-white/10 p-6 md:p-8 relative overflow-hidden" style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))", boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)" }}>
+            <div
+              className="rounded-3xl border border-white/10 p-6 md:p-8 relative overflow-hidden"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))",
+                boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
+              }}
+            >
               {/* Futuristic grid overlay background */}
-              <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at top right, rgba(0,200,255,0.1) 0%, transparent 40%)" }} />
-              <div className="relative z-10">
-                {children}
-              </div>
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "radial-gradient(circle at top right, rgba(0,200,255,0.1) 0%, transparent 40%)",
+                }}
+              />
+              <div className="relative z-10">{children}</div>
             </div>
           </main>
         </div>
@@ -305,43 +340,79 @@ export function ResourceLayout({
 
       {/* Footer */}
       <footer className="border-t border-white/10 py-10 text-center text-xs text-slate-400 bg-[#06060d] z-10 space-y-6 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 50% 100% at 50% 100%, rgba(0,102,255,0.1) 0%, transparent 60%)" }} />
-        
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 50% 100% at 50% 100%, rgba(0,102,255,0.1) 0%, transparent 60%)",
+          }}
+        />
+
         <div className="flex justify-center gap-5 text-slate-500 relative z-10">
           {socials.facebook && (
-            <a href={socials.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-[#00c8ff] transition">
+            <a
+              href={socials.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#00c8ff] transition"
+            >
               <Facebook className="h-5 w-5" />
             </a>
           )}
           {socials.instagram && (
-            <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-[#00c8ff] transition">
+            <a
+              href={socials.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#00c8ff] transition"
+            >
               <Instagram className="h-5 w-5" />
             </a>
           )}
           {socials.linkedin && (
-            <a href={socials.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#00c8ff] transition">
+            <a
+              href={socials.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#00c8ff] transition"
+            >
               <Linkedin className="h-5 w-5" />
             </a>
           )}
           {socials.youtube && (
-            <a href={socials.youtube} target="_blank" rel="noopener noreferrer" className="hover:text-[#00c8ff] transition">
+            <a
+              href={socials.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#00c8ff] transition"
+            >
               <Youtube className="h-5 w-5" />
             </a>
           )}
           {socials.twitter && (
-            <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-[#00c8ff] transition">
+            <a
+              href={socials.twitter}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#00c8ff] transition"
+            >
               <Twitter className="h-5 w-5" />
             </a>
           )}
         </div>
-        
+
         <div className="flex flex-col items-center justify-center gap-3 relative z-10">
           <div className="flex items-center gap-2">
             <img src={logo} alt="Prime Cool logo" className="h-6 w-6" />
-            <span className="font-semibold text-slate-300">© {new Date().getFullYear()} Prime Cool — Mechanical Climate Solutions</span>
+            <span className="font-semibold text-slate-300">
+              © {new Date().getFullYear()} Prime Cool — Mechanical Climate Solutions
+            </span>
           </div>
           {socials.email && (
-            <a href={`mailto:${socials.email}`} className="text-slate-400 hover:text-[#00c8ff] transition underline underline-offset-4">
+            <a
+              href={`mailto:${socials.email}`}
+              className="text-slate-400 hover:text-[#00c8ff] transition underline underline-offset-4"
+            >
               {socials.email}
             </a>
           )}

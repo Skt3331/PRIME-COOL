@@ -16,9 +16,21 @@ import { useState } from "react";
 
 export const Route = createFileRoute("/brands/$slug")({
   loader: async ({ params }) => {
-    const brand = brandsData[params.slug];
+    let brand = brandsData[params.slug];
     if (!brand) {
-      throw new Error(`Brand "${params.slug}" not found`);
+      const formattedBrand = params.slug
+        .split("-")
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+      brand = {
+        name: formattedBrand,
+        slug: params.slug.toLowerCase(),
+        faults: ["Cooling issues", "Gas leaks", "Compressor failures"],
+        spares: ["Capacitors", "PCBs", "Sensors"],
+        maintenance: ["Filter cleaning", "Coil washing"],
+        warranty: "90 Days on parts",
+        errorCodes: []
+      };
     }
     const { settings } = await getCmsSettings();
     return { brand, cms: settings };
@@ -36,7 +48,7 @@ export const Route = createFileRoute("/brands/$slug")({
         { property: "og:description", content: pageDesc },
         { property: "og:type", content: "website" },
       ],
-      links: [{ rel: "canonical", href: `/brands/${brand.slug}` }],
+      links: [{ rel: "canonical", href: `https://primecool.in/brands/${brand.slug}` }],
     };
   },
   component: BrandDetailsPage,

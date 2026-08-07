@@ -8,6 +8,9 @@ export interface ServiceDetail {
   features: string[];
   process: string[];
   faqs: { q: string; a: string }[];
+  seoTitle?: string;
+  seoDesc?: string;
+  seoKeywords?: string;
 }
 
 export const servicesData: Record<string, ServiceDetail> = {

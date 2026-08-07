@@ -1,8 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { locationsData } from "../../lib/locations-data";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { servicesData } from "../../lib/services-data";
 import logo from "../../assets/logo.webp";
-import { getCmsSettings } from "../../lib/api";
+import { getCmsSettings, getLocations } from "../../lib/api";
 import {
   ArrowLeft,
   Phone,
@@ -309,16 +308,34 @@ const getFallbackService = (
 
 export const Route = createFileRoute("/services/$serviceSlug/$locationSlug")({
   loader: async ({ params }) => {
-    const location = locationsData[params.locationSlug.toLowerCase()];
+    const locationsResp = await getLocations();
+    let location = locationsResp.locations.find((l: any) => l.slug === params.locationSlug.toLowerCase());
+    
+    // Dynamic Fallback Generator
     if (!location) {
-      throw new Error(`Location "${params.locationSlug}" not found`);
+      const formattedName = params.locationSlug
+        .split("-")
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+      
+      location = {
+        slug: params.locationSlug.toLowerCase(),
+        name: formattedName,
+        pincodes: ["411001"],
+        type: "locality",
+        faqs: [],
+        reviews: [],
+        landmarks: [],
+        nearbyBusinesses: [],
+        mapEmbedUrl: ""
+      };
     }
 
     const serviceKey = params.serviceSlug.toLowerCase();
     const service = servicesData[serviceKey] || getFallbackService(serviceKey);
 
     const { settings } = await getCmsSettings();
-    return { location, service, serviceKey, cms: settings };
+    return { location, service, serviceKey, cms: settings, allLocations: locationsResp.locations };
   },
   head: ({ loaderData }) => {
     const location = loaderData?.location;
@@ -333,7 +350,7 @@ export const Route = createFileRoute("/services/$serviceSlug/$locationSlug")({
         { property: "og:title", content: pageTitle },
         { property: "og:description", content: pageDesc },
       ],
-      links: [{ rel: "canonical", href: `/services/${loaderData.serviceKey}/${location.slug}` }],
+      links: [{ rel: "canonical", href: `https://primecool.in/services/${loaderData.serviceKey}/${location.slug}` }],
     };
   },
   component: LocationServiceDetailsPage,
@@ -346,8 +363,41 @@ function LocationServiceDetailsPage() {
 
   const nearby = NEARBY_AREAS[location.slug] || [];
 
+  const schemaList: any[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": `${service.title} in ${location.name}`,
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Prime Cool HVAC & Refrigeration",
+        "telephone": phone,
+        "image": cms?.theme?.logo || "https://primecool.in/logo.png",
+      },
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": location.name
+        },
+        ...nearby.map((n: string) => ({ "@type": "Place", "name": n }))
+      ],
+      "description": service.description,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://primecool.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://primecool.in/services" },
+        { "@type": "ListItem", "position": 3, "name": service.title, "item": `https://primecool.in/services/${service.slug}` },
+        { "@type": "ListItem", "position": 4, "name": location.name, "item": `https://primecool.in/services/${service.slug}/${location.slug}` }
+      ]
+    }
+  ];
+
   return (
     <div className="min-h-screen text-foreground flex flex-col justify-between bg-slate-950">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaList) }} />
       {/* Background gradients */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--primary)_8%,transparent),transparent_60%)] pointer-events-none" />
 
@@ -491,7 +541,7 @@ function LocationServiceDetailsPage() {
               Customer Reviews in {location.name}
             </h3>
             <div className="grid sm:grid-cols-2 gap-6">
-              {location.reviews.map((rev, idx) => (
+              {location.reviews.map((rev: any, idx: number) => (
                 <div
                   key={idx}
                   className="border border-border/40 bg-slate-950/20 p-5 rounded-xl space-y-3"

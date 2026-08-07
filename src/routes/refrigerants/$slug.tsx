@@ -17,9 +17,24 @@ import { useState } from "react";
 
 export const Route = createFileRoute("/refrigerants/$slug")({
   loader: async ({ params }) => {
-    const refrigerant = refrigerantsData[params.slug.toLowerCase()];
+    let refrigerant = refrigerantsData[params.slug.toLowerCase()];
     if (!refrigerant) {
-      throw new Error(`Refrigerant data for "${params.slug}" not found`);
+      const formattedRefrigerant = params.slug.toUpperCase();
+      refrigerant = {
+        slug: params.slug.toLowerCase(),
+        name: formattedRefrigerant,
+        formula: "Custom Refrigerant",
+        safetyClass: "A1",
+        gwp: 2000,
+        odp: 0,
+        compatibleOil: "POE",
+        applications: ["Air Conditioning", "Refrigeration"],
+        charging: ["Charge by weight"],
+        leakDetection: ["Electronic sniffer", "Soap bubbles"],
+        recovery: ["Use certified recovery unit"],
+        retrofit: "Consult OEM documentation",
+        antoine: { A: 4.0, B: 900, C: 250 }
+      };
     }
     const { settings } = await getCmsSettings();
     return { refrigerant, cms: settings };
@@ -37,7 +52,7 @@ export const Route = createFileRoute("/refrigerants/$slug")({
         { property: "og:description", content: pageDesc },
         { property: "og:type", content: "website" },
       ],
-      links: [{ rel: "canonical", href: `/refrigerants/${ref.slug}` }],
+      links: [{ rel: "canonical", href: `https://primecool.in/refrigerants/${ref.slug}` }],
     };
   },
   component: RefrigerantDetailsPage,

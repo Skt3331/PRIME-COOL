@@ -187,57 +187,49 @@ function DashboardPage() {
       {/* Metrics Row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric: Total visits */}
-        <div className="surface-card rounded-2xl p-5 border border-border flex items-center justify-between">
+        <div className="bento-card p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">
-              Total Site Visits
-            </div>
-            <div className="font-display text-2xl font-bold mt-1.5">{totalVisits}</div>
+            <div className="text-xs uppercase tracking-wider text-slate-400">Total Site Visits</div>
+            <div className="font-display text-2xl font-bold mt-1.5 text-white">{totalVisits}</div>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center">
+          <div className="h-10 w-10 rounded-xl bg-[#00c8ff]/10 border border-[#00c8ff]/20 text-[#00c8ff] flex items-center justify-center">
             <Users className="h-5 w-5" />
           </div>
         </div>
 
         {/* Metric: Total Bookings */}
-        <div className="surface-card rounded-2xl p-5 border border-border flex items-center justify-between">
+        <div className="bento-card p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">
-              Total Bookings
-            </div>
-            <div className="font-display text-2xl font-bold mt-1.5">{totalBookings}</div>
+            <div className="text-xs uppercase tracking-wider text-slate-400">Total Bookings</div>
+            <div className="font-display text-2xl font-bold mt-1.5 text-white">{totalBookings}</div>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-accent/10 border border-accent/20 text-accent flex items-center justify-center">
+          <div className="h-10 w-10 rounded-xl bg-[#00ffcc]/10 border border-[#00ffcc]/20 text-[#00ffcc] flex items-center justify-center">
             <CalendarDays className="h-5 w-5" />
           </div>
         </div>
 
         {/* Metric: Confirmed */}
-        <div className="surface-card rounded-2xl p-5 border border-border/80 glow-ring flex items-center justify-between">
+        <div className="bento-card p-5 flex items-center justify-between border-[#00c8ff]/30 shadow-[0_0_15px_rgba(0,200,255,0.15)]">
           <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">
-              Confirmed Jobs
-            </div>
-            <div className="font-display text-2xl font-bold mt-1.5 text-primary">
+            <div className="text-xs uppercase tracking-wider text-slate-400">Confirmed Jobs</div>
+            <div className="font-display text-2xl font-bold mt-1.5 text-[#00c8ff]">
               {confirmedCount}
             </div>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center">
+          <div className="h-10 w-10 rounded-xl bg-[#00c8ff]/10 border border-[#00c8ff]/20 text-[#00c8ff] flex items-center justify-center">
             <CheckCircle className="h-5 w-5" />
           </div>
         </div>
 
         {/* Metric: Pending */}
-        <div className="surface-card rounded-2xl p-5 border border-border flex items-center justify-between">
+        <div className="bento-card p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">
-              Pending Action
-            </div>
-            <div className="font-display text-2xl font-bold mt-1.5 text-yellow-500">
+            <div className="text-xs uppercase tracking-wider text-slate-400">Pending Action</div>
+            <div className="font-display text-2xl font-bold mt-1.5 text-yellow-400">
               {pendingCount}
             </div>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 flex items-center justify-center">
+          <div className="h-10 w-10 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 flex items-center justify-center">
             <Clock className="h-5 w-5" />
           </div>
         </div>
@@ -247,7 +239,7 @@ function DashboardPage() {
       <div className="grid lg:grid-cols-12 gap-6">
         {/* Left Column: Booking Queue */}
         <div className="lg:col-span-8 space-y-6">
-          <div className="surface-card rounded-3xl border border-border p-6">
+          <div className="bento-card p-6">
             <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2">
               <CalendarDays className="h-5 w-5 text-primary" />
               Appointment Queue
@@ -263,12 +255,12 @@ function DashboardPage() {
                 {bookings.map((booking: any) => (
                   <div
                     key={booking.id}
-                    className={`border rounded-2xl p-4 transition bg-background/20 relative ${
+                    className={`border rounded-2xl p-4 transition relative ${
                       booking.status === "confirmed"
-                        ? "border-emerald-500/20 bg-emerald-500/5"
+                        ? "border-[#00c8ff]/30 bg-[#00c8ff]/5"
                         : booking.status === "cancelled"
                           ? "border-rose-500/10 bg-rose-500/[0.02] opacity-75"
-                          : "border-border/60"
+                          : "border-white/10 bg-white/5"
                     }`}
                   >
                     <div className="flex flex-wrap items-start justify-between gap-2.5">
@@ -392,7 +384,7 @@ function DashboardPage() {
 
         {/* Right Column: Notification Logs */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="surface-card rounded-3xl border border-border p-6 flex flex-col h-[520px]">
+          <div className="bento-card p-6 flex flex-col h-[520px]">
             <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2 shrink-0">
               <Send className="h-5 w-5 text-primary" />
               Confirmation Logs
@@ -461,7 +453,7 @@ function DashboardPage() {
       </div>
 
       {/* Security Credentials settings panel */}
-      <div className="surface-card rounded-3xl border border-border p-6 max-w-xl">
+      <div className="bento-card p-6 max-w-xl">
         <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2">
           <Settings className="h-5 w-5 text-primary" />
           Security Credentials

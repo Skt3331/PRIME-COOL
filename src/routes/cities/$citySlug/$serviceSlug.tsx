@@ -1,8 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { locationsData } from "../../../lib/locations-data";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { servicesData } from "../../../lib/services-data";
 import logo from "../../../assets/logo.webp";
-import { getCmsSettings } from "../../../lib/api";
+import { getCmsSettings, getLocations } from "../../../lib/api";
 import {
   ArrowLeft,
   Phone,
@@ -17,23 +16,21 @@ import {
 
 export const Route = createFileRoute("/cities/$citySlug/$serviceSlug")({
   loader: async ({ params }) => {
-    const city = locationsData[params.citySlug.toLowerCase()];
+    const locationsResp = await getLocations();
+    const city = locationsResp.locations.find((l: any) => l.slug === params.citySlug.toLowerCase());
     const service = servicesData[params.serviceSlug.toLowerCase()];
-    if (!city) {
-      throw new Error(`Location "${params.citySlug}" not found`);
-    }
-    if (!service) {
-      throw new Error(`Service "${params.serviceSlug}" not found`);
+    if (!city || !service) {
+      throw notFound();
     }
     const { settings } = await getCmsSettings();
-    return { city, service, cms: settings };
+    return { city, service, cms: settings, allLocations: locationsResp.locations };
   },
   head: ({ loaderData }) => {
     const city = loaderData?.city;
     const service = loaderData?.service;
     if (!city || !service) return { meta: [] };
-    const pageTitle = `Best ${service.title} in ${city.name} | Prime Cool ${city.name}`;
-    const pageDesc = `Looking for ${service.title} in ${city.name}? Prime Cool provides certified technicians, genuine spares, and 24x7 emergency response in ${city.name} (${city.pincodes.join(", ")}).`;
+    const pageTitle = `24x7 ${service.title} in ${city.name} | Certified Technicians | Prime Cool`;
+    const pageDesc = `Looking for top-rated ${service.title} near you in ${city.name}? Prime Cool provides certified experts, genuine spares, and 24x7 emergency response in ${city.name} (${city.pincodes.slice(0, 3).join(", ")}). Book now for fast service!`;
     return {
       meta: [
         { title: pageTitle },
@@ -42,7 +39,7 @@ export const Route = createFileRoute("/cities/$citySlug/$serviceSlug")({
         { property: "og:description", content: pageDesc },
         { property: "og:type", content: "website" },
       ],
-      links: [{ rel: "canonical", href: `/cities/${city.slug}/${service.slug}` }],
+      links: [{ rel: "canonical", href: `https://primecool.in/cities/${city.slug}/${service.slug}` }],
     };
   },
   component: LocationServicePage,
@@ -53,8 +50,38 @@ function LocationServicePage() {
   const socials = cms?.socials || {};
   const phone = socials.phone || "+917507408461";
 
+  const schemaList: any[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": `${service.title} in ${city.name}`,
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Prime Cool HVAC & Refrigeration",
+        "telephone": phone,
+        "image": cms?.theme?.logo || "https://primecool.in/logo.png",
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": city.name
+      },
+      "description": service.description,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://primecool.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Cities", "item": "https://primecool.in/cities" },
+        { "@type": "ListItem", "position": 3, "name": city.name, "item": `https://primecool.in/cities/${city.slug}` },
+        { "@type": "ListItem", "position": 4, "name": service.title, "item": `https://primecool.in/cities/${city.slug}/${service.slug}` }
+      ]
+    }
+  ];
+
   return (
     <div className="min-h-screen text-foreground flex flex-col justify-between bg-slate-950">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaList) }} />
       {/* Background gradients */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--primary)_8%,transparent),transparent_60%)] pointer-events-none" />
 
@@ -109,7 +136,7 @@ function LocationServicePage() {
             Resources
           </Link>{" "}
           /{" "}
-          <Link to={`/cities/${city.slug}`} className="hover:text-primary transition">
+          <Link to="/cities/$slug" params={{ slug: city.slug }} className="hover:text-primary transition">
             {city.name}
           </Link>{" "}
           / <span className="text-foreground font-semibold">{service.title}</span>
@@ -255,7 +282,7 @@ function LocationServicePage() {
               Customer Reviews in {city.name}
             </h3>
             <div className="grid sm:grid-cols-2 gap-6">
-              {city.reviews.map((rev, idx) => (
+              {city.reviews.map((rev: any, idx: number) => (
                 <div
                   key={idx}
                   className="border border-border/40 bg-slate-950/20 p-5 rounded-xl space-y-3"
@@ -307,6 +334,43 @@ function LocationServicePage() {
             ))}
           </div>
         </div>
+
+        {/* SEO Spider Web: Internal Links */}
+        <div className="mt-20 pt-16 border-t border-border/50">
+          <div className="grid md:grid-cols-2 gap-12">
+            <div>
+              <h3 className="text-xl font-display font-semibold mb-6">Nearby Service Areas</h3>
+              <div className="flex flex-wrap gap-3">
+                {Route.useLoaderData().allLocations.map((loc: any) => (
+                  <Link
+                    key={loc.slug}
+                    to="/cities/$citySlug/$serviceSlug"
+                    params={{ citySlug: loc.slug, serviceSlug: service.slug }}
+                    className="text-xs bg-card/20 border border-border/60 hover:bg-primary/20 hover:border-primary/50 text-muted-foreground hover:text-primary transition-all px-4 py-2 rounded-full"
+                  >
+                    {service.title} in {loc.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h3 className="text-xl font-display font-semibold mb-6">Other Services in {city.name}</h3>
+              <div className="flex flex-wrap gap-3">
+                {Object.values(servicesData).map((s: any) => (
+                  <Link
+                    key={s.slug}
+                    to="/cities/$citySlug/$serviceSlug"
+                    params={{ citySlug: city.slug, serviceSlug: s.slug }}
+                    className="text-xs bg-card/20 border border-border/60 hover:bg-primary/20 hover:border-primary/50 text-muted-foreground hover:text-primary transition-all px-4 py-2 rounded-full"
+                  >
+                    {s.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
       </main>
 
       {/* Footer */}

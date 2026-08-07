@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { ImageDropzone } from "@/components/ImageDropzone";
 import {
   Save,
   Trash2,
@@ -92,7 +93,7 @@ function CmsPage() {
     },
     onSuccess: (_, id) => {
       toast.success("FAQ deleted");
-      const updatedFaqs = faqs.filter((f) => f.id !== id);
+      const updatedFaqs = faqs.filter((f: any) => f.id !== id);
       setFaqs(updatedFaqs);
 
       const updatedSettings = { ...formData, faqs: updatedFaqs };
@@ -241,6 +242,18 @@ function CmsPage() {
                 />
               </div>
             </div>
+            <div className="space-y-2 pt-4">
+              <Label>Hero Background Image</Label>
+              <ImageDropzone
+                onImageProcessed={(fileData, url) => {
+                  setFormData({
+                    ...formData,
+                    hero: { ...formData.hero, backgroundImage: fileData?.base64 || undefined },
+                  });
+                }}
+                initialPreview={formData.hero.backgroundImage}
+              />
+            </div>
             <div className="pt-4 flex justify-end">
               <Button onClick={handleSaveSettings} disabled={updateMutation.isPending}>
                 <Save className="h-4 w-4 mr-2" />
@@ -334,6 +347,35 @@ function CmsPage() {
               </div>
             </div>
 
+            <div className="space-y-2 pt-4 border-t border-border mt-6">
+              <Label>Brand Logo (Light/Dark agnostic)</Label>
+              <ImageDropzone
+                onImageProcessed={(fileData, url) => {
+                  setFormData({
+                    ...formData,
+                    theme: { ...formData.theme, logo: fileData?.base64 || undefined },
+                  });
+                }}
+                initialPreview={formData.theme.logo}
+                className="max-w-md"
+              />
+            </div>
+
+            <div className="space-y-2 pt-4 border-t border-border mt-6">
+              <Label>Website Favicon (Browser Tab Icon)</Label>
+              <p className="text-xs text-muted-foreground mb-2">Recommended: 32x32 or 64x64 PNG or SVG</p>
+              <ImageDropzone
+                onImageProcessed={(fileData, url) => {
+                  setFormData({
+                    ...formData,
+                    theme: { ...formData.theme, favicon: fileData?.base64 || undefined },
+                  });
+                }}
+                initialPreview={formData.theme.favicon}
+                className="max-w-xs"
+              />
+            </div>
+
             <div
               className="mt-8 p-6 rounded-2xl border border-border"
               style={{ background: formData.theme.background }}
@@ -369,7 +411,7 @@ function CmsPage() {
 
         {activeTab === "seo" && (
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2">
-            {(["home", "booking", "portfolio"] as const).map((page) => (
+            {(["home", "booking", "portfolio", "resources", "calculators", "blogs", "brands", "locations"] as const).map((page) => (
               <div key={page} className="space-y-4">
                 <h2 className="text-lg font-semibold capitalize border-b border-border pb-2">
                   {page} Page SEO
@@ -453,7 +495,7 @@ function CmsPage() {
             <h2 className="text-xl font-semibold mb-4">FAQ Manager</h2>
 
             <div className="space-y-4">
-              {faqs.map((faq) => (
+              {faqs.map((faq: any) => (
                 <div
                   key={faq.id}
                   className="flex gap-4 p-4 rounded-xl border border-border bg-background/50"

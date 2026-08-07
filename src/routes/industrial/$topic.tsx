@@ -15,10 +15,25 @@ import {
 export const Route = createFileRoute("/industrial/$topic")({
   loader: async ({ params }) => {
     const topicKey = params.topic.toLowerCase();
-    const topic = industrialData[topicKey];
+    let topic = industrialData[topicKey];
 
     if (!topic) {
-      throw new Error(`Industrial topic "${params.topic}" not found`);
+      const formattedTopic = params.topic
+        .split("-")
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+      topic = {
+        id: params.topic.toLowerCase(),
+        slug: params.topic.toLowerCase(),
+        title: formattedTopic,
+        metaDescription: `Industrial solutions and mechanical services for ${formattedTopic}.`,
+        heroTagline: `Heavy duty ${formattedTopic} systems operations.`,
+        overview: `We offer custom process plant setups and maintenance for ${formattedTopic}.`,
+        features: ["Heavy Duty", "High Efficiency"],
+        diagnosticCodes: [],
+        maintenanceChecklist: ["Regular Inspection", "Lubrication"],
+        faqs: []
+      };
     }
 
     const { settings } = await getCmsSettings();
@@ -37,7 +52,7 @@ export const Route = createFileRoute("/industrial/$topic")({
         { property: "og:description", content: topic.metaDescription },
         { property: "og:type", content: "article" },
       ],
-      links: [{ rel: "canonical", href: `/industrial/${topic.slug}` }],
+      links: [{ rel: "canonical", href: `https://primecool.in/industrial/${topic.slug}` }],
     };
   },
   component: IndustrialTopicPage,

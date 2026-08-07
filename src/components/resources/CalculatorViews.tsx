@@ -48,18 +48,25 @@ function CopyButton({ value }: { value: string | number }) {
 function FormulaPanel({ formula, notes }: { formula: string; notes?: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="mt-4 rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
+    <div
+      className="mt-4 rounded-xl overflow-hidden"
+      style={{ border: "1px solid rgba(255,255,255,0.07)" }}
+    >
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between px-4 py-2.5 text-xs font-semibold text-left transition"
         style={{ background: "rgba(0,200,255,0.06)", color: "#00c8ff" }}
       >
-        <span className="flex items-center gap-2"><Info className="h-3.5 w-3.5" /> How it&apos;s calculated</span>
+        <span className="flex items-center gap-2">
+          <Info className="h-3.5 w-3.5" /> How it&apos;s calculated
+        </span>
         <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
         <div className="px-4 py-3 space-y-2" style={{ background: "rgba(0,0,0,0.3)" }}>
-          <div className="font-mono text-xs text-[#00c8ff] bg-[#09090f]/80 px-3 py-2 rounded-lg border border-white/5">{formula}</div>
+          <div className="font-mono text-xs text-[#00c8ff] bg-[#09090f]/80 px-3 py-2 rounded-lg border border-white/5">
+            {formula}
+          </div>
           {notes && <p className="text-xs text-slate-400 leading-relaxed">{notes}</p>}
         </div>
       )}
@@ -83,7 +90,13 @@ function ViewCard({
       {/* Header */}
       <div className="flex items-start gap-4">
         {Icon && (
-          <div className="h-12 w-12 rounded-2xl flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, rgba(0,200,255,0.15), rgba(0,102,255,0.15))", border: "1px solid rgba(0,200,255,0.25)" }}>
+          <div
+            className="h-12 w-12 rounded-2xl flex items-center justify-center shrink-0"
+            style={{
+              background: "linear-gradient(135deg, rgba(0,200,255,0.15), rgba(0,102,255,0.15))",
+              border: "1px solid rgba(0,200,255,0.25)",
+            }}
+          >
             <Icon className="h-6 w-6 text-[#00c8ff]" />
           </div>
         )}
@@ -99,15 +112,22 @@ function ViewCard({
       <div
         className="rounded-2xl p-6 relative overflow-hidden space-y-6"
         style={{
-          background: "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
           border: "1px solid rgba(255,255,255,0.07)",
           boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
         }}
       >
         {/* Top gradient line */}
-        <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, #00c8ff, #0066ff, #8b5cf6)" }} />
+        <div
+          className="absolute top-0 left-0 right-0 h-[2px]"
+          style={{ background: "linear-gradient(90deg, #00c8ff, #0066ff, #8b5cf6)" }}
+        />
         {/* Glow orb */}
-        <div className="absolute top-0 right-0 w-40 h-40 rounded-full opacity-10 blur-3xl pointer-events-none" style={{ background: "radial-gradient(circle, #00c8ff, transparent)" }} />
+        <div
+          className="absolute top-0 right-0 w-40 h-40 rounded-full opacity-10 blur-3xl pointer-events-none"
+          style={{ background: "radial-gradient(circle, #00c8ff, transparent)" }}
+        />
         {children}
       </div>
     </div>
@@ -137,7 +157,11 @@ function NumericInput({
       <div className="flex justify-between items-center">
         <label className="text-sm font-semibold text-slate-300">{label}</label>
         <div className="flex items-center gap-2">
-          {unit && <span className="text-[10px] font-bold uppercase tracking-wider text-[#00c8ff] bg-[#00c8ff]/10 border border-[#00c8ff]/20 px-2 py-0.5 rounded-md">{unit}</span>}
+          {unit && (
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#00c8ff] bg-[#00c8ff]/10 border border-[#00c8ff]/20 px-2 py-0.5 rounded-md">
+              {unit}
+            </span>
+          )}
           <input
             type="number"
             min={min}
@@ -146,16 +170,25 @@ function NumericInput({
             value={isNaN(value) ? "" : value}
             onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
             className="w-20 rounded-lg px-2.5 py-1.5 text-sm text-white font-mono text-right focus:outline-none focus:ring-1 transition"
-            style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", focusRingColor: "#00c8ff" }}
+            style={{
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.12)",
+            }}
           />
         </div>
       </div>
       {/* Custom slider */}
       <div className="relative h-5 flex items-center">
-        <div className="absolute left-0 right-0 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.08)" }} />
+        <div
+          className="absolute left-0 right-0 h-1.5 rounded-full"
+          style={{ background: "rgba(255,255,255,0.08)" }}
+        />
         <div
           className="absolute left-0 h-1.5 rounded-full"
-          style={{ width: `${Math.max(0, Math.min(100, pct))}%`, background: "linear-gradient(90deg, #00c8ff, #0066ff)" }}
+          style={{
+            width: `${Math.max(0, Math.min(100, pct))}%`,
+            background: "linear-gradient(90deg, #00c8ff, #0066ff)",
+          }}
         />
         <input
           type="range"
@@ -198,9 +231,7 @@ function ResultRow({
   return (
     <div
       className={`flex justify-between items-center py-2.5 border-b text-sm ${
-        highlight
-          ? "border-[#00c8ff]/20"
-          : "border-white/5"
+        highlight ? "border-[#00c8ff]/20" : "border-white/5"
       }`}
     >
       <span className="text-slate-400 text-xs">{label}</span>
@@ -351,7 +382,10 @@ export function BtuCalculatorView() {
             <ResultRow label="Recommended AC Size" value={tonnage} unit="Tons" highlight />
             <ResultRow label="Electrical Cooling Power Equivalent" value={kw} unit="kW" />
           </div>
-          <FormulaPanel formula="Total BTU = (Area × 100) + (People × 400)" notes="Commercial baseline is 150 BTU/sqft. Adjustments applied for insulation and solar load." />
+          <FormulaPanel
+            formula="Total BTU = (Area × 100) + (People × 400)"
+            notes="Commercial baseline is 150 BTU/sqft. Adjustments applied for insulation and solar load."
+          />
         </div>
       </div>
     </ViewCard>
@@ -432,12 +466,12 @@ export function TonnageCalculatorView() {
               unit="BTU/hr"
             />
             <ResultRow label="Precise Calc Tonnage" value={tonnageVal.toFixed(2)} unit="Tons" />
-            <ResultRow
-              label="Recommended COP Rating"
-              value="3.5 - 4.2"
-            />
+            <ResultRow label="Recommended COP Rating" value="3.5 - 4.2" />
           </div>
-          <FormulaPanel formula="Tonnage = (SqFt × RoomFactor × 35) / 12000" notes="Rounded to the nearest 0.5 Tons." />
+          <FormulaPanel
+            formula="Tonnage = (SqFt × RoomFactor × 35) / 12000"
+            notes="Rounded to the nearest 0.5 Tons."
+          />
         </div>
       </div>
     </ViewCard>
@@ -529,12 +563,12 @@ export function PtCalculatorView() {
           <div className="space-y-1">
             <ResultRow label="Safety Classification" value={ref.class} />
             <ResultRow label="GWP Index (AR4)" value={ref.gwp} />
-            <ResultRow
-              label="Approximate Evaporating State"
-              highlight={tempC < 0}
-            />
+            <ResultRow label="Approximate Evaporating State" value="" highlight={tempC < 0} />
           </div>
-          <FormulaPanel formula="T = B / (A - log10(P)) - C" notes="Antoine Equation using specific refrigerant coefficients." />
+          <FormulaPanel
+            formula="T = B / (A - log10(P)) - C"
+            notes="Antoine Equation using specific refrigerant coefficients."
+          />
         </div>
       </div>
     </ViewCard>

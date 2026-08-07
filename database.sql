@@ -195,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `portfolio` (
   `summary` TEXT NOT NULL,
   `category` VARCHAR(50) NOT NULL,
   `metrics_json` TEXT NOT NULL,
-  `image` TEXT,
+  `image` LONGTEXT,
   `createdAt` VARCHAR(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -240,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `blogs` (
   `slug` VARCHAR(255) NOT NULL,
   `content` LONGTEXT NOT NULL,
   `summary` TEXT NOT NULL,
-  `image` TEXT,
+  `image` LONGTEXT,
   `category` VARCHAR(100),
   `author` VARCHAR(255),
   `seoTitle` VARCHAR(500),

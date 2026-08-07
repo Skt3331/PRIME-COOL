@@ -13,6 +13,7 @@ import {
   Gauge,
   Sliders,
   BookOpen,
+  MapPin,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -75,6 +76,16 @@ function AdminLayout() {
       icon: LayoutDashboard,
     },
     {
+      name: "Services Mgr",
+      path: "/admin/services",
+      icon: Briefcase,
+    },
+    {
+      name: "Calculators Mgr",
+      path: "/admin/calculators",
+      icon: Gauge,
+    },
+    {
       name: "Portfolio Mgr",
       path: "/admin/portfolio",
       icon: Briefcase,
@@ -83,6 +94,11 @@ function AdminLayout() {
       name: "Blogs Mgr",
       path: "/admin/blogs",
       icon: BookOpen,
+    },
+    {
+      name: "Locations Mgr",
+      path: "/admin/locations",
+      icon: MapPin,
     },
     {
       name: "Site CMS",

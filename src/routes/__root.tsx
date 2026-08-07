@@ -83,36 +83,39 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     const { settings } = await getCmsSettings();
     return { cms: settings };
   },
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "google-site-verification", content: "804_rTKMffV7SOqPQIoeFjuvO3lgthIdcQTQpAUtMxQ" },
-      { title: "Prime Cool — HVAC, Appliance & Industrial Mechanical Solutions in Pune" },
-      {
-        name: "description",
-        content:
-          "Prime Cool delivers rapid-response HVAC, refrigeration, appliance repair, and heavy industrial mechanical services across Pune, Wagholi–Shirur, Karegaon and Ranjangaon.",
-      },
-      { name: "author", content: "Prime Cool" },
-      { property: "og:title", content: "Prime Cool — Engineered Climate & Mechanical Solutions" },
-      {
-        property: "og:description",
-        content:
-          "From split ACs to factory cooling towers — precision engineering, zero-downtime maintenance, and rapid service along the Wagholi–Shirur corridor.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [
-      { rel: "icon", type: "image/png", href: logo },
-      { rel: "stylesheet", href: appCss },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap",
-      },
-    ],
-  }),
+  head: ({ loaderData }) => {
+    const faviconUrl = (loaderData as any)?.cms?.theme?.favicon || logo;
+    return {
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "google-site-verification", content: "804_rTKMffV7SOqPQIoeFjuvO3lgthIdcQTQpAUtMxQ" },
+        { title: "Prime Cool — HVAC, Appliance & Industrial Mechanical Solutions in Pune" },
+        {
+          name: "description",
+          content:
+            "Prime Cool delivers rapid-response HVAC, refrigeration, appliance repair, and heavy industrial mechanical services across Pune, Wagholi–Shirur, Karegaon and Ranjangaon.",
+        },
+        { name: "author", content: "Prime Cool" },
+        { property: "og:title", content: "Prime Cool — Engineered Climate & Mechanical Solutions" },
+        {
+          property: "og:description",
+          content:
+            "From split ACs to factory cooling towers — precision engineering, zero-downtime maintenance, and rapid service along the Wagholi–Shirur corridor.",
+        },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+      links: [
+        { rel: "icon", type: "image/png", href: faviconUrl },
+        { rel: "stylesheet", href: appCss },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap",
+        },
+      ],
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -198,7 +201,7 @@ function RootComponent() {
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             name: "Prime Cool",
-            image: "https://primecool.in/assets/logo.webp",
+            image: cms?.theme?.logo || "https://primecool.in/assets/logo.webp",
             "@id": "https://primecool.in/#localbusiness",
             url: "https://primecool.in",
             telephone: cms?.socials?.phone || "+917507408461",
@@ -262,7 +265,7 @@ function RootComponent() {
 
 function DeferredGTM() {
   const [load, setLoad] = useState(false);
-  
+
   useEffect(() => {
     const timer = setTimeout(() => setLoad(true), 2000);
     return () => clearTimeout(timer);

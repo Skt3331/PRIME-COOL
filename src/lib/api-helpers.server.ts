@@ -6,6 +6,17 @@ import path from "node:path";
 import crypto from "node:crypto";
 import nodemailer from "nodemailer";
 import { fileURLToPath } from "node:url";
+import { exec } from "node:child_process";
+
+function triggerSitemapUpdate() {
+  exec("npm run sitemap", (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error regenerating sitemap: ${error.message}`);
+      return;
+    }
+    console.log(`Sitemap regenerated automatically.`);
+  });
+}
 
 // 60-second in-memory cache for public endpoints
 const publicCache = new Map<string, { data: any; timestamp: number }>();
@@ -130,17 +141,9 @@ export async function createProjectHelper(data: {
   let imageUrl = "";
 
   if (data.imageFile) {
-    const uploadDir = path.resolve(getAppRoot(), "public/uploads/portfolio");
-    await fs.mkdir(uploadDir, { recursive: true });
-
-    const ext = path.extname(data.imageFile.name) || ".jpg";
-    const filename = `${crypto.randomBytes(8).toString("hex")}${ext}`;
-    const filePath = path.join(uploadDir, filename);
-
-    const buffer = Buffer.from(data.imageFile.base64, "base64");
-    await fs.writeFile(filePath, buffer);
-
-    imageUrl = `/uploads/portfolio/${filename}`;
+    imageUrl = data.imageFile.base64.startsWith("data:")
+      ? data.imageFile.base64
+      : `data:image/jpeg;base64,${data.imageFile.base64}`;
   }
 
   const newProject = await db.addProject({
@@ -168,16 +171,9 @@ export async function updateProjectHelper(data: {
 
   let imageUrl = "";
   if (data.imageFile) {
-    const uploadDir = path.resolve(getAppRoot(), "public/uploads/portfolio");
-    await fs.mkdir(uploadDir, { recursive: true });
-
-    const ext = path.extname(data.imageFile.name) || ".jpg";
-    const filename = `${crypto.randomBytes(8).toString("hex")}${ext}`;
-    const filePath = path.join(uploadDir, filename);
-
-    const buffer = Buffer.from(data.imageFile.base64, "base64");
-    await fs.writeFile(filePath, buffer);
-    imageUrl = `/uploads/portfolio/${filename}`;
+    imageUrl = data.imageFile.base64.startsWith("data:")
+      ? data.imageFile.base64
+      : `data:image/jpeg;base64,${data.imageFile.base64}`;
   }
 
   const updateData: any = { ...data };
@@ -441,17 +437,9 @@ export async function createBlogHelper(data: {
   let imageUrl = "";
 
   if (data.imageFile) {
-    const uploadDir = path.resolve(getAppRoot(), "public/uploads/blogs");
-    await fs.mkdir(uploadDir, { recursive: true });
-
-    const ext = path.extname(data.imageFile.name) || ".jpg";
-    const filename = `${crypto.randomBytes(8).toString("hex")}${ext}`;
-    const filePath = path.join(uploadDir, filename);
-
-    const buffer = Buffer.from(data.imageFile.base64, "base64");
-    await fs.writeFile(filePath, buffer);
-
-    imageUrl = `/uploads/blogs/${filename}`;
+    imageUrl = data.imageFile.base64.startsWith("data:")
+      ? data.imageFile.base64
+      : `data:image/jpeg;base64,${data.imageFile.base64}`;
   }
 
   const newBlog = await db.addBlog({
@@ -485,16 +473,9 @@ export async function updateBlogHelper(data: {
 
   let imageUrl = "";
   if (data.imageFile) {
-    const uploadDir = path.resolve(getAppRoot(), "public/uploads/blogs");
-    await fs.mkdir(uploadDir, { recursive: true });
-
-    const ext = path.extname(data.imageFile.name) || ".jpg";
-    const filename = `${crypto.randomBytes(8).toString("hex")}${ext}`;
-    const filePath = path.join(uploadDir, filename);
-
-    const buffer = Buffer.from(data.imageFile.base64, "base64");
-    await fs.writeFile(filePath, buffer);
-    imageUrl = `/uploads/blogs/${filename}`;
+    imageUrl = data.imageFile.base64.startsWith("data:")
+      ? data.imageFile.base64
+      : `data:image/jpeg;base64,${data.imageFile.base64}`;
   }
 
   const updateData: any = { ...data };
@@ -520,4 +501,144 @@ export async function getDbStatusHelper() {
   await requireAdminAuth();
   const status = await db.getDbStatus();
   return { status };
+}
+
+// ---------------- Services API Helpers ----------------
+
+export async function getPublicServicesHelper() {
+  const cached = getCachedData("services");
+  if (cached) return { services: cached };
+
+  const services = await db.getServices();
+  setCachedData("services", services);
+  return { services };
+}
+
+export async function getAdminServicesHelper() {
+  await requireAdminAuth();
+  const services = await db.getServices();
+  return { services };
+}
+
+export async function createServiceHelper(data: {
+  title: string;
+  slug: string;
+  description: string;
+  category: string;
+  icon?: string;
+  isPopular: boolean;
+  orderIndex: number;
+  imageFile?: { name: string; base64: string };
+}) {
+  await requireAdminAuth();
+
+  let imageUrl = "";
+  if (data.imageFile) {
+    imageUrl = data.imageFile.base64.startsWith("data:")
+      ? data.imageFile.base64
+      : `data:image/jpeg;base64,${data.imageFile.base64}`;
+  }
+
+  const newService = await db.addService({
+    title: data.title,
+    slug: data.slug,
+    description: data.description,
+    category: data.category,
+    icon: data.icon,
+    isPopular: data.isPopular,
+    orderIndex: data.orderIndex,
+    image: imageUrl || undefined,
+  });
+
+  return { success: true, service: newService };
+}
+
+export async function updateServiceHelper(data: {
+  id: string;
+  title?: string;
+  slug?: string;
+  description?: string;
+  category?: string;
+  icon?: string;
+  isPopular?: boolean;
+  orderIndex?: number;
+  imageFile?: { name: string; base64: string };
+}) {
+  await requireAdminAuth();
+
+  let imageUrl = "";
+  if (data.imageFile) {
+    imageUrl = data.imageFile.base64.startsWith("data:")
+      ? data.imageFile.base64
+      : `data:image/jpeg;base64,${data.imageFile.base64}`;
+  }
+
+  const updateData: any = { ...data };
+  delete updateData.id;
+  delete updateData.imageFile;
+  if (imageUrl) {
+    updateData.image = imageUrl;
+  }
+
+  const updated = await db.updateService(data.id, updateData);
+  if (!updated) return { success: false, error: "Service not found" };
+
+  return { success: true, service: updated };
+}
+
+export async function deleteServiceHelper(data: { id: string }) {
+  await requireAdminAuth();
+  const success = await db.deleteService(data.id);
+  return { success };
+}
+
+// ---------------- Calculators API Helpers ----------------
+
+export async function getCalculatorsHelper() {
+  const calculators = await db.getCalculators();
+  return { calculators };
+}
+
+export async function updateCalculatorHelper(data: {
+  id: string;
+  title?: string;
+  slug?: string;
+  description?: string;
+  isActive?: boolean;
+}) {
+  await requireAdminAuth();
+  const { id, ...calcData } = data;
+  const updated = await db.updateCalculator(id, calcData);
+  if (!updated) return { success: false, error: "Calculator not found" };
+  return { success: true, calculator: updated };
+}
+
+// ---------------- Locations API Helpers ----------------
+
+export async function getLocationsHelper() {
+  const locations = await db.getLocations();
+  return { locations };
+}
+
+export async function addLocationHelper(data: any) {
+  await requireAdminAuth();
+  const location = await db.addLocation(data);
+  triggerSitemapUpdate();
+  return { success: true, location };
+}
+
+export async function updateLocationHelper(data: any) {
+  await requireAdminAuth();
+  const { slug, ...location } = data;
+  const updated = await db.updateLocation(slug, location);
+  if (!updated) return { success: false, error: "Location not found" };
+  triggerSitemapUpdate();
+  return { success: true, location: updated };
+}
+
+export async function deleteLocationHelper(data: { slug: string }) {
+  await requireAdminAuth();
+  const success = await db.deleteLocation(data.slug);
+  if (success) triggerSitemapUpdate();
+  return { success };
 }

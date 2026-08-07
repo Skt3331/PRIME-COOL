@@ -12,10 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as EmergencyRouteImport } from './routes/emergency'
+import { Route as CalculatorsRouteImport } from './routes/calculators'
 import { Route as BookingRouteImport } from './routes/booking'
 import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ToolsVoltageDropRouteImport } from './routes/tools/voltage-drop'
@@ -81,9 +83,12 @@ import { Route as CitiesMumbaiRouteImport } from './routes/cities/mumbai'
 import { Route as CitiesSlugRouteImport } from './routes/cities/$slug'
 import { Route as BrandsSlugRouteImport } from './routes/brands/$slug'
 import { Route as BlogsSlugRouteImport } from './routes/blogs_.$slug'
+import { Route as AdminServicesRouteImport } from './routes/admin/services'
 import { Route as AdminPortfolioRouteImport } from './routes/admin/portfolio'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminLocationsRouteImport } from './routes/admin/locations'
 import { Route as AdminCmsRouteImport } from './routes/admin/cms'
+import { Route as AdminCalculatorsRouteImport } from './routes/admin/calculators'
 import { Route as AdminBlogsRouteImport } from './routes/admin/blogs'
 import { Route as ServicesServiceSlugLocationSlugRouteImport } from './routes/services/$serviceSlug.$locationSlug'
 import { Route as CitiesCitySlugServiceSlugRouteImport } from './routes/cities/$citySlug/$serviceSlug'
@@ -105,6 +110,11 @@ const EmergencyRoute = EmergencyRouteImport.update({
   path: '/emergency',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CalculatorsRoute = CalculatorsRouteImport.update({
+  id: '/calculators',
+  path: '/calculators',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookingRoute = BookingRouteImport.update({
   id: '/booking',
   path: '/booking',
@@ -123,6 +133,11 @@ const AdminRoute = AdminRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
@@ -458,6 +473,11 @@ const BlogsSlugRoute = BlogsSlugRouteImport.update({
   path: '/blogs/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminPortfolioRoute = AdminPortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
@@ -468,9 +488,19 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminLocationsRoute = AdminLocationsRouteImport.update({
+  id: '/locations',
+  path: '/locations',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCmsRoute = AdminCmsRouteImport.update({
   id: '/cms',
   path: '/cms',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCalculatorsRoute = AdminCalculatorsRouteImport.update({
+  id: '/calculators',
+  path: '/calculators',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminBlogsRoute = AdminBlogsRouteImport.update({
@@ -507,13 +537,17 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/blogs': typeof BlogsRoute
   '/booking': typeof BookingRoute
+  '/calculators': typeof CalculatorsRoute
   '/emergency': typeof EmergencyRoute
   '/glossary': typeof GlossaryRoute
   '/portfolio': typeof PortfolioRoute
   '/admin/blogs': typeof AdminBlogsRoute
+  '/admin/calculators': typeof AdminCalculatorsRoute
   '/admin/cms': typeof AdminCmsRoute
+  '/admin/locations': typeof AdminLocationsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/services': typeof AdminServicesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/brands/$slug': typeof BrandsSlugRouteWithChildren
   '/cities/$slug': typeof CitiesSlugRoute
@@ -579,6 +613,7 @@ export interface FileRoutesByFullPath {
   '/tools/voltage-drop': typeof ToolsVoltageDropRoute
   '/admin/': typeof AdminIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/brands/$slug/$appliance': typeof BrandsSlugApplianceRoute
   '/brands/compare/$comparisonSlug': typeof BrandsCompareComparisonSlugRoute
   '/cities/$citySlug/$serviceSlug': typeof CitiesCitySlugServiceSlugRoute
@@ -588,13 +623,17 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blogs': typeof BlogsRoute
   '/booking': typeof BookingRoute
+  '/calculators': typeof CalculatorsRoute
   '/emergency': typeof EmergencyRoute
   '/glossary': typeof GlossaryRoute
   '/portfolio': typeof PortfolioRoute
   '/admin/blogs': typeof AdminBlogsRoute
+  '/admin/calculators': typeof AdminCalculatorsRoute
   '/admin/cms': typeof AdminCmsRoute
+  '/admin/locations': typeof AdminLocationsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/services': typeof AdminServicesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/brands/$slug': typeof BrandsSlugRouteWithChildren
   '/cities/$slug': typeof CitiesSlugRoute
@@ -660,6 +699,7 @@ export interface FileRoutesByTo {
   '/tools/voltage-drop': typeof ToolsVoltageDropRoute
   '/admin': typeof AdminIndexRoute
   '/resources': typeof ResourcesIndexRoute
+  '/services': typeof ServicesIndexRoute
   '/brands/$slug/$appliance': typeof BrandsSlugApplianceRoute
   '/brands/compare/$comparisonSlug': typeof BrandsCompareComparisonSlugRoute
   '/cities/$citySlug/$serviceSlug': typeof CitiesCitySlugServiceSlugRoute
@@ -671,13 +711,17 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/blogs': typeof BlogsRoute
   '/booking': typeof BookingRoute
+  '/calculators': typeof CalculatorsRoute
   '/emergency': typeof EmergencyRoute
   '/glossary': typeof GlossaryRoute
   '/portfolio': typeof PortfolioRoute
   '/admin/blogs': typeof AdminBlogsRoute
+  '/admin/calculators': typeof AdminCalculatorsRoute
   '/admin/cms': typeof AdminCmsRoute
+  '/admin/locations': typeof AdminLocationsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/services': typeof AdminServicesRoute
   '/blogs_/$slug': typeof BlogsSlugRoute
   '/brands/$slug': typeof BrandsSlugRouteWithChildren
   '/cities/$slug': typeof CitiesSlugRoute
@@ -743,6 +787,7 @@ export interface FileRoutesById {
   '/tools/voltage-drop': typeof ToolsVoltageDropRoute
   '/admin/': typeof AdminIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/brands/$slug/$appliance': typeof BrandsSlugApplianceRoute
   '/brands/compare/$comparisonSlug': typeof BrandsCompareComparisonSlugRoute
   '/cities/$citySlug/$serviceSlug': typeof CitiesCitySlugServiceSlugRoute
@@ -755,13 +800,17 @@ export interface FileRouteTypes {
     | '/admin'
     | '/blogs'
     | '/booking'
+    | '/calculators'
     | '/emergency'
     | '/glossary'
     | '/portfolio'
     | '/admin/blogs'
+    | '/admin/calculators'
     | '/admin/cms'
+    | '/admin/locations'
     | '/admin/login'
     | '/admin/portfolio'
+    | '/admin/services'
     | '/blogs/$slug'
     | '/brands/$slug'
     | '/cities/$slug'
@@ -827,6 +876,7 @@ export interface FileRouteTypes {
     | '/tools/voltage-drop'
     | '/admin/'
     | '/resources/'
+    | '/services/'
     | '/brands/$slug/$appliance'
     | '/brands/compare/$comparisonSlug'
     | '/cities/$citySlug/$serviceSlug'
@@ -836,13 +886,17 @@ export interface FileRouteTypes {
     | '/'
     | '/blogs'
     | '/booking'
+    | '/calculators'
     | '/emergency'
     | '/glossary'
     | '/portfolio'
     | '/admin/blogs'
+    | '/admin/calculators'
     | '/admin/cms'
+    | '/admin/locations'
     | '/admin/login'
     | '/admin/portfolio'
+    | '/admin/services'
     | '/blogs/$slug'
     | '/brands/$slug'
     | '/cities/$slug'
@@ -908,6 +962,7 @@ export interface FileRouteTypes {
     | '/tools/voltage-drop'
     | '/admin'
     | '/resources'
+    | '/services'
     | '/brands/$slug/$appliance'
     | '/brands/compare/$comparisonSlug'
     | '/cities/$citySlug/$serviceSlug'
@@ -918,13 +973,17 @@ export interface FileRouteTypes {
     | '/admin'
     | '/blogs'
     | '/booking'
+    | '/calculators'
     | '/emergency'
     | '/glossary'
     | '/portfolio'
     | '/admin/blogs'
+    | '/admin/calculators'
     | '/admin/cms'
+    | '/admin/locations'
     | '/admin/login'
     | '/admin/portfolio'
+    | '/admin/services'
     | '/blogs_/$slug'
     | '/brands/$slug'
     | '/cities/$slug'
@@ -990,6 +1049,7 @@ export interface FileRouteTypes {
     | '/tools/voltage-drop'
     | '/admin/'
     | '/resources/'
+    | '/services/'
     | '/brands/$slug/$appliance'
     | '/brands/compare/$comparisonSlug'
     | '/cities/$citySlug/$serviceSlug'
@@ -1001,6 +1061,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   BlogsRoute: typeof BlogsRoute
   BookingRoute: typeof BookingRoute
+  CalculatorsRoute: typeof CalculatorsRoute
   EmergencyRoute: typeof EmergencyRoute
   GlossaryRoute: typeof GlossaryRoute
   PortfolioRoute: typeof PortfolioRoute
@@ -1068,6 +1129,7 @@ export interface RootRouteChildren {
   ToolsVacuumConvertRoute: typeof ToolsVacuumConvertRoute
   ToolsVoltageDropRoute: typeof ToolsVoltageDropRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
   BrandsCompareComparisonSlugRoute: typeof BrandsCompareComparisonSlugRoute
   CitiesCitySlugServiceSlugRoute: typeof CitiesCitySlugServiceSlugRoute
   ServicesServiceSlugLocationSlugRoute: typeof ServicesServiceSlugLocationSlugRoute
@@ -1096,6 +1158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmergencyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/calculators': {
+      id: '/calculators'
+      path: '/calculators'
+      fullPath: '/calculators'
+      preLoaderRoute: typeof CalculatorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/booking': {
       id: '/booking'
       path: '/booking'
@@ -1122,6 +1191,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/': {
+      id: '/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resources/': {
@@ -1579,6 +1655,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/portfolio': {
       id: '/admin/portfolio'
       path: '/portfolio'
@@ -1593,11 +1676,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/locations': {
+      id: '/admin/locations'
+      path: '/locations'
+      fullPath: '/admin/locations'
+      preLoaderRoute: typeof AdminLocationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/cms': {
       id: '/admin/cms'
       path: '/cms'
       fullPath: '/admin/cms'
       preLoaderRoute: typeof AdminCmsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/calculators': {
+      id: '/admin/calculators'
+      path: '/calculators'
+      fullPath: '/admin/calculators'
+      preLoaderRoute: typeof AdminCalculatorsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/blogs': {
@@ -1640,17 +1737,23 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminBlogsRoute: typeof AdminBlogsRoute
+  AdminCalculatorsRoute: typeof AdminCalculatorsRoute
   AdminCmsRoute: typeof AdminCmsRoute
+  AdminLocationsRoute: typeof AdminLocationsRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminPortfolioRoute: typeof AdminPortfolioRoute
+  AdminServicesRoute: typeof AdminServicesRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminBlogsRoute: AdminBlogsRoute,
+  AdminCalculatorsRoute: AdminCalculatorsRoute,
   AdminCmsRoute: AdminCmsRoute,
+  AdminLocationsRoute: AdminLocationsRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminPortfolioRoute: AdminPortfolioRoute,
+  AdminServicesRoute: AdminServicesRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
@@ -1673,6 +1776,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   BlogsRoute: BlogsRoute,
   BookingRoute: BookingRoute,
+  CalculatorsRoute: CalculatorsRoute,
   EmergencyRoute: EmergencyRoute,
   GlossaryRoute: GlossaryRoute,
   PortfolioRoute: PortfolioRoute,
@@ -1740,6 +1844,7 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsVacuumConvertRoute: ToolsVacuumConvertRoute,
   ToolsVoltageDropRoute: ToolsVoltageDropRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
   BrandsCompareComparisonSlugRoute: BrandsCompareComparisonSlugRoute,
   CitiesCitySlugServiceSlugRoute: CitiesCitySlugServiceSlugRoute,
   ServicesServiceSlugLocationSlugRoute: ServicesServiceSlugLocationSlugRoute,

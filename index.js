@@ -11,11 +11,11 @@ const __dirname = path.dirname(__filename);
 try {
   const _ = process.stdin;
 } catch (e) {
-  Object.defineProperty(process, 'stdin', {
+  Object.defineProperty(process, "stdin", {
     get() {
       return null;
     },
-    configurable: true
+    configurable: true,
   });
 }
 
@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 8080;
 const CLIENT_DIR = path.join(__dirname, "dist", "client");
 
 // 1. Serve static files from dist/client
-app.use(express.static(CLIENT_DIR, { index: "index.html", maxAge: '1y' }));
+app.use(express.static(CLIENT_DIR, { index: "index.html", maxAge: "1y" }));
 
 // Scheduled Sitemap Generation (Every 2 hours)
 function runSitemapGenerator() {
@@ -44,7 +44,6 @@ const TWO_HOURS = 2 * 60 * 60 * 1000;
 setInterval(runSitemapGenerator, TWO_HOURS);
 // Run once on startup
 runSitemapGenerator();
-
 
 // 2. Delegate everything else to TanStack Start SSR handler
 app.all("*", async (req, res) => {

@@ -123,15 +123,62 @@ async function getBlogs() {
   return [];
 }
 
+async function getDbLocations() {
+  const host = process.env.DB_HOST;
+  const user = process.env.DB_USER;
+  const password = process.env.DB_PASSWORD;
+  const database = process.env.DB_DATABASE;
+  const port = process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306;
+
+  if (host && user && database) {
+    try {
+      const mysql = await import("mysql2/promise");
+      const connection = await mysql.createConnection({
+        host,
+        port,
+        user,
+        password,
+        database,
+      });
+      const [rows] = await connection.query("SELECT slug FROM locations");
+      await connection.end();
+      console.log(`Successfully fetched ${rows.length} locations from MySQL database for sitemap.`);
+      return rows.map(r => r.slug);
+    } catch (err) {
+      console.error(
+        "Failed to fetch locations from MySQL for sitemap, falling back to db.json:",
+        err.message,
+      );
+    }
+  }
+
+  // Fallback to db.json
+  const dbPath = path.resolve(__dirname, "../data/db.json");
+  if (fs.existsSync(dbPath)) {
+    try {
+      const dbStr = fs.readFileSync(dbPath, "utf8");
+      const db = JSON.parse(dbStr);
+      if (db.locations && Array.isArray(db.locations)) {
+        console.log(`Successfully read ${db.locations.length} locations from db.json for sitemap.`);
+        return db.locations.map(l => l.slug);
+      }
+    } catch (e) {
+      console.error("Failed to parse db.json for sitemap locations:", e);
+    }
+  }
+  return [];
+}
+
 async function generateSitemap() {
   console.log("Generating sitemap...");
 
   if (!fs.existsSync(ROUTES_DIR)) {
-    console.error(`Routes directory not found: ${ROUTES_DIR}`);
-    process.exit(1);
+    console.warn(`Routes directory not found: ${ROUTES_DIR}. Skipping static routes discovery and using pre-computed dynamic routes.`);
+    // Initialize empty files list to prevent crash
+    var allFiles = [];
+  } else {
+    var allFiles = getFiles(ROUTES_DIR);
   }
-
-  const allFiles = getFiles(ROUTES_DIR);
   const urls = [];
   const currentDate = new Date().toISOString().split("T")[0];
 
@@ -196,6 +243,7 @@ async function generateSitemap() {
 
   // Define dynamic sitemap additions
   const LOCATIONS = [
+    ...(await getDbLocations()),
     "wagholi",
     "lonikand",
     "koregaon-bhima",
@@ -209,7 +257,7 @@ async function generateSitemap() {
     "pimpri-chinchwad",
     "pune-district",
     "mumbai-district",
-    "nashik-district",
+    "nashik-district"
   ];
 
   const BRANDS = [
@@ -301,11 +349,33 @@ async function generateSitemap() {
     });
   }
 
-  // 1b. Joint Locations x Services SEO URLs (686 landing pages)
+  // 1b. Joint Locations x Services SEO URLs
   for (const loc of LOCATIONS) {
     for (const service of SERVICES) {
       urls.push({
         loc: `${BASE_URL}/services/${service}/${loc}`,
+        lastmod: currentDate,
+        changefreq: "weekly",
+        priority: "0.85",
+      });
+    }
+  }
+
+  // 1c. Cities SEO URLs
+  for (const loc of LOCATIONS) {
+    urls.push({
+      loc: `${BASE_URL}/cities/${loc}`,
+      lastmod: currentDate,
+      changefreq: "weekly",
+      priority: "0.8",
+    });
+  }
+
+  // 1d. Joint Cities x Services SEO URLs
+  for (const loc of LOCATIONS) {
+    for (const service of SERVICES) {
+      urls.push({
+        loc: `${BASE_URL}/cities/${loc}/${service}`,
         lastmod: currentDate,
         changefreq: "weekly",
         priority: "0.85",

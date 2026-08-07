@@ -50,7 +50,7 @@ export const Route = createFileRoute("/booking")({
         { name: "twitter:title", content: seo.title },
         { name: "twitter:description", content: seo.description },
       ],
-      links: [{ rel: "canonical", href: "/booking" }],
+      links: [{ rel: "canonical", href: "https://primecool.in/booking" }],
     };
   },
   component: BookingPage,
@@ -351,7 +351,8 @@ function BookingPage() {
   }
 
   return (
-    <div className="min-h-screen text-foreground flex flex-col justify-between">
+    <div className="min-h-screen bg-background text-foreground flex flex-col justify-between relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,102,255,0.05),transparent_50%)] pointer-events-none" />
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border">
         <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
@@ -400,42 +401,46 @@ function BookingPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 pt-24 pb-16 px-6">
+      <main className="flex-1 pt-24 pb-16 px-6 relative z-10">
         <div className="mx-auto max-w-6xl">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-12 animate-fade-up">
             <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-3">
               <span className="h-px w-6 bg-primary" />
               Scheduling Desk
             </div>
-            <h1 className="font-display text-3xl md:text-4xl font-bold leading-tight">
-              Schedule your mechanical <span className="text-gradient">service today.</span>
+            <h1 className="font-display text-4xl md:text-5xl font-bold leading-tight">
+              Schedule your mechanical <span className="text-shimmer">service today.</span>
             </h1>
-            <p className="mt-3 text-sm text-muted-foreground">
+            <p className="mt-3 text-sm text-muted-foreground delay-100 animate-fade-up">
               Select your service, choose an available date, and pick a time slot. We will allocate
               the correct engineer and dispatch them along the Wagholi–Shirur route.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="grid lg:grid-cols-12 gap-8 items-start">
+          <form
+            onSubmit={handleSubmit}
+            className="grid lg:grid-cols-12 gap-8 items-start animate-fade-up delay-200"
+          >
             {/* Step 1: Select Service & Contact Info */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="surface-card rounded-2xl p-6 border border-border">
-                <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2">
-                  <span className="h-6 w-6 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center text-xs font-semibold">
+              <div className="glass-panel rounded-2xl p-6 border border-border relative overflow-hidden">
+                <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
+                <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2 relative z-10 text-white">
+                  <span className="h-7 w-7 rounded-full bg-primary/20 border border-primary/40 text-primary flex items-center justify-center text-xs font-bold shadow-[0_0_15px_rgba(0,200,255,0.4)]">
                     1
                   </span>
                   Select Required Service
                 </h2>
-                <div className="grid sm:grid-cols-2 gap-3">
+                <div className="grid sm:grid-cols-2 gap-3 relative z-10">
                   {services.map((srv) => (
                     <button
                       key={srv.id}
                       type="button"
                       onClick={() => setSelectedService(srv.name)}
-                      className={`text-left p-4 rounded-xl border transition flex flex-col justify-between ${
+                      className={`text-left p-4 rounded-xl border transition-all duration-300 flex flex-col justify-between ${
                         selectedService === srv.name
-                          ? "border-primary bg-primary/5 text-foreground ring-1 ring-primary"
-                          : "border-border bg-card/40 text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                          ? "border-primary/50 bg-primary/20 text-white shadow-glow"
+                          : "border-border/40 bg-black/20 text-muted-foreground hover:border-primary/40 hover:text-white"
                       }`}
                     >
                       <span className="font-semibold text-sm leading-snug">{srv.name}</span>
@@ -447,9 +452,10 @@ function BookingPage() {
                 </div>
               </div>
 
-              <div className="surface-card rounded-2xl p-6 border border-border">
-                <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2">
-                  <span className="h-6 w-6 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center text-xs font-semibold">
+              <div className="glass-panel rounded-2xl p-6 border border-border relative overflow-hidden">
+                <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
+                <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2 relative z-10 text-white">
+                  <span className="h-7 w-7 rounded-full bg-primary/20 border border-primary/40 text-primary flex items-center justify-center text-xs font-bold shadow-[0_0_15px_rgba(0,200,255,0.4)]">
                     2
                   </span>
                   Provide Contact Information
@@ -529,15 +535,16 @@ function BookingPage() {
 
             {/* Step 2: Date & Slot Picker */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="surface-card rounded-2xl p-5 border border-border">
-                <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2">
-                  <span className="h-6 w-6 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center text-xs font-semibold">
+              <div className="glass-panel rounded-2xl p-5 border border-border relative overflow-hidden">
+                <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
+                <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2 relative z-10 text-white">
+                  <span className="h-7 w-7 rounded-full bg-primary/20 border border-primary/40 text-primary flex items-center justify-center text-xs font-bold shadow-[0_0_15px_rgba(0,200,255,0.4)]">
                     3
                   </span>
                   Choose Date & Time Slot
                 </h2>
 
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center relative z-10">
                   <Calendar
                     mode="single"
                     selected={selectedDate}
@@ -593,35 +600,45 @@ function BookingPage() {
                 {/* Quick Summary / CTA */}
                 <div className="mt-8 pt-5 border-t border-border space-y-4">
                   {selectedService && selectedDate && selectedSlot && (
-                    <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 text-xs leading-relaxed space-y-1">
-                      <div className="font-semibold text-primary">Summary:</div>
-                      <div>{selectedService}</div>
-                      <div>
-                        {getFriendlyDateString(formattedDate)} at {selectedSlot}
+                    <div className="bg-primary/10 border border-primary/30 rounded-xl p-4 text-xs leading-relaxed space-y-1 relative z-10 shadow-glow-blue">
+                      <div className="font-semibold text-primary uppercase tracking-wider text-[10px] mb-2">
+                        Selected Itinerary:
+                      </div>
+                      <div className="font-bold text-white text-sm">{selectedService}</div>
+                      <div className="text-muted-foreground flex items-center gap-1">
+                        <CalendarRange className="h-3.5 w-3.5" />{" "}
+                        {getFriendlyDateString(formattedDate)}
+                      </div>
+                      <div className="text-muted-foreground flex items-center gap-1">
+                        <Clock className="h-3.5 w-3.5" /> {selectedSlot}
                       </div>
                     </div>
                   )}
-                  <Button
-                    type="submit"
-                    disabled={
-                      bookingMutation.isPending ||
-                      !selectedService ||
-                      !selectedDate ||
-                      !selectedSlot
-                    }
-                    className="w-full rounded-xl py-3 font-semibold glow-ring flex items-center justify-center gap-2"
-                  >
-                    {bookingMutation.isPending ? (
-                      <>
-                        <span className="animate-spin h-4 w-4 border-2 border-primary-foreground border-t-transparent rounded-full" />
-                        Processing Booking Request...
-                      </>
-                    ) : (
-                      <>
-                        Confirm and Book Service <ChevronRight className="h-4 w-4" />
-                      </>
-                    )}
-                  </Button>
+
+                  <div className="pt-2 relative z-10">
+                    <button
+                      type="submit"
+                      disabled={
+                        bookingMutation.isPending ||
+                        !selectedService ||
+                        !selectedDate ||
+                        !selectedSlot
+                      }
+                      className="w-full btn-primary justify-center py-4 text-base shadow-glow-blue disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {bookingMutation.isPending ? (
+                        <>
+                          <span className="animate-spin h-5 w-5 border-2 border-background border-t-transparent rounded-full" />
+                          Processing...
+                        </>
+                      ) : (
+                        "Confirm Service Booking"
+                      )}
+                    </button>
+                    <p className="text-center text-[10px] text-muted-foreground mt-3 uppercase tracking-wider font-semibold">
+                      No upfront payment required
+                    </p>
+                  </div>
 
                   <div className="relative flex items-center py-2">
                     <div className="flex-grow border-t border-border/50"></div>

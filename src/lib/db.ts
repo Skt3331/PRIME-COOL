@@ -30,6 +30,9 @@ export interface Project {
   category: "domestic" | "commercial" | "industrial";
   metrics: ProjectMetric[];
   image?: string; // Data URL or upload path
+  seoTitle?: string;
+  seoDesc?: string;
+  seoKeywords?: string;
   createdAt: string;
 }
 
@@ -44,8 +47,35 @@ export interface Blog {
   author?: string;
   seoTitle?: string;
   seoDesc?: string;
+  seoKeywords?: string;
   updatedAt?: string;
   createdAt: string;
+}
+
+export interface Service {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  category: string;
+  icon?: string;
+  image?: string;
+  isPopular: boolean;
+  orderIndex: number;
+  seoTitle?: string;
+  seoDesc?: string;
+  seoKeywords?: string;
+}
+
+export interface CalculatorMeta {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  isActive: boolean;
+  seoTitle?: string;
+  seoDesc?: string;
+  seoKeywords?: string;
 }
 
 export interface NotificationLog {
@@ -72,6 +102,7 @@ export interface CmsHero {
   cta1Link: string;
   cta2Text: string;
   cta2Link: string;
+  backgroundImage?: string;
 }
 
 export interface CmsSeoPage {
@@ -85,12 +116,19 @@ export interface CmsSeo {
   home: CmsSeoPage;
   booking: CmsSeoPage;
   portfolio: CmsSeoPage;
+  resources: CmsSeoPage;
+  calculators: CmsSeoPage;
+  blogs: CmsSeoPage;
+  brands: CmsSeoPage;
+  locations: CmsSeoPage;
 }
 
 export interface CmsTheme {
   primary: string;
   electric: string;
   background: string;
+  logo?: string;
+  favicon?: string;
 }
 
 export interface CmsServiceItem {
@@ -100,6 +138,11 @@ export interface CmsServiceItem {
   desc: string;
   image: string;
   icon: string;
+  images?: string[];
+  results?: string[];
+  seoTitle?: string;
+  seoDesc?: string;
+  seoKeywords?: string;
 }
 
 export interface CmsAmcTier {
@@ -163,6 +206,33 @@ export interface CmsSettings {
   regions?: string[];
 }
 
+export interface LocationReview {
+  author: string;
+  rating: number;
+  text: string;
+  role?: string;
+}
+
+export interface LocationFaq {
+  q: string;
+  a: string;
+}
+
+export interface LocationDetail {
+  slug: string;
+  name: string;
+  type: string;
+  pincodes: string[];
+  landmarks: string[];
+  nearbyBusinesses: string[];
+  reviews: LocationReview[];
+  mapEmbedUrl: string;
+  faqs: LocationFaq[];
+  seoTitle?: string;
+  seoDesc?: string;
+  seoKeywords?: string;
+}
+
 export interface DbSchema {
   bookings: Booking[];
   portfolio: Project[];
@@ -172,6 +242,9 @@ export interface DbSchema {
   sessions: { [token: string]: { username: string; expiresAt: string } };
   cms: CmsSettings;
   blogs: Blog[];
+  services: Service[];
+  calculators: CalculatorMeta[];
+  locations: LocationDetail[];
 }
 
 function getAppRoot(): string {
@@ -232,11 +305,70 @@ function hashPassword(password: string, salt: string): string {
     .digest("hex");
 }
 
+function getInitialLocations(): LocationDetail[] {
+  return [
+    {
+      slug: "wagholi",
+      name: "Wagholi",
+      type: "locality",
+      pincodes: ["412207", "411047"],
+      landmarks: ["Wagheshwar Temple", "Lexicon International School", "Wagholi Plaza", "BJS College"],
+      nearbyBusinesses: ["Decathlon Wagholi", "Soyuz Industrial Tools", "Ganesh Supermarket"],
+      reviews: [
+        { author: "Aniket Shinde", rating: 5, text: "Excellent split AC gas filling service in Wagholi.", role: "Homeowner" }
+      ],
+      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d3782.2612989435647!2d73.97827827519266!3d18.574635682527878!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c3f878f10fb5%3A0x6b4ef82110c73243!2sWagholi%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000",
+      faqs: [{ q: "How fast can you dispatch an AC technician in Wagholi?", a: "We provide emergency AC dispatch under 45 minutes." }]
+    },
+    {
+      slug: "hadapsar",
+      name: "Hadapsar",
+      type: "locality",
+      pincodes: ["411028", "411013"],
+      landmarks: ["Magarpatta City", "SP Infocity", "Noble Hospital"],
+      nearbyBusinesses: ["Accenture SP Infocity", "Amanora Mall"],
+      reviews: [{ author: "Vikram Sen", rating: 5, text: "Excellent server room cooling setup.", role: "IT Director" }],
+      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d3783.5029012435647!2d73.9262!3d18.5089!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c1f9d50a2f5f%3A0xe5a3c9e6db3fbc5!2sHadapsar%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000",
+      faqs: [{ q: "Do you service VRF/VRV air conditioning systems?", a: "Yes, we offer quarterly preventative descaling." }]
+    }
+  ];
+}
+
 function getInitialData(): DbSchema {
   const salt = crypto.randomBytes(16).toString("hex");
   const passwordHash = hashPassword("admin123", salt);
 
   return {
+    locations: getInitialLocations(),
+    services: [
+      {
+        id: "srv-1",
+        title: "Air Conditioning Installation",
+        slug: "ac-installation",
+        description: "Professional installation of split and central air conditioning systems.",
+        category: "domestic",
+        icon: "Wind",
+        image: "/uploads/services/ac-install.jpg",
+        isPopular: true,
+        orderIndex: 1,
+      },
+    ],
+    calculators: [
+      {
+        id: "calc-1",
+        slug: "tonnage-calculator",
+        title: "AC Tonnage Calculator",
+        description: "Calculate the exact AC tonnage required for your room.",
+        isActive: true,
+      },
+      {
+        id: "calc-2",
+        slug: "electricity-cost",
+        title: "Electricity Cost Calculator",
+        description: "Estimate your monthly AC electricity bill.",
+        isActive: true,
+      },
+    ],
     bookings: [
       {
         id: "b1",
@@ -422,6 +554,36 @@ If you are located between Wagholi and Shirur, Prime Cool technicians carry repl
             "Check out our previous works, client projects, and mechanical engineering case studies across Pune.",
           ogTitle: "Portfolio — Prime Cool",
           ogDescription: "Case studies and maintenance logs from Wagholi–Shirur and MIDC plants.",
+        },
+        resources: {
+          title: "Technical Resources & Guides — Prime Cool",
+          description: "Explore our collection of technical guides, engineering resources, and maintenance tips for HVAC and refrigeration.",
+          ogTitle: "Resources — Prime Cool",
+          ogDescription: "Explore our collection of technical guides and maintenance tips.",
+        },
+        calculators: {
+          title: "HVAC & Electrical Calculators — Prime Cool",
+          description: "Free interactive calculators for AC tonnage, subcooling, superheat, and electricity costs.",
+          ogTitle: "HVAC Calculators — Prime Cool",
+          ogDescription: "Calculate AC tonnage, superheat, subcooling, and more.",
+        },
+        blogs: {
+          title: "Engineering Blog & Updates — Prime Cool",
+          description: "Read the latest updates, industry news, and technical deep-dives from the Prime Cool engineering team.",
+          ogTitle: "Blog — Prime Cool",
+          ogDescription: "Industry news and technical deep-dives.",
+        },
+        brands: {
+          title: "Brands We Service — Prime Cool",
+          description: "We repair and service all major HVAC and refrigeration brands including Daikin, Voltas, LG, and Blue Star.",
+          ogTitle: "Supported Brands — Prime Cool",
+          ogDescription: "Authorized service for all major HVAC/R brands.",
+        },
+        locations: {
+          title: "Service Locations — Prime Cool",
+          description: "Find Prime Cool HVAC and refrigeration service centers near you in Pune, Wagholi, Shirur, and surrounding areas.",
+          ogTitle: "Locations — Prime Cool",
+          ogDescription: "Find a Prime Cool service center near you.",
         },
       },
       theme: {
@@ -624,7 +786,7 @@ async function initializeMySQLTables(p: mysql.Pool) {
       summary TEXT NOT NULL,
       category VARCHAR(50) NOT NULL,
       metrics_json TEXT NOT NULL,
-      image TEXT,
+      image LONGTEXT,
       createdAt VARCHAR(50) NOT NULL
     )
   `);
@@ -684,7 +846,7 @@ async function initializeMySQLTables(p: mysql.Pool) {
       slug VARCHAR(255) NOT NULL,
       content LONGTEXT NOT NULL,
       summary TEXT NOT NULL,
-      image TEXT,
+      image LONGTEXT,
       category VARCHAR(100),
       author VARCHAR(255),
       seoTitle VARCHAR(500),
@@ -733,6 +895,96 @@ async function initializeMySQLTables(p: mysql.Pool) {
       );
     }
   }
+  // 9. services
+  await p.query(`
+    CREATE TABLE IF NOT EXISTS services (
+      id VARCHAR(50) PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      slug VARCHAR(255) NOT NULL,
+      description TEXT NOT NULL,
+      category VARCHAR(100) NOT NULL,
+      icon VARCHAR(255),
+      image LONGTEXT,
+      isPopular BOOLEAN DEFAULT false,
+      orderIndex INT DEFAULT 0
+    )
+  `);
+  const [servicesRows]: any = await p.query("SELECT COUNT(*) as cnt FROM services");
+  if (servicesRows[0].cnt === 0) {
+    const initial = getInitialData();
+    for (const srv of initial.services) {
+      await p.query(
+        "INSERT INTO services (id, title, slug, description, category, icon, image, isPopular, orderIndex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          srv.id,
+          srv.title,
+          srv.slug,
+          srv.description,
+          srv.category,
+          srv.icon || null,
+          srv.image || null,
+          srv.isPopular,
+          srv.orderIndex,
+        ],
+      );
+    }
+  }
+
+  // 10. calculators
+  await p.query(`
+    CREATE TABLE IF NOT EXISTS calculators (
+      id VARCHAR(50) PRIMARY KEY,
+      slug VARCHAR(255) NOT NULL,
+      title VARCHAR(255) NOT NULL,
+      description TEXT NOT NULL,
+      isActive BOOLEAN DEFAULT true
+    )
+  `);
+  const [calcRows]: any = await p.query("SELECT COUNT(*) as cnt FROM calculators");
+  if (calcRows[0].cnt === 0) {
+    const initial = getInitialData();
+    for (const calc of initial.calculators) {
+      await p.query(
+        "INSERT INTO calculators (id, slug, title, description, isActive) VALUES (?, ?, ?, ?, ?)",
+        [calc.id, calc.slug, calc.title, calc.description, calc.isActive],
+      );
+    }
+  }
+
+  // 11. locations
+  await p.query(`
+    CREATE TABLE IF NOT EXISTS locations (
+      slug VARCHAR(255) PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      type VARCHAR(50) NOT NULL,
+      pincodes_json TEXT NOT NULL,
+      landmarks_json TEXT NOT NULL,
+      nearbyBusinesses_json TEXT NOT NULL,
+      reviews_json LONGTEXT NOT NULL,
+      mapEmbedUrl TEXT,
+      faqs_json LONGTEXT NOT NULL
+    )
+  `);
+  const [locationsRows]: any = await p.query("SELECT COUNT(*) as cnt FROM locations");
+  if (locationsRows[0].cnt === 0) {
+    const initial = getInitialData();
+    for (const loc of initial.locations) {
+      await p.query(
+        "INSERT INTO locations (slug, name, type, pincodes_json, landmarks_json, nearbyBusinesses_json, reviews_json, mapEmbedUrl, faqs_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          loc.slug,
+          loc.name,
+          loc.type,
+          JSON.stringify(loc.pincodes),
+          JSON.stringify(loc.landmarks),
+          JSON.stringify(loc.nearbyBusinesses),
+          JSON.stringify(loc.reviews),
+          loc.mapEmbedUrl || "",
+          JSON.stringify(loc.faqs),
+        ]
+      );
+    }
+  }
 }
 
 // ---------------- JSON Local Fallback Helpers ----------------
@@ -769,6 +1021,21 @@ export async function readDb(): Promise<DbSchema> {
 
       if (!db.blogs) {
         db.blogs = initial.blogs;
+        updated = true;
+      }
+
+      if (!db.services) {
+        db.services = initial.services;
+        updated = true;
+      }
+
+      if (!db.calculators) {
+        db.calculators = initial.calculators;
+        updated = true;
+      }
+
+      if (!db.locations) {
+        db.locations = initial.locations;
         updated = true;
       }
 
@@ -1499,4 +1766,397 @@ export async function getDbStatus(): Promise<{
     host: process.env.DB_HOST || "localhost",
     database: process.env.DB_DATABASE || "",
   };
+}
+
+// ---------------- Services API Helper Methods ----------------
+
+export async function getServices(): Promise<Service[]> {
+  const p = await getMySQLPool();
+  if (p && isMySQLActive) {
+    try {
+      const [rows]: any = await p.query("SELECT * FROM services ORDER BY orderIndex ASC");
+      return rows.map((r: any) => ({
+        id: r.id,
+        title: r.title,
+        slug: r.slug,
+        description: r.description,
+        category: r.category,
+        icon: r.icon || undefined,
+        image: r.image || undefined,
+        isPopular: !!r.isPopular,
+        orderIndex: r.orderIndex,
+      }));
+    } catch (err) {
+      console.error("MySQL query failed in getServices, falling back:", err);
+    }
+  }
+
+  const db = await readDb();
+  return db.services.sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
+}
+
+export async function addService(service: Omit<Service, "id">): Promise<Service> {
+  const newService: Service = {
+    ...service,
+    id: `srv-${crypto.randomBytes(4).toString("hex")}`,
+  };
+
+  const p = await getMySQLPool();
+  if (p && isMySQLActive) {
+    try {
+      await p.query(
+        "INSERT INTO services (id, title, slug, description, category, icon, image, isPopular, orderIndex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          newService.id,
+          newService.title,
+          newService.slug,
+          newService.description,
+          newService.category,
+          newService.icon || null,
+          newService.image || null,
+          newService.isPopular,
+          newService.orderIndex,
+        ],
+      );
+      return newService;
+    } catch (err) {
+      console.error("MySQL query failed in addService, falling back:", err);
+    }
+  }
+
+  const db = await readDb();
+  db.services.push(newService);
+  await writeDb(db);
+  return newService;
+}
+
+export async function updateService(
+  id: string,
+  service: Partial<Omit<Service, "id">>,
+): Promise<Service | null> {
+  const p = await getMySQLPool();
+  if (p && isMySQLActive) {
+    try {
+      const updateFields: string[] = [];
+      const values: any[] = [];
+
+      if (service.title !== undefined) {
+        updateFields.push("title = ?");
+        values.push(service.title);
+      }
+      if (service.slug !== undefined) {
+        updateFields.push("slug = ?");
+        values.push(service.slug);
+      }
+      if (service.description !== undefined) {
+        updateFields.push("description = ?");
+        values.push(service.description);
+      }
+      if (service.category !== undefined) {
+        updateFields.push("category = ?");
+        values.push(service.category);
+      }
+      if (service.icon !== undefined) {
+        updateFields.push("icon = ?");
+        values.push(service.icon);
+      }
+      if (service.image !== undefined) {
+        updateFields.push("image = ?");
+        values.push(service.image);
+      }
+      if (service.isPopular !== undefined) {
+        updateFields.push("isPopular = ?");
+        values.push(service.isPopular);
+      }
+      if (service.orderIndex !== undefined) {
+        updateFields.push("orderIndex = ?");
+        values.push(service.orderIndex);
+      }
+
+      if (updateFields.length > 0) {
+        values.push(id);
+        await p.query(`UPDATE services SET ${updateFields.join(", ")} WHERE id = ?`, values);
+      }
+
+      const [rows]: any = await p.query("SELECT * FROM services WHERE id = ?", [id]);
+      if (rows.length > 0) {
+        const r = rows[0];
+        return {
+          id: r.id,
+          title: r.title,
+          slug: r.slug,
+          description: r.description,
+          category: r.category,
+          icon: r.icon || undefined,
+          image: r.image || undefined,
+          isPopular: !!r.isPopular,
+          orderIndex: r.orderIndex,
+        };
+      }
+      return null;
+    } catch (err) {
+      console.error("MySQL query failed in updateService, falling back:", err);
+    }
+  }
+
+  const db = await readDb();
+  const idx = db.services.findIndex((s) => s.id === id);
+  if (idx === -1) return null;
+  db.services[idx] = { ...db.services[idx], ...service };
+  await writeDb(db);
+  return db.services[idx];
+}
+
+export async function deleteService(id: string): Promise<boolean> {
+  const p = await getMySQLPool();
+  if (p && isMySQLActive) {
+    try {
+      const [res]: any = await p.query("DELETE FROM services WHERE id = ?", [id]);
+      return res.affectedRows > 0;
+    } catch (err) {
+      console.error("MySQL query failed in deleteService, falling back:", err);
+    }
+  }
+
+  const db = await readDb();
+  const originalLength = db.services.length;
+  db.services = db.services.filter((s) => s.id !== id);
+  if (db.services.length === originalLength) return false;
+  await writeDb(db);
+  return true;
+}
+
+// ---------------- Calculators API Helper Methods ----------------
+
+export async function getCalculators(): Promise<CalculatorMeta[]> {
+  const p = await getMySQLPool();
+  if (p && isMySQLActive) {
+    try {
+      const [rows]: any = await p.query("SELECT * FROM calculators");
+      return rows.map((r: any) => ({
+        id: r.id,
+        slug: r.slug,
+        title: r.title,
+        description: r.description,
+        isActive: !!r.isActive,
+      }));
+    } catch (err) {
+      console.error("MySQL query failed in getCalculators, falling back:", err);
+    }
+  }
+
+  const db = await readDb();
+  return db.calculators;
+}
+
+export async function updateCalculator(
+  id: string,
+  calc: Partial<Omit<CalculatorMeta, "id">>,
+): Promise<CalculatorMeta | null> {
+  const p = await getMySQLPool();
+  if (p && isMySQLActive) {
+    try {
+      const updateFields: string[] = [];
+      const values: any[] = [];
+
+      if (calc.title !== undefined) {
+        updateFields.push("title = ?");
+        values.push(calc.title);
+      }
+      if (calc.slug !== undefined) {
+        updateFields.push("slug = ?");
+        values.push(calc.slug);
+      }
+      if (calc.description !== undefined) {
+        updateFields.push("description = ?");
+        values.push(calc.description);
+      }
+      if (calc.isActive !== undefined) {
+        updateFields.push("isActive = ?");
+        values.push(calc.isActive);
+      }
+
+      if (updateFields.length > 0) {
+        values.push(id);
+        await p.query(`UPDATE calculators SET ${updateFields.join(", ")} WHERE id = ?`, values);
+      }
+
+      const [rows]: any = await p.query("SELECT * FROM calculators WHERE id = ?", [id]);
+      if (rows.length > 0) {
+        const r = rows[0];
+        return {
+          id: r.id,
+          slug: r.slug,
+          title: r.title,
+          description: r.description,
+          isActive: !!r.isActive,
+        };
+      }
+      return null;
+    } catch (err) {
+      console.error("MySQL query failed in updateCalculator, falling back:", err);
+    }
+  }
+
+  const db = await readDb();
+  const idx = db.calculators.findIndex((c) => c.id === id);
+  if (idx === -1) return null;
+  db.calculators[idx] = { ...db.calculators[idx], ...calc };
+  await writeDb(db);
+  return db.calculators[idx];
+}
+
+// ---------------- Locations API Helper Methods ----------------
+
+export async function getLocations(): Promise<LocationDetail[]> {
+  const p = await getMySQLPool();
+  if (p && isMySQLActive) {
+    try {
+      const [rows]: any = await p.query("SELECT * FROM locations");
+      return rows.map((r: any) => ({
+        slug: r.slug,
+        name: r.name,
+        type: r.type,
+        pincodes: JSON.parse(r.pincodes_json),
+        landmarks: JSON.parse(r.landmarks_json),
+        nearbyBusinesses: JSON.parse(r.nearbyBusinesses_json),
+        reviews: JSON.parse(r.reviews_json),
+        mapEmbedUrl: r.mapEmbedUrl || "",
+        faqs: JSON.parse(r.faqs_json),
+      }));
+    } catch (err) {
+      console.error("MySQL query failed in getLocations, falling back:", err);
+    }
+  }
+
+  const db = await readDb();
+  return db.locations || [];
+}
+
+export async function addLocation(location: LocationDetail): Promise<LocationDetail> {
+  const p = await getMySQLPool();
+  if (p && isMySQLActive) {
+    try {
+      await p.query(
+        "INSERT INTO locations (slug, name, type, pincodes_json, landmarks_json, nearbyBusinesses_json, reviews_json, mapEmbedUrl, faqs_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          location.slug,
+          location.name,
+          location.type,
+          JSON.stringify(location.pincodes),
+          JSON.stringify(location.landmarks),
+          JSON.stringify(location.nearbyBusinesses),
+          JSON.stringify(location.reviews),
+          location.mapEmbedUrl || "",
+          JSON.stringify(location.faqs),
+        ]
+      );
+      return location;
+    } catch (err) {
+      console.error("MySQL query failed in addLocation, falling back:", err);
+    }
+  }
+
+  const db = await readDb();
+  if (!db.locations) db.locations = [];
+  db.locations.push(location);
+  await writeDb(db);
+  return location;
+}
+
+export async function updateLocation(
+  slug: string,
+  location: Partial<LocationDetail>,
+): Promise<LocationDetail | null> {
+  const p = await getMySQLPool();
+  if (p && isMySQLActive) {
+    try {
+      const updateFields: string[] = [];
+      const values: any[] = [];
+
+      if (location.name !== undefined) {
+        updateFields.push("name = ?");
+        values.push(location.name);
+      }
+      if (location.type !== undefined) {
+        updateFields.push("type = ?");
+        values.push(location.type);
+      }
+      if (location.pincodes !== undefined) {
+        updateFields.push("pincodes_json = ?");
+        values.push(JSON.stringify(location.pincodes));
+      }
+      if (location.landmarks !== undefined) {
+        updateFields.push("landmarks_json = ?");
+        values.push(JSON.stringify(location.landmarks));
+      }
+      if (location.nearbyBusinesses !== undefined) {
+        updateFields.push("nearbyBusinesses_json = ?");
+        values.push(JSON.stringify(location.nearbyBusinesses));
+      }
+      if (location.reviews !== undefined) {
+        updateFields.push("reviews_json = ?");
+        values.push(JSON.stringify(location.reviews));
+      }
+      if (location.mapEmbedUrl !== undefined) {
+        updateFields.push("mapEmbedUrl = ?");
+        values.push(location.mapEmbedUrl);
+      }
+      if (location.faqs !== undefined) {
+        updateFields.push("faqs_json = ?");
+        values.push(JSON.stringify(location.faqs));
+      }
+
+      if (updateFields.length > 0) {
+        values.push(slug);
+        await p.query(`UPDATE locations SET ${updateFields.join(", ")} WHERE slug = ?`, values);
+      }
+
+      const [rows]: any = await p.query("SELECT * FROM locations WHERE slug = ?", [slug]);
+      if (rows.length > 0) {
+        const r = rows[0];
+        return {
+          slug: r.slug,
+          name: r.name,
+          type: r.type,
+          pincodes: JSON.parse(r.pincodes_json),
+          landmarks: JSON.parse(r.landmarks_json),
+          nearbyBusinesses: JSON.parse(r.nearbyBusinesses_json),
+          reviews: JSON.parse(r.reviews_json),
+          mapEmbedUrl: r.mapEmbedUrl || "",
+          faqs: JSON.parse(r.faqs_json),
+        };
+      }
+      return null;
+    } catch (err) {
+      console.error("MySQL query failed in updateLocation, falling back:", err);
+    }
+  }
+
+  const db = await readDb();
+  const idx = db.locations?.findIndex((c) => c.slug === slug);
+  if (idx === undefined || idx === -1) return null;
+  db.locations[idx] = { ...db.locations[idx], ...location };
+  await writeDb(db);
+  return db.locations[idx];
+}
+
+export async function deleteLocation(slug: string): Promise<boolean> {
+  const p = await getMySQLPool();
+  if (p && isMySQLActive) {
+    try {
+      const [res]: any = await p.query("DELETE FROM locations WHERE slug = ?", [slug]);
+      return res.affectedRows > 0;
+    } catch (err) {
+      console.error("MySQL query failed in deleteLocation, falling back:", err);
+    }
+  }
+
+  const db = await readDb();
+  if (!db.locations) return false;
+  const originalLength = db.locations.length;
+  db.locations = db.locations.filter((s) => s.slug !== slug);
+  if (db.locations.length === originalLength) return false;
+  await writeDb(db);
+  return true;
 }

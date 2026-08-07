@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { ImageDropzone } from "@/components/ImageDropzone";
 import { toast } from "sonner";
 import {
   Briefcase,
@@ -43,6 +44,10 @@ function AdminPortfolioPage() {
   const [metric3Val, setMetric3Val] = useState("");
   const [metric3Label, setMetric3Label] = useState("");
 
+  const [seoTitle, setSeoTitle] = useState("");
+  const [seoDesc, setSeoDesc] = useState("");
+  const [seoKeywords, setSeoKeywords] = useState("");
+
   const [imageFile, setImageFile] = useState<{ name: string; base64: string } | undefined>(
     undefined,
   );
@@ -71,6 +76,9 @@ function AdminPortfolioPage() {
         setMetric2Label("");
         setMetric3Val("");
         setMetric3Label("");
+        setSeoTitle("");
+        setSeoDesc("");
+        setSeoKeywords("");
         setImageFile(undefined);
         setImagePreview(null);
 
@@ -102,6 +110,9 @@ function AdminPortfolioPage() {
         setMetric2Label("");
         setMetric3Val("");
         setMetric3Label("");
+        setSeoTitle("");
+        setSeoDesc("");
+        setSeoKeywords("");
         setImageFile(undefined);
         setImagePreview(null);
 
@@ -118,7 +129,7 @@ function AdminPortfolioPage() {
 
   const deleteMutation = useMutation({
     mutationFn: (variables: { id: string }) => deleteProject({ data: variables }),
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       if (data.success) {
         toast.success("Project removed from portfolio.");
         // If we are currently editing the deleted project, exit edit mode
@@ -134,6 +145,9 @@ function AdminPortfolioPage() {
           setMetric2Label("");
           setMetric3Val("");
           setMetric3Label("");
+          setSeoTitle("");
+          setSeoDesc("");
+          setSeoKeywords("");
           setImageFile(undefined);
           setImagePreview(null);
         }
@@ -145,25 +159,12 @@ function AdminPortfolioPage() {
   });
 
   // Handle client file processing to Base64
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        toast.warning("Image file size must be less than 2MB.");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64Str = (reader.result as string).split(",")[1];
-        setImageFile({
-          name: file.name,
-          base64: base64Str,
-        });
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleImageProcessed = (
+    fileData: { name: string; base64: string } | undefined,
+    previewUrl: string | null,
+  ) => {
+    setImageFile(fileData);
+    setImagePreview(previewUrl);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -224,13 +225,13 @@ function AdminPortfolioPage() {
 
       <div className="grid lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Form to add/edit project */}
-        <div className="lg:col-span-5 surface-card rounded-3xl border border-border p-6 space-y-6">
-          <h2 className="font-display text-lg font-bold flex items-center gap-2 border-b border-border/50 pb-3">
+        <div className="lg:col-span-5 bento-card p-6 space-y-6">
+          <h2 className="font-display text-lg font-bold flex items-center gap-2 border-b border-white/10 pb-3">
             {editingProject ? (
               <>
-                <Pencil className="h-5 w-5 text-primary" />
+                <Pencil className="h-5 w-5 text-[#00c8ff]" />
                 Edit Project:{" "}
-                <span className="text-muted-foreground font-normal truncate max-w-[200px]">
+                <span className="text-slate-400 font-normal truncate max-w-[200px]">
                   {editingProject.title}
                 </span>
               </>
@@ -395,40 +396,48 @@ function AdminPortfolioPage() {
 
             {/* File Upload field */}
             <div className="space-y-2">
-              <Label htmlFor="proj-img" className="text-xs text-muted-foreground">
-                Project Illustration / Photo
-              </Label>
-              <div className="flex items-center gap-3">
-                <Input
-                  id="proj-img"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="rounded-xl file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 bg-background/50 cursor-pointer text-xs"
-                />
-              </div>
-              {imagePreview && (
-                <div className="relative border border-border rounded-xl overflow-hidden aspect-video bg-neutral-900 mt-2">
-                  <img
-                    src={imagePreview}
-                    alt="Upload preview"
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setImageFile(undefined);
-                      setImagePreview(null);
-                    }}
-                    className="absolute top-2 right-2 bg-neutral-950/80 hover:bg-neutral-900 text-white rounded-full p-1 text-[10px]"
-                  >
-                    Clear
-                  </button>
-                </div>
-              )}
+              <Label className="text-xs text-muted-foreground">Project Illustration / Photo</Label>
+              <ImageDropzone
+                onImageProcessed={handleImageProcessed}
+                initialPreview={imagePreview}
+              />
             </div>
 
-            <div className="flex gap-3">
+            <div className="border-t border-white/10 pt-6 mt-6">
+              <h3 className="text-sm font-semibold mb-3">SEO Overrides (Optional)</h3>
+              <div className="space-y-4">
+                <div className="space-y-1">
+                  <Label>SEO Title</Label>
+                  <Input
+                    placeholder="e.g. 500TR Chiller Installation | Prime Cool Portfolio"
+                    value={seoTitle}
+                    onChange={(e) => setSeoTitle(e.target.value)}
+                    className="rounded-lg bg-background/50 border-white/10"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label>SEO Description</Label>
+                  <Textarea
+                    rows={2}
+                    placeholder="e.g. Case study on installing a 500TR water-cooled chiller..."
+                    value={seoDesc}
+                    onChange={(e) => setSeoDesc(e.target.value)}
+                    className="rounded-lg bg-background/50 border-white/10"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label>SEO Keywords (Comma separated)</Label>
+                  <Input
+                    placeholder="e.g. chiller installation, 500tr chiller, hvac project"
+                    value={seoKeywords}
+                    onChange={(e) => setSeoKeywords(e.target.value)}
+                    className="rounded-lg bg-background/50 border-white/10"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-6 border-t border-white/10">
               {editingProject && (
                 <Button
                   type="button"
@@ -444,11 +453,14 @@ function AdminPortfolioPage() {
                     setMetric2Label("");
                     setMetric3Val("");
                     setMetric3Label("");
+                    setSeoTitle("");
+                    setSeoDesc("");
+                    setSeoKeywords("");
                     setImageFile(undefined);
                     setImagePreview(null);
                   }}
                   variant="outline"
-                  className="flex-1 rounded-xl py-3 font-semibold mt-2"
+                  className="flex-1 rounded-xl py-3 font-semibold"
                 >
                   Cancel
                 </Button>
@@ -456,7 +468,7 @@ function AdminPortfolioPage() {
               <Button
                 type="submit"
                 disabled={createMutation.isPending || updateMutation.isPending}
-                className="flex-1 rounded-xl py-3 font-semibold mt-2"
+                className="flex-1 rounded-xl py-3 font-semibold"
               >
                 {editingProject
                   ? updateMutation.isPending
@@ -472,15 +484,15 @@ function AdminPortfolioPage() {
 
         {/* Right Column: List of existing projects */}
         <div className="lg:col-span-7 space-y-6">
-          <div className="surface-card rounded-3xl border border-border p-6">
-            <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2 border-b border-border/50 pb-3">
-              <Briefcase className="h-5 w-5 text-primary" />
+          <div className="bento-card p-6">
+            <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2 border-b border-white/10 pb-3">
+              <Briefcase className="h-5 w-5 text-[#00c8ff]" />
               Published Case Studies
             </h2>
 
             {projectsLoading ? (
-              <div className="flex flex-col items-center justify-center py-16 text-muted-foreground gap-2">
-                <span className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full" />
+              <div className="flex flex-col items-center justify-center py-16 text-slate-400 gap-2">
+                <span className="animate-spin h-5 w-5 border-2 border-[#00c8ff] border-t-transparent rounded-full" />
                 <span>Loading portfolio database...</span>
               </div>
             ) : projects.length > 0 ? (
@@ -488,7 +500,7 @@ function AdminPortfolioPage() {
                 {projects.map((project: any) => (
                   <div
                     key={project.id}
-                    className="border border-border/60 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 items-start bg-background/20 relative"
+                    className="border border-white/10 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 items-start bg-white/5 relative"
                   >
                     {/* Small image preview inside list */}
                     {project.image && (
@@ -544,8 +556,14 @@ function AdminPortfolioPage() {
                           setMetric2Label(project.metrics?.[1]?.label || "");
                           setMetric3Val(project.metrics?.[2]?.value || "");
                           setMetric3Label(project.metrics?.[2]?.label || "");
+
+                          setSeoTitle(project.seoTitle || "");
+                          setSeoDesc(project.seoDesc || "");
+                          setSeoKeywords(project.seoKeywords || "");
+
                           setImagePreview(project.image || null);
                           setImageFile(undefined); // Reset file input
+                          window.scrollTo({ top: 0, behavior: "smooth" });
                         }}
                         className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition"
                         title="Edit Project"

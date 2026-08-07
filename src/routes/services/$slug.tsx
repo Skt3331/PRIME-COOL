@@ -29,17 +29,24 @@ export const Route = createFileRoute("/services/$slug")({
   head: ({ loaderData }) => {
     const service = loaderData?.service;
     if (!service) return { meta: [] };
-    const pageTitle = `${service.title} — Prime Cool India`;
-    const pageDesc = service.tagline;
+    const pageTitle = service.seoTitle || `${service.title} — Prime Cool India`;
+    const pageDesc = service.seoDesc || service.tagline;
+    
+    const meta: any[] = [
+      { title: pageTitle },
+      { name: "description", content: pageDesc },
+      { property: "og:title", content: pageTitle },
+      { property: "og:description", content: pageDesc },
+      { property: "og:type", content: "website" },
+    ];
+    
+    if (service.seoKeywords) {
+      meta.push({ name: "keywords", content: service.seoKeywords });
+    }
+
     return {
-      meta: [
-        { title: pageTitle },
-        { name: "description", content: pageDesc },
-        { property: "og:title", content: pageTitle },
-        { property: "og:description", content: pageDesc },
-        { property: "og:type", content: "website" },
-      ],
-      links: [{ rel: "canonical", href: `/services/${service.slug}` }],
+      meta,
+      links: [{ rel: "canonical", href: `https://primecool.in/services/${service.slug}` }],
     };
   },
   component: ServiceDetailsPage,

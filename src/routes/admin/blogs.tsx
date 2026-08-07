@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { ImageDropzone } from "@/components/ImageDropzone";
 import { toast } from "sonner";
 import {
   BookOpen,
@@ -49,12 +50,16 @@ function AdminBlogsPage() {
   const [author, setAuthor] = useState("Saurav Temgire");
   const [seoTitle, setSeoTitle] = useState("");
   const [seoDesc, setSeoDesc] = useState("");
+  const [seoKeywords, setSeoKeywords] = useState("");
   const [showSeoFields, setShowSeoFields] = useState(false);
 
   const [imageFile, setImageFile] = useState<{ name: string; base64: string } | undefined>(
     undefined,
   );
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 25;
 
   // Query blogs
   const { data: blogsData, isLoading: blogsLoading } = useQuery({
@@ -88,6 +93,7 @@ function AdminBlogsPage() {
     setAuthor("Saurav Temgire");
     setSeoTitle("");
     setSeoDesc("");
+    setSeoKeywords("");
     setImageFile(undefined);
     setImagePreview(null);
     setShowSeoFields(false);
@@ -141,25 +147,12 @@ function AdminBlogsPage() {
   });
 
   // Handle client file processing to Base64
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        toast.warning("Image file size must be less than 2MB.");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64Str = (reader.result as string).split(",")[1];
-        setImageFile({
-          name: file.name,
-          base64: base64Str,
-        });
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleImageProcessed = (
+    fileData: { name: string; base64: string } | undefined,
+    previewUrl: string | null,
+  ) => {
+    setImageFile(fileData);
+    setImagePreview(previewUrl);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -179,6 +172,7 @@ function AdminBlogsPage() {
       author,
       seoTitle: seoTitle || undefined,
       seoDesc: seoDesc || undefined,
+      seoKeywords: seoKeywords || undefined,
       imageFile,
     };
 
@@ -205,13 +199,13 @@ function AdminBlogsPage() {
 
       <div className="grid lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Form to add blog */}
-        <div className="lg:col-span-5 surface-card rounded-3xl border border-border p-6 space-y-6">
-          <h2 className="font-display text-lg font-bold flex items-center gap-2 border-b border-border/50 pb-3">
+        <div className="lg:col-span-5 bento-card p-6 space-y-6">
+          <h2 className="font-display text-lg font-bold flex items-center gap-2 border-b border-white/10 pb-3">
             {editingBlog ? (
               <>
-                <Pencil className="h-5 w-5 text-primary" />
+                <Pencil className="h-5 w-5 text-[#00c8ff]" />
                 Edit Article:{" "}
-                <span className="text-muted-foreground font-normal truncate max-w-[200px]">
+                <span className="text-slate-400 font-normal truncate max-w-[200px]">
                   {editingBlog.title}
                 </span>
               </>
@@ -336,67 +330,55 @@ function AdminBlogsPage() {
                 SEO Override Fields {showSeoFields ? "▲" : "▼"}
               </button>
               {showSeoFields && (
-                <div className="p-4 space-y-3 bg-background/20">
-                  <div className="space-y-1">
-                    <Label className="text-[10px] text-muted-foreground">
-                      SEO Title (overrides &lt;title&gt; tag)
-                    </Label>
-                    <Input
-                      type="text"
-                      placeholder="Carrier AC vs Hitachi AC 2025 — Expert Review"
-                      value={seoTitle}
-                      onChange={(e) => setSeoTitle(e.target.value)}
-                      className="rounded-lg h-8 px-2 text-xs bg-background/50"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-[10px] text-muted-foreground">
-                      SEO Description (meta description)
-                    </Label>
-                    <Textarea
-                      placeholder="Expert comparison of Carrier and Hitachi ACs for Indian conditions..."
-                      value={seoDesc}
-                      onChange={(e) => setSeoDesc(e.target.value)}
-                      className="rounded-lg min-h-[60px] text-xs bg-background/50"
-                    />
-                  </div>
+                <div className="p-4 space-y-4 bg-background/20">
+                    <div className="space-y-1">
+                      <Label htmlFor="seoTitle" className="text-xs text-slate-400">
+                        SEO Meta Title
+                      </Label>
+                      <Input
+                        id="seoTitle"
+                        placeholder="e.g. 5 Signs Your AC Needs Repair | Prime Cool"
+                        value={seoTitle}
+                        onChange={(e) => setSeoTitle(e.target.value)}
+                        className="rounded-lg bg-background/50 border-white/10"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="seoDesc" className="text-xs text-slate-400">
+                        SEO Meta Description
+                      </Label>
+                      <Textarea
+                        id="seoDesc"
+                        rows={2}
+                        placeholder="A short snippet that appears in Google search results..."
+                        value={seoDesc}
+                        onChange={(e) => setSeoDesc(e.target.value)}
+                        className="rounded-lg bg-background/50 border-white/10"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="seoKeywords" className="text-xs text-slate-400">
+                        SEO Keywords (Comma separated)
+                      </Label>
+                      <Input
+                        id="seoKeywords"
+                        placeholder="e.g. ac repair, hvac guide, prime cool blog"
+                        value={seoKeywords}
+                        onChange={(e) => setSeoKeywords(e.target.value)}
+                        className="rounded-lg bg-background/50 border-white/10"
+                      />
+                    </div>
                 </div>
               )}
             </div>
 
             {/* Image Upload */}
             <div className="space-y-2">
-              <Label htmlFor="blog-img" className="text-xs text-muted-foreground">
-                Featured Header Photo
-              </Label>
-              <div className="flex items-center gap-3">
-                <Input
-                  id="blog-img"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="rounded-xl file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 bg-background/50 cursor-pointer text-xs"
-                />
-              </div>
-              {imagePreview && (
-                <div className="relative border border-border rounded-xl overflow-hidden aspect-video bg-neutral-900 mt-2">
-                  <img
-                    src={imagePreview}
-                    alt="Upload preview"
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setImageFile(undefined);
-                      setImagePreview(null);
-                    }}
-                    className="absolute top-2 right-2 bg-neutral-950/80 hover:bg-neutral-900 text-white rounded-full p-1 text-[10px]"
-                  >
-                    Clear
-                  </button>
-                </div>
-              )}
+              <Label className="text-xs text-muted-foreground">Featured Header Photo</Label>
+              <ImageDropzone
+                onImageProcessed={handleImageProcessed}
+                initialPreview={imagePreview}
+              />
             </div>
 
             <div className="flex gap-3">
@@ -429,101 +411,139 @@ function AdminBlogsPage() {
 
         {/* Right Column: List of existing blogs */}
         <div className="lg:col-span-7 space-y-6">
-          <div className="surface-card rounded-3xl border border-border p-6">
-            <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2 border-b border-border/50 pb-3">
-              <BookOpen className="h-5 w-5 text-primary" />
+          <div className="bento-card p-6">
+            <h2 className="font-display text-lg font-bold mb-4 flex items-center gap-2 border-b border-white/10 pb-3">
+              <BookOpen className="h-5 w-5 text-[#00c8ff]" />
               Published Articles
-              <span className="ml-auto text-xs text-muted-foreground font-normal">
+              <span className="ml-auto text-xs text-slate-400 font-normal">
                 {blogs.length} total
               </span>
             </h2>
 
-            {blogsLoading ? (
-              <div className="flex flex-col items-center justify-center py-16 text-muted-foreground gap-2">
-                <span className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full" />
-                <span>Loading blogs database...</span>
-              </div>
-            ) : blogs.length > 0 ? (
-              <div className="space-y-3">
-                {blogs.map((b: any) => (
-                  <div
-                    key={b.id}
-                    className="border border-border/60 rounded-2xl p-4 flex flex-col sm:flex-row gap-3 items-start bg-background/20 relative"
-                  >
-                    {/* Small image preview inside list */}
-                    {b.image && (
-                      <div className="w-full sm:w-20 shrink-0 aspect-video sm:aspect-square rounded-lg overflow-hidden border border-border/40 relative">
-                        <img
-                          src={b.image}
-                          alt=""
-                          className="absolute inset-0 h-full w-full object-cover"
-                        />
-                      </div>
-                    )}
+            {(() => {
+              const totalPages = Math.ceil(blogs.length / ITEMS_PER_PAGE);
+              const paginatedBlogs = blogs.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
-                    <div className="flex-1 space-y-1 pr-16">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[9px] uppercase tracking-wider font-bold text-primary font-mono flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          {new Date(b.createdAt).toLocaleDateString("en-IN", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
-                        </span>
-                        {b.category && (
-                          <span className="text-[9px] uppercase font-bold text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-1.5 py-0.5 rounded-full">
-                            {b.category}
-                          </span>
-                        )}
-                        {b.author && (
-                          <span className="text-[9px] text-muted-foreground/60">by {b.author}</span>
-                        )}
-                      </div>
+              if (blogsLoading) {
+                return (
+                  <div className="flex flex-col items-center justify-center py-16 text-slate-400 gap-2">
+                    <span className="animate-spin h-5 w-5 border-2 border-[#00c8ff] border-t-transparent rounded-full" />
+                    <span>Loading blogs database...</span>
+                  </div>
+                );
+              }
 
-                      <h3 className="font-display font-semibold text-sm leading-snug">{b.title}</h3>
-                      <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                        {b.summary}
-                      </p>
-                      <div className="text-[9px] font-mono text-muted-foreground/50">/{b.slug}</div>
-                    </div>
-
-                    <div className="absolute top-4 right-4 flex gap-2">
-                      <button
-                        onClick={() => {
-                          setEditingBlog(b);
-                          setTitle(b.title);
-                          setSlug(b.slug);
-                          setSummary(b.summary);
-                          setContent(b.content);
-                          setCategory(b.category || "Guides");
-                          setAuthor(b.author || "Saurav Temgire");
-                          setSeoTitle(b.seoTitle || "");
-                          setSeoDesc(b.seoDesc || "");
-                          setImagePreview(b.image || null);
-                          setImageFile(undefined);
-                          if (b.seoTitle || b.seoDesc) setShowSeoFields(true);
-                        }}
-                        className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition"
-                        title="Edit Article"
+              return blogs.length > 0 ? (
+              <div className="overflow-x-auto rounded-xl border border-white/10 bg-white/5">
+                <table className="w-full text-left text-sm">
+                  <thead className="bg-black/20 text-muted-foreground">
+                    <tr>
+                      <th className="px-4 py-3 font-medium">Image</th>
+                      <th className="px-4 py-3 font-medium">Article Details</th>
+                      <th className="px-4 py-3 font-medium">Category / Author</th>
+                      <th className="px-4 py-3 font-medium text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/10">
+                    {paginatedBlogs.map((b: any) => (
+                      <tr key={b.id} className="hover:bg-white/5 transition">
+                        <td className="px-4 py-3 align-top">
+                          {b.image ? (
+                            <div className="w-16 h-12 rounded overflow-hidden relative border border-border/40">
+                              <img src={b.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                            </div>
+                          ) : (
+                            <div className="w-16 h-12 rounded bg-muted flex items-center justify-center text-muted-foreground border border-border/40">
+                              <FileImage className="h-4 w-4" />
+                            </div>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 align-top">
+                          <h3 className="font-display font-semibold text-sm leading-snug max-w-[200px] line-clamp-2">{b.title}</h3>
+                          <div className="text-[10px] font-mono text-muted-foreground/60 mt-1 flex items-center gap-1">
+                            <Calendar className="h-3 w-3" />
+                            {new Date(b.createdAt).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })}
+                          </div>
+                          <div className="text-[10px] font-mono text-muted-foreground/50 mt-0.5">/{b.slug}</div>
+                        </td>
+                        <td className="px-4 py-3 align-top">
+                           {b.category && (
+                            <span className="text-[10px] uppercase font-bold text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-1.5 py-0.5 rounded-full block w-max mb-1">
+                              {b.category}
+                            </span>
+                          )}
+                          {b.author && (
+                            <span className="text-[10px] text-muted-foreground/60 block">by {b.author}</span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 align-top text-right space-x-2 whitespace-nowrap">
+                          <button
+                            onClick={() => {
+                              setEditingBlog(b);
+                              setTitle(b.title);
+                              setSlug(b.slug);
+                              setSummary(b.summary);
+                              setContent(b.content);
+                              setCategory(b.category || "Guides");
+                              setAuthor(b.author || "Saurav Temgire");
+                              setSeoTitle(b.seoTitle || "");
+                              setSeoDesc(b.seoDesc || "");
+                              setSeoKeywords(b.seoKeywords || "");
+                              setImagePreview(b.image || null);
+                              setImageFile(undefined);
+                              if (b.seoTitle || b.seoDesc) setShowSeoFields(true);
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                            }}
+                            className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition inline-flex"
+                            title="Edit Article"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (confirm(`Remove "${b.title}" from website?`)) {
+                                deleteMutation.mutate({ id: b.id });
+                              }
+                            }}
+                            disabled={deleteMutation.isPending}
+                            className="p-1.5 text-muted-foreground hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition inline-flex"
+                            title="Delete Article"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-between px-4 py-3 border-t border-white/10 bg-black/10">
+                    <span className="text-xs text-muted-foreground">
+                      Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, blogs.length)} of {blogs.length}
+                    </span>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={currentPage === 1}
+                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                        className="h-7 text-xs"
                       >
-                        <Pencil className="h-4 w-4" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (confirm(`Remove "${b.title}" from website?`)) {
-                            deleteMutation.mutate({ id: b.id });
-                          }
-                        }}
-                        disabled={deleteMutation.isPending}
-                        className="p-1.5 text-muted-foreground hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition"
-                        title="Delete Article"
+                        Previous
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={currentPage === totalPages}
+                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                        className="h-7 text-xs"
                       >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
+                        Next
+                      </Button>
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             ) : (
               <div className="text-center py-16 border border-dashed border-border rounded-2xl bg-card/10 text-muted-foreground">
@@ -532,7 +552,8 @@ function AdminBlogsPage() {
                   No blog articles registered. Use the form to write one.
                 </div>
               </div>
-            )}
+            );
+            })()}
           </div>
         </div>
       </div>

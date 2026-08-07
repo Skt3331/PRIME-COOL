@@ -1,6 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { locationsData } from "../../lib/locations-data";
-import { getCmsSettings } from "../../lib/api";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { getLocations, getCmsSettings } from "../../lib/api";
 import logo from "../../assets/logo.webp";
 import {
   ArrowLeft,
@@ -17,9 +16,27 @@ import { useState } from "react";
 
 export const Route = createFileRoute("/cities/$slug")({
   loader: async ({ params }) => {
-    const location = locationsData[params.slug];
+    const locationsResp = await getLocations();
+    let location = locationsResp.locations.find((l: any) => l.slug === params.slug.toLowerCase());
+    
+    // Dynamic Fallback Generator
     if (!location) {
-      throw new Error(`Location "${params.slug}" not found`);
+      const formattedName = params.slug
+        .split("-")
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+      
+      location = {
+        slug: params.slug.toLowerCase(),
+        name: formattedName,
+        pincodes: ["411001", "411002", "411014"],
+        type: "city",
+        faqs: [],
+        reviews: [],
+        landmarks: [],
+        nearbyBusinesses: [],
+        mapEmbedUrl: ""
+      };
     }
     const { settings } = await getCmsSettings();
     return { location, cms: settings };
@@ -27,17 +44,24 @@ export const Route = createFileRoute("/cities/$slug")({
   head: ({ loaderData }) => {
     const location = loaderData?.location;
     if (!location) return { meta: [] };
-    const pageTitle = `Refrigeration & AC Services in ${location.name} — Prime Cool`;
-    const pageDesc = `24x7 HVAC, commercial refrigeration, cold storage and chiller repair in ${location.name}. Serving pincodes: ${location.pincodes.join(", ")}.`;
+    const pageTitle = location.seoTitle || `Refrigeration & AC Services in ${location.name} — Prime Cool`;
+    const pageDesc = location.seoDesc || `24x7 HVAC, commercial refrigeration, cold storage and chiller repair in ${location.name}. Serving pincodes: ${location.pincodes.join(", ")}.`;
+    
+    const meta: any[] = [
+      { title: pageTitle },
+      { name: "description", content: pageDesc },
+      { property: "og:title", content: pageTitle },
+      { property: "og:description", content: pageDesc },
+      { property: "og:type", content: "website" },
+    ];
+    
+    if (location.seoKeywords) {
+      meta.push({ name: "keywords", content: location.seoKeywords });
+    }
+
     return {
-      meta: [
-        { title: pageTitle },
-        { name: "description", content: pageDesc },
-        { property: "og:title", content: pageTitle },
-        { property: "og:description", content: pageDesc },
-        { property: "og:type", content: "website" },
-      ],
-      links: [{ rel: "canonical", href: `/cities/${location.slug}` }],
+      meta,
+      links: [{ rel: "canonical", href: `https://primecool.in/cities/${location.slug}` }],
     };
   },
   component: LocationDetailsPage,
@@ -49,8 +73,50 @@ function LocationDetailsPage() {
   const phone = socials.phone || "+917507408461";
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
+  const schemaList: any[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": `Prime Cool HVAC & Refrigeration - ${location.name}`,
+      "image": cms?.theme?.logo || "https://primecool.in/logo.png",
+      "telephone": phone,
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": location.name,
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "description": `24x7 HVAC contractors, commercial cold storage, process chillers and domestic AC repair in ${location.name}.`
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://primecool.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Cities", "item": "https://primecool.in/cities" },
+        { "@type": "ListItem", "position": 3, "name": location.name, "item": `https://primecool.in/cities/${location.slug}` }
+      ]
+    }
+  ];
+
+  if (location.faqs && location.faqs.length > 0) {
+    schemaList.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": location.faqs.map((faq: any) => ({
+        "@type": "Question",
+        "name": faq.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.a
+        }
+      }))
+    });
+  }
+
   return (
     <div className="min-h-screen text-foreground flex flex-col justify-between bg-slate-950">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaList) }} />
       {/* Background gradients */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--primary)_8%,transparent),transparent_60%)] pointer-events-none" />
 

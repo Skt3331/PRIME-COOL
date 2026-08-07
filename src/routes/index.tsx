@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { getPublicProjects, getCmsSettings, getPublicBlogs } from "../lib/api";
+import { getPublicProjects, getCmsSettings, getPublicBlogs, getPublicServices } from "../lib/api";
 import heroImage from "@/assets/hero.webp";
 import logo from "@/assets/logo.webp";
 import projectFreezer from "@/assets/project_freezer.webp";
@@ -39,11 +39,33 @@ import {
   Mail,
   Star,
   Award,
+  Calendar,
 } from "lucide-react";
 const IconMap: Record<string, any> = {
-  Snowflake, Wind, Wrench, Cog, Factory, Refrigerator, WashingMachine, Gauge,
-  Zap, ShieldCheck, Phone, MapPin, Clock, ArrowRight, CircuitBoard, ThermometerSnowflake,
-  Facebook, Instagram, Linkedin, Youtube, Twitter, Mail, Star, Award
+  Snowflake,
+  Wind,
+  Wrench,
+  Cog,
+  Factory,
+  Refrigerator,
+  WashingMachine,
+  Gauge,
+  Zap,
+  ShieldCheck,
+  Phone,
+  MapPin,
+  Clock,
+  ArrowRight,
+  CircuitBoard,
+  ThermometerSnowflake,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Youtube,
+  Twitter,
+  Mail,
+  Star,
+  Award,
 };
 
 function getDynamicIcon(iconName: string) {
@@ -52,12 +74,13 @@ function getDynamicIcon(iconName: string) {
 
 export const Route = createFileRoute("/")({
   loader: async () => {
-    const [{ projects }, { settings }, { blogs }] = await Promise.all([
+    const [{ projects }, { settings }, { blogs }, { services }] = await Promise.all([
       getPublicProjects(),
       getCmsSettings(),
       getPublicBlogs(),
+      getPublicServices(),
     ]);
-    return { projects, cms: settings, blogs };
+    return { projects, cms: settings, blogs, services };
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.home;
@@ -73,7 +96,7 @@ export const Route = createFileRoute("/")({
         { name: "twitter:title", content: seo.title },
         { name: "twitter:description", content: seo.description },
       ],
-      links: [{ rel: "canonical", href: "/" }],
+      links: [{ rel: "canonical", href: "https://primecool.in/" }],
     };
   },
   component: Index,
@@ -146,19 +169,19 @@ const regions = [
 ];
 
 function Index() {
-  const { projects, cms, blogs } = Route.useLoaderData();
+  const { projects, cms, blogs, services } = Route.useLoaderData();
 
   return (
     <div className="min-h-screen text-foreground">
       <main>
         <Hero hero={cms.hero} />
         <Stats cms={cms} />
-        <Portfolio projects={projects} />
-        <Services services={cms.services} />
+        <Services services={services} />
+        <Industrial services={services} />
         <ServiceProcess />
-        <Industrial services={cms.services} />
-        <BlogsPreview blogs={blogs} />
+        <Portfolio projects={projects} />
         <ResourceHub />
+        <BlogsPreview blogs={blogs} />
         <Catalog amcTiers={cms.amcTiers} />
         <Testimonials />
         <About />
@@ -183,16 +206,16 @@ function ResourceHub() {
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5 space-y-6">
             <SectionHeader
-              tag="Field & Engineering Resources"
-              title="HVAC/R Calculators, Formula Libraries & Troubleshooting Tools"
+              tag="Engineering Tools"
+              title="HVAC/R Calculators & Formulas"
               subtitle="Empowering technicians and plant managers with interactive sizing utilities, refrigerant Antoine pressure-temperature charts, and diagnosis checklists."
             />
             <div className="pt-2">
               <Link
-                to="/resources"
+                to="/calculators"
                 className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 transition glow-ring"
               >
-                Enter Resource Hub <ArrowRight className="h-4 w-4" />
+                Open Calculators <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
@@ -317,7 +340,7 @@ function Hero({ hero }: { hero: any }) {
         aria-hidden
         className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none"
         style={{
-          backgroundImage: `url(${heroImage})`,
+          backgroundImage: `url(${hero?.backgroundImage || heroImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center right",
           maskImage: "linear-gradient(to left, black 0%, black 40%, transparent 90%)",
@@ -327,8 +350,18 @@ function Hero({ hero }: { hero: any }) {
 
       {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-20 blur-3xl animate-spin-slow" style={{ background: "radial-gradient(circle, #00c8ff 0%, #0066ff 50%, transparent 70%)" }} />
-        <div className="absolute -bottom-20 -left-20 w-[400px] h-[400px] rounded-full opacity-15 blur-3xl" style={{ background: "radial-gradient(circle, #0066ff 0%, #8b5cf6 60%, transparent 80%)" }} />
+        <div
+          className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-20 blur-3xl animate-spin-slow"
+          style={{
+            background: "radial-gradient(circle, #00c8ff 0%, #0066ff 50%, transparent 70%)",
+          }}
+        />
+        <div
+          className="absolute -bottom-20 -left-20 w-[400px] h-[400px] rounded-full opacity-15 blur-3xl"
+          style={{
+            background: "radial-gradient(circle, #0066ff 0%, #8b5cf6 60%, transparent 80%)",
+          }}
+        />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-16 items-center">
@@ -350,19 +383,12 @@ function Hero({ hero }: { hero: any }) {
 
           <p className="mt-6 text-lg text-slate-400 max-w-lg leading-relaxed">{hero.subtitle}</p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Link
-              to={hero.cta1Link}
-              className="inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-bold text-[#09090f] transition hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #00c8ff, #0066ff)", boxShadow: "0 4px 20px rgba(0,200,255,0.45)" }}
-            >
+          <div className="mt-12 flex flex-wrap gap-4">
+            <Link to={hero.cta1Link} className="btn-primary">
               {hero.cta1Text} <ArrowRight className="h-4 w-4" />
             </Link>
-            <a
-              href={hero.cta2Link}
-              className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/6 backdrop-blur-sm px-7 py-3.5 text-sm font-semibold text-slate-200 hover:bg-white/10 hover:border-white/25 transition"
-            >
-              <Phone className="h-4 w-4 text-[#00c8ff]" /> {hero.cta2Text}
+            <a href={hero.cta2Link} className="btn-secondary">
+              <Phone className="h-4 w-4 text-[#00ffcc]" /> {hero.cta2Text}
             </a>
           </div>
 
@@ -380,7 +406,11 @@ function Hero({ hero }: { hero: any }) {
           </div>
 
           <div className="mt-8 flex items-center gap-6 text-xs text-slate-500">
-            {[{icon: Clock, label: "Rapid Response"}, {icon: ShieldCheck, label: "AMC Backed"}, {icon: Zap, label: "Industrial Grade"}].map(({icon: Icon, label}) => (
+            {[
+              { icon: Clock, label: "Rapid Response" },
+              { icon: ShieldCheck, label: "AMC Backed" },
+              { icon: Zap, label: "Industrial Grade" },
+            ].map(({ icon: Icon, label }) => (
               <div key={label} className="flex items-center gap-1.5">
                 <Icon className="h-3.5 w-3.5 text-[#00c8ff]" /> {label}
               </div>
@@ -390,7 +420,10 @@ function Hero({ hero }: { hero: any }) {
 
         <div className="relative hidden lg:block animate-slide-right">
           {/* Main image card */}
-          <div className="relative rounded-3xl overflow-hidden border border-white/10" style={{ boxShadow: "0 0 60px rgba(0,200,255,0.25), 0 30px 80px rgba(0,0,0,0.6)" }}>
+          <div
+            className="relative rounded-3xl overflow-hidden border border-white/10"
+            style={{ boxShadow: "0 0 60px rgba(0,200,255,0.25), 0 30px 80px rgba(0,0,0,0.6)" }}
+          >
             <img
               src={heroImage}
               alt="Futuristic HVAC and industrial cooling visualization"
@@ -401,7 +434,9 @@ function Hero({ hero }: { hero: any }) {
             <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between rounded-2xl border border-white/10 bg-[#09090f]/70 backdrop-blur-xl p-4">
               <div>
                 <div className="text-xs text-slate-400">Live Service</div>
-                <div className="font-display font-semibold text-white">Cooling Tower · Ranjangaon</div>
+                <div className="font-display font-semibold text-white">
+                  Cooling Tower · Ranjangaon
+                </div>
               </div>
               <div className="text-right">
                 <div className="text-xs text-slate-400">Status</div>
@@ -412,8 +447,17 @@ function Hero({ hero }: { hero: any }) {
 
           {/* Floating badges */}
           <div className="absolute -top-5 -left-5 animate-float">
-            <div className="rounded-2xl border border-white/10 bg-[#111118]/90 backdrop-blur-xl px-4 py-3 flex items-center gap-3" style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.5)" }}>
-              <div className="h-9 w-9 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg, #00c8ff20, #0066ff20)", border: "1px solid rgba(0,200,255,0.3)" }}>
+            <div
+              className="rounded-2xl border border-white/10 bg-[#111118]/90 backdrop-blur-xl px-4 py-3 flex items-center gap-3"
+              style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.5)" }}
+            >
+              <div
+                className="h-9 w-9 rounded-xl flex items-center justify-center"
+                style={{
+                  background: "linear-gradient(135deg, #00c8ff20, #0066ff20)",
+                  border: "1px solid rgba(0,200,255,0.3)",
+                }}
+              >
                 <Snowflake className="h-4.5 w-4.5 text-[#00c8ff]" />
               </div>
               <div className="text-xs">
@@ -422,9 +466,21 @@ function Hero({ hero }: { hero: any }) {
               </div>
             </div>
           </div>
-          <div className="absolute -bottom-5 -right-5 animate-float" style={{ animationDelay: "1.5s" }}>
-            <div className="rounded-2xl border border-white/10 bg-[#111118]/90 backdrop-blur-xl px-4 py-3 flex items-center gap-3" style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.5)" }}>
-              <div className="h-9 w-9 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg, #0066ff20, #8b5cf620)", border: "1px solid rgba(0,102,255,0.3)" }}>
+          <div
+            className="absolute -bottom-5 -right-5 animate-float"
+            style={{ animationDelay: "1.5s" }}
+          >
+            <div
+              className="rounded-2xl border border-white/10 bg-[#111118]/90 backdrop-blur-xl px-4 py-3 flex items-center gap-3"
+              style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.5)" }}
+            >
+              <div
+                className="h-9 w-9 rounded-xl flex items-center justify-center"
+                style={{
+                  background: "linear-gradient(135deg, #0066ff20, #8b5cf620)",
+                  border: "1px solid rgba(0,102,255,0.3)",
+                }}
+              >
                 <Gauge className="h-4.5 w-4.5 text-[#0066ff]" />
               </div>
               <div className="text-xs">
@@ -450,25 +506,26 @@ function Stats({ cms }: { cms?: any }) {
           { value: "AMC", label: "Zero-Downtime Plans" },
         ];
   return (
-    <section className="relative overflow-hidden" style={{ background: "linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)" }}>
-      {/* Top cyan accent line */}
-      <div className="h-[2px] w-full" style={{ background: "linear-gradient(90deg, transparent, #00c8ff, #0066ff, transparent)" }} />
-      <div className="mx-auto max-w-7xl px-6 py-14 grid grid-cols-2 md:grid-cols-4 gap-8">
-        {displayStats.map((s: any, i: number) => (
-          <div key={s.label} className="text-center relative">
-            {i < displayStats.length - 1 && (
-              <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 h-12 w-px bg-slate-200" />
-            )}
-            <div className="font-display text-4xl md:text-5xl font-bold mb-2" style={{ background: "linear-gradient(135deg, #00c8ff, #0066ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              {s.value}
+    <section className="py-12 border-y border-border bg-black relative z-20">
+      <div className="absolute inset-0 noise-overlay opacity-50 pointer-events-none" />
+      <div className="mx-auto max-w-7xl px-6 relative z-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {displayStats.map((s: any, i: number) => (
+            <div
+              key={s.label}
+              className="bento-card p-6 flex flex-col items-center justify-center text-center animate-fade-up group"
+              style={{ animationDelay: `${i * 100}ms` }}
+            >
+              <div className="font-display text-3xl md:text-5xl font-bold text-white group-hover:text-shimmer transition-colors">
+                {s.value}
+              </div>
+              <div className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-[#00ffcc] mt-3">
+                {s.label}
+              </div>
             </div>
-            <div className="text-xs font-semibold uppercase tracking-widest text-slate-500">
-              {s.label}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-      <div className="h-[1px] w-full bg-slate-200" />
     </section>
   );
 }
@@ -485,13 +542,13 @@ function Services({ services }: { services?: any[] }) {
       : domesticServices;
 
   return (
-    <section id="services" className="py-24" style={{ background: "linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)" }}>
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="services" className="py-24 relative overflow-hidden bg-background">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(0,200,255,0.05),transparent_50%)] pointer-events-none" />
+      <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeader
           tag="Domestic & Commercial"
           title="Climate & appliance solutions, sharper than service-as-usual."
           subtitle="Trained technicians, genuine parts, and verifiable diagnostics for every home and storefront."
-          light
         />
         <div className="mt-14 grid md:grid-cols-3 gap-7">
           {displayServices.map((s: any) => (
@@ -515,9 +572,26 @@ function Industrial({ services }: { services?: any[] }) {
       : industrialServices;
 
   return (
-    <section id="industrial" className="py-24 relative overflow-hidden" style={{ background: "linear-gradient(180deg, #0c0c14 0%, #09090f 100%)" }}>
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,102,255,0.12) 0%, transparent 60%)" }} />
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+    <section
+      id="industrial"
+      className="py-24 relative overflow-hidden"
+      style={{ background: "linear-gradient(180deg, #0c0c14 0%, #09090f 100%)" }}
+    >
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,102,255,0.12) 0%, transparent 60%)",
+        }}
+      />
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
       <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeader
           tag="Heavy Industrial"
@@ -551,32 +625,46 @@ function ServiceCard({
     <Link
       to="/booking"
       search={{ service: title }}
-      className="group relative overflow-hidden flex flex-col h-full rounded-2xl bg-white transition-all duration-300 hover:-translate-y-2"
-      style={{ border: "1px solid #e2e8f0", boxShadow: "0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06)" }}
+      className="surface-card group relative overflow-hidden flex flex-col h-full rounded-2xl transition-all duration-300"
     >
       {/* Service Card Thumbnail */}
-      <div className="aspect-video relative overflow-hidden" style={{ borderBottom: "1px solid #f1f5f9" }}>
+      <div className="aspect-video relative overflow-hidden border-b border-border/50">
         <img
           src={image}
           alt={title}
           className="object-cover w-full h-full group-hover:scale-110 transition duration-700"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent pointer-events-none" />
       </div>
 
       {/* Card Content Body */}
-      <div className={`p-6 ${large ? "md:p-8" : ""} flex-1 flex flex-col justify-between relative overflow-hidden`}>
+      <div
+        className={`p-6 ${large ? "md:p-8" : ""} flex-1 flex flex-col justify-between relative overflow-hidden`}
+      >
         {/* Hover gradient background */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ background: "linear-gradient(135deg, rgba(0,200,255,0.04), rgba(0,102,255,0.06))" }} />
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+          style={{
+            background: "linear-gradient(135deg, rgba(0,200,255,0.04), rgba(0,102,255,0.06))",
+          }}
+        />
         <div className="relative">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl mb-5" style={{ background: "linear-gradient(135deg, rgba(0,200,255,0.12), rgba(0,102,255,0.12))", border: "1px solid rgba(0,200,255,0.25)" }}>
-            <Icon className="h-6 w-6 text-[#0066ff]" />
+          <div
+            className="inline-flex h-12 w-12 items-center justify-center rounded-xl mb-5"
+            style={{
+              background: "linear-gradient(135deg, rgba(0,200,255,0.12), rgba(0,102,255,0.12))",
+              border: "1px solid rgba(0,200,255,0.25)",
+            }}
+          >
+            <Icon className="h-6 w-6 text-primary" />
           </div>
-          <h3 className="font-display text-xl font-bold mb-2 text-[#0f172a]">{title}</h3>
-          <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
+          <h3 className="font-display text-xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
+            {title}
+          </h3>
+          <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
         </div>
-        <div className="mt-5 flex items-center gap-1.5 text-xs font-bold text-[#0066ff] opacity-0 group-hover:opacity-100 transition">
+        <div className="mt-5 flex items-center gap-1.5 text-xs font-bold text-primary opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
           Book This Service <ArrowRight className="h-3.5 w-3.5" />
         </div>
       </div>
@@ -584,16 +672,36 @@ function ServiceCard({
   );
 }
 
-function SectionHeader({ tag, title, subtitle, light }: { tag: string; title: string; subtitle: string; light?: boolean }) {
+function SectionHeader({
+  tag,
+  title,
+  subtitle,
+  light,
+}: {
+  tag: string;
+  title: string;
+  subtitle: string;
+  light?: boolean;
+}) {
   return (
     <div className="max-w-2xl">
-      <div className={`inline-flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.2em] mb-5 ${light ? "text-[#0066ff]" : "text-[#00c8ff]"}`}>
+      <div
+        className={`inline-flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.2em] mb-5 ${light ? "text-[#0066ff]" : "text-[#00c8ff]"}`}
+      >
         <span className={`h-px w-10 ${light ? "bg-[#0066ff]" : "bg-[#00c8ff]"}`} />
         {tag}
         <span className={`h-px w-10 ${light ? "bg-[#0066ff]/40" : "bg-[#00c8ff]/40"}`} />
       </div>
-      <h2 className={`font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] ${light ? "text-[#0f172a]" : "text-white"}`}>{title}</h2>
-      <p className={`mt-5 text-base leading-relaxed ${light ? "text-slate-500" : "text-slate-400"}`}>{subtitle}</p>
+      <h2
+        className={`font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] ${light ? "text-[#0f172a]" : "text-white"}`}
+      >
+        {title}
+      </h2>
+      <p
+        className={`mt-5 text-base leading-relaxed ${light ? "text-slate-500" : "text-slate-400"}`}
+      >
+        {subtitle}
+      </p>
     </div>
   );
 }
@@ -1418,7 +1526,7 @@ function Portfolio({ projects }: { projects: any[] }) {
                 onClick={() => setSelectedProject(null)}
                 className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-xs font-semibold hover:opacity-90 transition glow-ring cursor-pointer"
               >
-                <Lucide.Calendar className="h-4 w-4" />
+                <Calendar className="h-4 w-4" />
                 <span>Inquire About This Service</span>
               </Link>
             </div>
@@ -1467,26 +1575,47 @@ const trustSignals = [
 
 function Testimonials() {
   return (
-    <section className="py-24 relative overflow-hidden" style={{ background: "linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)" }}>
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="py-24 relative overflow-hidden bg-background">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,102,255,0.05),transparent_50%)] pointer-events-none" />
+      <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeader
           tag="Trust & Reviews"
           title="What homeowners and plant managers say."
           subtitle="Verified feedback from clients across our domestic and industrial routes."
-          light
         />
 
         <div className="mt-14 grid md:grid-cols-2 gap-6">
           {testimonials.map((t, i) => (
-            <figure key={t.name} className="rounded-2xl p-7 relative overflow-hidden" style={{ background: "#ffffff", border: "1px solid #e2e8f0", boxShadow: "0 4px 12px rgba(0,0,0,0.06), 0 16px 40px rgba(0,0,0,0.05)" }}>
-              <div className="absolute top-0 left-0 right-0 h-1" style={{ background: i % 2 === 0 ? "linear-gradient(90deg, #00c8ff, #0066ff)" : "linear-gradient(90deg, #0066ff, #8b5cf6)" }} />
-              <blockquote className="text-slate-700 leading-relaxed text-sm">
-                <span className="text-4xl font-display leading-none mr-1" style={{ background: "linear-gradient(135deg, #00c8ff, #0066ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>“</span>
+            <figure
+              key={t.name}
+              className="surface-card rounded-2xl p-7 relative overflow-hidden border border-border/50"
+            >
+              <div
+                className="absolute top-0 left-0 right-0 h-1"
+                style={{
+                  background:
+                    i % 2 === 0
+                      ? "linear-gradient(90deg, #00c8ff, #0066ff)"
+                      : "linear-gradient(90deg, #0066ff, #8b5cf6)",
+                }}
+              />
+              <blockquote className="text-slate-300 leading-relaxed text-sm">
+                <span
+                  className="text-4xl font-display leading-none mr-1"
+                  style={{
+                    background: "linear-gradient(135deg, #00c8ff, #0066ff)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  “
+                </span>
                 {t.quote}
               </blockquote>
-              <figcaption className="mt-5 pt-5" style={{ borderTop: "1px solid #f1f5f9" }}>
-                <div className="font-bold text-[#0f172a]">{t.name}</div>
-                <div className="text-xs text-slate-400 mt-0.5">{t.role}</div>
+              <figcaption className="mt-5 pt-5 border-t border-border/40">
+                <div className="font-bold text-white">{t.name}</div>
+                <div className="text-xs text-slate-500 mt-0.5">{t.role}</div>
               </figcaption>
             </figure>
           ))}
@@ -1495,11 +1624,14 @@ function Testimonials() {
         {/* Trust signals */}
         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
           {trustSignals.map((s) => (
-            <div key={s.label} className="rounded-xl p-4 flex items-center gap-3" style={{ background: "#ffffff", border: "1px solid #e2e8f0" }}>
-              <div className="h-9 w-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, rgba(0,200,255,0.1), rgba(0,102,255,0.1))", border: "1px solid rgba(0,102,255,0.15)" }}>
-                <s.icon className="h-4.5 w-4.5 text-[#0066ff]" />
+            <div
+              key={s.label}
+              className="surface-card rounded-xl p-4 flex items-center gap-3 border border-border/50"
+            >
+              <div className="h-9 w-9 rounded-lg flex items-center justify-center shrink-0 bg-primary/10 border border-primary/20">
+                <s.icon className="h-4.5 w-4.5 text-primary" />
               </div>
-              <span className="text-sm font-semibold text-[#0f172a]">{s.label}</span>
+              <span className="text-sm font-semibold text-white">{s.label}</span>
             </div>
           ))}
         </div>
@@ -1512,7 +1644,11 @@ function Testimonials() {
 
 function About() {
   return (
-    <section id="about" className="py-24" style={{ background: "linear-gradient(180deg, #09090f 0%, #0c0c14 100%)" }}>
+    <section
+      id="about"
+      className="py-24"
+      style={{ background: "linear-gradient(180deg, #09090f 0%, #0c0c14 100%)" }}
+    >
       <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-5 gap-12 items-center">
         <div className="lg:col-span-3">
           <SectionHeader
@@ -1536,11 +1672,27 @@ function About() {
           </div>
         </div>
 
-        <div className="lg:col-span-2 rounded-3xl p-8 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #111118, #161622)", border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}>
+        <div
+          className="lg:col-span-2 rounded-3xl p-8 relative overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, #111118, #161622)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+          }}
+        >
           {/* Gradient corner */}
-          <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full opacity-30 pointer-events-none" style={{ background: "radial-gradient(circle, #00c8ff, transparent 70%)" }} />
+          <div
+            className="absolute top-0 right-0 w-32 h-32 rounded-bl-full opacity-30 pointer-events-none"
+            style={{ background: "radial-gradient(circle, #00c8ff, transparent 70%)" }}
+          />
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl font-display font-bold text-lg text-white" style={{ background: "linear-gradient(135deg, #00c8ff, #0066ff)", boxShadow: "0 4px 15px rgba(0,200,255,0.4)" }}>
+            <div
+              className="flex h-14 w-14 items-center justify-center rounded-2xl font-display font-bold text-lg text-white"
+              style={{
+                background: "linear-gradient(135deg, #00c8ff, #0066ff)",
+                boxShadow: "0 4px 15px rgba(0,200,255,0.4)",
+              }}
+            >
               SKT
             </div>
             <div>
@@ -1555,7 +1707,13 @@ function About() {
               "Field team trained on OEM service protocols",
             ].map((p) => (
               <div key={p} className="flex gap-3 text-slate-400">
-                <div className="h-5 w-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: "rgba(0,200,255,0.15)", border: "1px solid rgba(0,200,255,0.3)" }}>
+                <div
+                  className="h-5 w-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                  style={{
+                    background: "rgba(0,200,255,0.15)",
+                    border: "1px solid rgba(0,200,255,0.3)",
+                  }}
+                >
                   <ShieldCheck className="h-3 w-3 text-[#00c8ff]" />
                 </div>
                 <span>{p}</span>
@@ -1572,25 +1730,28 @@ function About() {
 
 function Faq({ faqs }: { faqs: any[] }) {
   return (
-    <section className="py-24" style={{ background: "linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)" }}>
-      <div className="h-[1px] w-full mb-0" style={{ background: "linear-gradient(90deg, transparent, #e2e8f0, transparent)" }} />
-      <div className="mx-auto max-w-4xl px-6 pt-24">
+    <section className="py-24 bg-card/10 border-t border-border">
+      <div className="mx-auto max-w-4xl px-6">
         <SectionHeader
           tag="FAQ"
           title="Frequently asked questions."
           subtitle="Straight answers about response times, AMCs, coverage and warranties."
-          light
         />
         <div className="mt-12 space-y-3">
           {faqs.map((f) => (
-            <details key={f.id || f.q} className="group rounded-2xl overflow-hidden" style={{ border: "1px solid #e2e8f0", background: "#ffffff" }}>
-              <summary className="flex items-center justify-between cursor-pointer list-none font-display font-semibold p-5 text-[#0f172a]">
+            <details
+              key={f.id || f.q}
+              className="group rounded-2xl overflow-hidden surface-card border border-border/60"
+            >
+              <summary className="flex items-center justify-between cursor-pointer list-none font-display font-semibold p-5 text-foreground hover:text-primary transition-colors">
                 <span className="pr-4">{f.q}</span>
-                <span className="ml-4 inline-flex h-8 w-8 items-center justify-center rounded-full shrink-0 group-open:rotate-45 transition-transform" style={{ background: "linear-gradient(135deg, rgba(0,200,255,0.12), rgba(0,102,255,0.12))", border: "1px solid rgba(0,102,255,0.2)", color: "#0066ff" }}>
+                <span className="ml-4 inline-flex h-8 w-8 items-center justify-center rounded-full shrink-0 group-open:rotate-45 transition-transform bg-primary/10 border border-primary/20 text-primary">
                   +
                 </span>
               </summary>
-              <p className="px-5 pb-5 text-sm text-slate-500 leading-relaxed" style={{ borderTop: "1px solid #f1f5f9" }}>{f.a}</p>
+              <p className="px-5 pb-5 text-sm text-slate-400 leading-relaxed border-t border-border/40">
+                {f.a}
+              </p>
             </details>
           ))}
         </div>
@@ -1675,44 +1836,76 @@ function BlogsPreview({ blogs }: { blogs: any[] }) {
 
 function ServiceProcess() {
   const steps = [
-    { id: "01", title: "Request Lodged", desc: "Register your AC or cold room service online or dial our helpline to start ticket." },
-    { id: "02", title: "Tech Dispatched", desc: "A fully equipped technician travels to your location, tracked in real-time." },
-    { id: "03", title: "Precision Diagnostics", desc: "Manifold pressure checks, line thermistor analysis, electrical load mapping." },
-    { id: "04", title: "Digital Sign-off", desc: "Work completion verified, signed on the tech portal, and receipt downloaded." },
+    {
+      id: "01",
+      title: "Request Lodged",
+      desc: "Register your AC or cold room service online or dial our helpline to start ticket.",
+    },
+    {
+      id: "02",
+      title: "Tech Dispatched",
+      desc: "A fully equipped technician travels to your location, tracked in real-time.",
+    },
+    {
+      id: "03",
+      title: "Precision Diagnostics",
+      desc: "Manifold pressure checks, line thermistor analysis, electrical load mapping.",
+    },
+    {
+      id: "04",
+      title: "Digital Sign-off",
+      desc: "Work completion verified, signed on the tech portal, and receipt downloaded.",
+    },
   ];
 
   return (
-    <section id="service-process" className="py-24 relative overflow-hidden" style={{ background: "linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)" }}>
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="service-process" className="py-24 relative overflow-hidden bg-background">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(0,102,255,0.05),transparent_50%)] pointer-events-none" />
+      <div className="mx-auto max-w-7xl px-6 relative">
         <SectionHeader
           tag="Work Ethic"
           title="Our Structured Service Process"
           subtitle="Precision mechanical diagnostics backed by logged outcomes, with no shortcuts."
-          light
         />
 
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
           {/* Connector line */}
-          <div className="absolute top-[28px] left-[60px] right-[60px] h-[2px] hidden lg:block" style={{ background: "linear-gradient(90deg, #00c8ff40, #0066ff40, #00c8ff40)" }} />
+          <div
+            className="absolute top-[28px] left-[60px] right-[60px] h-[2px] hidden lg:block"
+            style={{ background: "linear-gradient(90deg, #00c8ff40, #0066ff40, #00c8ff40)" }}
+          />
 
           {steps.map((st, i) => (
             <div
               key={st.id}
-              className="relative rounded-2xl p-6 flex flex-col justify-between h-full group transition-all duration-300 hover:-translate-y-2"
-              style={{ background: "#ffffff", border: "1px solid #e2e8f0", boxShadow: "0 2px 8px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.05)", animationDelay: `${i * 100}ms` }}
+              className="surface-card relative rounded-2xl p-6 flex flex-col justify-between h-full group transition-all duration-300 hover:-translate-y-2 border border-border/50"
+              style={{ animationDelay: `${i * 100}ms` }}
             >
               <div className="flex justify-between items-center mb-5">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl font-mono font-bold text-sm text-white relative z-10" style={{ background: "linear-gradient(135deg, #00c8ff, #0066ff)", boxShadow: "0 4px 12px rgba(0,200,255,0.4)" }}>
+                <div
+                  className="flex h-10 w-10 items-center justify-center rounded-xl font-mono font-bold text-sm text-white relative z-10"
+                  style={{
+                    background: "linear-gradient(135deg, #00c8ff, #0066ff)",
+                    boxShadow: "0 4px 12px rgba(0,200,255,0.4)",
+                  }}
+                >
                   {st.id}
                 </div>
-                <span className="text-[10px] text-slate-400 uppercase font-mono tracking-widest">Step {st.id}</span>
+                <span className="text-[10px] text-slate-400 uppercase font-mono tracking-widest">
+                  Step {st.id}
+                </span>
               </div>
               <div className="space-y-2">
-                <h3 className="font-display font-bold text-[#0f172a] group-hover:text-[#0066ff] transition">{st.title}</h3>
-                <p className="text-sm text-slate-500 leading-relaxed">{st.desc}</p>
+                <h3 className="font-display font-bold text-white group-hover:text-primary transition">
+                  {st.title}
+                </h3>
+                <p className="text-sm text-slate-400 leading-relaxed">{st.desc}</p>
               </div>
               {/* Bottom accent */}
-              <div className="mt-5 h-0.5 w-0 group-hover:w-full transition-all duration-500 rounded-full" style={{ background: "linear-gradient(90deg, #00c8ff, #0066ff)" }} />
+              <div
+                className="mt-5 h-0.5 w-0 group-hover:w-full transition-all duration-500 rounded-full"
+                style={{ background: "linear-gradient(90deg, #00c8ff, #0066ff)" }}
+              />
             </div>
           ))}
         </div>
@@ -1725,10 +1918,22 @@ function ServiceProcess() {
 
 function Certifications() {
   const certs = [
-    { title: "ITI Certified HVAC/R Engineers", desc: "Our technicians hold professional certifications in Industrial Refrigeration and Air Conditioning systems." },
-    { title: "MSME Registered Mechanical Firm", desc: "Prime Cool is a registered Micro-enterprise, ensuring compliant tax invoices and commercial contracts." },
-    { title: "Eco Safe Gas Recovery Compliant", desc: "We follow local environmental guidelines, capturing ozone-depleting HCFCs rather than venting." },
-    { title: "Zero-Downtime Industrial SLA", desc: "Specially audited to execute factory support logs under stringent industrial timelines." },
+    {
+      title: "ITI Certified HVAC/R Engineers",
+      desc: "Our technicians hold professional certifications in Industrial Refrigeration and Air Conditioning systems.",
+    },
+    {
+      title: "MSME Registered Mechanical Firm",
+      desc: "Prime Cool is a registered Micro-enterprise, ensuring compliant tax invoices and commercial contracts.",
+    },
+    {
+      title: "Eco Safe Gas Recovery Compliant",
+      desc: "We follow local environmental guidelines, capturing ozone-depleting HCFCs rather than venting.",
+    },
+    {
+      title: "Zero-Downtime Industrial SLA",
+      desc: "Specially audited to execute factory support logs under stringent industrial timelines.",
+    },
   ];
 
   const gradients = [
@@ -1739,8 +1944,18 @@ function Certifications() {
   ];
 
   return (
-    <section id="certifications" className="py-24 relative overflow-hidden" style={{ background: "linear-gradient(180deg, #0c0c14 0%, #09090f 100%)" }}>
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 100%, rgba(0,200,255,0.06) 0%, transparent 70%)" }} />
+    <section
+      id="certifications"
+      className="py-24 relative overflow-hidden"
+      style={{ background: "linear-gradient(180deg, #0c0c14 0%, #09090f 100%)" }}
+    >
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 50% 100%, rgba(0,200,255,0.06) 0%, transparent 70%)",
+        }}
+      />
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           tag="Trust & Standards"
@@ -1753,9 +1968,17 @@ function Certifications() {
             <div
               key={idx}
               className="p-6 rounded-2xl flex gap-5 items-start group transition-all duration-300 hover:-translate-y-1"
-              style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))", border: "1px solid rgba(255,255,255,0.07)", boxShadow: "0 4px 20px rgba(0,0,0,0.3)" }}
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))",
+                border: "1px solid rgba(255,255,255,0.07)",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+              }}
             >
-              <div className="h-11 w-11 rounded-xl flex items-center justify-center shrink-0 mt-0.5" style={{ background: gradients[idx], boxShadow: "0 4px 15px rgba(0,200,255,0.3)" }}>
+              <div
+                className="h-11 w-11 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
+                style={{ background: gradients[idx], boxShadow: "0 4px 15px rgba(0,200,255,0.3)" }}
+              >
                 <Award className="h-5 w-5 text-white" />
               </div>
               <div className="space-y-2">

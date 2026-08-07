@@ -134,12 +134,24 @@ const APPLIANCE_MAPPING: Record<
 
 export const Route = createFileRoute("/brands/$slug/$appliance")({
   loader: async ({ params }) => {
-    const brand = brandsData[params.slug.toLowerCase()];
+    let brand = brandsData[params.slug.toLowerCase()];
     const applianceKey = params.appliance.toLowerCase();
     const appliance = APPLIANCE_MAPPING[applianceKey];
 
     if (!brand) {
-      throw new Error(`Brand "${params.slug}" not found`);
+      const formattedBrand = params.slug
+        .split("-")
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+      brand = {
+        name: formattedBrand,
+        slug: params.slug.toLowerCase(),
+        faults: ["Cooling issues", "Gas leaks", "Compressor failures"],
+        spares: ["Capacitors", "PCBs", "Sensors"],
+        maintenance: ["Filter cleaning", "Coil washing"],
+        warranty: "90 Days on parts",
+        errorCodes: []
+      };
     }
     if (!appliance) {
       throw new Error(`Appliance category "${params.appliance}" not found`);
@@ -161,7 +173,7 @@ export const Route = createFileRoute("/brands/$slug/$appliance")({
         { property: "og:title", content: pageTitle },
         { property: "og:description", content: pageDesc },
       ],
-      links: [{ rel: "canonical", href: `/brands/${brand.slug}/${loaderData.applianceKey}` }],
+      links: [{ rel: "canonical", href: `https://primecool.in/brands/${brand.slug}/${loaderData.applianceKey}` }],
     };
   },
   component: BrandAppliancePage,
@@ -206,7 +218,8 @@ function BrandAppliancePage() {
               <span className="hidden sm:inline">{phone}</span>
             </a>
             <Link
-              to={`/brands/${brand.slug}`}
+              to="/brands/$slug"
+              params={{ slug: brand.slug }}
               className="text-sm font-medium hover:text-primary transition flex items-center gap-1"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -228,7 +241,7 @@ function BrandAppliancePage() {
             Resources
           </Link>{" "}
           /{" "}
-          <Link to={`/brands/${brand.slug}`} className="hover:text-primary transition">
+          <Link to="/brands/$slug" params={{ slug: brand.slug }} className="hover:text-primary transition">
             {brand.name} Support
           </Link>{" "}
           / <span className="text-foreground font-semibold">{appliance.category}</span>

@@ -1,8 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { LOCATIONS, BRANDS, REFRIGERANTS, SERVICES, COMPARISONS, INDUSTRIAL_TOPICS, APPLIANCES } from "../../lib/sitemap-constants";
+import {
+  LOCATIONS,
+  BRANDS,
+  REFRIGERANTS,
+  SERVICES,
+  COMPARISONS,
+  INDUSTRIAL_TOPICS,
+  APPLIANCES,
+} from "../../lib/sitemap-constants";
 import { ResourceLayout } from "../../components/resources/ResourceLayout";
-import { getPublicBlogs } from "../../lib/api";
+import { getPublicBlogs, getCmsSettings } from "../../lib/api";
+import { toast } from "sonner";
 import {
   Calculator,
   BookOpen,
@@ -21,6 +30,22 @@ import {
 } from "lucide-react";
 
 export const Route = createFileRoute("/resources/")({
+  loader: async () => {
+    const { settings } = await getCmsSettings();
+    return { cms: settings };
+  },
+  head: ({ loaderData }) => {
+    const seo = loaderData?.cms?.seo?.resources;
+    if (!seo) return { meta: [] };
+    return {
+      meta: [
+        { title: seo.title },
+        { name: "description", content: seo.description },
+        { property: "og:title", content: seo.ogTitle },
+        { property: "og:description", content: seo.ogDescription },
+      ],
+    };
+  },
   component: ResourcesDashboard,
 });
 
@@ -35,7 +60,6 @@ function ResourcesDashboard() {
       }
     });
   }, []);
-
 
   function formatName(slug: string) {
     return slug
@@ -89,7 +113,7 @@ function ResourcesDashboard() {
           name: `${formatName(s)} in ${formatName(l)}`,
           path: `/services/${s}/${l}`,
           desc: `Local service for ${formatName(s)}`,
-        }))
+        })),
       ),
     },
     {
@@ -111,7 +135,7 @@ function ResourcesDashboard() {
           name: `${formatName(b)} ${a.toUpperCase()}`,
           path: `/brands/${b}/${a}`,
           desc: `Service for ${formatName(b)} ${a.toUpperCase()}`,
-        }))
+        })),
       ),
     },
     {
@@ -550,16 +574,15 @@ function ResourcesDashboard() {
 
   return (
     <ResourceLayout title="Home" category="Dashboard">
-      <div className="space-y-8">
-        {/* Banner Section */}
-        <div className="space-y-4 pb-2 border-b border-border/40">
-          <h1 className="text-3xl md:text-4xl font-bold font-display text-foreground leading-tight flex items-center gap-2">
-            <span>Engineering &amp; Troubleshooting Resource Center</span>
+      {/* Main Content Area */}
+      <div className="flex-1 min-w-0 bg-background pt-24 md:pt-6 relative z-10">
+        <div className="mb-10 animate-fade-up">
+          <h1 className="font-display text-3xl md:text-5xl font-bold leading-tight text-white mb-4">
+            HVAC/R <span className="text-shimmer">Resources.</span>
           </h1>
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl">
-            A comprehensive reference center for HVAC/R technicians, design engineers, and
-            commercial managers. Size pipes, verify subcooling/superheat metrics, view
-            pressure-temperature Antoine charts, and troubleshoot faults dynamically.
+          <p className="text-sm md:text-base text-slate-400 max-w-2xl leading-relaxed">
+            Diagnostic flowcharts, interactive calculators, technical specs, and standard operating
+            procedures for industrial &amp; domestic cooling systems.
           </p>
         </div>
 
@@ -587,15 +610,23 @@ function ResourcesDashboard() {
                   <Link
                     key={item.path}
                     to={item.path}
-                    className="p-4 rounded-2xl border border-border hover:border-primary/50 bg-card/20 hover:bg-card/40 transition block space-y-1"
+                    className="group bento-card p-4 transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between"
                   >
-                    <div className="flex justify-between items-start">
-                      <span className="text-[10px] uppercase text-primary font-semibold font-mono">
+                    <div className="flex justify-between items-start mb-2">
+                      <span className="text-[10px] uppercase text-[#00c8ff] font-semibold font-mono tracking-wider">
                         {item.categoryName}
                       </span>
                     </div>
-                    <h4 className="font-bold text-foreground text-sm">{item.name}</h4>
-                    <p className="text-xs text-muted-foreground leading-snug">{item.desc}</p>
+                    <h4 className="font-bold text-white text-sm group-hover:text-primary transition-colors">
+                      {item.name}
+                    </h4>
+                    <p className="text-xs text-slate-400 leading-snug mt-1 line-clamp-2">
+                      {item.desc}
+                    </p>
+                    <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[#00c8ff] opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="text-[10px] font-bold uppercase tracking-wider">Access</span>
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </div>
                   </Link>
                 ))}
               </div>
@@ -611,21 +642,14 @@ function ResourcesDashboard() {
             {categories.map((cat) => {
               const CatIcon = cat.icon;
               return (
-                <div
-                  key={cat.name}
-                  className="border border-border/40 bg-card/10 rounded-2xl p-5 space-y-4 hover:border-primary/20 transition"
-                >
+                <div key={cat.name} className="bento-card p-5 space-y-4 transition">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10 border border-primary/20 text-primary">
+                    <div className="p-2 rounded-lg bg-[#00c8ff]/10 border border-[#00c8ff]/20 text-[#00c8ff]">
                       <CatIcon className="h-5 w-5" />
                     </div>
                     <div>
-                      <h3 className="font-bold font-display text-foreground text-base">
-                        {cat.name}
-                      </h3>
-                      <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">
-                        {cat.desc}
-                      </p>
+                      <h3 className="font-bold font-display text-white text-base">{cat.name}</h3>
+                      <p className="text-[11px] text-slate-400 leading-tight mt-0.5">{cat.desc}</p>
                     </div>
                   </div>
 
@@ -634,16 +658,16 @@ function ResourcesDashboard() {
                       <Link
                         key={item.path}
                         to={item.path}
-                        className="py-1.5 px-2.5 rounded-lg border border-transparent hover:border-border/60 hover:bg-card/30 text-muted-foreground hover:text-foreground transition flex items-center justify-between"
+                        className="py-1.5 px-2.5 rounded-lg border border-transparent hover:border-white/10 hover:bg-white/5 text-slate-400 hover:text-white transition flex items-center justify-between"
                       >
                         <span className="truncate">{item.name}</span>
                         <ArrowRight className="h-3 w-3 opacity-40 shrink-0" />
                       </Link>
                     ))}
                     {cat.items.length > 6 && (
-                      <div className="col-span-2 pt-1 border-t border-border/20 text-center">
-                        <span className="text-[10px] text-primary font-semibold">
-                          + {cat.items.length - 6} more resources available in sidebar
+                      <div className="col-span-2 pt-1 border-t border-white/5 text-center mt-2">
+                        <span className="text-[10px] text-[#00c8ff] font-semibold tracking-wider">
+                          + {cat.items.length - 6} more available
                         </span>
                       </div>
                     )}

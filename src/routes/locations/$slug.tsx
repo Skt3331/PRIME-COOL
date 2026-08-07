@@ -1,6 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { locationsData } from "../../lib/locations-data";
-import { getCmsSettings } from "../../lib/api";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { getLocations, getCmsSettings } from "../../lib/api";
 import logo from "../../assets/logo.webp";
 import {
   ArrowLeft,
@@ -132,9 +131,27 @@ const SERVICE_GROUPS = [
 
 export const Route = createFileRoute("/locations/$slug")({
   loader: async ({ params }) => {
-    const location = locationsData[params.slug.toLowerCase()];
+    const locationsResp = await getLocations();
+    let location = locationsResp.locations.find((l: any) => l.slug === params.slug.toLowerCase());
+    
+    // Dynamic Fallback Generator
     if (!location) {
-      throw new Error(`Location "${params.slug}" not found`);
+      const formattedName = params.slug
+        .split("-")
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+      
+      location = {
+        slug: params.slug.toLowerCase(),
+        name: formattedName,
+        pincodes: ["411001"],
+        type: "locality",
+        faqs: [],
+        reviews: [],
+        landmarks: [],
+        nearbyBusinesses: [],
+        mapEmbedUrl: ""
+      };
     }
     const { settings } = await getCmsSettings();
     return { location, cms: settings };
@@ -142,17 +159,24 @@ export const Route = createFileRoute("/locations/$slug")({
   head: ({ loaderData }) => {
     const location = loaderData?.location;
     if (!location) return { meta: [] };
-    const pageTitle = `Best HVAC & Refrigeration Services in ${location.name} | Prime Cool`;
-    const pageDesc = `24x7 HVAC contractors, commercial cold storage, process chillers and domestic AC repair in ${location.name}. Response in under 45-min.`;
+    const pageTitle = location.seoTitle || `Best HVAC & Refrigeration Services in ${location.name} | Prime Cool`;
+    const pageDesc = location.seoDesc || `24x7 HVAC contractors, commercial cold storage, process chillers and domestic AC repair in ${location.name}. Response in under 45-min.`;
+    
+    const meta: any[] = [
+      { title: pageTitle },
+      { name: "description", content: pageDesc },
+      { property: "og:title", content: pageTitle },
+      { property: "og:description", content: pageDesc },
+      { property: "og:type", content: "website" },
+    ];
+    
+    if (location.seoKeywords) {
+      meta.push({ name: "keywords", content: location.seoKeywords });
+    }
+
     return {
-      meta: [
-        { title: pageTitle },
-        { name: "description", content: pageDesc },
-        { property: "og:title", content: pageTitle },
-        { property: "og:description", content: pageDesc },
-        { property: "og:type", content: "website" },
-      ],
-      links: [{ rel: "canonical", href: `/locations/${location.slug}` }],
+      meta,
+      links: [{ rel: "canonical", href: `https://primecool.in/locations/${location.slug}` }],
     };
   },
   component: LocationHubPage,
@@ -166,8 +190,70 @@ function LocationHubPage() {
   // Nearby areas
   const nearby = NEARBY_AREAS[location.slug] || [];
 
+  const schemaList: any[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": `Prime Cool HVAC & Refrigeration - ${location.name}`,
+      "image": cms?.theme?.logo || "https://primecool.in/logo.png",
+      "telephone": phone,
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": location.name,
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": location.name
+        },
+        ...nearby.map((n: string) => ({ "@type": "Place", "name": n }))
+      ],
+      "description": `24x7 HVAC contractors, commercial cold storage, process chillers and domestic AC repair in ${location.name}.`,
+      ...(location.reviews && location.reviews.length > 0 ? {
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": (location.reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / location.reviews.length).toFixed(1),
+          "reviewCount": location.reviews.length
+        },
+        "review": location.reviews.map((r: any) => ({
+          "@type": "Review",
+          "author": { "@type": "Person", "name": r.author },
+          "reviewRating": { "@type": "Rating", "ratingValue": r.rating },
+          "reviewBody": r.text
+        }))
+      } : {})
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://primecool.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Locations", "item": "https://primecool.in/locations" },
+        { "@type": "ListItem", "position": 3, "name": location.name, "item": `https://primecool.in/locations/${location.slug}` }
+      ]
+    }
+  ];
+
+  if (location.faqs && location.faqs.length > 0) {
+    schemaList.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": location.faqs.map((faq: any) => ({
+        "@type": "Question",
+        "name": faq.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.a
+        }
+      }))
+    });
+  }
+
   return (
     <div className="min-h-screen text-foreground flex flex-col justify-between bg-slate-950">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaList) }} />
       {/* Background gradients */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--primary)_8%,transparent),transparent_60%)] pointer-events-none" />
 
@@ -308,7 +394,8 @@ function LocationHubPage() {
                   {grp.items.map((svc) => (
                     <li key={svc.slug}>
                       <Link
-                        to={`/services/${svc.slug}/${location.slug}`}
+                        to="/services/$serviceSlug/$locationSlug"
+                        params={{ serviceSlug: svc.slug, locationSlug: location.slug }}
                         className="text-xs text-muted-foreground hover:text-primary hover:underline transition-colors block py-0.5"
                       >
                         {svc.name} in {location.name}
@@ -328,7 +415,7 @@ function LocationHubPage() {
               Customer Reviews in {location.name}
             </h3>
             <div className="grid sm:grid-cols-2 gap-6">
-              {location.reviews.map((rev, idx) => (
+              {location.reviews.map((rev: any, idx: number) => (
                 <div
                   key={idx}
                   className="border border-border/40 bg-slate-950/20 p-5 rounded-xl space-y-3"
@@ -361,7 +448,7 @@ function LocationHubPage() {
             FAQs for {location.name} Hub
           </h3>
           <div className="space-y-4">
-            {location.faqs.map((faq, idx) => (
+            {location.faqs.map((faq: any, idx: number) => (
               <details
                 key={idx}
                 className="bg-slate-950/40 p-4 rounded-xl border border-border/40 group cursor-pointer"

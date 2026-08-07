@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { getPublicProjects, getCmsSettings } from "../lib/api";
-import logo from "@/assets/logo.webp";
+import logo from "../assets/logo.webp";
 import {
   ArrowLeft,
   ArrowRight,
@@ -36,11 +36,12 @@ export const Route = createFileRoute("/portfolio")({
         { property: "og:title", content: seo.ogTitle },
         { property: "og:description", content: seo.ogDescription },
         { property: "og:type", content: "website" },
+        { property: "og:image", content: loaderData?.cms?.theme?.logo || logo },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: seo.title },
         { name: "twitter:description", content: seo.description },
       ],
-      links: [{ rel: "canonical", href: "/portfolio" }],
+      links: [{ rel: "canonical", href: "https://primecool.in/portfolio" }],
     };
   },
   component: PortfolioPage,
@@ -70,30 +71,31 @@ function PortfolioPage() {
   };
 
   return (
-    <div className="min-h-screen text-foreground flex flex-col justify-between">
+    <div className="min-h-screen bg-background text-foreground flex flex-col justify-between relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,102,255,0.05),transparent_50%)] pointer-events-none" />
       {/* Navigation Header */}
       {/* Header removed, now in __root.tsx */}
 
       {/* Main Content */}
-      <main className="flex-1 pt-28 pb-20 px-6">
+      <main className="flex-1 pt-28 pb-20 px-6 relative z-10">
         <div className="mx-auto max-w-7xl">
           {/* Section Header */}
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-12 animate-fade-up">
             <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-3">
               <span className="h-px w-6 bg-primary" />
               Engineering Portfolio
             </div>
-            <h1 className="font-display text-3xl md:text-5xl font-bold leading-tight">
-              Industrial Case Studies & <span className="text-gradient">Previous Works.</span>
+            <h1 className="font-display text-4xl md:text-6xl font-bold leading-tight">
+              Industrial Case Studies & <span className="text-shimmer">Previous Works.</span>
             </h1>
-            <p className="mt-4 text-sm text-muted-foreground">
+            <p className="mt-4 text-sm text-muted-foreground delay-100 animate-fade-up">
               Review real engineering metrics and outcomes. From domestic AC installations to
               factory-scale cooling towers, we deliver zero-downtime maintenance.
             </p>
           </div>
 
           {/* Filtering Tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-10">
+          <div className="flex flex-wrap justify-center gap-2 mb-10 animate-fade-up delay-200">
             {[
               { id: "all", name: "All Projects" },
               { id: "domestic", name: "Domestic Solutions" },
@@ -103,10 +105,10 @@ function PortfolioPage() {
               <button
                 key={tab.id}
                 onClick={() => setFilter(tab.id as any)}
-                className={`px-4 py-2 text-xs font-semibold rounded-xl border transition ${
+                className={`px-5 py-2.5 text-xs font-semibold rounded-full border transition duration-300 ${
                   filter === tab.id
-                    ? "border-primary bg-primary/10 text-primary ring-1 ring-primary"
-                    : "border-border bg-card/30 text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                    ? "border-primary/50 bg-primary/20 text-white shadow-glow"
+                    : "glass-panel text-muted-foreground hover:border-primary/30 hover:text-white bg-black/40"
                 }`}
               >
                 {tab.name}
@@ -121,23 +123,25 @@ function PortfolioPage() {
                 <article
                   key={p.id}
                   onClick={() => setSelectedProject(p)}
-                  className="group surface-card rounded-2xl p-7 border border-border flex flex-col justify-between hover:border-primary/40 hover:scale-[1.01] transition-all duration-300 relative overflow-hidden cursor-pointer"
+                  className="group bento-card p-7 flex flex-col justify-between hover:scale-[1.02] transition-all duration-300 relative overflow-hidden cursor-pointer"
                 >
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
                   {/* Subtle float animation applied differently to staggered indexes */}
                   <div
-                    className={idx % 2 === 0 ? "animate-float" : ""}
+                    className={`relative z-10 ${idx % 2 === 0 ? "animate-float" : ""}`}
                     style={{ animationDelay: `${idx * 0.5}s` }}
                   >
                     {/* Image space if uploaded */}
                     {p.image && (
-                      <div className="relative aspect-video rounded-xl overflow-hidden mb-5 border border-border/40 bg-background/50">
+                      <div className="relative aspect-video rounded-xl overflow-hidden mb-5 border border-border bg-black/50">
                         <img
                           src={p.image}
                           alt={p.title}
-                          className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                          className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-110"
                           loading="lazy"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                       </div>
                     )}
 
@@ -189,31 +193,25 @@ function PortfolioPage() {
           )}
 
           {/* Book Now Section */}
-          <div className="mt-16 bg-gradient-to-r from-card to-background border border-border rounded-3xl p-8 md:p-12 text-center relative overflow-hidden">
-            <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-primary/10 blur-3xl" />
-            <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-accent/10 blur-3xl" />
+          <div className="mt-16 surface-card border border-border/60 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden group">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,102,255,0.1),transparent_70%)]" />
+            <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-primary/20 blur-3xl group-hover:bg-primary/30 transition duration-700" />
+            <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-accent/20 blur-3xl group-hover:bg-accent/30 transition duration-700" />
 
-            <div className="relative max-w-2xl mx-auto space-y-6">
-              <h2 className="font-display text-3xl font-bold leading-tight">
-                Need similar engineering <span className="text-gradient">excellence?</span>
+            <div className="relative max-w-2xl mx-auto space-y-6 z-10">
+              <h2 className="font-display text-3xl md:text-4xl font-bold leading-tight">
+                Need similar engineering <span className="text-shimmer">excellence?</span>
               </h2>
               <p className="text-sm text-muted-foreground">
                 Get rapid, AMC-backed support along the Wagholi–Shirur route. Book a technician
                 online or check time slots directly.
               </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2">
-                <Link
-                  to="/booking"
-                  search={{}}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary text-primary-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 transition glow-ring"
-                >
+              <div className="flex flex-col sm:flex-row justify-center gap-3 pt-4">
+                <Link to="/booking" search={{}} className="btn-primary">
                   Book Online Now <ArrowRight className="h-4 w-4" />
                 </Link>
-                <a
-                  href={`tel:${phone.replace(/\s+/g, "")}`}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-card/40 px-6 py-3 text-sm font-semibold hover:bg-card transition"
-                >
-                  <PhoneIcon className="h-4 w-4 text-primary" /> Call Support
+                <a href={`tel:${phone.replace(/\s+/g, "")}`} className="btn-secondary">
+                  <PhoneIcon className="h-4 w-4" /> Call Support
                 </a>
               </div>
             </div>
