@@ -15,7 +15,7 @@ export function Footer({ cms }: { cms?: any }) {
             <Link to="/" className="flex items-center gap-2">
               <img src={cms?.theme?.logo || logo} alt="Prime Cool logo" className="h-8 w-8" loading="lazy" />
               <span className="font-display font-bold text-xl tracking-tight text-foreground">
-                Prime Cool
+                {cms?.theme?.siteName || "Prime Cool"}
               </span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
@@ -178,7 +178,7 @@ export function Footer({ cms }: { cms?: any }) {
         </div>
 
         <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <p>© {currentYear} Prime Cool. All rights reserved.</p>
+          <p>© {currentYear} {cms?.theme?.siteName || "Prime Cool"}. All rights reserved.</p>
           <p>Engineered by Saurav Kailas Temgire</p>
         </div>
       </div>

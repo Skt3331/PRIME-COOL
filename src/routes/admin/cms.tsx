@@ -266,6 +266,21 @@ function CmsPage() {
         {activeTab === "theme" && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
             <h2 className="text-xl font-semibold mb-4">Live Theme Tuner</h2>
+            <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <div className="space-y-3">
+                <Label>Website Title / Brand Name</Label>
+                <Input
+                  value={formData.theme.siteName || ""}
+                  placeholder="Prime Cool"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      theme: { ...formData.theme, siteName: e.target.value },
+                    })
+                  }
+                />
+              </div>
+            </div>
             <div className="grid md:grid-cols-3 gap-6">
               <div className="space-y-3">
                 <Label>Primary Accent Color</Label>

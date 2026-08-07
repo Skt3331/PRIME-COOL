@@ -231,6 +231,7 @@ export const updateCmsSettings = createServerFn({ method: "POST" })
         }).default({ title: "", description: "", ogTitle: "", ogDescription: "" }),
       }),
       theme: z.object({
+        siteName: z.string().optional(),
         primary: z.string(),
         electric: z.string(),
         background: z.string(),

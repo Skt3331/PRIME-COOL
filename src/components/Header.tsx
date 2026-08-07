@@ -45,7 +45,7 @@ export function Header({ cms }: { cms?: any }) {
             />
           </div>
           <span className="font-display font-bold text-lg tracking-tight text-white">
-            Prime <span className="text-gradient">Cool</span>
+            {cms?.theme?.siteName || "Prime Cool"}
           </span>
         </Link>
 

@@ -124,6 +124,7 @@ export interface CmsSeo {
 }
 
 export interface CmsTheme {
+  siteName?: string;
   primary: string;
   electric: string;
   background: string;
@@ -587,6 +588,7 @@ If you are located between Wagholi and Shirur, Prime Cool technicians carry repl
         },
       },
       theme: {
+        siteName: "Prime Cool",
         primary: "#0ea5e9",
         electric: "#8b5cf6",
         background: "#020617",
