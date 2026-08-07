@@ -53,7 +53,7 @@ function AdminPagesPage() {
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("all");
-  
+
   // SEO Editing State
   const [editingPage, setEditingPage] = useState<PageItem | null>(null);
   const [newSeoTitle, setNewSeoTitle] = useState("");
@@ -249,7 +249,7 @@ function AdminPagesPage() {
       page.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       page.url.toLowerCase().includes(searchQuery.toLowerCase()) ||
       page.seoTitle.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     const matchesType = typeFilter === "all" || page.type === typeFilter;
 
     return matchesSearch && matchesType;
@@ -452,9 +452,8 @@ function AdminPagesPage() {
             return (
               <div
                 key={page.id}
-                className={`p-5 rounded-2xl border bg-card/50 transition-all flex flex-col justify-between group ${
-                  hasSeo ? "border-border" : "border-amber-500/20 bg-amber-500/[0.01]"
-                } hover:border-primary/50`}
+                className={`p-5 rounded-2xl border bg-card/50 transition-all flex flex-col justify-between group ${hasSeo ? "border-border" : "border-amber-500/20 bg-amber-500/[0.01]"
+                  } hover:border-primary/50`}
               >
                 <div className="space-y-2">
                   <div className="flex justify-between items-start gap-4">

@@ -53,12 +53,22 @@ const cities = {
 };
 
 const suffixes = [
-  "MIDC", "Phase 1", "Phase 2", "Phase 3", "East", "West", "Nagar", "Wadi", "Gaon", "Chowk", 
-  "Market", "Extension", "Layout", "Colony", "Township", "Park", "Industrial Area", "Sector 1", 
-  "Sector 2", "Sector 3", "Sector 4", "Sector 5", "Rural", "Tehsil", "Peth", "Bazar", "Naka"
+  "City", "Town", "Near Me", "MIDC", "Phase 1", "Phase 2", "Phase 3", "East", "West", "North", "South",
+  "Nagar", "Wadi", "Gaon", "Chowk", "Market", "Extension", "Layout", "Colony", "Township", "Park",
+  "Industrial Area", "Sector 1", "Sector 2", "Sector 3", "Sector 4", "Sector 5", "Sector 6",
+  "Sector 7", "Sector 8", "Sector 9", "Sector 10", "Rural", "Tehsil", "Peth", "Bazar", "Naka",
+  "Area", "Junction", "Cross", "Road", "Street", "Village", "Taluka", "District", "Mahanagar",
+  "Suburbs", "Downtown", "Uptown", "High Street", "Old Town", "New Town", "Station Road",
+  "Railway Station", "Bus Stand", "Airport Road", "University Area", "College Road", "Camp Area",
+  "Cantonment", "Hill", "Lake", "River", "Bridge", "Toll Naka", "Bypass", "Expressway", "Square",
+  "Circle", "Corner", "Point", "Estate", "Heights", "Valley", "Woods", "Gardens", "Green", "View",
+  "Residency", "Apartments", "Complex", "Plaza", "Mall", "Center", "Hub", "Zone", "Ward", "Block",
+  "Local", "Central"
 ];
 
 const generated = [];
+// Preserve original 2 locations and clear generated ones
+db.locations = db.locations.slice(0, 2);
 const seenSlugs = new Set(db.locations.map(l => l.slug));
 
 function getPincodePrefix(city) {
@@ -68,7 +78,7 @@ function getPincodePrefix(city) {
   return '410';
 }
 
-const targetCount = 1500;
+const targetCount = 16000;
 const districts = ['pune', 'mumbai', 'kolhapur', 'other_maharashtra'];
 
 while (generated.length < targetCount) {
@@ -110,17 +120,20 @@ while (generated.length < targetCount) {
             {
               author: "Local Customer",
               rating: 5,
-              text: `Excellent AC repair and split AC maintenance service in ${name}. Very quick and professional support.`,
+              text: `Excellent AC repair and split AC maintenance service in ${name}. Very quick and professional support near me.`,
               role: "Property Owner"
             }
           ],
           mapEmbedUrl: "",
           faqs: [
             {
-              q: `Do you provide emergency AC repair services in ${name}?`,
-              a: `Yes, Prime Cool offers 24/7 emergency dispatch and rapid AC repair services in ${name} and surrounding neighborhoods.`
+              q: `Do you provide emergency AC repair services in ${name} or near me?`,
+              a: `Yes, Prime Cool offers 24/7 emergency dispatch and rapid AC repair services in ${name} and nearby locations.`
             }
-          ]
+          ],
+          seoTitle: `Best AC Repair & HVAC Services in ${name} & Near Me | Prime Cool`,
+          seoDesc: `Expert air conditioning repair, troubleshooting, and preventative maintenance in ${name} and near me. Call Prime Cool for certified engineers and quick support.`,
+          seoKeywords: `ac repair in ${name}, ac repair near me, air conditioning service ${name}, hvac maintenance, ac installation ${name}, ac installation near me, prime cool`
         });
       }
     }
