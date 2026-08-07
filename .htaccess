@@ -1,0 +1,17 @@
+# DO NOT REMOVE OR MODIFY. REQUIRED BY CLOUDLINUX ENTERPRISE
+PassengerEnabled On
+PassengerAppEnv production
+# END DO NOT REMOVE OR MODIFY
+
+# Apache rewrite rules to ensure clean routing
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Ensure sitemap.xml, robots.txt, uploads, and assets are served directly if they exist
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  
+  # Delegate everything else to index.js
+  RewriteRule ^(.*)$ index.js [QSA,L]
+</IfModule>
