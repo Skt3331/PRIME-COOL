@@ -55,11 +55,11 @@ export function ImageDropzone({
         const ctx = canvas.getContext("2d");
         if (ctx) {
           ctx.drawImage(img, 0, 0, width, height);
-          // Compress to JPEG, 80% quality
-          const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
+          // Compress to WEBP, 80% quality (supports transparency)
+          const dataUrl = canvas.toDataURL("image/webp", 0.8);
 
           setPreview(dataUrl);
-          onImageProcessed({ name: file.name, base64: dataUrl }, dataUrl);
+          onImageProcessed({ name: file.name.replace(/\.[^/.]+$/, "") + ".webp", base64: dataUrl }, dataUrl);
         } else {
           toast.error("Failed to process image.");
         }
