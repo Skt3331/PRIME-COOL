@@ -906,9 +906,26 @@ async function initializeMySQLTables(p: mysql.Pool) {
       icon VARCHAR(255),
       image LONGTEXT,
       isPopular BOOLEAN DEFAULT false,
-      orderIndex INT DEFAULT 0
+      orderIndex INT DEFAULT 0,
+      seoTitle VARCHAR(500),
+      seoDesc TEXT,
+      seoKeywords TEXT
     )
   `);
+  // Migrate existing services table if columns are missing
+  try {
+    const [srvCols]: any = await p.query("SHOW COLUMNS FROM services");
+    const colNames = srvCols.map((c: any) => c.Field);
+    if (!colNames.includes("seoTitle"))
+      await p.query("ALTER TABLE services ADD COLUMN seoTitle VARCHAR(500) DEFAULT NULL");
+    if (!colNames.includes("seoDesc"))
+      await p.query("ALTER TABLE services ADD COLUMN seoDesc TEXT DEFAULT NULL");
+    if (!colNames.includes("seoKeywords"))
+      await p.query("ALTER TABLE services ADD COLUMN seoKeywords TEXT DEFAULT NULL");
+  } catch (migrateErr) {
+    console.warn("Services column migration warning:", migrateErr);
+  }
+
   const [servicesRows]: any = await p.query("SELECT COUNT(*) as cnt FROM services");
   if (servicesRows[0].cnt === 0) {
     const initial = getInitialData();
@@ -937,9 +954,26 @@ async function initializeMySQLTables(p: mysql.Pool) {
       slug VARCHAR(255) NOT NULL,
       title VARCHAR(255) NOT NULL,
       description TEXT NOT NULL,
-      isActive BOOLEAN DEFAULT true
+      isActive BOOLEAN DEFAULT true,
+      seoTitle VARCHAR(500),
+      seoDesc TEXT,
+      seoKeywords TEXT
     )
   `);
+  // Migrate existing calculators table if columns are missing
+  try {
+    const [calcCols]: any = await p.query("SHOW COLUMNS FROM calculators");
+    const colNames = calcCols.map((c: any) => c.Field);
+    if (!colNames.includes("seoTitle"))
+      await p.query("ALTER TABLE calculators ADD COLUMN seoTitle VARCHAR(500) DEFAULT NULL");
+    if (!colNames.includes("seoDesc"))
+      await p.query("ALTER TABLE calculators ADD COLUMN seoDesc TEXT DEFAULT NULL");
+    if (!colNames.includes("seoKeywords"))
+      await p.query("ALTER TABLE calculators ADD COLUMN seoKeywords TEXT DEFAULT NULL");
+  } catch (migrateErr) {
+    console.warn("Calculators column migration warning:", migrateErr);
+  }
+
   const [calcRows]: any = await p.query("SELECT COUNT(*) as cnt FROM calculators");
   if (calcRows[0].cnt === 0) {
     const initial = getInitialData();
@@ -962,9 +996,25 @@ async function initializeMySQLTables(p: mysql.Pool) {
       nearbyBusinesses_json TEXT NOT NULL,
       reviews_json LONGTEXT NOT NULL,
       mapEmbedUrl TEXT,
-      faqs_json LONGTEXT NOT NULL
+      faqs_json LONGTEXT NOT NULL,
+      seoTitle VARCHAR(500),
+      seoDesc TEXT,
+      seoKeywords TEXT
     )
   `);
+  // Migrate existing locations table if columns are missing
+  try {
+    const [locCols]: any = await p.query("SHOW COLUMNS FROM locations");
+    const colNames = locCols.map((c: any) => c.Field);
+    if (!colNames.includes("seoTitle"))
+      await p.query("ALTER TABLE locations ADD COLUMN seoTitle VARCHAR(500) DEFAULT NULL");
+    if (!colNames.includes("seoDesc"))
+      await p.query("ALTER TABLE locations ADD COLUMN seoDesc TEXT DEFAULT NULL");
+    if (!colNames.includes("seoKeywords"))
+      await p.query("ALTER TABLE locations ADD COLUMN seoKeywords TEXT DEFAULT NULL");
+  } catch (migrateErr) {
+    console.warn("Locations column migration warning:", migrateErr);
+  }
   const [locationsRows]: any = await p.query("SELECT COUNT(*) as cnt FROM locations");
   if (locationsRows[0].cnt === 0) {
     const initial = getInitialData();
@@ -1785,6 +1835,9 @@ export async function getServices(): Promise<Service[]> {
         image: r.image || undefined,
         isPopular: !!r.isPopular,
         orderIndex: r.orderIndex,
+        seoTitle: r.seoTitle || undefined,
+        seoDesc: r.seoDesc || undefined,
+        seoKeywords: r.seoKeywords || undefined,
       }));
     } catch (err) {
       console.error("MySQL query failed in getServices, falling back:", err);
@@ -1805,7 +1858,7 @@ export async function addService(service: Omit<Service, "id">): Promise<Service>
   if (p && isMySQLActive) {
     try {
       await p.query(
-        "INSERT INTO services (id, title, slug, description, category, icon, image, isPopular, orderIndex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO services (id, title, slug, description, category, icon, image, isPopular, orderIndex, seoTitle, seoDesc, seoKeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           newService.id,
           newService.title,
@@ -1816,6 +1869,9 @@ export async function addService(service: Omit<Service, "id">): Promise<Service>
           newService.image || null,
           newService.isPopular,
           newService.orderIndex,
+          newService.seoTitle || null,
+          newService.seoDesc || null,
+          newService.seoKeywords || null,
         ],
       );
       return newService;
@@ -1872,6 +1928,18 @@ export async function updateService(
         updateFields.push("orderIndex = ?");
         values.push(service.orderIndex);
       }
+      if (service.seoTitle !== undefined) {
+        updateFields.push("seoTitle = ?");
+        values.push(service.seoTitle);
+      }
+      if (service.seoDesc !== undefined) {
+        updateFields.push("seoDesc = ?");
+        values.push(service.seoDesc);
+      }
+      if (service.seoKeywords !== undefined) {
+        updateFields.push("seoKeywords = ?");
+        values.push(service.seoKeywords);
+      }
 
       if (updateFields.length > 0) {
         values.push(id);
@@ -1891,6 +1959,9 @@ export async function updateService(
           image: r.image || undefined,
           isPopular: !!r.isPopular,
           orderIndex: r.orderIndex,
+          seoTitle: r.seoTitle || undefined,
+          seoDesc: r.seoDesc || undefined,
+          seoKeywords: r.seoKeywords || undefined,
         };
       }
       return null;
@@ -1939,6 +2010,9 @@ export async function getCalculators(): Promise<CalculatorMeta[]> {
         title: r.title,
         description: r.description,
         isActive: !!r.isActive,
+        seoTitle: r.seoTitle || undefined,
+        seoDesc: r.seoDesc || undefined,
+        seoKeywords: r.seoKeywords || undefined,
       }));
     } catch (err) {
       console.error("MySQL query failed in getCalculators, falling back:", err);
@@ -1975,6 +2049,18 @@ export async function updateCalculator(
         updateFields.push("isActive = ?");
         values.push(calc.isActive);
       }
+      if (calc.seoTitle !== undefined) {
+        updateFields.push("seoTitle = ?");
+        values.push(calc.seoTitle);
+      }
+      if (calc.seoDesc !== undefined) {
+        updateFields.push("seoDesc = ?");
+        values.push(calc.seoDesc);
+      }
+      if (calc.seoKeywords !== undefined) {
+        updateFields.push("seoKeywords = ?");
+        values.push(calc.seoKeywords);
+      }
 
       if (updateFields.length > 0) {
         values.push(id);
@@ -1990,6 +2076,9 @@ export async function updateCalculator(
           title: r.title,
           description: r.description,
           isActive: !!r.isActive,
+          seoTitle: r.seoTitle || undefined,
+          seoDesc: r.seoDesc || undefined,
+          seoKeywords: r.seoKeywords || undefined,
         };
       }
       return null;
@@ -2023,6 +2112,9 @@ export async function getLocations(): Promise<LocationDetail[]> {
         reviews: JSON.parse(r.reviews_json),
         mapEmbedUrl: r.mapEmbedUrl || "",
         faqs: JSON.parse(r.faqs_json),
+        seoTitle: r.seoTitle || undefined,
+        seoDesc: r.seoDesc || undefined,
+        seoKeywords: r.seoKeywords || undefined,
       }));
     } catch (err) {
       console.error("MySQL query failed in getLocations, falling back:", err);
@@ -2038,7 +2130,7 @@ export async function addLocation(location: LocationDetail): Promise<LocationDet
   if (p && isMySQLActive) {
     try {
       await p.query(
-        "INSERT INTO locations (slug, name, type, pincodes_json, landmarks_json, nearbyBusinesses_json, reviews_json, mapEmbedUrl, faqs_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO locations (slug, name, type, pincodes_json, landmarks_json, nearbyBusinesses_json, reviews_json, mapEmbedUrl, faqs_json, seoTitle, seoDesc, seoKeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           location.slug,
           location.name,
@@ -2049,6 +2141,9 @@ export async function addLocation(location: LocationDetail): Promise<LocationDet
           JSON.stringify(location.reviews),
           location.mapEmbedUrl || "",
           JSON.stringify(location.faqs),
+          location.seoTitle || null,
+          location.seoDesc || null,
+          location.seoKeywords || null,
         ]
       );
       return location;
@@ -2106,6 +2201,18 @@ export async function updateLocation(
         updateFields.push("faqs_json = ?");
         values.push(JSON.stringify(location.faqs));
       }
+      if (location.seoTitle !== undefined) {
+        updateFields.push("seoTitle = ?");
+        values.push(location.seoTitle);
+      }
+      if (location.seoDesc !== undefined) {
+        updateFields.push("seoDesc = ?");
+        values.push(location.seoDesc);
+      }
+      if (location.seoKeywords !== undefined) {
+        updateFields.push("seoKeywords = ?");
+        values.push(location.seoKeywords);
+      }
 
       if (updateFields.length > 0) {
         values.push(slug);
@@ -2125,6 +2232,9 @@ export async function updateLocation(
           reviews: JSON.parse(r.reviews_json),
           mapEmbedUrl: r.mapEmbedUrl || "",
           faqs: JSON.parse(r.faqs_json),
+          seoTitle: r.seoTitle || undefined,
+          seoDesc: r.seoDesc || undefined,
+          seoKeywords: r.seoKeywords || undefined,
         };
       }
       return null;

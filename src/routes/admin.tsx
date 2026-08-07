@@ -14,6 +14,7 @@ import {
   Sliders,
   BookOpen,
   MapPin,
+  FileText,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -74,6 +75,11 @@ function AdminLayout() {
       name: "Dashboard",
       path: "/admin",
       icon: LayoutDashboard,
+    },
+    {
+      name: "Pages Mgr",
+      path: "/admin/pages",
+      icon: FileText,
     },
     {
       name: "Services Mgr",

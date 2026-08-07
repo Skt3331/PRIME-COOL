@@ -85,6 +85,7 @@ import { Route as BrandsSlugRouteImport } from './routes/brands/$slug'
 import { Route as BlogsSlugRouteImport } from './routes/blogs_.$slug'
 import { Route as AdminServicesRouteImport } from './routes/admin/services'
 import { Route as AdminPortfolioRouteImport } from './routes/admin/portfolio'
+import { Route as AdminPagesRouteImport } from './routes/admin/pages'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminLocationsRouteImport } from './routes/admin/locations'
 import { Route as AdminCmsRouteImport } from './routes/admin/cms'
@@ -483,6 +484,11 @@ const AdminPortfolioRoute = AdminPortfolioRouteImport.update({
   path: '/portfolio',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPagesRoute = AdminPagesRouteImport.update({
+  id: '/pages',
+  path: '/pages',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -546,6 +552,7 @@ export interface FileRoutesByFullPath {
   '/admin/cms': typeof AdminCmsRoute
   '/admin/locations': typeof AdminLocationsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/pages': typeof AdminPagesRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/services': typeof AdminServicesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
@@ -632,6 +639,7 @@ export interface FileRoutesByTo {
   '/admin/cms': typeof AdminCmsRoute
   '/admin/locations': typeof AdminLocationsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/pages': typeof AdminPagesRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/services': typeof AdminServicesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
@@ -720,6 +728,7 @@ export interface FileRoutesById {
   '/admin/cms': typeof AdminCmsRoute
   '/admin/locations': typeof AdminLocationsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/pages': typeof AdminPagesRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/services': typeof AdminServicesRoute
   '/blogs_/$slug': typeof BlogsSlugRoute
@@ -809,6 +818,7 @@ export interface FileRouteTypes {
     | '/admin/cms'
     | '/admin/locations'
     | '/admin/login'
+    | '/admin/pages'
     | '/admin/portfolio'
     | '/admin/services'
     | '/blogs/$slug'
@@ -895,6 +905,7 @@ export interface FileRouteTypes {
     | '/admin/cms'
     | '/admin/locations'
     | '/admin/login'
+    | '/admin/pages'
     | '/admin/portfolio'
     | '/admin/services'
     | '/blogs/$slug'
@@ -982,6 +993,7 @@ export interface FileRouteTypes {
     | '/admin/cms'
     | '/admin/locations'
     | '/admin/login'
+    | '/admin/pages'
     | '/admin/portfolio'
     | '/admin/services'
     | '/blogs_/$slug'
@@ -1669,6 +1681,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPortfolioRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/pages': {
+      id: '/admin/pages'
+      path: '/pages'
+      fullPath: '/admin/pages'
+      preLoaderRoute: typeof AdminPagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/login'
@@ -1741,6 +1760,7 @@ interface AdminRouteChildren {
   AdminCmsRoute: typeof AdminCmsRoute
   AdminLocationsRoute: typeof AdminLocationsRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminPagesRoute: typeof AdminPagesRoute
   AdminPortfolioRoute: typeof AdminPortfolioRoute
   AdminServicesRoute: typeof AdminServicesRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -1752,6 +1772,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCmsRoute: AdminCmsRoute,
   AdminLocationsRoute: AdminLocationsRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminPagesRoute: AdminPagesRoute,
   AdminPortfolioRoute: AdminPortfolioRoute,
   AdminServicesRoute: AdminServicesRoute,
   AdminIndexRoute: AdminIndexRoute,
