@@ -14,14 +14,34 @@ import {
   Star,
 } from "lucide-react";
 
+import { getFallbackService } from "../../services/$serviceSlug.$locationSlug";
+
 export const Route = createFileRoute("/cities/$citySlug/$serviceSlug")({
   loader: async ({ params }) => {
     const locationsResp = await getLocations();
-    const city = locationsResp.locations.find((l: any) => l.slug === params.citySlug.toLowerCase());
-    const service = servicesData[params.serviceSlug.toLowerCase()];
-    if (!city || !service) {
-      throw notFound();
+    let city = locationsResp.locations.find((l: any) => l.slug === params.citySlug.toLowerCase());
+    
+    // Dynamic Fallback Generator
+    if (!city) {
+      const formattedName = params.citySlug
+        .split("-")
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+      
+      city = {
+        slug: params.citySlug.toLowerCase(),
+        name: formattedName,
+        pincodes: ["411001", "411002", "411014"],
+        type: "city",
+        faqs: [],
+        reviews: [],
+        landmarks: [],
+        nearbyBusinesses: [],
+        mapEmbedUrl: ""
+      };
     }
+
+    const service = servicesData[params.serviceSlug.toLowerCase()] || getFallbackService(params.serviceSlug.toLowerCase());
     const { settings } = await getCmsSettings();
     return { city, service, cms: settings, allLocations: locationsResp.locations };
   },

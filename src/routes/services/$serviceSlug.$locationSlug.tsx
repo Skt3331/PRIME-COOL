@@ -64,7 +64,7 @@ const NEARBY_AREAS: Record<string, string[]> = {
   shirur: ["Karegaon", "Ranjangaon MIDC", "Nagar Road Corridor"],
 };
 
-const getFallbackService = (
+export const getFallbackService = (
   slug: string,
 ): {
   title: string;
