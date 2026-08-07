@@ -1017,22 +1017,60 @@ async function initializeMySQLTables(p: mysql.Pool) {
   }
   const [locationsRows]: any = await p.query("SELECT COUNT(*) as cnt FROM locations");
   if (locationsRows[0].cnt === 0) {
-    const initial = getInitialData();
-    for (const loc of initial.locations) {
-      await p.query(
-        "INSERT INTO locations (slug, name, type, pincodes_json, landmarks_json, nearbyBusinesses_json, reviews_json, mapEmbedUrl, faqs_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [
-          loc.slug,
-          loc.name,
-          loc.type,
-          JSON.stringify(loc.pincodes),
-          JSON.stringify(loc.landmarks),
-          JSON.stringify(loc.nearbyBusinesses),
-          JSON.stringify(loc.reviews),
-          loc.mapEmbedUrl || "",
-          JSON.stringify(loc.faqs),
-        ]
-      );
+    let seeded = false;
+    try {
+      const dbPath = path.join(DB_DIR, "db.json");
+      const dataStr = await fs.readFile(dbPath, "utf-8");
+      const dbObj = JSON.parse(dataStr);
+      if (dbObj && dbObj.locations && dbObj.locations.length > 0) {
+        console.log(`Seeding ${dbObj.locations.length} locations from db.json into MySQL...`);
+        for (const loc of dbObj.locations) {
+          await p.query(
+            "INSERT IGNORE INTO locations (slug, name, type, pincodes_json, landmarks_json, nearbyBusinesses_json, reviews_json, mapEmbedUrl, faqs_json, seoTitle, seoDesc, seoKeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [
+              loc.slug,
+              loc.name,
+              loc.type,
+              JSON.stringify(loc.pincodes),
+              JSON.stringify(loc.landmarks),
+              JSON.stringify(loc.nearbyBusinesses),
+              JSON.stringify(loc.reviews),
+              loc.mapEmbedUrl || "",
+              JSON.stringify(loc.faqs),
+              loc.seoTitle || null,
+              loc.seoDesc || null,
+              loc.seoKeywords || null,
+            ]
+          );
+        }
+        seeded = true;
+        console.log("Locations successfully seeded from db.json!");
+      }
+    } catch (e) {
+      console.warn("Could not seed locations from db.json, using defaults:", e);
+    }
+
+    if (!seeded) {
+      const initial = getInitialData();
+      for (const loc of initial.locations) {
+        await p.query(
+          "INSERT INTO locations (slug, name, type, pincodes_json, landmarks_json, nearbyBusinesses_json, reviews_json, mapEmbedUrl, faqs_json, seoTitle, seoDesc, seoKeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          [
+            loc.slug,
+            loc.name,
+            loc.type,
+            JSON.stringify(loc.pincodes),
+            JSON.stringify(loc.landmarks),
+            JSON.stringify(loc.nearbyBusinesses),
+            JSON.stringify(loc.reviews),
+            loc.mapEmbedUrl || "",
+            JSON.stringify(loc.faqs),
+            loc.seoTitle || null,
+            loc.seoDesc || null,
+            loc.seoKeywords || null,
+          ]
+        );
+      }
     }
   }
 }
