@@ -490,37 +490,98 @@ async function generateSitemap() {
     }
   }
 
-  // Sort urls by priority desc, then loc asc
-  urls.sort((a, b) => {
-    const pA = parseFloat(a.priority);
-    const pB = parseFloat(b.priority);
-    if (pB !== pA) return pB - pA;
-    return a.loc.localeCompare(b.loc);
-  });
-
-  // Build the XML content
-  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  // Categorize URLs
+  const categorizedUrls = {
+    main: [],
+    locations: [],
+    locations_services: [],
+    cities: [],
+    cities_services: [],
+    brands: [],
+    other: []
+  };
 
   for (const url of urls) {
-    xml += "  <url>\n";
-    xml += `    <loc>${url.loc}</loc>\n`;
-    xml += `    <lastmod>${url.lastmod}</lastmod>\n`;
-    xml += `    <changefreq>${url.changefreq}</changefreq>\n`;
-    xml += `    <priority>${url.priority}</priority>\n`;
-    xml += "  </url>\n";
+    const pathParts = url.loc.replace(BASE_URL, '').split('/').filter(Boolean);
+    if (pathParts[0] === 'services' && pathParts.length > 1) {
+      if (pathParts.length > 2) {
+        categorizedUrls.locations_services.push(url);
+      } else {
+        categorizedUrls.other.push(url);
+      }
+    } else if (pathParts[0] === 'cities') {
+      if (pathParts.length > 2) {
+        categorizedUrls.cities_services.push(url);
+      } else {
+        categorizedUrls.cities.push(url);
+      }
+    } else if (pathParts[0] === 'locations') {
+      categorizedUrls.locations.push(url);
+    } else if (pathParts[0] === 'brands') {
+      categorizedUrls.brands.push(url);
+    } else {
+      categorizedUrls.main.push(url);
+    }
   }
 
-  xml += "</urlset>\n";
-
-  // Make sure output folder exists
+  const URLS_PER_SITEMAP = 45000;
+  const sitemapFiles = [];
   const outputDir = path.dirname(OUTPUT_FILE);
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  fs.writeFileSync(OUTPUT_FILE, xml, "utf8");
-  console.log(`Successfully generated sitemap.xml with ${urls.length} URLs at ${OUTPUT_FILE}`);
+  for (const [category, catUrls] of Object.entries(categorizedUrls)) {
+    if (catUrls.length === 0) continue;
+    
+    // Sort urls by priority desc, then loc asc for each category
+    catUrls.sort((a, b) => {
+      const pA = parseFloat(a.priority);
+      const pB = parseFloat(b.priority);
+      if (pB !== pA) return pB - pA;
+      return a.loc.localeCompare(b.loc);
+    });
+
+    const chunks = [];
+    for (let i = 0; i < catUrls.length; i += URLS_PER_SITEMAP) {
+      chunks.push(catUrls.slice(i, i + URLS_PER_SITEMAP));
+    }
+
+    chunks.forEach((chunk, index) => {
+      const filename = chunks.length === 1 ? `sitemap-${category}.xml` : `sitemap-${category}-${index + 1}.xml`;
+      const filePath = path.join(outputDir, filename);
+      
+      let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+      xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+      for (const url of chunk) {
+        xml += "  <url>\n";
+        xml += `    <loc>${url.loc}</loc>\n`;
+        xml += `    <lastmod>${url.lastmod}</lastmod>\n`;
+        xml += `    <changefreq>${url.changefreq}</changefreq>\n`;
+        xml += `    <priority>${url.priority}</priority>\n`;
+        xml += "  </url>\n";
+      }
+      xml += "</urlset>\n";
+      
+      fs.writeFileSync(filePath, xml, "utf8");
+      sitemapFiles.push(filename);
+      console.log(`Generated ${filename} with ${chunk.length} URLs`);
+    });
+  }
+
+  // Generate sitemap index
+  let indexXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  indexXml += '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  for (const file of sitemapFiles) {
+    indexXml += "  <sitemap>\n";
+    indexXml += `    <loc>${BASE_URL}/${file}</loc>\n`;
+    indexXml += `    <lastmod>${currentDate}</lastmod>\n`;
+    indexXml += "  </sitemap>\n";
+  }
+  indexXml += "</sitemapindex>\n";
+  
+  fs.writeFileSync(OUTPUT_FILE, indexXml, "utf8");
+  console.log(`Successfully generated sitemap index at ${OUTPUT_FILE} linking to ${sitemapFiles.length} sitemaps.`);
 }
 
 generateSitemap().catch(console.error);
