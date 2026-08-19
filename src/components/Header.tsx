@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
-import { Phone, Clock, Menu, X, AlertTriangle, Search, Zap, ChevronDown, Calculator, BookOpen, MapPin, Globe, Award, Settings, Thermometer, Wrench, Briefcase, FileText, ShieldAlert, Sparkles } from "lucide-react";
+import { Phone, Clock, Menu, X, AlertTriangle, Search, Zap, ChevronDown, Calculator, BookOpen, MapPin, Globe, Award, Settings, Thermometer, Wrench, Briefcase, FileText, ShieldAlert, Sparkles, Snowflake } from "lucide-react";
 import logo from "../assets/logo.webp";
 import { SiteSearch } from "./SiteSearch";
 
@@ -44,6 +44,8 @@ export function Header({ cms }: { cms?: any }) {
     };
   }, [isMobileMenuOpen]);
 
+  const logoSrc = (cms?.theme?.logo && typeof cms.theme.logo === "string" && cms.theme.logo.trim() !== "") ? cms.theme.logo : logo;
+
   return (
     <>
       <header
@@ -55,15 +57,18 @@ export function Header({ cms }: { cms?: any }) {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6">
           {/* Logo Brand Badge */}
-          <Link to="/" className="flex items-center gap-3 group relative z-50" onClick={closeMobileMenu}>
-            <div className="relative flex items-center justify-center">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#00c8ff]/40 to-[#0066ff]/30 blur-sm group-hover:blur-md transition-all duration-300" />
+          <Link to="/" className="flex items-center gap-3 group relative z-50 shrink-0" onClick={closeMobileMenu}>
+            <div className="relative flex items-center justify-center h-10 w-10 min-w-[40px] min-h-[40px] rounded-xl bg-gradient-to-br from-[#00c8ff]/20 to-[#0066ff]/20 border border-[#00c8ff]/50 shadow-[0_0_15px_rgba(0,200,255,0.3)] shrink-0 overflow-hidden group-hover:scale-105 transition-transform duration-300">
               <img
-                src={cms?.theme?.logo || logo}
-                alt="Prime Cool logo"
-                className="relative h-10 w-10 object-contain rounded-full border border-white/20 p-1 group-hover:scale-105 transition-transform duration-300"
+                src={logoSrc}
+                alt="Prime Cool"
+                className="h-full w-full object-cover relative z-10"
                 loading="eager"
+                onError={(e) => {
+                  e.currentTarget.style.opacity = "0";
+                }}
               />
+              <Snowflake className="h-5 w-5 text-[#00c8ff] absolute inset-0 m-auto z-0 group-hover:rotate-45 transition-transform duration-500" />
             </div>
             <div className="flex flex-col">
               <span className="font-display font-bold text-lg tracking-tight text-white group-hover:text-[#00c8ff] transition-colors leading-none">

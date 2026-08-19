@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { Facebook, Instagram, Linkedin, Youtube, Twitter } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Youtube, Twitter, Snowflake } from "lucide-react";
 import logo from "../assets/logo.webp";
 
 export function Footer({ cms }: { cms?: any }) {
   const socials = cms?.socials || {};
   const currentYear = new Date().getFullYear();
+  const logoSrc = (cms?.theme?.logo && typeof cms.theme.logo === "string" && cms.theme.logo.trim() !== "") ? cms.theme.logo : logo;
 
   return (
     <footer className="border-t border-white/10 py-16 bg-[#06060c] text-slate-300">
@@ -12,9 +13,20 @@ export function Footer({ cms }: { cms?: any }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-16">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-5">
-            <Link to="/" className="flex items-center gap-2.5">
-              <img src={cms?.theme?.logo || logo} alt="Prime Cool logo" className="h-8 w-8" loading="lazy" />
-              <span className="font-display font-bold text-xl tracking-tight text-white">
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <div className="relative flex items-center justify-center h-9 w-9 min-w-[36px] min-h-[36px] rounded-xl bg-gradient-to-br from-[#00c8ff]/20 to-[#0066ff]/20 border border-[#00c8ff]/40 shadow-[0_0_10px_rgba(0,200,255,0.3)] shrink-0 overflow-hidden group-hover:scale-105 transition-transform duration-300">
+                <img
+                  src={logoSrc}
+                  alt="Prime Cool"
+                  className="h-full w-full object-cover relative z-10"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.opacity = "0";
+                  }}
+                />
+                <Snowflake className="h-4.5 w-4.5 text-[#00c8ff] absolute inset-0 m-auto z-0 group-hover:rotate-45 transition-transform duration-500" />
+              </div>
+              <span className="font-display font-bold text-xl tracking-tight text-white group-hover:text-[#00c8ff] transition-colors">
                 {cms?.theme?.siteName || "Prime Cool"}
               </span>
             </Link>
