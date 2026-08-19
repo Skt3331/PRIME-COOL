@@ -14,6 +14,9 @@ import {
 } from "lucide-react";
 
 export const Route = createFileRoute("/services/")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    cat: (search.cat as string) || "all",
+  }),
   loader: async () => {
     const { settings } = await getCmsSettings();
     return { cms: settings };
@@ -21,8 +24,10 @@ export const Route = createFileRoute("/services/")({
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.services;
     const pageTitle = seo?.title || "Professional HVAC, AC Repair & Refrigeration Services | Prime Cool";
-    const pageDesc = seo?.description || "Comprehensive cooling services across Maharashtra. We offer split AC repair, VRF/VRV central HVAC, water chillers, cold rooms, and commercial refrigeration maintenance.";
-    
+    const pageDesc =
+      seo?.description ||
+      "Comprehensive cooling services across Maharashtra. We offer split AC repair, VRF/VRV central HVAC, water chillers, cold rooms, and commercial refrigeration maintenance.";
+
     return {
       meta: [
         { title: pageTitle },
@@ -32,6 +37,27 @@ export const Route = createFileRoute("/services/")({
         { property: "og:type", content: "website" },
       ],
       links: [{ rel: "canonical", href: "https://primecool.in/services" }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Prime Cool HVAC Services Directory",
+            url: "https://primecool.in/services",
+            numberOfItems: 7,
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Split & Inverter AC Repair", url: "https://primecool.in/services/split-ac-repair" },
+              { "@type": "ListItem", position: 2, name: "Cassette AC Maintenance", url: "https://primecool.in/services/cassette-ac-repair" },
+              { "@type": "ListItem", position: 3, name: "AC Gas Recharging & Leak Testing", url: "https://primecool.in/services/ac-gas-charging" },
+              { "@type": "ListItem", position: 4, name: "VRF / VRV Central HVAC Systems", url: "https://primecool.in/services/vrf-systems" },
+              { "@type": "ListItem", position: 5, name: "Walk-in Cold Rooms & Blast Freezers", url: "https://primecool.in/services/cold-rooms" },
+              { "@type": "ListItem", position: 6, name: "Commercial Refrigerator Overhaul", url: "https://primecool.in/services/fridge-repair" },
+              { "@type": "ListItem", position: 7, name: "Industrial Washing & Laundry Plant", url: "https://primecool.in/services/washing-machine" },
+            ],
+          }),
+        },
+      ],
     };
   },
   component: ServicesDirectoryPage,
@@ -39,8 +65,18 @@ export const Route = createFileRoute("/services/")({
 
 function ServicesDirectoryPage() {
   const { cms } = Route.useLoaderData();
+  const search = Route.useSearch();
+  const navigate = Route.useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState<"all" | "residential" | "commercial" | "refrigeration" | "industrial">("all");
+
+  const activeCategory = (search.cat as string) || "all";
+
+  const handleCategoryChange = (catId: string) => {
+    navigate({
+      search: (prev: any) => ({ ...prev, cat: catId }),
+      replace: true,
+    });
+  };
 
   const services = Object.values(servicesData);
 
@@ -50,9 +86,14 @@ function ServicesDirectoryPage() {
       s.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       s.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
       s.description.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesCategory = activeCategory === "all" || s.category === activeCategory;
-    
+
+    const matchesCategory =
+      activeCategory === "all"
+        ? !s.slug.startsWith("pcb-")
+        : activeCategory === "pcb"
+        ? s.slug.startsWith("pcb-")
+        : s.category === activeCategory;
+
     return matchesSearch && matchesCategory;
   });
 
@@ -60,45 +101,44 @@ function ServicesDirectoryPage() {
     { id: "all", label: "All Services" },
     { id: "residential", label: "Residential AC" },
     { id: "commercial", label: "Commercial HVAC" },
+    { id: "pcb", label: "⚡ Inverter PCB Repair (50)" },
     { id: "refrigeration", label: "Refrigeration" },
     { id: "industrial", label: "Industrial Plants" },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-cyan-500 selection:text-slate-900">
-      {/* Background Decorative Gradients */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 -left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/3 -right-1/4 w-[450px] h-[450px] bg-blue-600/10 rounded-full blur-3xl" />
-      </div>
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/30 relative overflow-hidden">
+      {/* Ambient background glows */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,200,255,0.08),transparent_60%)] pointer-events-none" />
+      <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 z-10">
         {/* Header Section */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-sm font-medium mb-4">
-            <Sparkles className="w-4 h-4" />
-            Complete Cooling Solutions
+        <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-up">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00c8ff]/10 border border-[#00c8ff]/20 text-[#00c8ff] text-xs font-bold uppercase tracking-widest mb-4 shadow-[0_0_15px_rgba(0,200,255,0.2)]">
+            <Sparkles className="w-3.5 h-3.5" />
+            Precision Mechanical & HVAC Solutions
           </div>
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-6 bg-gradient-to-r from-white via-slate-100 to-cyan-300 bg-clip-text text-transparent">
-            Our Services & Engineering Expertise
+          <h1 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-white mb-6">
+            Services & <span className="text-shimmer">Engineering Hub.</span>
           </h1>
-          <p className="text-lg text-slate-400">
-            From residential split AC tuning to heavy industrial refrigeration plants, we provide certified HVAC diagnostics, installations, and preventative maintenance.
+          <p className="text-base text-slate-400 leading-relaxed">
+            From residential split AC tuning to heavy industrial refrigeration plants, we provide certified HVAC diagnostics, rapid installations, and zero-downtime preventative maintenance.
           </p>
         </div>
 
-        {/* Controls: Search & Tabs */}
+        {/* Controls: Search & Category Filter Pills */}
         <div className="mb-12 space-y-6">
           <div className="relative max-w-xl mx-auto">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-slate-400" />
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-muted-foreground" />
             </div>
             <input
               type="text"
-              placeholder="Search services (e.g. Inverter AC, VRF, Chiller)..."
+              placeholder="Search services (e.g. Inverter AC, VRF, Chiller, Cold Room)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="block w-full pl-10 pr-4 py-3 border border-slate-800 rounded-xl bg-slate-900/50 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all backdrop-blur-sm"
+              className="block w-full pl-12 pr-4 py-3.5 border-2 border-border rounded-2xl bg-card text-white placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm"
             />
           </div>
 
@@ -107,11 +147,11 @@ function ServicesDirectoryPage() {
             {categories.map((cat) => (
               <button
                 key={cat.id}
-                onClick={() => setActiveCategory(cat.id as any)}
-                className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                onClick={() => handleCategoryChange(cat.id)}
+                className={`px-5 py-2 rounded-full text-xs font-bold tracking-wide transition-all duration-300 ${
                   activeCategory === cat.id
-                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 scale-105"
-                    : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-850"
+                    ? "bg-[#00c8ff] text-[#09090f] shadow-[0_4px_20px_rgba(0,200,255,0.4)] scale-105"
+                    : "bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10"
                 }`}
               >
                 {cat.label}
@@ -126,10 +166,10 @@ function ServicesDirectoryPage() {
             {filteredServices.map((s) => (
               <div
                 key={s.slug}
-                className="group relative flex flex-col justify-between p-6 rounded-2xl bg-slate-900/40 border border-slate-800/80 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 backdrop-blur-sm"
+                className="cv-auto gpu-accelerated group relative flex flex-col justify-between p-6 rounded-2xl bg-slate-900/40 border border-slate-800/80 hover:border-cyan-500/50 transition-all duration-300 hover:-translate-y-1 backdrop-blur-sm shadow-md"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                
+
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">

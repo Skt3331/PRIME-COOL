@@ -23,23 +23,35 @@ import {
 
 export const Route = createFileRoute("/portfolio")({
   loader: async () => {
-    const [{ projects }, { settings }] = await Promise.all([getPublicProjects(), getCmsSettings()]);
-    return { projects, cms: settings };
+    try {
+      const [projectsResp, settingsResp] = await Promise.all([
+        getPublicProjects().catch(() => ({ projects: [] })),
+        getCmsSettings().catch(() => ({ settings: {} })),
+      ]);
+      return { projects: projectsResp?.projects || [], cms: settingsResp?.settings || {} };
+    } catch (e) {
+      console.error("Failed to load portfolio projects:", e);
+      return { projects: [], cms: {} };
+    }
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.portfolio;
-    if (!seo) return { meta: [] };
+    const title = seo?.title || "HVAC & Cold Storage Project Portfolio | Case Studies | Prime Cool";
+    const description =
+      seo?.description ||
+      "Explore Prime Cool's verified HVAC installations, commercial VRF rollouts, factory chiller plant overhauls, and pharmaceutical cold storage case studies across Pune and MIDC industrial belts.";
+
     return {
       meta: [
-        { title: seo.title },
-        { name: "description", content: seo.description },
-        { property: "og:title", content: seo.ogTitle },
-        { property: "og:description", content: seo.ogDescription },
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
         { property: "og:type", content: "website" },
-        { property: "og:image", content: loaderData?.cms?.theme?.logo || logo },
+        { property: "og:image", content: "https://primecool.in/logo.png" },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: seo.title },
-        { name: "twitter:description", content: seo.description },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
       ],
       links: [{ rel: "canonical", href: "https://primecool.in/portfolio" }],
     };

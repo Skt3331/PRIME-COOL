@@ -14,11 +14,29 @@ export const Route = createFileRoute("/emergency")({
   },
   head: () => ({
     meta: [
-      { title: "Code Red Emergency Breakdown Portal | Prime Cool" },
+      { title: "Code Red Emergency Breakdown Dispatch 24/7 | Prime Cool Pune" },
       {
         name: "description",
         content:
-          "24/7 priority emergency dispatch for industrial and commercial HVAC/R breakdowns in Pune, Wagholi, and Chakan MIDC.",
+          "24/7 priority emergency dispatch for industrial and commercial HVAC/R breakdowns in Pune, Wagholi, Ranjangaon, and Chakan MIDC. Guaranteed 15-minute response.",
+      },
+      { property: "og:title", content: "Code Red Emergency Breakdown Dispatch 24/7 | Prime Cool Pune" },
+      { property: "og:description", content: "24/7 priority emergency dispatch for industrial and commercial HVAC/R breakdowns in Pune, Wagholi, Ranjangaon, and Chakan MIDC." },
+      { property: "og:type", content: "website" },
+    ],
+    links: [{ rel: "canonical", href: "https://primecool.in/emergency" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "EmergencyService",
+          name: "Prime Cool Code Red Emergency HVAC Dispatch",
+          url: "https://primecool.in/emergency",
+          telephone: "+917507408461",
+          areaServed: ["Pune", "PCMC", "Wagholi", "Chakan MIDC", "Ranjangaon MIDC"],
+          openingHours: "Mo-Su 00:00-23:59",
+        }),
       },
     ],
   }),

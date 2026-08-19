@@ -19,6 +19,13 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
+import { Route as RefrigerantsIndexRouteImport } from './routes/refrigerants/index'
+import { Route as LocationsIndexRouteImport } from './routes/locations/index'
+import { Route as IndustrialIndexRouteImport } from './routes/industrial/index'
+import { Route as GuidesIndexRouteImport } from './routes/guides/index'
+import { Route as FormulasIndexRouteImport } from './routes/formulas/index'
+import { Route as CitiesIndexRouteImport } from './routes/cities/index'
+import { Route as BrandsIndexRouteImport } from './routes/brands/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ToolsVoltageDropRouteImport } from './routes/tools/voltage-drop'
 import { Route as ToolsVacuumConvertRouteImport } from './routes/tools/vacuum-convert'
@@ -144,6 +151,41 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
 const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
   id: '/resources/',
   path: '/resources/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefrigerantsIndexRoute = RefrigerantsIndexRouteImport.update({
+  id: '/refrigerants/',
+  path: '/refrigerants/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsIndexRoute = LocationsIndexRouteImport.update({
+  id: '/locations/',
+  path: '/locations/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustrialIndexRoute = IndustrialIndexRouteImport.update({
+  id: '/industrial/',
+  path: '/industrial/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuidesIndexRoute = GuidesIndexRouteImport.update({
+  id: '/guides/',
+  path: '/guides/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FormulasIndexRoute = FormulasIndexRouteImport.update({
+  id: '/formulas/',
+  path: '/formulas/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CitiesIndexRoute = CitiesIndexRouteImport.update({
+  id: '/cities/',
+  path: '/cities/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrandsIndexRoute = BrandsIndexRouteImport.update({
+  id: '/brands/',
+  path: '/brands/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -619,6 +661,13 @@ export interface FileRoutesByFullPath {
   '/tools/vacuum-convert': typeof ToolsVacuumConvertRoute
   '/tools/voltage-drop': typeof ToolsVoltageDropRoute
   '/admin/': typeof AdminIndexRoute
+  '/brands/': typeof BrandsIndexRoute
+  '/cities/': typeof CitiesIndexRoute
+  '/formulas/': typeof FormulasIndexRoute
+  '/guides/': typeof GuidesIndexRoute
+  '/industrial/': typeof IndustrialIndexRoute
+  '/locations/': typeof LocationsIndexRoute
+  '/refrigerants/': typeof RefrigerantsIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/brands/$slug/$appliance': typeof BrandsSlugApplianceRoute
@@ -706,6 +755,13 @@ export interface FileRoutesByTo {
   '/tools/vacuum-convert': typeof ToolsVacuumConvertRoute
   '/tools/voltage-drop': typeof ToolsVoltageDropRoute
   '/admin': typeof AdminIndexRoute
+  '/brands': typeof BrandsIndexRoute
+  '/cities': typeof CitiesIndexRoute
+  '/formulas': typeof FormulasIndexRoute
+  '/guides': typeof GuidesIndexRoute
+  '/industrial': typeof IndustrialIndexRoute
+  '/locations': typeof LocationsIndexRoute
+  '/refrigerants': typeof RefrigerantsIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/services': typeof ServicesIndexRoute
   '/brands/$slug/$appliance': typeof BrandsSlugApplianceRoute
@@ -795,6 +851,13 @@ export interface FileRoutesById {
   '/tools/vacuum-convert': typeof ToolsVacuumConvertRoute
   '/tools/voltage-drop': typeof ToolsVoltageDropRoute
   '/admin/': typeof AdminIndexRoute
+  '/brands/': typeof BrandsIndexRoute
+  '/cities/': typeof CitiesIndexRoute
+  '/formulas/': typeof FormulasIndexRoute
+  '/guides/': typeof GuidesIndexRoute
+  '/industrial/': typeof IndustrialIndexRoute
+  '/locations/': typeof LocationsIndexRoute
+  '/refrigerants/': typeof RefrigerantsIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/brands/$slug/$appliance': typeof BrandsSlugApplianceRoute
@@ -885,6 +948,13 @@ export interface FileRouteTypes {
     | '/tools/vacuum-convert'
     | '/tools/voltage-drop'
     | '/admin/'
+    | '/brands/'
+    | '/cities/'
+    | '/formulas/'
+    | '/guides/'
+    | '/industrial/'
+    | '/locations/'
+    | '/refrigerants/'
     | '/resources/'
     | '/services/'
     | '/brands/$slug/$appliance'
@@ -972,6 +1042,13 @@ export interface FileRouteTypes {
     | '/tools/vacuum-convert'
     | '/tools/voltage-drop'
     | '/admin'
+    | '/brands'
+    | '/cities'
+    | '/formulas'
+    | '/guides'
+    | '/industrial'
+    | '/locations'
+    | '/refrigerants'
     | '/resources'
     | '/services'
     | '/brands/$slug/$appliance'
@@ -1060,6 +1137,13 @@ export interface FileRouteTypes {
     | '/tools/vacuum-convert'
     | '/tools/voltage-drop'
     | '/admin/'
+    | '/brands/'
+    | '/cities/'
+    | '/formulas/'
+    | '/guides/'
+    | '/industrial/'
+    | '/locations/'
+    | '/refrigerants/'
     | '/resources/'
     | '/services/'
     | '/brands/$slug/$appliance'
@@ -1140,6 +1224,13 @@ export interface RootRouteChildren {
   ToolsTonnageCalculatorRoute: typeof ToolsTonnageCalculatorRoute
   ToolsVacuumConvertRoute: typeof ToolsVacuumConvertRoute
   ToolsVoltageDropRoute: typeof ToolsVoltageDropRoute
+  BrandsIndexRoute: typeof BrandsIndexRoute
+  CitiesIndexRoute: typeof CitiesIndexRoute
+  FormulasIndexRoute: typeof FormulasIndexRoute
+  GuidesIndexRoute: typeof GuidesIndexRoute
+  IndustrialIndexRoute: typeof IndustrialIndexRoute
+  LocationsIndexRoute: typeof LocationsIndexRoute
+  RefrigerantsIndexRoute: typeof RefrigerantsIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
   BrandsCompareComparisonSlugRoute: typeof BrandsCompareComparisonSlugRoute
@@ -1217,6 +1308,55 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources/'
       preLoaderRoute: typeof ResourcesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refrigerants/': {
+      id: '/refrigerants/'
+      path: '/refrigerants'
+      fullPath: '/refrigerants/'
+      preLoaderRoute: typeof RefrigerantsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations/': {
+      id: '/locations/'
+      path: '/locations'
+      fullPath: '/locations/'
+      preLoaderRoute: typeof LocationsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industrial/': {
+      id: '/industrial/'
+      path: '/industrial'
+      fullPath: '/industrial/'
+      preLoaderRoute: typeof IndustrialIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/': {
+      id: '/guides/'
+      path: '/guides'
+      fullPath: '/guides/'
+      preLoaderRoute: typeof GuidesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/formulas/': {
+      id: '/formulas/'
+      path: '/formulas'
+      fullPath: '/formulas/'
+      preLoaderRoute: typeof FormulasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cities/': {
+      id: '/cities/'
+      path: '/cities'
+      fullPath: '/cities/'
+      preLoaderRoute: typeof CitiesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/brands/': {
+      id: '/brands/'
+      path: '/brands'
+      fullPath: '/brands/'
+      preLoaderRoute: typeof BrandsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -1864,6 +2004,13 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsTonnageCalculatorRoute: ToolsTonnageCalculatorRoute,
   ToolsVacuumConvertRoute: ToolsVacuumConvertRoute,
   ToolsVoltageDropRoute: ToolsVoltageDropRoute,
+  BrandsIndexRoute: BrandsIndexRoute,
+  CitiesIndexRoute: CitiesIndexRoute,
+  FormulasIndexRoute: FormulasIndexRoute,
+  GuidesIndexRoute: GuidesIndexRoute,
+  IndustrialIndexRoute: IndustrialIndexRoute,
+  LocationsIndexRoute: LocationsIndexRoute,
+  RefrigerantsIndexRoute: RefrigerantsIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
   BrandsCompareComparisonSlugRoute: BrandsCompareComparisonSlugRoute,

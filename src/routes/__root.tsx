@@ -80,11 +80,16 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   loader: async () => {
-    const { settings } = await getCmsSettings();
-    return { cms: settings };
+    try {
+      const resp = await getCmsSettings();
+      return { cms: resp?.settings || {} };
+    } catch (e) {
+      console.error("Failed to load CMS settings in root loader:", e);
+      return { cms: {} };
+    }
   },
   head: ({ loaderData }) => {
-    const faviconUrl = (loaderData as any)?.cms?.theme?.favicon || logo;
+    const faviconUrl = (loaderData as any)?.cms?.theme?.favicon || "https://primecool.in/logo.png";
     return {
       meta: [
         { charSet: "utf-8" },
@@ -104,10 +109,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             "From split ACs to factory cooling towers — precision engineering, zero-downtime maintenance, and rapid service along the Wagholi–Shirur corridor.",
         },
         { property: "og:type", content: "website" },
+        { property: "og:image", content: "https://primecool.in/logo.png" },
+        { property: "og:image:width", content: "512" },
+        { property: "og:image:height", content: "512" },
+        { property: "og:image:type", content: "image/png" },
         { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:image", content: "https://primecool.in/logo.png" },
       ],
       links: [
-        { rel: "icon", type: "image/png", href: faviconUrl },
+        { rel: "icon", type: "image/x-icon", href: "https://primecool.in/favicon.ico" },
+        { rel: "icon", type: "image/png", sizes: "32x32", href: "https://primecool.in/favicon.png" },
+        { rel: "icon", type: "image/png", sizes: "192x192", href: "https://primecool.in/logo.png" },
+        { rel: "apple-touch-icon", sizes: "180x180", href: "https://primecool.in/apple-touch-icon.png" },
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
         { rel: "stylesheet", href: appCss },
         {
           rel: "stylesheet",
@@ -199,48 +214,91 @@ function RootComponent() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            name: "Prime Cool",
-            image: cms?.theme?.logo || "https://primecool.in/assets/logo.webp",
-            "@id": "https://primecool.in/#localbusiness",
-            url: "https://primecool.in",
-            telephone: cms?.socials?.phone || "+917507408461",
-            email: cms?.socials?.email || "support@primecool.in",
-            priceRange: "$$",
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: "Wagholi-Shirur Corridor",
-              addressLocality: "Pune",
-              addressRegion: "Maharashtra",
-              postalCode: "412207",
-              addressCountry: "IN",
-            },
-            geo: {
-              "@type": "GeoCoordinates",
-              latitude: 18.5793,
-              longitude: 73.985,
-            },
-            openingHoursSpecification: {
-              "@type": "OpeningHoursSpecification",
-              dayOfWeek: [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday",
-              ],
-              opens: "00:00",
-              closes: "23:59",
-            },
-            sameAs: [
-              cms?.socials?.facebook,
-              cms?.socials?.instagram,
-              cms?.socials?.linkedin,
-              cms?.socials?.youtube,
-              cms?.socials?.twitter,
-            ].filter(Boolean),
+            "@graph": [
+              {
+                "@type": "Organization",
+                "@id": "https://primecool.in/#organization",
+                name: "Prime Cool",
+                url: "https://primecool.in",
+                logo: {
+                  "@type": "ImageObject",
+                  "@id": "https://primecool.in/#logo",
+                  url: cms?.theme?.logo || "https://primecool.in/logo.png",
+                  contentUrl: cms?.theme?.logo || "https://primecool.in/logo.png",
+                  caption: "Prime Cool Mechanical & Climate Solutions Logo",
+                  width: 512,
+                  height: 512
+                },
+                image: cms?.theme?.logo || "https://primecool.in/logo.png",
+                telephone: cms?.socials?.phone || "+917507408461",
+                sameAs: [
+                  cms?.socials?.facebook,
+                  cms?.socials?.instagram,
+                  cms?.socials?.linkedin,
+                  cms?.socials?.youtube,
+                  cms?.socials?.twitter,
+                ].filter(Boolean),
+              },
+              {
+                "@type": "LocalBusiness",
+                "@id": "https://primecool.in/#localbusiness",
+                name: "Prime Cool",
+                url: "https://primecool.in",
+                logo: cms?.theme?.logo || "https://primecool.in/logo.png",
+                image: cms?.theme?.logo || "https://primecool.in/logo.png",
+                telephone: cms?.socials?.phone || "+917507408461",
+                description: "Rapid-response HVAC, air conditioning repair, refrigeration, and industrial cooling solutions in Pune.",
+                priceRange: "$$",
+                areaServed: [
+                  "Wagholi",
+                  "Shirur",
+                  "Hadapsar",
+                  "Kharadi",
+                  "Chakan MIDC",
+                  "Ranjangaon MIDC",
+                  "Karegaon",
+                  "Shikrapur",
+                  "Lonikand",
+                  "Koregaon Bhima",
+                  "Pune",
+                  "Maharashtra",
+                ],
+                address: {
+                  "@type": "PostalAddress",
+                  streetAddress: "Wagholi-Shirur Corridor",
+                  addressLocality: "Pune",
+                  addressRegion: "Maharashtra",
+                  postalCode: "412207",
+                  addressCountry: "IN",
+                },
+                geo: {
+                  "@type": "GeoCoordinates",
+                  latitude: 18.5793,
+                  longitude: 73.985,
+                },
+                openingHoursSpecification: {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday",
+                  ],
+                  opens: "00:00",
+                  closes: "23:59",
+                },
+                sameAs: [
+                  cms?.socials?.facebook,
+                  cms?.socials?.instagram,
+                  cms?.socials?.linkedin,
+                  cms?.socials?.youtube,
+                  cms?.socials?.twitter,
+                ].filter(Boolean),
+              }
+            ]
           }),
         }}
       />

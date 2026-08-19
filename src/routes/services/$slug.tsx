@@ -19,9 +19,33 @@ import { useState } from "react";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: async ({ params }) => {
-    const service = servicesData[params.slug];
+    let service = servicesData[params.slug];
     if (!service) {
-      throw new Error(`Service "${params.slug}" not found`);
+      const formattedTitle = params.slug
+        .split("-")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+      service = {
+        title: formattedTitle,
+        slug: params.slug.toLowerCase(),
+        tagline: `Professional ${formattedTitle} services by Prime Cool in Pune & Maharashtra.`,
+        category: "HVAC & Mechanical Services",
+        overview: `Prime Cool provides expert ${formattedTitle} for residential, commercial, and industrial facilities. Our certified engineers deliver rapid-response servicing with genuine spare parts and zero-downtime maintenance.`,
+        features: [
+          "Rapid On-Site Response under 60 minutes",
+          "100% OEM Spare Parts Guarantee",
+          "Certified HVAC & Refrigeration Technicians",
+          "Transparent Standardized Pricing",
+        ],
+        faqs: [
+          {
+            q: `How quickly can you dispatch a technician for ${formattedTitle}?`,
+            a: `We provide rapid emergency dispatch within 45 to 60 minutes across Pune, Wagholi, Hadapsar, Kharadi, Chakan, and Ranjangaon MIDC.`,
+          },
+        ],
+        seoTitle: `${formattedTitle} Services in Pune — Prime Cool`,
+        seoDesc: `Expert ${formattedTitle} by Prime Cool. Rapid response, genuine spare parts, and certified technician dispatch across Pune.`,
+      };
     }
     const { settings } = await getCmsSettings();
     return { service, cms: settings };
@@ -58,56 +82,76 @@ function ServiceDetailsPage() {
   const phone = socials.phone || "+917507408461";
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
+  const faqSchema = service.faqs?.length
+    ? {
+        "@type": "FAQPage",
+        mainEntity: service.faqs.map((f: any) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: f.a,
+          },
+        })),
+      }
+    : null;
+
+  const breadcrumbSchema = {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://primecool.in",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Services",
+        item: "https://primecool.in/services",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: service.title,
+        item: `https://primecool.in/services/${service.slug}`,
+      },
+    ],
+  };
+
+  const serviceSchema = {
+    "@type": "Service",
+    name: service.title,
+    serviceType: service.category || "HVAC Maintenance",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Prime Cool",
+      url: "https://primecool.in",
+      telephone: phone,
+      logo: "https://primecool.in/logo.png",
+    },
+    areaServed: ["Wagholi", "Shirur", "Hadapsar", "Kharadi", "Chakan MIDC", "Ranjangaon MIDC", "Pune"],
+    description: service.seoDesc || service.tagline,
+  };
+
   return (
     <div className="min-h-screen text-foreground flex flex-col justify-between bg-slate-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [breadcrumbSchema, serviceSchema, faqSchema].filter(Boolean),
+          }),
+        }}
+      />
       {/* Background radial gradients */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--primary)_8%,transparent),transparent_60%)] pointer-events-none" />
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_bottom_left,color-mix(in_oklab,var(--electric)_5%,transparent),transparent_50%)] pointer-events-none" />
 
-      {/* Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-slate-950/60 border-b border-border/80">
-        <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <img src={logo} alt="Prime Cool logo" className="h-9 w-9" />
-            <span className="font-display font-bold text-lg tracking-tight">
-              Prime <span className="text-gradient">Cool</span>
-            </span>
-          </Link>
-          <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-foreground transition">
-              Home
-            </Link>
-            <Link to="/portfolio" className="hover:text-foreground transition">
-              Projects
-            </Link>
-            <Link to="/blogs" className="hover:text-foreground transition">
-              Blogs
-            </Link>
-            <Link to="/resources" className="hover:text-foreground transition">
-              Resource Hub
-            </Link>
-          </nav>
-          <div className="flex items-center gap-3">
-            <a
-              href={`tel:${phone.replace(/\s+/g, "")}`}
-              className="inline-flex items-center gap-2 rounded-full border border-border p-2 sm:px-3 sm:py-1.5 text-xs font-medium hover:bg-card transition bg-slate-900/60"
-            >
-              <Phone className="h-4 w-4 text-primary" />
-              <span className="hidden sm:inline">{phone}</span>
-            </a>
-            <Link
-              to="/"
-              className="text-sm font-medium hover:text-primary transition flex items-center gap-1"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span>Back</span>
-            </Link>
-          </div>
-        </div>
-      </header>
-
       {/* Main Container */}
-      <main className="flex-1 pt-24 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10">
+      <main className="flex-1 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10">
         {/* Breadcrumb */}
         <div className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-6 flex items-center gap-2">
           <Link to="/" className="hover:text-primary transition">
@@ -248,24 +292,6 @@ function ServiceDetailsPage() {
           </div>
         )}
       </main>
-
-      {/* Footer */}
-      <footer className="border-t border-border/80 py-8 text-center text-xs text-muted-foreground bg-slate-950/80 z-10 relative">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div>© {new Date().getFullYear()} Prime Cool — Mechanical Climate Solutions</div>
-          <div className="flex gap-4">
-            <Link to="/" className="hover:text-primary transition">
-              Home
-            </Link>
-            <Link to="/resources" className="hover:text-primary transition">
-              Resources
-            </Link>
-            <Link to="/booking" className="hover:text-primary transition">
-              Book Support
-            </Link>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -76,50 +76,8 @@ function BrandDetailsPage() {
       {/* Background gradients */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--electric)_8%,transparent),transparent_60%)] pointer-events-none" />
 
-      {/* Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-slate-950/60 border-b border-border/80">
-        <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <img src={logo} alt="Prime Cool logo" className="h-9 w-9" />
-            <span className="font-display font-bold text-lg tracking-tight">
-              Prime <span className="text-gradient">Cool</span>
-            </span>
-          </Link>
-          <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-foreground transition">
-              Home
-            </Link>
-            <Link to="/portfolio" className="hover:text-foreground transition">
-              Projects
-            </Link>
-            <Link to="/blogs" className="hover:text-foreground transition">
-              Blogs
-            </Link>
-            <Link to="/resources" className="hover:text-foreground transition">
-              Resource Hub
-            </Link>
-          </nav>
-          <div className="flex items-center gap-3">
-            <a
-              href={`tel:${phone.replace(/\s+/g, "")}`}
-              className="inline-flex items-center gap-2 rounded-full border border-border p-2 sm:px-3 sm:py-1.5 text-xs font-medium hover:bg-card transition bg-slate-900/60"
-            >
-              <Phone className="h-4 w-4 text-primary" />
-              <span className="hidden sm:inline">{phone}</span>
-            </a>
-            <Link
-              to="/resources"
-              className="text-sm font-medium hover:text-primary transition flex items-center gap-1"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span>Back</span>
-            </Link>
-          </div>
-        </div>
-      </header>
-
       {/* Main Container */}
-      <main className="flex-1 pt-24 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10">
+      <main className="flex-1 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10">
         {/* Breadcrumb */}
         <div className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-6">
           <Link to="/" className="hover:text-primary transition">
@@ -332,24 +290,6 @@ function BrandDetailsPage() {
           </div>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="border-t border-border/80 py-8 text-center text-xs text-muted-foreground bg-slate-950/80 z-10 relative">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div>© {new Date().getFullYear()} Prime Cool — Mechanical Climate Solutions</div>
-          <div className="flex gap-4">
-            <Link to="/" className="hover:text-primary transition">
-              Home
-            </Link>
-            <Link to="/resources" className="hover:text-primary transition">
-              Resources
-            </Link>
-            <Link to="/booking" className="hover:text-primary transition">
-              Book Support
-            </Link>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

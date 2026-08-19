@@ -3,6 +3,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import mysql from "mysql2/promise";
 import { fileURLToPath } from "node:url";
+import seededBlogs from "./blogs-data.json";
 
 export interface Booking {
   id: string;
@@ -440,59 +441,7 @@ function getInitialData(): DbSchema {
         createdAt: new Date(Date.now() - 5 * 86400000).toISOString(),
       },
     ],
-    blogs: [
-      {
-        id: "blog-1",
-        title: "Daikin vs Hitachi AC: Which is Better for Indian Summers?",
-        slug: "daikin-vs-hitachi-ac-which-is-better-for-indian-summers-2025-guide",
-        content: `Choosing between Daikin and Hitachi split ACs is one of the most common dilemmas for Indian homeowners. Both brands represent premium engineering, but they serve slightly different operational requirements.
-
-### 1. Cooling Performance
-Daikin ACs are known for their rapid cooling technology (Power Chill mode) and robust performance in extreme ambient temperatures (up to 54°C). Hitachi uses a unique Expandable Inverter technology that adjusts compressor speed based on indoor heat load, making it exceptionally good at humidity control.
-
-### 2. Energy Efficiency
-Both brands offer high ISEER ratings (typically between 5.0 and 5.4 for 5-star models). Daikin inverter units are slightly more optimized for continuous, low-load running, while Hitachi performs better in heavy heat load variations.
-
-### 3. Reliability and Maintenance
-- **Daikin**: Uses high-quality copper tubes and anti-corrosion fins. Spares are easily available along major urban corridors.
-- **Hitachi**: Features robust build quality but complex PCB boards. Servicing requires certified diagnostic tools.
-
-At Prime Cool, we service and install both brands along the Wagholi–Shirur route. For high-humidity zones like Pune east, Hitachi is highly recommended, whereas for raw cooling speed, Daikin leads.`,
-        summary:
-          "An engineering comparison between Daikin and Hitachi split AC systems, looking at cooling curves, compressor tech, and maintenance overheads in India.",
-        image: "/uploads/blogs/daikin-vs-hitachi.jpg",
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "blog-2",
-        title: "Top 5 Reasons Your Refrigerator is Not Cooling (and How to Fix It)",
-        slug: "top-5-reasons-your-refrigerator-is-not-cooling-and-how-to-fix-it",
-        content: `A refrigerator that has stopped cooling can lead to food spoilage. Before calling in an engineer, check these common fault points:
-
-### 1. Degraded Condenser Coils
-Coils located at the back or bottom of the fridge dissipate heat. If they are covered in dust or grime, heat exchange drops, causing the compressor to overheat and short-cycle. 
-*Fix*: Turn off power and vacuum clean the coils.
-
-### 2. Defective Start Capacitor
-The compressor relies on a run/start capacitor to kickstart. If this component fails, you will hear a clicking sound every few minutes, but the compressor will not hum or start.
-*Fix*: Needs replacement using a calibrated spare of identical rating.
-
-### 3. Faulty Defrost Timer / Thermostat
-If frost builds up on the evaporator coils behind the freezer panel, airflow to the fresh food compartment will block. This is usually caused by a failed defrost heater, bimetal thermostat, or timer.
-
-### 4. Poor Door Gasket Seal
-If the magnetic rubber gasket is torn or warped, warm humid air continuously leaks in, causing ice buildup and preventing the interior from reaching the set temperature.
-
-### 5. Low Refrigerant Charge
-A gas leak in the capillary or evaporator coil will cause the compressor to run continuously without cooling. This requires locating the leak, sealing it, vacuuming the system, and recharging R-134a or R-600a.
-
-If you are located between Wagholi and Shirur, Prime Cool technicians carry replacement capacitors, gaskets, and gas-charging kits for rapid same-day response.`,
-        summary:
-          "A practical troubleshooting checklist for homeowners to diagnose refrigerator cooling issues, from dusty coils to capacitor failure.",
-        image: "/uploads/blogs/fridge-not-cooling.jpg",
-        createdAt: new Date(Date.now() - 3 * 86400000).toISOString(),
-      },
-    ],
+    blogs: seededBlogs as any[],
     notifications: [
       {
         id: "n1",
@@ -652,13 +601,18 @@ If you are located between Wagholi and Shirur, Prime Cool technicians carry repl
 
 let sqlPool: mysql.Pool | null = null;
 let isMySQLActive = false;
-let hasAttemptedConnection = false;
+let lastConnectionAttempt = 0;
+const CONNECTION_RETRY_INTERVAL = 15000; // 15s retry cooldown
 
 export async function getMySQLPool(): Promise<mysql.Pool | null> {
-  if (sqlPool) return sqlPool;
-  if (hasAttemptedConnection) return null;
+  if (sqlPool && isMySQLActive) return sqlPool;
 
-  hasAttemptedConnection = true;
+  const now = Date.now();
+  if (now - lastConnectionAttempt < CONNECTION_RETRY_INTERVAL) {
+    return null;
+  }
+  lastConnectionAttempt = now;
+
   try {
     const envPath = path.resolve(getAppRoot(), ".env");
     const envContent = await fs.readFile(envPath, "utf-8");
@@ -717,6 +671,11 @@ export async function getMySQLPool(): Promise<mysql.Pool | null> {
     } catch (err) {
       console.error("MySQL Connection Error, using local JSON fallback:", err);
       isMySQLActive = false;
+      if (sqlPool) {
+        try {
+          await sqlPool.end();
+        } catch (_) {}
+      }
       sqlPool = null;
     }
   }
@@ -1079,10 +1038,18 @@ async function initializeMySQLTables(p: mysql.Pool) {
 
 // ---------------- JSON Local Fallback Helpers ----------------
 
+let cachedDbSchema: DbSchema | null = null;
+let lastDbMtime: number = 0;
+
 export async function readDb(): Promise<DbSchema> {
   try {
     await fs.mkdir(DB_DIR, { recursive: true });
     try {
+      const stats = await fs.stat(DB_FILE);
+      if (cachedDbSchema && stats.mtimeMs === lastDbMtime) {
+        return cachedDbSchema;
+      }
+
       const dataStr = await fs.readFile(DB_FILE, "utf-8");
       const db = JSON.parse(dataStr) as DbSchema;
       const initial = getInitialData();
@@ -1131,12 +1098,21 @@ export async function readDb(): Promise<DbSchema> {
 
       if (updated) {
         await fs.writeFile(DB_FILE, JSON.stringify(db, null, 2), "utf-8");
+        const newStats = await fs.stat(DB_FILE);
+        lastDbMtime = newStats.mtimeMs;
+      } else {
+        lastDbMtime = stats.mtimeMs;
       }
+
+      cachedDbSchema = db;
       return db;
     } catch (e: any) {
       if (e.code === "ENOENT") {
         const initial = getInitialData();
         await fs.writeFile(DB_FILE, JSON.stringify(initial, null, 2), "utf-8");
+        const stats = await fs.stat(DB_FILE);
+        lastDbMtime = stats.mtimeMs;
+        cachedDbSchema = initial;
         return initial;
       }
       throw e;
@@ -1151,6 +1127,11 @@ export async function writeDb(data: DbSchema): Promise<void> {
   await writeQueue.enqueue(async () => {
     await fs.mkdir(DB_DIR, { recursive: true });
     await fs.writeFile(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+    try {
+      const stats = await fs.stat(DB_FILE);
+      lastDbMtime = stats.mtimeMs;
+    } catch (_) {}
+    cachedDbSchema = data;
   });
 }
 

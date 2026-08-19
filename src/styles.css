@@ -3,6 +3,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Performance & Fast Rendering Acceleration */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 350px;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -597,3 +608,35 @@
     border-radius: inherit;
   }
 }
+
+/* ── Mobile Responsive Safeguards/* Mobile Menu Slide Animation */
+@keyframes slideDownDrawer {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down-drawer {
+  animation: slideDownDrawer 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@utility mobile-scroll-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+  scrollbar-width: thin;
+}
+
+@utility touch-friendly-tap {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+

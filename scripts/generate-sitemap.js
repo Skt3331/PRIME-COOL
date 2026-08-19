@@ -80,6 +80,18 @@ async function getBlogs() {
     }
   }
 
+  // Fallback to blogs-data.json
+  const blogsDataPath = path.resolve(__dirname, "../src/lib/blogs-data.json");
+  if (fs.existsSync(blogsDataPath)) {
+    try {
+      const blogsJson = JSON.parse(fs.readFileSync(blogsDataPath, "utf8"));
+      console.log(`Loaded ${blogsJson.length} blogs from blogs-data.json for sitemap.`);
+      return blogsJson;
+    } catch (err) {
+      console.error("Failed to parse blogs-data.json:", err.message);
+    }
+  }
+
   // Fallback to database.sql
   const sqlPath = path.resolve(__dirname, "../database.sql");
   if (fs.existsSync(sqlPath)) {
@@ -167,6 +179,57 @@ async function getDbLocations() {
     }
   }
   return [];
+}
+
+async function getDbServices() {
+  const host = process.env.DB_HOST;
+  const user = process.env.DB_USER;
+  const password = process.env.DB_PASSWORD;
+  const database = process.env.DB_DATABASE;
+  const port = process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306;
+
+  if (host && user && database) {
+    try {
+      const mysql = await import("mysql2/promise");
+      const connection = await mysql.createConnection({
+        host,
+        port,
+        user,
+        password,
+        database,
+      });
+      const [rows] = await connection.query("SELECT slug FROM services");
+      await connection.end();
+      console.log(`Successfully fetched ${rows.length} services from MySQL database for sitemap.`);
+      return rows.map(r => r.slug);
+    } catch (err) {
+      console.error("Failed to fetch services from MySQL for sitemap, falling back to db.json:", err.message);
+    }
+  }
+
+  const dbPath = path.resolve(__dirname, "../data/db.json");
+  if (fs.existsSync(dbPath)) {
+    try {
+      const dbStr = fs.readFileSync(dbPath, "utf8");
+      const db = JSON.parse(dbStr);
+      if (db.services && Array.isArray(db.services)) {
+        console.log(`Successfully read ${db.services.length} services from db.json for sitemap.`);
+        return db.services.map(s => s.slug);
+      }
+    } catch (e) {
+      console.error("Failed to parse db.json for sitemap services:", e);
+    }
+  }
+  return [];
+}
+
+function escapeXml(unsafe) {
+  return String(unsafe)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 }
 
 async function generateSitemap() {
@@ -287,7 +350,7 @@ async function generateSitemap() {
 
   const REFRIGERANTS = ["r134a", "r410a", "r32", "r404a", "r407c", "r22", "r290"];
 
-  const SERVICES = [
+  const defaultServices = [
     "split-ac-repair",
     "window-ac-repair",
     "inverter-ac-repair",
@@ -338,6 +401,9 @@ async function generateSitemap() {
     "cnc-machine-cooling",
     "air-compressors",
   ];
+
+  const dbServices = await getDbServices();
+  const SERVICES = Array.from(new Set([...dbServices, ...defaultServices]));
 
   // 1. Locations SEO URLs
   for (const loc of LOCATIONS) {
@@ -524,7 +590,7 @@ async function generateSitemap() {
     }
   }
 
-  const URLS_PER_SITEMAP = 45000;
+  const URLS_PER_SITEMAP = 5000;
   const sitemapFiles = [];
   const outputDir = path.dirname(OUTPUT_FILE);
   if (!fs.existsSync(outputDir)) {
@@ -555,7 +621,7 @@ async function generateSitemap() {
       xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
       for (const url of chunk) {
         xml += "  <url>\n";
-        xml += `    <loc>${url.loc}</loc>\n`;
+        xml += `    <loc>${escapeXml(url.loc)}</loc>\n`;
         xml += `    <lastmod>${url.lastmod}</lastmod>\n`;
         xml += `    <changefreq>${url.changefreq}</changefreq>\n`;
         xml += `    <priority>${url.priority}</priority>\n`;

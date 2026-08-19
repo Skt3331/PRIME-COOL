@@ -18,19 +18,30 @@ import {
 
 export const Route = createFileRoute("/calculators")({
   loader: async () => {
-    const { settings } = await getCmsSettings();
-    return { cms: settings };
+    try {
+      const resp = await getCmsSettings().catch(() => ({ settings: {} }));
+      return { cms: resp?.settings || {} };
+    } catch (e) {
+      console.error("Failed to load CMS settings for calculators:", e);
+      return { cms: {} };
+    }
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.calculators;
-    if (!seo) return { meta: [] };
+    const title = seo?.title || "22+ HVAC & Refrigeration Engineering Calculators Hub | Prime Cool";
+    const description =
+      seo?.description ||
+      "Interactive engineering calculation tools for AC tonnage, BTU heat load, refrigerant PT pressure-temperature charts, superheat, subcooling, and electricity consumption.";
+
     return {
       meta: [
-        { title: seo.title },
-        { name: "description", content: seo.description },
-        { property: "og:title", content: seo.ogTitle },
-        { property: "og:description", content: seo.ogDescription },
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
       ],
+      links: [{ rel: "canonical", href: "https://primecool.in/calculators" }],
     };
   },
   component: CalculatorsPage,

@@ -36,14 +36,19 @@ export const Route = createFileRoute("/resources/")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.resources;
-    if (!seo) return { meta: [] };
+    const title = seo?.title || "Resources Dashboard & HVAC Technical Library | Prime Cool Pune";
+    const description =
+      seo?.description ||
+      "Explore Prime Cool's complete directory of engineering calculators, field troubleshooting guides, OEM brand comparisons, PT pressure-temperature charts, and location hubs.";
     return {
       meta: [
-        { title: seo.title },
-        { name: "description", content: seo.description },
-        { property: "og:title", content: seo.ogTitle },
-        { property: "og:description", content: seo.ogDescription },
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
       ],
+      links: [{ rel: "canonical", href: "https://primecool.in/resources" }],
     };
   },
   component: ResourcesDashboard,
@@ -51,6 +56,7 @@ export const Route = createFileRoute("/resources/")({
 
 function ResourcesDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategoryTab, setActiveCategoryTab] = useState("All");
   const [blogs, setBlogs] = useState<any[]>([]);
 
   useEffect(() => {
@@ -105,18 +111,6 @@ function ResourcesDashboard() {
       })),
     },
     {
-      name: "Services by Location",
-      icon: MapPin,
-      desc: "Specific service offerings available in each local hub.",
-      items: SERVICES.flatMap((s) =>
-        LOCATIONS.map((l) => ({
-          name: `${formatName(s)} in ${formatName(l)}`,
-          path: `/services/${s}/${l}`,
-          desc: `Local service for ${formatName(s)}`,
-        })),
-      ),
-    },
-    {
       name: "Brands Supported",
       icon: Award,
       desc: "OEM-specific resources, manuals, and service details.",
@@ -125,18 +119,6 @@ function ResourcesDashboard() {
         path: `/brands/${b}`,
         desc: `Support for ${formatName(b)}`,
       })),
-    },
-    {
-      name: "Brand Appliances",
-      icon: BookOpen,
-      desc: "Specific appliance repair pages for each brand.",
-      items: BRANDS.flatMap((b) =>
-        APPLIANCES.map((a) => ({
-          name: `${formatName(b)} ${a.toUpperCase()}`,
-          path: `/brands/${b}/${a}`,
-          desc: `Service for ${formatName(b)} ${a.toUpperCase()}`,
-        })),
-      ),
     },
     {
       name: "Brand Comparisons",
@@ -173,116 +155,21 @@ function ResourcesDashboard() {
       icon: Calculator,
       desc: "Interactive sizing and unit converters for refrigeration loop diagnostics.",
       items: [
-        {
-          name: "BTU Load",
-          path: "/tools/btu-calculator",
-          desc: "Room dimensions to BTU cooling load.",
-        },
-        {
-          name: "AC Tonnage",
-          path: "/tools/tonnage-calculator",
-          desc: "Estimate AC tonnage from sq ft.",
-        },
-        {
-          name: "Refrigerant PT",
-          path: "/tools/pt-calculator",
-          desc: "Pressure to saturation temp lookup.",
-        },
-        {
-          name: "Superheat",
-          path: "/tools/superheat-calculator",
-          desc: "TXV and fixed-orifice diagnostic calculations.",
-        },
-        {
-          name: "Subcooling",
-          path: "/tools/subcooling-calculator",
-          desc: "Condenser liquid subcooling checks.",
-        },
-        {
-          name: "Airflow (CFM)",
-          path: "/tools/cfm-calculator",
-          desc: "CFM volume from tonnage and delta T.",
-        },
-        {
-          name: "Duct Size",
-          path: "/tools/duct-calculator",
-          desc: "Equal friction method duct diameter.",
-        },
-        {
-          name: "Pipe Sizing",
-          path: "/tools/pipe-sizing",
-          desc: "Liquid and suction copper line sizing.",
-        },
-        {
-          name: "Cooling Load",
-          path: "/tools/cooling-load",
-          desc: "Structural heat gain calculations.",
-        },
-        {
-          name: "Energy Consumption",
-          path: "/tools/energy-calculator",
-          desc: "Monthly electrical bills and carbon footprint.",
-        },
-        {
-          name: "Vacuum Converter",
-          path: "/tools/vacuum-convert",
-          desc: "Microns to Torr, Pascal, and mbar.",
-        },
-        {
-          name: "Psychrometric",
-          path: "/tools/psychrometric",
-          desc: "Dew point, wet bulb, and humidity ratio.",
-        },
-        {
-          name: "COP & EER",
-          path: "/tools/cop-eer",
-          desc: "Coefficient of performance conversions.",
-        },
-        {
-          name: "Compressor Capacity",
-          path: "/tools/compressor-capacity",
-          desc: "CC displacement to BTU cooling power.",
-        },
-        {
-          name: "Refrigerant Charge",
-          path: "/tools/charge-calculator",
-          desc: "Additional refrigerant charge for extra lines.",
-        },
-        {
-          name: "Temp Converter",
-          path: "/tools/temp-convert",
-          desc: "Convert Celsius, Fahrenheit, and Kelvin.",
-        },
-        {
-          name: "Pressure-Temp Converter",
-          path: "/tools/pressure-temp",
-          desc: "Convert PSI, Bar, and kPa units.",
-        },
-        {
-          name: "Cooling Tower Approach",
-          path: "/tools/cooling-tower-approach",
-          desc: "Calculate effectiveness and approach temp.",
-        },
-        {
-          name: "SEER to EER & COP",
-          path: "/tools/seer-eer-cop",
-          desc: "Convert SEER rating and calculate running costs.",
-        },
-        {
-          name: "Air Velocity",
-          path: "/tools/air-velocity",
-          desc: "Calculate air speed FPM from CFM and duct size.",
-        },
-        {
-          name: "Monthly Power Bill",
-          path: "/tools/electricity-cost",
-          desc: "Estimate monthly running costs & CO₂ print.",
-        },
-        {
-          name: "Voltage Drop Sizer",
-          path: "/tools/voltage-drop",
-          desc: "Calculate voltage drop over long electrical cable runs.",
-        },
+        { name: "BTU Load", path: "/tools/btu-calculator", desc: "Room dimensions to BTU cooling load." },
+        { name: "AC Tonnage", path: "/tools/tonnage-calculator", desc: "Estimate AC tonnage from sq ft." },
+        { name: "Refrigerant PT", path: "/tools/pt-calculator", desc: "Pressure to saturation temp lookup." },
+        { name: "Superheat", path: "/tools/superheat-calculator", desc: "TXV and fixed-orifice diagnostic calculations." },
+        { name: "Subcooling", path: "/tools/subcooling-calculator", desc: "Condenser liquid subcooling checks." },
+        { name: "Airflow (CFM)", path: "/tools/cfm-calculator", desc: "CFM volume from tonnage and delta T." },
+        { name: "Duct Size", path: "/tools/duct-calculator", desc: "Equal friction method duct diameter." },
+        { name: "Pipe Sizing", path: "/tools/pipe-sizing", desc: "Liquid and suction copper line sizing." },
+        { name: "Cooling Load", path: "/tools/cooling-load", desc: "Structural heat gain calculations." },
+        { name: "Energy Consumption", path: "/tools/energy-calculator", desc: "Monthly electrical bills and carbon footprint." },
+        { name: "Vacuum Converter", path: "/tools/vacuum-convert", desc: "Microns to Torr, Pascal, and mbar." },
+        { name: "Psychrometric", path: "/tools/psychrometric", desc: "Dew point, wet bulb, and humidity ratio." },
+        { name: "COP & EER", path: "/tools/cop-eer", desc: "Coefficient of performance conversions." },
+        { name: "Monthly Power Bill", path: "/tools/electricity-cost", desc: "Estimate monthly running costs & CO₂ print." },
+        { name: "Voltage Drop Sizer", path: "/tools/voltage-drop", desc: "Calculate voltage drop over long electrical cable runs." },
       ],
     },
     {
@@ -290,128 +177,18 @@ function ResourcesDashboard() {
       icon: BookOpen,
       desc: "Step-by-step diagnostic articles to debug complex AC and chiller faults.",
       items: [
-        {
-          name: "AC Not Cooling",
-          path: "/guides/ac-not-cooling",
-          desc: "15 common causes for no cooling.",
-        },
-        {
-          name: "Low Suction Pressure",
-          path: "/guides/low-suction",
-          desc: "Low side pressure drops diagnostics.",
-        },
-        {
-          name: "High Head Pressure",
-          path: "/guides/high-head",
-          desc: "Condenser heat dissipation faults.",
-        },
-        {
-          name: "Compressor Short Cycling",
-          path: "/guides/short-cycling",
-          desc: "Why compressors turn off rapidly.",
-        },
-        {
-          name: "Evaporator Freezing",
-          path: "/guides/coil-freezing",
-          desc: "Preventing liquid washback and ice blocks.",
-        },
-        {
-          name: "Walk-In Cooler Warm",
-          path: "/guides/walk-in-warm",
-          desc: "Troubleshooting warm commercial coolers.",
-        },
-        {
-          name: "Refrigerant Leak",
-          path: "/guides/leak-symptoms",
-          desc: "Spotting bubbles and oil spots on piping.",
-        },
-        {
-          name: "Check Superheat",
-          path: "/guides/how-to-superheat",
-          desc: "How to place sensors and gauge lines.",
-        },
-        {
-          name: "Measure Subcooling",
-          path: "/guides/how-to-subcooling",
-          desc: "Step-by-step charging diagnostic guides.",
-        },
-        {
-          name: "Refrigerator Error Codes",
-          path: "/guides/refrigerator-error-codes",
-          desc: "Diagnostic tables for Haier, Bosch, Godrej.",
-        },
-        {
-          name: "AC Gas Charging Guide",
-          path: "/guides/ac-gas-charging",
-          desc: "Dynamic pressure targets for R32, R410A, R22.",
-        },
-        {
-          name: "Carrier vs. Hitachi & Daikin ACs",
-          path: "/guides/brand-comparisons",
-          desc: "Which brand is better for summers?",
-        },
-        {
-          name: "Haier/Bosch/Godrej Troubleshooting",
-          path: "/guides/refrigerator-not-cooling",
-          desc: "Fridges not cooling troubleshooting guide.",
-        },
-        {
-          name: "CFM, Line Sizing & Tower Approach",
-          path: "/guides/hvac-design-guide",
-          desc: "HVAC piping and tower design parameters.",
-        },
-        {
-          name: "R32/R404A/R407C Pressure Charts",
-          path: "/guides/refrigerant-pressures-chart",
-          desc: "Vacuum conversion, SEER/COP & pressures.",
-        },
-        {
-          name: "AC Leaks & Gas Charging steps",
-          path: "/guides/ac-leaks-gas-charging",
-          desc: "Diagnosing water leaks & charging.",
-        },
-      ],
-    },
-    {
-      name: "Refrigerant PT Charts",
-      icon: Thermometer,
-      desc: "Antoine formula pressure-temperature tables for active field servicing.",
-      items: [
-        {
-          name: "R134a PT Sheet",
-          path: "/refrigerants/r134a",
-          desc: "Automotive and domestic fridge ref.",
-        },
-        {
-          name: "R410A PT Sheet",
-          path: "/refrigerants/r410a",
-          desc: "Residential split air conditioner pressures.",
-        },
-        {
-          name: "R32 PT Sheet",
-          path: "/refrigerants/r32",
-          desc: "Modern low-GWP mildly flammable R32.",
-        },
-        {
-          name: "R404A PT Sheet",
-          path: "/refrigerants/r404a",
-          desc: "Low temperature commercial freezer rooms.",
-        },
-        {
-          name: "R407C PT Sheet",
-          path: "/refrigerants/r407c",
-          desc: "R22 replacement systems diagnostics.",
-        },
-        {
-          name: "R22 PT Reference",
-          path: "/refrigerants/r22",
-          desc: "HCFC-22 properties and pressures.",
-        },
-        {
-          name: "R290 Hydrocarbon",
-          path: "/refrigerants/r290",
-          desc: "Flammable propane charging guidelines.",
-        },
+        { name: "AC Not Cooling", path: "/guides/ac-not-cooling", desc: "15 common causes for no cooling." },
+        { name: "Low Suction Pressure", path: "/guides/low-suction", desc: "Low side pressure drops diagnostics." },
+        { name: "High Head Pressure", path: "/guides/high-head", desc: "Condenser heat dissipation faults." },
+        { name: "Compressor Short Cycling", path: "/guides/short-cycling", desc: "Why compressors turn off rapidly." },
+        { name: "Evaporator Freezing", path: "/guides/coil-freezing", desc: "Preventing liquid washback and ice blocks." },
+        { name: "Walk-In Cooler Warm", path: "/guides/walk-in-warm", desc: "Troubleshooting warm commercial coolers." },
+        { name: "Refrigerant Leak", path: "/guides/leak-symptoms", desc: "Spotting bubbles and oil spots on piping." },
+        { name: "Check Superheat", path: "/guides/how-to-superheat", desc: "How to place sensors and gauge lines." },
+        { name: "Measure Subcooling", path: "/guides/how-to-subcooling", desc: "Step-by-step charging diagnostic guides." },
+        { name: "Refrigerator Error Codes", path: "/guides/refrigerator-error-codes", desc: "Diagnostic tables for Haier, Bosch, Godrej." },
+        { name: "AC Gas Charging Guide", path: "/guides/ac-gas-charging", desc: "Dynamic pressure targets for R32, R410A, R22." },
+        { name: "Brand Comparisons", path: "/guides/brand-comparisons", desc: "Which brand is better for summers?" },
       ],
     },
     {
@@ -419,16 +196,8 @@ function ResourcesDashboard() {
       icon: FileText,
       desc: "Core mechanical engineering calculations and formula cheat sheets.",
       items: [
-        {
-          name: "HVAC Formulas",
-          path: "/formulas/hvac",
-          desc: "CFM, sensible, latent, and total heat load.",
-        },
-        {
-          name: "Refrigeration Formulas",
-          path: "/formulas/refrigeration",
-          desc: "Compression ratio, COP, and cycle loops.",
-        },
+        { name: "HVAC Formulas", path: "/formulas/hvac", desc: "CFM, sensible, latent, and total heat load." },
+        { name: "Refrigeration Formulas", path: "/formulas/refrigeration", desc: "Compression ratio, COP, and cycle loops." },
       ],
     },
     {
@@ -436,107 +205,12 @@ function ResourcesDashboard() {
       icon: Brain,
       desc: "Diagnostics wizards, technician quizzes, and payback selectors.",
       items: [
-        {
-          name: "HVAC/R Quiz",
-          path: "/interactive/quiz",
-          desc: "10-question technical competency quiz.",
-        },
-        {
-          name: "Troubleshooting Wizard",
-          path: "/interactive/wizard",
-          desc: "Interactive symptom diagnostic flow tree.",
-        },
-        {
-          name: "Refrigerant Selector",
-          path: "/interactive/selector",
-          desc: "GWP and safety class refrigerant match.",
-        },
-        {
-          name: "Cost Estimator",
-          path: "/interactive/cost-estimator",
-          desc: "Ac installation material and labor cost estimate.",
-        },
-        {
-          name: "PM Checklist Gen",
-          path: "/interactive/checklist",
-          desc: "Custom preventative maintenance checklists.",
-        },
-        {
-          name: "HVAC ROI Calculator",
-          path: "/interactive/roi",
-          desc: "Inverter energy upgrade payback periods.",
-        },
-      ],
-    },
-    {
-      name: "OEM Brand Reference",
-      icon: Settings,
-      desc: "OEM error codes, common faults, and maintenance logs.",
-      items: [
-        { name: "Daikin Error Codes", path: "/brands/daikin", desc: "A6, U4, C9 diagnostic logs." },
-        { name: "LG Error Codes", path: "/brands/lg", desc: "CH01, CH05, CH21 diagnostics." },
-        {
-          name: "Carrier Error Codes",
-          path: "/brands/carrier",
-          desc: "E1, F4, P0 diagnostic guide.",
-        },
-        {
-          name: "Danfoss Diagnostics",
-          path: "/brands/danfoss",
-          desc: "KP1/KP5 pressure switches.",
-        },
-        {
-          name: "Copeland Compressor Guide",
-          path: "/brands/copeland",
-          desc: "Scroll temperature checks.",
-        },
-        {
-          name: "Bitzer semi-hermetic",
-          path: "/brands/bitzer",
-          desc: "Shaft seals and PTC sensors.",
-        },
-      ],
-    },
-    {
-      name: "Local Service Hubs",
-      icon: MapPin,
-      desc: "Region-specific commercial refrigeration and AMC support centers.",
-      items: [
-        {
-          name: "Pune Services",
-          path: "/cities/pune",
-          desc: "Wagholi, Ranjangaon, Chakan repairs.",
-        },
-        {
-          name: "Mumbai Services",
-          path: "/cities/mumbai",
-          desc: "Thane, Bhiwandi, Taloja industrial cooling.",
-        },
-        {
-          name: "Nashik Services",
-          path: "/cities/nashik",
-          desc: "Lasalgaon agri cold rooms and chillers.",
-        },
-        {
-          name: "Wagholi Support",
-          path: "/cities/wagholi",
-          desc: "AC repair & refrigeration in Wagholi.",
-        },
-        {
-          name: "Ranjangaon MIDC Hub",
-          path: "/cities/ranjangaon-midc",
-          desc: "Industrial screw chillers in Ranjangaon.",
-        },
-        {
-          name: "Chakan MIDC Support",
-          path: "/cities/chakan-midc",
-          desc: "Process cooling & cooling towers in Chakan.",
-        },
-        {
-          name: "Pimpri-Chinchwad Hub",
-          path: "/cities/pimpri-chinchwad",
-          desc: "Ductable AC & commercial systems in PCMC.",
-        },
+        { name: "HVAC/R Quiz", path: "/interactive/quiz", desc: "10-question technical competency quiz." },
+        { name: "Troubleshooting Wizard", path: "/interactive/wizard", desc: "Interactive symptom diagnostic flow tree." },
+        { name: "Refrigerant Selector", path: "/interactive/selector", desc: "GWP and safety class refrigerant match." },
+        { name: "Cost Estimator", path: "/interactive/cost-estimator", desc: "AC installation material and labor cost estimate." },
+        { name: "PM Checklist Gen", path: "/interactive/checklist", desc: "Custom preventative maintenance checklists." },
+        { name: "HVAC ROI Calculator", path: "/interactive/roi", desc: "Inverter energy upgrade payback periods." },
       ],
     },
   ];
@@ -560,6 +234,13 @@ function ResourcesDashboard() {
     },
   ];
 
+  const categoryTabList = ["All", ...categories.map((c) => c.name)];
+
+  const displayedCategories =
+    activeCategoryTab === "All"
+      ? categories
+      : categories.filter((c) => c.name === activeCategoryTab);
+
   // Flattened items for search filter
   const allItems = categories.flatMap((cat) =>
     cat.items.map((item) => ({ ...item, categoryName: cat.name })),
@@ -576,26 +257,48 @@ function ResourcesDashboard() {
     <ResourceLayout title="Home" category="Dashboard">
       {/* Main Content Area */}
       <div className="flex-1 min-w-0 bg-background pt-24 md:pt-6 relative z-10">
-        <div className="mb-10 animate-fade-up">
+        <div className="mb-8 animate-fade-up">
           <h1 className="font-display text-3xl md:text-5xl font-bold leading-tight text-white mb-4">
             HVAC/R <span className="text-shimmer">Resources.</span>
           </h1>
           <p className="text-sm md:text-base text-slate-400 max-w-2xl leading-relaxed">
-            Diagnostic flowcharts, interactive calculators, technical specs, and standard operating
+            Categorized diagnostic flowcharts, interactive calculators, technical specs, and standard operating
             procedures for industrial &amp; domestic cooling systems.
           </p>
         </div>
 
-        {/* Quick Search */}
-        <div className="relative max-w-2xl">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search all pages, blogs, calculators, troubleshooting guides..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-2xl border-2 border-border bg-card pl-12 pr-4 py-3.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder-muted-foreground shadow-sm transition"
-          />
+        {/* Search & Category Filter Bar */}
+        <div className="space-y-4 mb-10">
+          <div className="relative max-w-2xl">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search all pages, blogs, calculators, troubleshooting guides..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full rounded-2xl border-2 border-border bg-card pl-12 pr-4 py-3.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent placeholder-muted-foreground shadow-sm transition"
+            />
+          </div>
+
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap gap-2 pt-2 border-t border-white/5">
+            {categoryTabList.map((tabName) => (
+              <button
+                key={tabName}
+                onClick={() => {
+                  setActiveCategoryTab(tabName);
+                  setSearchQuery("");
+                }}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition ${
+                  activeCategoryTab === tabName && !searchQuery
+                    ? "bg-[#00c8ff] text-[#09090f] shadow-[0_2px_10px_rgba(0,200,255,0.3)]"
+                    : "bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 border border-white/10"
+                }`}
+              >
+                {tabName}
+              </button>
+            ))}
+          </div>
         </div>
 
         {searchQuery ? (
@@ -608,7 +311,7 @@ function ResourcesDashboard() {
               <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {filteredItems.map((item) => (
                   <Link
-                    key={item.path}
+                    key={item.path + item.name}
                     to={item.path}
                     className="group bento-card p-4 transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between"
                   >
@@ -639,39 +342,54 @@ function ResourcesDashboard() {
         ) : (
           /* Category Dashboards */
           <div className="grid md:grid-cols-2 gap-6">
-            {categories.map((cat) => {
+            {displayedCategories.map((cat) => {
               const CatIcon = cat.icon;
+              const isFilteredTab = activeCategoryTab !== "All";
+              const itemsToRender = isFilteredTab ? cat.items : cat.items.slice(0, 8);
+
               return (
-                <div key={cat.name} className="bento-card p-5 space-y-4 transition">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-[#00c8ff]/10 border border-[#00c8ff]/20 text-[#00c8ff]">
-                      <CatIcon className="h-5 w-5" />
+                <div key={cat.name} className={`bento-card p-5 space-y-4 transition ${isFilteredTab ? "md:col-span-2" : ""}`}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-[#00c8ff]/10 border border-[#00c8ff]/20 text-[#00c8ff]">
+                        <CatIcon className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold font-display text-white text-base">{cat.name}</h3>
+                        <p className="text-[11px] text-slate-400 leading-tight mt-0.5">{cat.desc}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-bold font-display text-white text-base">{cat.name}</h3>
-                      <p className="text-[11px] text-slate-400 leading-tight mt-0.5">{cat.desc}</p>
-                    </div>
+                    <span className="text-[10px] font-mono font-semibold text-[#00c8ff] bg-[#00c8ff]/10 px-2.5 py-1 rounded-full border border-[#00c8ff]/20">
+                      {cat.items.length} Items
+                    </span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 text-xs">
-                    {cat.items.slice(0, 6).map((item) => (
+                  <div className={`grid gap-2.5 text-xs ${isFilteredTab ? "sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-2"}`}>
+                    {itemsToRender.map((item) => (
                       <Link
-                        key={item.path}
+                        key={item.path + item.name}
                         to={item.path}
-                        className="py-1.5 px-2.5 rounded-lg border border-transparent hover:border-white/10 hover:bg-white/5 text-slate-400 hover:text-white transition flex items-center justify-between"
+                        className="p-3 rounded-xl border border-white/5 bg-white/5 hover:border-white/20 hover:bg-white/10 text-slate-300 hover:text-white transition flex flex-col justify-between group"
                       >
-                        <span className="truncate">{item.name}</span>
-                        <ArrowRight className="h-3 w-3 opacity-40 shrink-0" />
+                        <div className="flex items-center justify-between font-bold text-white text-xs mb-1">
+                          <span className="truncate group-hover:text-[#00c8ff] transition">{item.name}</span>
+                          <ArrowRight className="h-3.5 w-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all text-[#00c8ff] shrink-0" />
+                        </div>
+                        <p className="text-[11px] text-slate-400 line-clamp-2 leading-snug">{item.desc}</p>
                       </Link>
                     ))}
-                    {cat.items.length > 6 && (
-                      <div className="col-span-2 pt-1 border-t border-white/5 text-center mt-2">
-                        <span className="text-[10px] text-[#00c8ff] font-semibold tracking-wider">
-                          + {cat.items.length - 6} more available
-                        </span>
-                      </div>
-                    )}
                   </div>
+
+                  {!isFilteredTab && cat.items.length > 8 && (
+                    <div className="pt-2 border-t border-white/5 text-center">
+                      <button
+                        onClick={() => setActiveCategoryTab(cat.name)}
+                        className="text-xs text-[#00c8ff] font-bold tracking-wider hover:underline inline-flex items-center gap-1 cursor-pointer"
+                      >
+                        View all {cat.items.length} items in {cat.name} &rarr;
+                      </button>
+                    </div>
+                  )}
                 </div>
               );
             })}

@@ -38,17 +38,21 @@ export const Route = createFileRoute("/booking")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.booking;
-    if (!seo) return { meta: [] };
+    const title = seo?.title || "Book Online HVAC Service, Repair & Installation | Prime Cool Pune";
+    const description =
+      seo?.description ||
+      "Schedule a certified HVAC technician online for split AC servicing, gas charging, cassette AC repair, or cold room inspection across Pune and MIDC zones.";
+
     return {
       meta: [
-        { title: seo.title },
-        { name: "description", content: seo.description },
-        { property: "og:title", content: seo.ogTitle },
-        { property: "og:description", content: seo.ogDescription },
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: seo.title },
-        { name: "twitter:description", content: seo.description },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
       ],
       links: [{ rel: "canonical", href: "https://primecool.in/booking" }],
     };
@@ -353,52 +357,6 @@ function BookingPage() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col justify-between relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,102,255,0.05),transparent_50%)] pointer-events-none" />
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/60 border-b border-border">
-        <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <img src={logo} alt="Prime Cool logo" className="h-9 w-9" />
-            <span className="font-display font-bold text-lg tracking-tight">
-              Prime <span className="text-gradient">Cool</span>
-            </span>
-          </Link>
-          <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-foreground transition">
-              Home
-            </Link>
-            <Link to="/portfolio" className="hover:text-foreground transition">
-              Projects
-            </Link>
-            <Link to="/blogs" className="hover:text-foreground transition">
-              Blogs
-            </Link>
-            <Link
-              to="/booking"
-              search={{}}
-              className="hover:text-foreground transition text-primary font-semibold"
-            >
-              Book Service
-            </Link>
-          </nav>
-          <div className="flex items-center gap-3 sm:gap-4">
-            <a
-              href={`tel:${cmsPhone.replace(/\s+/g, "")}`}
-              className="inline-flex items-center gap-2 rounded-full border border-border p-2 sm:px-3 sm:py-1.5 text-xs font-medium hover:bg-card transition"
-              title="Call Support"
-            >
-              <PhoneIcon className="h-4 w-4 text-primary" />
-              <span className="hidden sm:inline">{cmsPhone}</span>
-            </a>
-            <Link
-              to="/"
-              className="inline-flex items-center gap-1 text-sm font-medium hover:text-primary transition"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span>Home</span>
-            </Link>
-          </div>
-        </div>
-      </header>
 
       {/* Main Content */}
       <main className="flex-1 pt-24 pb-16 px-6 relative z-10">
@@ -670,24 +628,6 @@ function BookingPage() {
           </form>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground bg-card/10">
-        <div>Pune · Wagholi–Shirur Corridor · Karegaon MIDC · Ranjangaon MIDC</div>
-        <div className="mt-2 flex items-center justify-center gap-4">
-          <Link to="/" className="hover:text-foreground">
-            Home
-          </Link>
-          <span>·</span>
-          <Link to="/portfolio" className="hover:text-foreground">
-            Previous Works
-          </Link>
-          <span>·</span>
-          <Link to="/admin" className="hover:text-foreground">
-            Admin Panel
-          </Link>
-        </div>
-      </footer>
     </div>
   );
 }

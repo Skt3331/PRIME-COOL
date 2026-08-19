@@ -1,5 +1,31 @@
-User-agent: *
-Disallow: /admin/
+User-agent: Googlebot
 Allow: /
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /api/
 
+User-agent: Googlebot-Image
+Allow: /
+Allow: /assets/
+Allow: /uploads/
+Allow: /*.webp$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.svg$
+Allow: /*.ico$
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /api/
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /api/
+
+Host: https://primecool.in
 Sitemap: https://primecool.in/sitemap.xml

@@ -34,6 +34,14 @@ function setCachedData(key: string, data: any) {
   publicCache.set(key, { data, timestamp: Date.now() });
 }
 
+function clearCache(key?: string) {
+  if (key) {
+    publicCache.delete(key);
+  } else {
+    publicCache.clear();
+  }
+}
+
 // Security helper to assert admin authentication in server functions
 function getAppRoot(): string {
   try {
@@ -616,13 +624,18 @@ export async function updateCalculatorHelper(data: {
 // ---------------- Locations API Helpers ----------------
 
 export async function getLocationsHelper() {
+  const cached = getCachedData("locations");
+  if (cached) return { locations: cached };
+
   const locations = await db.getLocations();
+  setCachedData("locations", locations);
   return { locations };
 }
 
 export async function addLocationHelper(data: any) {
   await requireAdminAuth();
   const location = await db.addLocation(data);
+  clearCache("locations");
   triggerSitemapUpdate();
   return { success: true, location };
 }
@@ -632,6 +645,7 @@ export async function updateLocationHelper(data: any) {
   const { slug, ...location } = data;
   const updated = await db.updateLocation(slug, location);
   if (!updated) return { success: false, error: "Location not found" };
+  clearCache("locations");
   triggerSitemapUpdate();
   return { success: true, location: updated };
 }
@@ -639,6 +653,9 @@ export async function updateLocationHelper(data: any) {
 export async function deleteLocationHelper(data: { slug: string }) {
   await requireAdminAuth();
   const success = await db.deleteLocation(data.slug);
-  if (success) triggerSitemapUpdate();
+  if (success) {
+    clearCache("locations");
+    triggerSitemapUpdate();
+  }
   return { success };
 }

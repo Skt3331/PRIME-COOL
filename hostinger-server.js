@@ -1,4 +1,5 @@
 import express from "express";
+import compression from "compression";
 import path from "path";
 import { fileURLToPath } from "url";
 import handler from "./dist/server/server.js";
@@ -22,9 +23,60 @@ try {
 const app = express();
 const PORT = process.env.PORT || 8080;
 const CLIENT_DIR = path.join(__dirname, "dist", "client");
+const PUBLIC_DIR = path.join(__dirname, "public");
+
+// Enable Gzip/Brotli HTTP compression for high performance
+app.use(compression());
+
+// Serve public directory (sitemaps, robots.txt, uploads)
+app.use(
+  express.static(PUBLIC_DIR, {
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith(".xml")) {
+        res.setHeader("Content-Type", "application/xml; charset=utf-8");
+        res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=3600");
+      } else if (filePath.endsWith(".txt")) {
+        res.setHeader("Content-Type", "text/plain; charset=utf-8");
+        res.setHeader("Cache-Control", "public, max-age=86400");
+      }
+    },
+  })
+);
+
+// URL Canonicalization Middleware for Google Search Console
+app.use((req, res, next) => {
+  const host = req.headers.host || "";
+  const isWww = host.startsWith("www.");
+  const pathname = req.path;
+  
+  // Remove trailing slashes (except root '/') to prevent duplicate URL issues in Google Search Console
+  if (pathname.length > 1 && pathname.endsWith("/")) {
+    const query = req.url.slice(pathname.length);
+    const safePath = pathname.slice(0, -1) + query;
+    return res.redirect(301, safePath);
+  }
+  
+  // Redirect www to non-www
+  if (isWww) {
+    const cleanHost = host.replace(/^www\./, "");
+    return res.redirect(301, `${req.protocol}://${cleanHost}${req.url}`);
+  }
+  
+  next();
+});
 
 // 1. Serve static files from dist/client
-app.use(express.static(CLIENT_DIR, { index: "index.html", maxAge: "1y" }));
+app.use(
+  express.static(CLIENT_DIR, {
+    index: "index.html",
+    maxAge: "1y",
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith(".html")) {
+        res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
+      }
+    },
+  })
+);
 
 // Scheduled Sitemap Generation (Every 2 hours)
 function runSitemapGenerator() {
