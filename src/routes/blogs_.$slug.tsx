@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getPublicBlogs, getCmsSettings } from "../lib/api";
 import logo from "../assets/logo.webp";
 import { ArrowLeft, Clock, Phone, Calendar, Calculator, ArrowRight } from "lucide-react";
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/blogs_/$slug")({
     const [{ blogs }, { settings }] = await Promise.all([getPublicBlogs(), getCmsSettings()]);
     const blog = blogs.find((b: any) => b.slug === params.slug);
     if (!blog) {
-      throw new Error("Blog article not found");
+      throw notFound();
     }
     return { blog, cms: settings };
   },
@@ -49,16 +49,24 @@ function BlogDetailsPage() {
   const socials = cms?.socials || {};
   const phone = socials.phone || "+917507408461";
 
+  const imageUrl = blog.image
+    ? (blog.image.startsWith("http") ? blog.image : `https://primecool.in${blog.image.startsWith("/") ? "" : "/"}${blog.image}`)
+    : "https://primecool.in/logo.png";
+
   const blogSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://primecool.in/blogs/${blog.slug}`
+    },
     "headline": blog.title,
-    "image": blog.image ? [`https://primecool.in${blog.image}`] : [],
+    "image": [imageUrl],
     "datePublished": blog.createdAt,
     "dateModified": blog.updatedAt || blog.createdAt,
     "author": {
       "@type": "Person",
-      "name": blog.author || "Prime Cool"
+      "name": blog.author || "Saurav Kailas Temgire"
     },
     "publisher": {
       "@type": "Organization",

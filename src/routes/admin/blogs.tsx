@@ -20,6 +20,8 @@ import {
   Tag,
   User,
   Search,
+  Sparkles,
+  RefreshCw,
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/blogs")({
@@ -183,18 +185,58 @@ function AdminBlogsPage() {
     }
   };
 
+  const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+
+  const handleTriggerAiBlogs = async () => {
+    setIsGeneratingAi(true);
+    toast.info("🤖 AI Automation started! Generating 50 trending website blogs...");
+    try {
+      const res = await fetch("/api/admin/trigger-blog-automation?count=50");
+      const data = await res.json();
+      if (data.success) {
+        toast.success("🎉 Successfully generated 50 new AI blogs and synced with MySQL Database!");
+        queryClient.invalidateQueries({ queryKey: ["adminBlogs"] });
+      } else {
+        toast.error(`Automation error: ${data.error || "Failed"}`);
+      }
+    } catch (e: any) {
+      toast.error(`Automation error: ${e.message}`);
+    } finally {
+      setIsGeneratingAi(false);
+    }
+  };
+
   const blogs = (blogsData as any)?.blogs || [];
 
   return (
     <div className="space-y-8">
-      {/* Page Title */}
-      <div>
-        <h1 className="font-display text-3xl font-bold leading-tight">
-          Blogs <span className="text-gradient">Manager</span>
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Publish new industry articles, troubleshooting guides, and SEO-optimized content.
-        </p>
+      {/* Page Title & Action Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="font-display text-3xl font-bold leading-tight">
+            Blogs <span className="text-gradient">Manager</span>
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Publish new industry articles, troubleshooting guides, and SEO-optimized content.
+          </p>
+        </div>
+        <Button
+          onClick={handleTriggerAiBlogs}
+          disabled={isGeneratingAi}
+          className="rounded-full bg-gradient-to-r from-primary to-[#00c8ff] text-white font-semibold shadow-lg hover:shadow-primary/30 transition flex items-center gap-2"
+        >
+          {isGeneratingAi ? (
+            <>
+              <RefreshCw className="h-4 w-4 animate-spin" />
+              Generating 50 AI Blogs...
+            </>
+          ) : (
+            <>
+              <Sparkles className="h-4 w-4 text-yellow-300" />
+              ⚡ Auto-Generate 50 AI Blogs Now
+            </>
+          )}
+        </Button>
       </div>
 
       <div className="grid lg:grid-cols-12 gap-8 items-start">

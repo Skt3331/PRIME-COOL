@@ -173,7 +173,7 @@ export const Route = createFileRoute("/brands/compare/$comparisonSlug")({
         { property: "og:title", content: pageTitle },
         { property: "og:description", content: pageDesc },
       ],
-      links: [{ rel: "canonical", href: `/brands/compare/${loaderData.comparisonSlug}` }],
+      links: [{ rel: "canonical", href: `https://primecool.in/brands/compare/${loaderData.comparisonSlug}` }],
     };
   },
   component: BrandComparisonPage,

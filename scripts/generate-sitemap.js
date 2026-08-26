@@ -297,31 +297,35 @@ async function generateSitemap() {
     }
 
     urls.push({
-      loc: fullUrl === BASE_URL ? `${BASE_URL}/` : fullUrl,
+      loc: fullUrl,
       lastmod: currentDate,
       changefreq,
       priority,
     });
   }
 
-  // Define dynamic sitemap additions
-  const LOCATIONS = [
-    ...(await getDbLocations()),
+  // Primary Core Operational Locations
+  const CORE_LOCATIONS = [
     "wagholi",
-    "lonikand",
-    "koregaon-bhima",
-    "shikrapur",
-    "karegaon",
-    "ranjangaon-midc",
-    "shirur",
     "hadapsar",
     "kharadi",
     "chakan-midc",
+    "ranjangaon-midc",
+    "shirur",
+    "koregaon-bhima",
+    "shikrapur",
+    "lonikand",
+    "karegaon",
     "pimpri-chinchwad",
-    "pune-district",
-    "mumbai-district",
-    "nashik-district"
+    "pune",
+    "mumbai",
+    "thane",
+    "navi-mumbai",
+    "nashik"
   ];
+
+  const dbLocations = await getDbLocations();
+  const LOCATIONS = Array.from(new Set([...CORE_LOCATIONS, ...dbLocations]));
 
   const BRANDS = [
     "daikin",
@@ -411,42 +415,30 @@ async function generateSitemap() {
       loc: `${BASE_URL}/locations/${loc}`,
       lastmod: currentDate,
       changefreq: "weekly",
-      priority: "0.8",
+      priority: "0.85",
     });
   }
 
-  // 1b. Joint Locations x Services SEO URLs
-  for (const loc of LOCATIONS) {
+  // 1b. Single Authoritative Service x Core Locations URLs (focused on active hubs)
+  for (const loc of CORE_LOCATIONS) {
     for (const service of SERVICES) {
       urls.push({
         loc: `${BASE_URL}/services/${service}/${loc}`,
         lastmod: currentDate,
         changefreq: "weekly",
-        priority: "0.85",
+        priority: "0.80",
       });
     }
   }
 
   // 1c. Cities SEO URLs
-  for (const loc of LOCATIONS) {
+  for (const loc of CORE_LOCATIONS) {
     urls.push({
       loc: `${BASE_URL}/cities/${loc}`,
       lastmod: currentDate,
       changefreq: "weekly",
-      priority: "0.8",
+      priority: "0.85",
     });
-  }
-
-  // 1d. Joint Cities x Services SEO URLs
-  for (const loc of LOCATIONS) {
-    for (const service of SERVICES) {
-      urls.push({
-        loc: `${BASE_URL}/cities/${loc}/${service}`,
-        lastmod: currentDate,
-        changefreq: "weekly",
-        priority: "0.85",
-      });
-    }
   }
 
   // 2. Services SEO URLs
@@ -455,7 +447,7 @@ async function generateSitemap() {
       loc: `${BASE_URL}/services/${service}`,
       lastmod: currentDate,
       changefreq: "weekly",
-      priority: "0.9",
+      priority: "0.90",
     });
   }
 
@@ -465,11 +457,11 @@ async function generateSitemap() {
       loc: `${BASE_URL}/brands/${brand}`,
       lastmod: currentDate,
       changefreq: "monthly",
-      priority: "0.8",
+      priority: "0.80",
     });
   }
 
-  // 3b. Dynamic Brand-Appliance SEO URLs (88 combinations)
+  // 3b. Dynamic Brand-Appliance SEO URLs
   const APPLIANCES = ["ac", "fridge", "washing-machine", "hvac"];
   for (const brand of BRANDS) {
     for (const app of APPLIANCES) {
@@ -482,7 +474,7 @@ async function generateSitemap() {
     }
   }
 
-  // 3c. Dynamic Brand Comparisons SEO URLs (15 pages)
+  // 3c. Dynamic Brand Comparisons SEO URLs
   const COMPARISONS = [
     "carrier-vs-hitachi",
     "daikin-vs-hitachi",
@@ -505,7 +497,7 @@ async function generateSitemap() {
       loc: `${BASE_URL}/brands/compare/${comp}`,
       lastmod: currentDate,
       changefreq: "monthly",
-      priority: "0.8",
+      priority: "0.80",
     });
   }
 
@@ -515,7 +507,7 @@ async function generateSitemap() {
       loc: `${BASE_URL}/refrigerants/${ref}`,
       lastmod: currentDate,
       changefreq: "monthly",
-      priority: "0.8",
+      priority: "0.80",
     });
   }
 
@@ -531,7 +523,7 @@ async function generateSitemap() {
       loc: `${BASE_URL}/industrial/${topic}`,
       lastmod: currentDate,
       changefreq: "monthly",
-      priority: "0.9",
+      priority: "0.85",
     });
   }
 
@@ -539,8 +531,8 @@ async function generateSitemap() {
   urls.push({
     loc: `${BASE_URL}/emergency`,
     lastmod: currentDate,
-    changefreq: "monthly",
-    priority: "0.8",
+    changefreq: "weekly",
+    priority: "0.90",
   });
 
   // 5. Load dynamic blogs from database or db.json fallback
@@ -551,42 +543,57 @@ async function generateSitemap() {
         loc: `${BASE_URL}/blogs/${blog.slug}`,
         lastmod: currentDate,
         changefreq: "weekly",
-        priority: "0.8",
+        priority: "0.85",
       });
     }
   }
 
-  // Categorize URLs
+  // Categorize URLs into dedicated logical sitemaps
   const categorizedUrls = {
     main: [],
+    services: [],
     locations: [],
-    locations_services: [],
     cities: [],
-    cities_services: [],
+    "services-locations": [],
     brands: [],
+    blogs: [],
     other: []
   };
 
   for (const url of urls) {
     const pathParts = url.loc.replace(BASE_URL, '').split('/').filter(Boolean);
-    if (pathParts[0] === 'services' && pathParts.length > 1) {
-      if (pathParts.length > 2) {
-        categorizedUrls.locations_services.push(url);
+    if (pathParts.length === 0) {
+      categorizedUrls.main.push(url);
+    } else if (pathParts[0] === 'services') {
+      if (pathParts.length === 1) {
+        categorizedUrls.main.push(url);
+      } else if (pathParts.length === 2) {
+        categorizedUrls.services.push(url);
       } else {
-        categorizedUrls.other.push(url);
+        categorizedUrls["services-locations"].push(url);
+      }
+    } else if (pathParts[0] === 'locations') {
+      if (pathParts.length === 1) {
+        categorizedUrls.main.push(url);
+      } else {
+        categorizedUrls.locations.push(url);
       }
     } else if (pathParts[0] === 'cities') {
-      if (pathParts.length > 2) {
-        categorizedUrls.cities_services.push(url);
+      if (pathParts.length === 1) {
+        categorizedUrls.main.push(url);
       } else {
         categorizedUrls.cities.push(url);
       }
-    } else if (pathParts[0] === 'locations') {
-      categorizedUrls.locations.push(url);
     } else if (pathParts[0] === 'brands') {
       categorizedUrls.brands.push(url);
+    } else if (pathParts[0] === 'blogs') {
+      if (pathParts.length === 1) {
+        categorizedUrls.main.push(url);
+      } else {
+        categorizedUrls.blogs.push(url);
+      }
     } else {
-      categorizedUrls.main.push(url);
+      categorizedUrls.other.push(url);
     }
   }
 
@@ -595,6 +602,18 @@ async function generateSitemap() {
   const outputDir = path.dirname(OUTPUT_FILE);
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
+  }
+
+  // Clean up any old sitemap XML files in output directory
+  const existingFiles = fs.readdirSync(outputDir);
+  for (const file of existingFiles) {
+    if (file.startsWith("sitemap") && file.endsWith(".xml") && file !== "sitemap.xml") {
+      try {
+        fs.unlinkSync(path.join(outputDir, file));
+      } catch (e) {
+        // Ignore
+      }
+    }
   }
 
   for (const [category, catUrls] of Object.entries(categorizedUrls)) {
@@ -651,3 +670,4 @@ async function generateSitemap() {
 }
 
 generateSitemap().catch(console.error);
+

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { brandsData } from "../../lib/brands-data";
 import { getCmsSettings } from "../../lib/api";
 import logo from "../../assets/logo.webp";
@@ -58,35 +58,36 @@ const APPLIANCE_MAPPING: Record<
       "Excessive noise from fan motor or compressor brackets",
     ],
     spares: [
-      "Start Relays & Overload Protectors",
-      "Bimetal defrost stats",
-      "Thermal fuses",
-      "Defrost timers",
-      "Evaporator fans",
+      "Starting Relays & Overload Protectors (OLP)",
+      "Bimetal Defrost Thermostats",
+      "Digital Inverter Control Boards",
+      "Door Gaskets & Magnetic Seals",
     ],
     faqs: [
       {
-        q: "Why is my refrigerator clicking but not cooling?",
-        a: "This is usually caused by a faulty start relay, a weak capacitor, or a seized compressor motor trying to start.",
+        q: "Why is the fridge cooling in the freezer but warm below?",
+        a: "This is usually caused by a blocked air damper, failed defrost heater, or faulty evaporator fan motor preventing cold air circulation.",
       },
       {
-        q: "Do you repair side-by-side smart inverter refrigerators?",
-        a: "Yes, our engineers are certified in inverter compressor diagnostics and sensor loop calibrations.",
+        q: "How much does a refrigerator compressor replacement cost?",
+        a: "Pricing depends on tonnage and refrigerant type (R134a/R600a), starting from ₹2,499 including gas charging and vacuum testing.",
       },
     ],
   },
   "washing-machine": {
-    title: "Washing Machine Mechanical Servicing & Drum Repair",
-    category: "Home Appliances",
-    desc: "Top-load, front-load, and semi-automatic washing machine repairs. Drum bearing replacements, drain pump clear-outs, inlet valves, and PCB fixes.",
+    title: "Washing Machine Mechanical & PCB Overhaul",
+    category: "Laundry Appliances",
+    desc: "Front-load and top-load washing machine repairs. Drum bearings, inlet valves, drain pumps, suspension shocks, and inverter drive boards.",
     faults: [
-      "Machine doesn't drain water or shows drain error",
-      "Spin cycle causes heavy vibration and loud bang sounds",
-      "Water doesn't enter the tub / inlet valve solenoid failure",
-      "Door lock error preventing cycle startup",
+      "Excessive vibration or grinding noise during high-speed spin cycle",
+      "Water not draining out (OE / E2 error codes)",
+      "Drum not rotating despite motor hum",
+      "Touch panel dead or displaying error codes (IE, PE, dE)",
     ],
     spares: [
-      "Drain bellows and pump motors",
+      "OEM Drum Bearings & Oil Seals",
+      "Drain Discharge Pumps",
+      "Pressure Level Sensors",
       "Soleneoid inlet valves",
       "Door locks",
       "Suspension rods",
@@ -154,7 +155,7 @@ export const Route = createFileRoute("/brands/$slug/$appliance")({
       };
     }
     if (!appliance) {
-      throw new Error(`Appliance category "${params.appliance}" not found`);
+      throw notFound();
     }
 
     const { settings } = await getCmsSettings();

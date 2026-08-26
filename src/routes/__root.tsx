@@ -20,19 +20,37 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+    <div className="flex min-h-[70vh] items-center justify-center bg-[#09090f] text-white px-4 py-16">
+      <div className="max-w-xl text-center space-y-6">
+        <div className="inline-flex items-center justify-center h-20 w-20 rounded-2xl bg-[#00c8ff]/10 border border-[#00c8ff]/30 text-[#00c8ff] text-4xl font-extrabold shadow-[0_0_25px_rgba(0,200,255,0.2)]">
+          404
+        </div>
+        <h1 className="text-3xl font-display font-bold text-white tracking-tight">
+          Page Not Found
+        </h1>
+        <p className="text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
+          The requested page or diagnostic resource could not be found or has been relocated to our updated service directory.
         </p>
-        <div className="mt-6">
+
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-xs font-bold text-[#09090f] transition shadow-lg hover:scale-105"
+            style={{ background: "linear-gradient(135deg, #00c8ff, #0066ff)" }}
           >
-            Go home
+            Return to Home
+          </Link>
+          <Link
+            to="/services"
+            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-xs font-bold text-slate-200 hover:bg-white/10 hover:text-white transition"
+          >
+            Browse Services Directory
+          </Link>
+          <Link
+            to="/locations"
+            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-xs font-bold text-slate-200 hover:bg-white/10 hover:text-white transition"
+          >
+            Service Locations
           </Link>
         </div>
       </div>

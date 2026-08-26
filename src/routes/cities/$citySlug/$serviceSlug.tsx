@@ -59,7 +59,7 @@ export const Route = createFileRoute("/cities/$citySlug/$serviceSlug")({
         { property: "og:description", content: pageDesc },
         { property: "og:type", content: "website" },
       ],
-      links: [{ rel: "canonical", href: `https://primecool.in/cities/${city.slug}/${service.slug}` }],
+      links: [{ rel: "canonical", href: `https://primecool.in/services/${service.slug}/${city.slug}` }],
     };
   },
   component: LocationServicePage,

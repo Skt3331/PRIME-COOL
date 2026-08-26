@@ -53,7 +53,7 @@ app.use((req, res, next) => {
   if (pathname.length > 1 && pathname.endsWith("/")) {
     const query = req.url.slice(pathname.length);
     const safePath = pathname.slice(0, -1) + query;
-    return res.redirect(310 || 301, safePath);
+    return res.redirect(301, safePath);
   }
   
   // Redirect www to non-www
@@ -96,6 +96,48 @@ const TWO_HOURS = 2 * 60 * 60 * 1000;
 setInterval(runSitemapGenerator, TWO_HOURS);
 // Run once on startup
 runSitemapGenerator();
+
+// -------------------------------------------------------------
+// Nightly Automatic Blog Generator (Runs at 00:00 every night)
+// -------------------------------------------------------------
+function runNightlyBlogAutomation() {
+  console.log("[Nightly Blog Automation] Running daily 50 website SEO blog generation...");
+  exec(`"${process.execPath}" automation/gemini-bot.js --count 50`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`[Blog Automation] Error: ${error.message}`);
+      return;
+    }
+    console.log(`[Blog Automation] Successfully executed daily blog run!`);
+  });
+}
+
+function scheduleNextMidnightRun() {
+  const now = new Date();
+  const nextMidnight = new Date();
+  nextMidnight.setHours(24, 0, 0, 0); // 00:00:00 midnight
+  const timeToMidnight = nextMidnight.getTime() - now.getTime();
+
+  console.log(`[Nightly Blog Automation] Next scheduled 50-blog generation in ${(timeToMidnight / 3600000).toFixed(2)} hours (at 00:00).`);
+
+  setTimeout(() => {
+    runNightlyBlogAutomation();
+    setInterval(runNightlyBlogAutomation, 24 * 60 * 60 * 1000);
+  }, timeToMidnight);
+}
+
+scheduleNextMidnightRun();
+
+// API Route: Trigger Blog Generation on-demand (/api/admin/trigger-blog-automation)
+app.all("/api/admin/trigger-blog-automation", (req, res) => {
+  const count = req.query.count || 50;
+  console.log(`[API Trigger] Triggering blog automation bot for ${count} blogs...`);
+  exec(`"${process.execPath}" automation/gemini-bot.js --count ${count}`, (error, stdout, stderr) => {
+    if (error) {
+      return res.status(500).json({ success: false, error: error.message });
+    }
+    res.json({ success: true, message: `Successfully generated ${count} blogs and synced with MySQL database & sitemap!`, output: stdout });
+  });
+});
 
 // 2. Delegate everything else to TanStack Start SSR handler
 app.all("*", async (req, res) => {

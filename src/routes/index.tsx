@@ -396,7 +396,7 @@ function Hero({ hero }: { hero: any }) {
   return (
     <section
       id="top"
-      className="relative pt-32 pb-24 md:pt-44 md:pb-36 overflow-hidden"
+      className="relative pt-16 sm:pt-20 md:pt-24 lg:pt-28 pb-16 md:pb-24 overflow-hidden"
       style={{ background: "var(--gradient-hero)" }}
     >
       <div
@@ -430,7 +430,7 @@ function Hero({ hero }: { hero: any }) {
       <div className="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-16 items-center">
         <div className="animate-fade-up">
           {/* Location pill */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-1.5 text-xs text-slate-300 mb-8">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-1.5 text-xs text-slate-300 mb-4 sm:mb-6">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00c8ff] opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00c8ff]" />
@@ -438,15 +438,15 @@ function Hero({ hero }: { hero: any }) {
             Pune · Wagholi–Shirur corridor · Karegaon · Ranjangaon
           </div>
 
-          <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.02] text-white">
+          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] text-white">
             {hero.title1}
             <br />
             <span className="text-shimmer">{hero.title2}</span>
           </h1>
 
-          <p className="mt-6 text-lg text-slate-400 max-w-lg leading-relaxed">{hero.subtitle}</p>
+          <p className="mt-4 sm:mt-6 text-base sm:text-lg text-slate-400 max-w-lg leading-relaxed">{hero.subtitle}</p>
 
-          <div className="mt-12 flex flex-wrap gap-4">
+          <div className="mt-6 sm:mt-8 flex flex-wrap gap-4">
             <Link to={hero.cta1Link} className="btn-primary">
               {hero.cta1Text} <ArrowRight className="h-4 w-4" />
             </Link>

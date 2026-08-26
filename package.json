@@ -11,7 +11,9 @@
     "preview": "vite preview",
     "start": "node index.js",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "bot:generate": "node automation/gemini-bot.js",
+    "bot:daily": "node automation/cron-scheduler.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
