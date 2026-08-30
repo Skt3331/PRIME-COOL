@@ -1,8 +1,15 @@
+# ============================================================
+# robots.txt — Prime Cool (https://primecool.in)
+# Optimized for Google Search, Bing, and Rich Snippets
+# ============================================================
+
+# === GOOGLE CRAWLERS ===
 User-agent: Googlebot
 Allow: /
 Disallow: /admin/
 Disallow: /portal/
 Disallow: /api/
+Crawl-delay: 0
 
 User-agent: Googlebot-Image
 Allow: /
@@ -14,18 +21,69 @@ Allow: /*.jpg$
 Allow: /*.jpeg$
 Allow: /*.svg$
 Allow: /*.ico$
+Allow: /*.gif$
 
+User-agent: Googlebot-Mobile
+Allow: /
+
+User-agent: Storebot-Google
+Allow: /
+
+# === BING & MICROSOFT ===
 User-agent: Bingbot
 Allow: /
 Disallow: /admin/
 Disallow: /portal/
 Disallow: /api/
+Crawl-delay: 1
 
+User-agent: msnbot
+Allow: /
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /api/
+
+User-agent: msnbot-media
+Allow: /
+Allow: /assets/
+Allow: /uploads/
+
+# === OTHER MAJOR SEARCH ENGINES ===
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /api/
+
+User-agent: Slurp
+Allow: /
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /api/
+
+User-agent: Twitterbot
+Allow: /
+Allow: /blogs/
+Allow: /services/
+Allow: /locations/
+Allow: /brands/
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# === ALL OTHER BOTS ===
 User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /portal/
 Disallow: /api/
 
+# === CANONICAL HOST & SITEMAPS ===
 Host: https://primecool.in
 Sitemap: https://primecool.in/sitemap.xml

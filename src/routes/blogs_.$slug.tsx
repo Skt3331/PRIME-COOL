@@ -17,23 +17,38 @@ export const Route = createFileRoute("/blogs_/$slug")({
   head: ({ loaderData }) => {
     const blog = loaderData?.blog;
     if (!blog) return { meta: [] };
-    const pageTitle = (blog as any).seoTitle || `${blog.title} — Prime Cool`;
+    const pageTitle = (blog as any).seoTitle || `${blog.title} | Prime Cool HVAC Blog`;
     const pageDesc = (blog as any).seoDesc || blog.summary;
+    const imageUrl = blog.image
+      ? blog.image.startsWith("http")
+        ? blog.image
+        : `https://primecool.in${blog.image.startsWith("/") ? "" : "/"}${blog.image}`
+      : "https://primecool.in/logo.png";
     const meta: any[] = [
       { title: pageTitle },
       { name: "description", content: pageDesc },
       { property: "og:title", content: pageTitle },
       { property: "og:description", content: pageDesc },
-      { property: "og:image", content: blog.image || "" },
+      { property: "og:image", content: imageUrl },
       { property: "og:type", content: "article" },
+      { property: "og:url", content: `https://primecool.in/blogs/${blog.slug}` },
+      { property: "og:site_name", content: "Prime Cool" },
+      { property: "article:author", content: blog.author || "Saurav Kailas Temgire" },
+      { property: "article:published_time", content: blog.createdAt || new Date().toISOString() },
+      { property: "article:modified_time", content: blog.updatedAt || blog.createdAt || new Date().toISOString() },
+      { property: "article:section", content: "HVAC & Refrigeration" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: pageTitle },
       { name: "twitter:description", content: pageDesc },
-      { name: "twitter:image", content: blog.image || "" },
+      { name: "twitter:image", content: imageUrl },
+      { name: "geo.region", content: "IN-MH" },
+      { name: "geo.placename", content: "Pune, Maharashtra, India" },
     ];
 
     if ((blog as any).seoKeywords) {
       meta.push({ name: "keywords", content: (blog as any).seoKeywords });
+    } else {
+      meta.push({ name: "keywords", content: `HVAC blog, ${blog.title}, AC repair Pune, HVAC tips India, Prime Cool blog` });
     }
 
     return {

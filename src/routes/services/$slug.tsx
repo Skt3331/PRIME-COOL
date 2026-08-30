@@ -59,7 +59,7 @@ export const Route = createFileRoute("/services/$slug")({
   head: ({ loaderData }) => {
     const service = loaderData?.service;
     if (!service) return { meta: [] };
-    const pageTitle = service.seoTitle || `${service.title} — Prime Cool India`;
+    const pageTitle = service.seoTitle || `${service.title} in Pune | Certified Engineers | Prime Cool`;
     const pageDesc = service.seoDesc || service.tagline;
 
     const meta: any[] = [
@@ -68,15 +68,48 @@ export const Route = createFileRoute("/services/$slug")({
       { property: "og:title", content: pageTitle },
       { property: "og:description", content: pageDesc },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://primecool.in/logo.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: pageTitle },
+      { name: "twitter:description", content: pageDesc },
+      { name: "geo.region", content: "IN-MH" },
+      { name: "geo.placename", content: "Pune, Maharashtra, India" },
     ];
 
     if (service.seoKeywords) {
       meta.push({ name: "keywords", content: service.seoKeywords });
+    } else {
+      meta.push({ name: "keywords", content: `${service.title} Pune, ${service.title} near me, ${service.title} service Maharashtra, Prime Cool Pune` });
     }
 
     return {
       meta,
       links: [{ rel: "canonical", href: `https://primecool.in/services/${service.slug}` }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: service.title,
+            description: pageDesc,
+            url: `https://primecool.in/services/${service.slug}`,
+            provider: {
+              "@type": "HVACBusiness",
+              name: "Prime Cool",
+              telephone: "+917507408461",
+              url: "https://primecool.in",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Pune",
+                addressRegion: "Maharashtra",
+                addressCountry: "IN",
+              },
+            },
+            areaServed: "Pune, Maharashtra, India",
+          }),
+        },
+      ],
     };
   },
   component: ServiceDetailsPage,

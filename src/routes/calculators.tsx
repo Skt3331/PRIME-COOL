@@ -28,20 +28,47 @@ export const Route = createFileRoute("/calculators")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.calculators;
-    const title = seo?.title || "22+ HVAC & Refrigeration Engineering Calculators Hub | Prime Cool";
+    const title = seo?.title || "22+ Free HVAC & AC Engineering Calculators | BTU, Tonnage, Superheat | Prime Cool Pune";
     const description =
       seo?.description ||
-      "Interactive engineering calculation tools for AC tonnage, BTU heat load, refrigerant PT pressure-temperature charts, superheat, subcooling, and electricity consumption.";
+      "Free online HVAC engineering tools: AC tonnage calculator, BTU heat load, R-32/R-410A refrigerant PT charts, superheat, subcooling, electricity cost estimator, and pipe sizing — built for Pune conditions.";
 
     return {
       meta: [
         { title },
         { name: "description", content: description },
+        { name: "keywords", content: "AC tonnage calculator, BTU calculator Pune, HVAC calculator India, superheat calculator, subcooling calculator, refrigerant pressure temperature chart, R410A PT chart, R32 PT chart" },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
+        { property: "og:image", content: "https://primecool.in/logo.png" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "geo.region", content: "IN-MH" },
+        { name: "geo.placename", content: "Pune, Maharashtra, India" },
       ],
       links: [{ rel: "canonical", href: "https://primecool.in/calculators" }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Prime Cool HVAC Engineering Calculator Suite",
+            applicationCategory: "UtilitiesApplication",
+            operatingSystem: "Web Browser",
+            url: "https://primecool.in/calculators",
+            description,
+            offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+            author: {
+              "@type": "Organization",
+              name: "Prime Cool",
+              url: "https://primecool.in",
+            },
+          }),
+        },
+      ],
     };
   },
   component: CalculatorsPage,

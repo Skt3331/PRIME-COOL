@@ -36,15 +36,16 @@ export const Route = createFileRoute("/portfolio")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.portfolio;
-    const title = seo?.title || "HVAC & Cold Storage Project Portfolio | Case Studies | Prime Cool";
+    const title = seo?.title || "HVAC & Cold Storage Project Portfolio | Verified Case Studies | Prime Cool Pune";
     const description =
       seo?.description ||
-      "Explore Prime Cool's verified HVAC installations, commercial VRF rollouts, factory chiller plant overhauls, and pharmaceutical cold storage case studies across Pune and MIDC industrial belts.";
+      "Verified HVAC project portfolio: VRF multi-zone installations, factory chiller plant overhauls, pharmaceutical cold storage commissioning, and split AC bulk rollouts across Pune, Ranjangaon MIDC, Chakan MIDC, and PCMC industrial zones.";
 
     return {
       meta: [
         { title },
         { name: "description", content: description },
+        { name: "keywords", content: "HVAC project portfolio Pune, VRF installation case study, industrial chiller overhaul, cold storage installation, AC installation MIDC, HVAC contractor portfolio" },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
@@ -52,8 +53,34 @@ export const Route = createFileRoute("/portfolio")({
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },
+        { name: "geo.region", content: "IN-MH" },
+        { name: "geo.placename", content: "Pune, Maharashtra, India" },
       ],
       links: [{ rel: "canonical", href: "https://primecool.in/portfolio" }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Prime Cool HVAC Project Portfolio",
+            url: "https://primecool.in/portfolio",
+            description,
+            publisher: {
+              "@type": "Organization",
+              name: "Prime Cool",
+              url: "https://primecool.in",
+            },
+            breadcrumb: {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: "https://primecool.in" },
+                { "@type": "ListItem", position: 2, name: "Portfolio", item: "https://primecool.in/portfolio" },
+              ],
+            },
+          }),
+        },
+      ],
     };
   },
   component: PortfolioPage,

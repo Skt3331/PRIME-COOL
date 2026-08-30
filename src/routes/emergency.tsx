@@ -14,22 +14,33 @@ export const Route = createFileRoute("/emergency")({
   },
   head: () => ({
     meta: [
-      { title: "Code Red Emergency Breakdown Dispatch 24/7 | Prime Cool Pune" },
+      { title: "24x7 Emergency AC & HVAC Breakdown Dispatch in Pune | 15-Min Response | Prime Cool" },
       {
         name: "description",
         content:
-          "24/7 priority emergency dispatch for industrial and commercial HVAC/R breakdowns in Pune, Wagholi, Ranjangaon, and Chakan MIDC. Guaranteed 15-minute response.",
+          "Priority 24x7 emergency HVAC breakdown dispatch across Pune, Wagholi, Ranjangaon MIDC, Chakan MIDC and Bhosari MIDC. Guaranteed 15-minute technician response. Call +91 7507408461 now.",
+      },
+      {
+        name: "keywords",
+        content:
+          "emergency AC repair Pune, 24 hour HVAC breakdown, urgent AC service Pune, industrial chiller emergency, emergency refrigeration repair, AC not cooling emergency Pune",
       },
       {
         property: "og:title",
-        content: "Code Red Emergency Breakdown Dispatch 24/7 | Prime Cool Pune",
+        content: "24x7 Emergency AC & HVAC Breakdown Dispatch in Pune | Prime Cool",
       },
       {
         property: "og:description",
         content:
-          "24/7 priority emergency dispatch for industrial and commercial HVAC/R breakdowns in Pune, Wagholi, Ranjangaon, and Chakan MIDC.",
+          "Priority 24x7 emergency dispatch for industrial and commercial HVAC/R breakdowns in Pune, Wagholi, Ranjangaon, and Chakan MIDC. 15-minute response guaranteed.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://primecool.in/logo.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "24x7 Emergency HVAC Dispatch | Prime Cool Pune" },
+      { name: "twitter:description", content: "15-min response HVAC emergency dispatch in Pune. Call now: +91 7507408461" },
+      { name: "geo.region", content: "IN-MH" },
+      { name: "geo.placename", content: "Pune, Maharashtra, India" },
     ],
     links: [{ rel: "canonical", href: "https://primecool.in/emergency" }],
     scripts: [
@@ -41,8 +52,17 @@ export const Route = createFileRoute("/emergency")({
           name: "Prime Cool Code Red Emergency HVAC Dispatch",
           url: "https://primecool.in/emergency",
           telephone: "+917507408461",
-          areaServed: ["Pune", "PCMC", "Wagholi", "Chakan MIDC", "Ranjangaon MIDC"],
+          description: "24x7 emergency HVAC breakdown dispatch with guaranteed 15-minute response across Pune, Wagholi, Ranjangaon MIDC, Chakan MIDC and Bhosari MIDC.",
+          areaServed: ["Pune", "PCMC", "Wagholi", "Kharadi", "Hadapsar", "Chakan MIDC", "Ranjangaon MIDC", "Bhosari MIDC"],
           openingHours: "Mo-Su 00:00-23:59",
+          priceRange: "₹₹",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Pune",
+            addressRegion: "Maharashtra",
+            postalCode: "412207",
+            addressCountry: "IN",
+          },
         }),
       },
     ],

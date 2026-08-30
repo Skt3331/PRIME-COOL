@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { brandsData } from "../../lib/brands-data";
 import { getCmsSettings } from "../../lib/api";
-import logo from "../../assets/logo.webp";
 import {
   ArrowLeft,
   Phone,
@@ -11,6 +10,14 @@ import {
   ShieldCheck,
   AlertTriangle,
   FileText,
+  Building2,
+  MapPin,
+  Clock,
+  ArrowRight,
+  Star,
+  CheckCircle2,
+  Cpu,
+  Sparkles,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -38,8 +45,8 @@ export const Route = createFileRoute("/brands/$slug")({
   head: ({ loaderData }) => {
     const brand = loaderData?.brand;
     if (!brand) return { meta: [] };
-    const pageTitle = `${brand.name} AC Error Codes & Spare Parts Guide — Prime Cool`;
-    const pageDesc = `Complete diagnosis guide for ${brand.name} HVAC units. Find common faults, genuine spare parts support, and searchable error code tables.`;
+    const pageTitle = `${brand.name} Authorized Service Center, Error Codes & Spare Parts | Prime Cool`;
+    const pageDesc = `Official ${brand.name} Authorized Service Center network across Pune, PCMC & MIDCs. Genuine spare parts, searchable fault error codes, and 45-min doorstep dispatch.`;
     return {
       meta: [
         { title: pageTitle },
@@ -54,21 +61,46 @@ export const Route = createFileRoute("/brands/$slug")({
   component: BrandDetailsPage,
 });
 
+const SERVICE_HUBS = [
+  { slug: "ranjangaon-midc", name: "Ranjangaon MIDC", tag: "Industrial Belt", sla: "60-Min SLA" },
+  { slug: "chakan-midc", name: "Chakan MIDC", tag: "Auto Cluster", sla: "60-Min SLA" },
+  { slug: "bhosari-midc", name: "Bhosari MIDC", tag: "PCMC Spine", sla: "45-Min SLA" },
+  { slug: "wagholi", name: "Wagholi", tag: "East Pune", sla: "30-Min SLA" },
+  { slug: "kharadi", name: "Kharadi", tag: "EON IT Park", sla: "30-Min SLA" },
+  { slug: "hadapsar", name: "Hadapsar", tag: "Magarpatta", sla: "35-Min SLA" },
+  { slug: "hinjewadi", name: "Hinjewadi", tag: "IT Phase 1-3", sla: "35-Min SLA" },
+  { slug: "baner", name: "Baner", tag: "High Street", sla: "30-Min SLA" },
+  { slug: "kothrud", name: "Kothrud", tag: "Central Pune", sla: "30-Min SLA" },
+  { slug: "viman-nagar", name: "Viman Nagar", tag: "Airport Zone", sla: "30-Min SLA" },
+  { slug: "pimple-saudagar", name: "Pimple Saudagar", tag: "PCMC Hub", sla: "30-Min SLA" },
+  { slug: "wakad", name: "Wakad", tag: "High-Rise Hub", sla: "30-Min SLA" },
+  { slug: "shikrapur", name: "Shikrapur", tag: "Logistics Belt", sla: "45-Min SLA" },
+  { slug: "sanaswadi", name: "Sanaswadi", tag: "MIDC Industrial", sla: "45-Min SLA" },
+  { slug: "shirur", name: "Shirur", tag: "MIDC Gateway", sla: "60-Min SLA" },
+];
+
 function BrandDetailsPage() {
   const { brand, cms } = Route.useLoaderData();
   const socials = cms?.socials || {};
   const phone = socials.phone || "+917507408461";
 
-  const [activeTab, setActiveTab] = useState<"diagnostics" | "errors" | "maintenance">(
-    "diagnostics",
-  );
+  const [activeTab, setActiveTab] = useState<
+    "centers" | "diagnostics" | "errors" | "maintenance"
+  >("centers");
   const [searchQuery, setSearchQuery] = useState("");
+  const [hubSearch, setHubSearch] = useState("");
 
   const filteredErrors = brand.errorCodes.filter(
     (err: any) =>
       err.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
       err.symptom.toLowerCase().includes(searchQuery.toLowerCase()) ||
       err.fix.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  const filteredHubs = SERVICE_HUBS.filter(
+    (h) =>
+      h.name.toLowerCase().includes(hubSearch.toLowerCase()) ||
+      h.tag.toLowerCase().includes(hubSearch.toLowerCase()),
   );
 
   const schemaData = {
@@ -116,86 +148,189 @@ function BrandDetailsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
       {/* Background gradients */}
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--electric)_8%,transparent),transparent_60%)] pointer-events-none" />
+      <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,rgba(14,165,233,0.12),transparent_60%)] pointer-events-none" />
 
       {/* Main Container */}
-      <main className="flex-1 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10">
+      <main className="flex-1 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full relative z-10 pt-6">
         {/* Breadcrumb */}
-        <div className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-6">
-          <Link to="/" className="hover:text-primary transition">
+        <div className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-6 flex items-center gap-2">
+          <Link to="/" className="hover:text-sky-400 transition">
             Home
           </Link>{" "}
           /{" "}
-          <Link to="/resources" className="hover:text-primary transition">
-            Resources
+          <Link to="/brands" className="hover:text-sky-400 transition">
+            Brands
           </Link>{" "}
-          / <span className="text-foreground font-semibold">{brand.name} Reference</span>
+          / <span className="text-white font-semibold">{brand.name} Service & Support</span>
         </div>
 
         {/* Hero Segment */}
         <div className="mb-10 space-y-4">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-xs font-semibold text-primary font-mono uppercase">
-            <Wrench className="h-3.5 w-3.5" />
-            <span>OEM Technical Brand Guide</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-sky-500/30 bg-sky-500/10 text-xs font-semibold text-sky-400 font-mono uppercase">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              <span>Certified {brand.name} OEM Partner</span>
+            </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-xs font-semibold text-emerald-400 font-mono">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>45-Min Doorstep Dispatch Across Pune & MIDCs</span>
+            </div>
           </div>
-          <h1 className="font-display text-3xl md:text-5xl font-bold leading-tight text-gradient">
-            {brand.name} HVAC Technical Support
+
+          <h1 className="font-display text-3xl sm:text-5xl font-extrabold leading-tight text-white">
+            {brand.name}{" "}
+            <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">
+              Authorized Service Centers & Support
+            </span>
           </h1>
-          <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-3xl">
-            Check common mechanical faults, searchable error codes, stocked spare parts lists, and
-            warranty guidance details for {brand.name} air conditioners and refrigeration compressor
-            loops.
+
+          <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl font-light">
+            Locate your nearest {brand.name} Authorized Service Center, browse common mechanical faults, search diagnostic error code matrices, and order 100% genuine OEM spare parts for all {brand.name} split ACs, cassettes, VRV/VRF systems, and refrigeration units.
           </p>
+
+          <div className="flex flex-wrap gap-3 pt-2">
+            <button
+              onClick={() => setActiveTab("centers")}
+              className="inline-flex items-center gap-2 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-6 py-2.5 text-xs shadow-lg shadow-sky-500/20 transition cursor-pointer"
+            >
+              <Building2 className="h-4 w-4" />
+              <span>Find {brand.name} Service Centers Near Me</span>
+            </button>
+            <Link
+              to="/booking"
+              search={{}}
+              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-6 py-2.5 text-xs transition cursor-pointer"
+            >
+              <Calendar className="h-4 w-4 text-sky-400" />
+              <span>Book Doorstep Visit</span>
+            </Link>
+          </div>
         </div>
 
         {/* Tabs navigation */}
-        <div className="flex border-b border-border/80 gap-2 mb-8 overflow-x-auto pb-1">
+        <div className="flex border-b border-slate-800 gap-2 mb-8 overflow-x-auto pb-1">
           <button
-            onClick={() => setActiveTab("diagnostics")}
-            className={`px-4 py-2 text-sm font-semibold whitespace-nowrap rounded-t-lg transition-colors ${
-              activeTab === "diagnostics"
-                ? "bg-slate-900 border-x border-t border-border text-primary"
-                : "text-muted-foreground hover:text-foreground"
+            onClick={() => setActiveTab("centers")}
+            className={`px-5 py-3 text-xs sm:text-sm font-bold whitespace-nowrap rounded-t-xl transition-all cursor-pointer flex items-center gap-2 ${
+              activeTab === "centers"
+                ? "bg-slate-900 border-x border-t border-slate-700 text-sky-400 shadow-sm"
+                : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/40"
             }`}
           >
-            Faults & Spares
+            <Building2 className="h-4 w-4 text-sky-400" />
+            <span>🏬 Authorized Service Centers ({SERVICE_HUBS.length})</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("diagnostics")}
+            className={`px-5 py-3 text-xs sm:text-sm font-bold whitespace-nowrap rounded-t-xl transition-all cursor-pointer flex items-center gap-2 ${
+              activeTab === "diagnostics"
+                ? "bg-slate-900 border-x border-t border-slate-700 text-sky-400 shadow-sm"
+                : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/40"
+            }`}
+          >
+            <Wrench className="h-4 w-4" />
+            <span>Faults & Genuine Spares</span>
           </button>
           <button
             onClick={() => setActiveTab("errors")}
-            className={`px-4 py-2 text-sm font-semibold whitespace-nowrap rounded-t-lg transition-colors ${
+            className={`px-5 py-3 text-xs sm:text-sm font-bold whitespace-nowrap rounded-t-xl transition-all cursor-pointer flex items-center gap-2 ${
               activeTab === "errors"
-                ? "bg-slate-900 border-x border-t border-border text-primary"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-slate-900 border-x border-t border-slate-700 text-sky-400 shadow-sm"
+                : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/40"
             }`}
           >
-            Error Code Table ({brand.errorCodes.length})
+            <AlertTriangle className="h-4 w-4 text-amber-400" />
+            <span>Error Code Table ({brand.errorCodes.length})</span>
           </button>
           <button
             onClick={() => setActiveTab("maintenance")}
-            className={`px-4 py-2 text-sm font-semibold whitespace-nowrap rounded-t-lg transition-colors ${
+            className={`px-5 py-3 text-xs sm:text-sm font-bold whitespace-nowrap rounded-t-xl transition-all cursor-pointer flex items-center gap-2 ${
               activeTab === "maintenance"
-                ? "bg-slate-900 border-x border-t border-border text-primary"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-slate-900 border-x border-t border-slate-700 text-sky-400 shadow-sm"
+                : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/40"
             }`}
           >
-            Maintenance & Warranty
+            <FileText className="h-4 w-4 text-emerald-400" />
+            <span>SOP & Warranty</span>
           </button>
         </div>
 
         {/* Tab contents */}
-        <div className="min-h-[300px]">
+        <div className="min-h-[350px]">
+          {/* TAB 1: AUTHORIZED SERVICE CENTERS */}
+          {activeTab === "centers" && (
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl bg-slate-900/60 border border-slate-800 backdrop-blur-md">
+                <div>
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <Building2 className="h-5 w-5 text-sky-400" />
+                    <span>{brand.name} Authorized Service Centers Across Pune & MIDCs</span>
+                  </h3>
+                  <p className="text-xs text-slate-400 font-mono mt-0.5">
+                    Select your locality to open dedicated {brand.name} error code diagnostics, spares catalog, and dispatch status
+                  </p>
+                </div>
+
+                <div className="relative w-full sm:w-72">
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                  <input
+                    type="text"
+                    placeholder="Filter locality (e.g. Ranjangaon, Chakan)..."
+                    value={hubSearch}
+                    onChange={(e) => setHubSearch(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredHubs.map((hub) => (
+                  <Link
+                    key={hub.slug}
+                    to="/brands/$slug/$appliance"
+                    params={{ slug: brand.slug, appliance: hub.slug }}
+                    className="p-5 rounded-2xl border border-slate-800/80 bg-slate-900/50 hover:border-sky-500/50 hover:bg-slate-900 transition-all group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[10px] font-mono uppercase bg-slate-950 text-sky-400 border border-sky-500/20 px-2 py-0.5 rounded">
+                          {hub.tag}
+                        </span>
+                        <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1">
+                          <Clock className="h-3 w-3" /> {hub.sla}
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-bold text-white group-hover:text-sky-300 transition mb-1">
+                        {brand.name} Service Center in {hub.name}
+                      </h4>
+                      <p className="text-xs text-slate-400 font-light">
+                        Doorstep AC repair, PCB micro-soldering, and OEM spares in {hub.name}.
+                      </p>
+                    </div>
+
+                    <div className="pt-3 mt-3 border-t border-slate-800/60 flex items-center justify-between text-xs font-semibold text-sky-400 group-hover:text-sky-300">
+                      <span>Open Service Center Page</span>
+                      <ArrowRight className="h-3.5 w-3.5 transform group-hover:translate-x-1 transition" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 2: DIAGNOSTICS & SPARES */}
           {activeTab === "diagnostics" && (
             <div className="grid md:grid-cols-2 gap-8 items-start">
               {/* Common Faults */}
-              <div className="border border-border/60 bg-slate-900/20 p-6 rounded-2xl space-y-4">
+              <div className="border border-slate-800 bg-slate-900/50 p-6 sm:p-8 rounded-3xl space-y-4 backdrop-blur-md">
                 <h3 className="font-display font-bold text-lg text-white flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5 text-amber-500" />
-                  <span>Common Mechanical Faults</span>
+                  <span>Common Mechanical & Inverter Faults</span>
                 </h3>
                 <ul className="space-y-3">
                   {brand.faults.map((f: string, idx: number) => (
-                    <li key={idx} className="flex gap-2 text-xs text-muted-foreground items-start">
-                      <span className="text-primary font-mono mt-0.5">•</span>
+                    <li key={idx} className="flex gap-2.5 text-xs sm:text-sm text-slate-300 items-start">
+                      <span className="text-sky-400 font-mono mt-0.5">•</span>
                       <span>{f}</span>
                     </li>
                   ))}
@@ -203,21 +338,22 @@ function BrandDetailsPage() {
               </div>
 
               {/* Spare Parts Stocked */}
-              <div className="border border-border/60 bg-slate-900/20 p-6 rounded-2xl space-y-4">
+              <div className="border border-slate-800 bg-slate-900/50 p-6 sm:p-8 rounded-3xl space-y-4 backdrop-blur-md">
                 <h3 className="font-display font-bold text-lg text-white flex items-center gap-2">
-                  <ShieldCheck className="h-5 w-5 text-primary" />
-                  <span>Genuine Spares Stocked</span>
+                  <ShieldCheck className="h-5 w-5 text-emerald-400" />
+                  <span>100% Genuine {brand.name} OEM Spares</span>
                 </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  We stock factory-approved spare parts to ensure high efficiency and fast SLAs.
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+                  We maintain factory-certified inventory to ensure zero-downtime repairs and complete warranty compliance.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-2">
                   {brand.spares.map((s: string, idx: number) => (
                     <span
                       key={idx}
-                      className="px-2.5 py-1 rounded-lg border border-border bg-slate-900 text-xs text-foreground font-mono"
+                      className="px-3 py-1.5 rounded-xl border border-slate-800 bg-slate-950 text-xs text-slate-200 font-mono flex items-center gap-1.5"
                     >
-                      {s}
+                      <CheckCircle2 className="h-3 w-3 text-emerald-400" />
+                      <span>{s}</span>
                     </span>
                   ))}
                 </div>
@@ -225,61 +361,63 @@ function BrandDetailsPage() {
             </div>
           )}
 
+          {/* TAB 3: ERROR CODES */}
           {activeTab === "errors" && (
             <div className="space-y-6">
               {/* Search Bar */}
               <div className="relative max-w-md">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
                 <input
                   type="text"
-                  placeholder="Search error codes (e.g. A6, U4)..."
+                  placeholder="Search error codes (e.g. A6, U4, E1, CH05)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-border bg-slate-900/80 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                  className="w-full pl-10 pr-4 py-3 rounded-2xl border border-slate-800 bg-slate-900/90 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-inner"
                 />
               </div>
 
               {/* Error list */}
               {filteredErrors.length > 0 ? (
-                <div className="border border-border rounded-xl overflow-hidden shadow-lg overflow-x-auto">
-                  <table className="w-full border-collapse text-left text-xs bg-slate-900/25">
+                <div className="border border-slate-800 rounded-3xl overflow-hidden shadow-xl overflow-x-auto bg-slate-900/50 backdrop-blur-md">
+                  <table className="w-full border-collapse text-left text-xs sm:text-sm text-slate-300">
                     <thead>
-                      <tr className="bg-slate-900/80 border-b border-border text-muted-foreground font-mono uppercase tracking-wider">
-                        <th className="p-4 w-28">Code</th>
-                        <th className="p-4 w-72">Symptom</th>
-                        <th className="p-4">Action/Fix</th>
+                      <tr className="bg-slate-900/90 border-b border-slate-800 text-amber-400 font-mono uppercase tracking-wider text-[11px]">
+                        <th className="p-4 sm:p-5 w-32">Error Code</th>
+                        <th className="p-4 sm:p-5 w-72">Observed Symptom</th>
+                        <th className="p-4 sm:p-5">Certified Action / Fix</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-border/60">
+                    <tbody className="divide-y divide-slate-800/60">
                       {filteredErrors.map((err: any, idx: number) => (
-                        <tr key={idx} className="hover:bg-slate-900/30 transition">
-                          <td className="p-4 font-mono font-bold text-primary">{err.code}</td>
-                          <td className="p-4 text-foreground font-medium">{err.symptom}</td>
-                          <td className="p-4 text-muted-foreground leading-relaxed">{err.fix}</td>
+                        <tr key={idx} className="hover:bg-slate-800/30 transition">
+                          <td className="p-4 sm:p-5 font-mono font-bold text-amber-400">{err.code}</td>
+                          <td className="p-4 sm:p-5 text-white font-medium">{err.symptom}</td>
+                          <td className="p-4 sm:p-5 text-sky-300 bg-sky-500/5 leading-relaxed font-medium">{err.fix}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
               ) : (
-                <div className="border border-dashed border-border p-12 text-center text-xs text-muted-foreground">
-                  No error codes match your search query. Try another code.
+                <div className="border border-dashed border-slate-800 p-12 text-center text-xs text-slate-400 rounded-3xl">
+                  No error codes match your search query. Try searching another code.
                 </div>
               )}
             </div>
           )}
 
+          {/* TAB 4: MAINTENANCE & WARRANTY */}
           {activeTab === "maintenance" && (
             <div className="grid md:grid-cols-2 gap-8 items-start">
               {/* Maintenance checklist */}
-              <div className="border border-border/60 bg-slate-900/20 p-6 rounded-2xl space-y-4">
+              <div className="border border-slate-800 bg-slate-900/50 p-6 sm:p-8 rounded-3xl space-y-4 backdrop-blur-md">
                 <h3 className="font-display font-bold text-lg text-white flex items-center gap-2">
-                  <Wrench className="h-5 w-5 text-primary" />
-                  <span>Preventative Maintenance Checklist</span>
+                  <Wrench className="h-5 w-5 text-sky-400" />
+                  <span>Factory Preventative Maintenance Checklist</span>
                 </h3>
                 <ul className="space-y-3">
                   {brand.maintenance.map((m: string, idx: number) => (
-                    <li key={idx} className="flex gap-2 text-xs text-muted-foreground items-start">
+                    <li key={idx} className="flex gap-2.5 text-xs sm:text-sm text-slate-300 items-start">
                       <span className="text-emerald-400 font-mono mt-0.5">✓</span>
                       <span>{m}</span>
                     </li>
@@ -288,17 +426,16 @@ function BrandDetailsPage() {
               </div>
 
               {/* Warranty Card */}
-              <div className="border border-border/60 bg-slate-900/20 p-6 rounded-2xl space-y-4">
+              <div className="border border-slate-800 bg-slate-900/50 p-6 sm:p-8 rounded-3xl space-y-4 backdrop-blur-md">
                 <h3 className="font-display font-bold text-lg text-white flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-primary" />
-                  <span>Warranty Guidance</span>
+                  <FileText className="h-5 w-5 text-sky-400" />
+                  <span>OEM Warranty Guidance</span>
                 </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{brand.warranty}</p>
-                <div className="bg-primary/5 border border-primary/20 p-4 rounded-xl text-xs text-muted-foreground space-y-2">
-                  <strong className="text-foreground block">Pro-Tip for System Lifespan:</strong>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">{brand.warranty}</p>
+                <div className="bg-sky-500/10 border border-sky-500/20 p-4 rounded-2xl text-xs text-slate-300 space-y-2">
+                  <strong className="text-white block font-medium">Pro-Tip for Maximum System Lifespan:</strong>
                   <span>
-                    Always maintain service history logs. Neglecting bi-annual maintenance can void
-                    manufacturer warranties on compressor replacements.
+                    Always maintain regular bi-annual maintenance records. Clean coils and balanced refrigerant charges protect inverter compressors from premature burnout.
                   </span>
                 </div>
               </div>
@@ -307,27 +444,26 @@ function BrandDetailsPage() {
         </div>
 
         {/* Immediate CTA */}
-        <div className="mt-16 p-8 rounded-2xl border border-border bg-slate-900/40 text-center space-y-4 max-w-3xl mx-auto">
-          <h3 className="font-display text-xl font-bold text-white">
-            Need authorized servicing for {brand.name} units?
+        <div className="mt-16 p-8 sm:p-12 rounded-3xl border border-sky-500/30 bg-gradient-to-br from-slate-900 via-sky-950/40 to-slate-900 text-center space-y-4 max-w-3xl mx-auto shadow-2xl">
+          <h3 className="font-display text-2xl font-bold text-white">
+            Need Immediate {brand.name} Servicing or Repair?
           </h3>
-          <p className="text-xs text-muted-foreground">
-            Our diagnostic team carries certified gauges and genuine OEM parts along the
-            Wagholi–Shirur route.
+          <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto font-light">
+            Our certified mobile field technicians carry pre-staged OEM {brand.name} spare parts and diagnostic analyzers across all Pune & PCMC hubs.
           </p>
           <div className="pt-2 flex flex-wrap justify-center gap-4">
             <Link
               to="/booking"
               search={{}}
-              className="inline-flex items-center gap-2 rounded-xl bg-primary text-primary-foreground px-6 py-2.5 text-xs font-semibold hover:opacity-90 transition cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-7 py-3 text-xs shadow-lg shadow-sky-500/25 transition cursor-pointer"
             >
               <Calendar className="h-4 w-4" /> Book Technician Visit
             </Link>
             <a
               href={`tel:${phone.replace(/\s+/g, "")}`}
-              className="inline-flex items-center gap-2 rounded-xl border border-border bg-slate-950/40 px-6 py-2.5 text-xs font-semibold hover:bg-slate-900 transition cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-7 py-3 text-xs transition cursor-pointer"
             >
-              <Phone className="h-4 w-4 text-primary" /> Call {phone}
+              <Phone className="h-4 w-4 text-sky-400" /> Call {phone}
             </a>
           </div>
         </div>

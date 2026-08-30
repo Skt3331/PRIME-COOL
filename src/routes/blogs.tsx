@@ -18,15 +18,17 @@ export const Route = createFileRoute("/blogs")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.blogs;
-    const title = seo?.title || "HVAC Engineering Insights & Technical Blog | Prime Cool Pune";
+    const blogCount = loaderData?.blogs?.length || 440;
+    const title = seo?.title || `${blogCount}+ HVAC & AC Repair Articles, Guides & Tips | Prime Cool Pune`;
     const description =
       seo?.description ||
-      "Technical HVAC articles, split AC maintenance tips, inverter compressor troubleshooting, VRF system design, and commercial refrigeration insights.";
+      "Expert HVAC articles: split AC troubleshooting, inverter PCB repair, refrigerant PT charts, cold room maintenance, industrial chiller guides, and VRF system design tips from Prime Cool Pune engineers.";
 
     return {
       meta: [
         { title },
         { name: "description", content: description },
+        { name: "keywords", content: "HVAC blog India, AC repair tips Pune, inverter AC troubleshooting, refrigerant gas charging guide, cold room maintenance, chiller maintenance, VRF system guide" },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
@@ -34,8 +36,31 @@ export const Route = createFileRoute("/blogs")({
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },
+        { name: "geo.region", content: "IN-MH" },
+        { name: "geo.placename", content: "Pune, Maharashtra, India" },
       ],
       links: [{ rel: "canonical", href: "https://primecool.in/blogs" }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Blog",
+            name: "Prime Cool HVAC Engineering Blog",
+            url: "https://primecool.in/blogs",
+            description,
+            publisher: {
+              "@type": "Organization",
+              name: "Prime Cool",
+              url: "https://primecool.in",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://primecool.in/logo.png",
+              },
+            },
+          }),
+        },
+      ],
     };
   },
   component: BlogsPage,

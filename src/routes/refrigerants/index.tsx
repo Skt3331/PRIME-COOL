@@ -23,20 +23,44 @@ export const Route = createFileRoute("/refrigerants/")({
     const seo = loaderData?.cms?.seo?.refrigerants;
     const pageTitle =
       seo?.title ||
-      "Refrigerant PT Pressure Charts & Technical Hub | R410A, R32, R134a | Prime Cool";
+      "R-410A, R-32, R-134a, R-404A Refrigerant PT Charts & Charging Guide | Prime Cool Pune";
     const pageDesc =
       seo?.description ||
-      "Technical thermodynamic pressure-temperature PT data, glide properties, charging procedures, and leak diagnostics for R-410A, R-32, R-134a, R-404A, R-407C, R-22, and R-290.";
+      "Verified refrigerant pressure-temperature PT charts, GWP data, superheat targets, leak detection, and weight-based charging procedures for R-410A, R-32, R-134a, R-404A, R-407C, R-22 and R-290 used across Pune HVAC installations.";
 
     return {
       meta: [
         { title: pageTitle },
         { name: "description", content: pageDesc },
+        { name: "keywords", content: "R410A pressure chart, R32 pressure temperature, R134a PT chart, refrigerant charging Pune, HVAC refrigerant guide India, R404A suction pressure, refrigerant leak detection" },
         { property: "og:title", content: pageTitle },
         { property: "og:description", content: pageDesc },
         { property: "og:type", content: "website" },
+        { property: "og:image", content: "https://primecool.in/logo.png" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: pageTitle },
+        { name: "twitter:description", content: pageDesc },
+        { name: "geo.region", content: "IN-MH" },
+        { name: "geo.placename", content: "Pune, Maharashtra, India" },
       ],
       links: [{ rel: "canonical", href: "https://primecool.in/refrigerants" }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "DefinedTermSet",
+            name: "HVAC Refrigerant Technical Data Hub — Prime Cool",
+            url: "https://primecool.in/refrigerants",
+            description: pageDesc,
+            publisher: {
+              "@type": "Organization",
+              name: "Prime Cool",
+              url: "https://primecool.in",
+            },
+          }),
+        },
+      ],
     };
   },
   component: RefrigerantsDirectoryPage,

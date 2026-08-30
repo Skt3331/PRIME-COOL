@@ -6,15 +6,16 @@ import { BookOpen, Search } from "lucide-react";
 export const Route = createFileRoute("/glossary")({
   head: () => ({
     meta: [
-      { title: "HVAC & Refrigeration Technical Glossary | A-Z Terms | Prime Cool" },
+      { title: "HVAC & Refrigeration Technical Glossary | 100+ A-Z Terms | Prime Cool Pune" },
       {
         name: "description",
         content:
-          "Comprehensive dictionary of HVAC, thermodynamic, and mechanical refrigeration terms including accumulator, superheat, COP, VRF, subcooling, and chiller approach temperatures.",
+          "Comprehensive A-Z glossary of HVAC, refrigeration and thermodynamic terms: accumulator, superheat, COP, VRF, subcooling, chiller approach, refrigerant GWP, EEV, IGBT, inverter PCB, and more.",
       },
+      { name: "keywords", content: "HVAC glossary, refrigeration terms, AC technical terms, superheat definition, subcooling HVAC, COP efficiency, VRF system terms, refrigerant glossary India" },
       {
         property: "og:title",
-        content: "HVAC & Refrigeration Technical Glossary | A-Z Terms | Prime Cool",
+        content: "HVAC & Refrigeration Technical Glossary | 100+ A-Z Terms | Prime Cool",
       },
       {
         property: "og:description",
@@ -22,6 +23,12 @@ export const Route = createFileRoute("/glossary")({
           "Comprehensive dictionary of HVAC, thermodynamic, and mechanical refrigeration terms.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://primecool.in/logo.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "HVAC & Refrigeration Technical Glossary | Prime Cool" },
+      { name: "twitter:description", content: "100+ A-Z HVAC & refrigeration engineering terms explained by Prime Cool certified engineers." },
+      { name: "geo.region", content: "IN-MH" },
+      { name: "geo.placename", content: "Pune, Maharashtra, India" },
     ],
     links: [{ rel: "canonical", href: "https://primecool.in/glossary" }],
     scripts: [
@@ -34,6 +41,11 @@ export const Route = createFileRoute("/glossary")({
           url: "https://primecool.in/glossary",
           description:
             "A-Z technical dictionary of heating, ventilation, air conditioning, and refrigeration concepts.",
+          publisher: {
+            "@type": "Organization",
+            name: "Prime Cool",
+            url: "https://primecool.in",
+          },
         }),
       },
     ],

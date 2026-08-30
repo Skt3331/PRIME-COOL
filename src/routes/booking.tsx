@@ -38,23 +38,54 @@ export const Route = createFileRoute("/booking")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.booking;
-    const title = seo?.title || "Book Online HVAC Service, Repair & Installation | Prime Cool Pune";
+    const title = seo?.title || "Book AC & HVAC Repair Service Online in Pune | Same Day Dispatch | Prime Cool";
     const description =
       seo?.description ||
-      "Schedule a certified HVAC technician online for split AC servicing, gas charging, cassette AC repair, or cold room inspection across Pune and MIDC zones.";
+      "Book a certified HVAC technician in Pune online — split AC servicing, gas charging, inverter PCB repair, cassette AC, cold room inspection, and industrial chiller AMC. Same-day slots available across Wagholi, Kharadi, Hadapsar, Hinjewadi, Ranjangaon MIDC, Chakan MIDC.";
 
     return {
       meta: [
         { title },
         { name: "description", content: description },
+        { name: "keywords", content: "book AC service Pune, AC repair online booking, HVAC technician Pune, same day AC repair Pune, book refrigerator repair, washing machine service booking" },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
+        { property: "og:image", content: "https://primecool.in/logo.png" },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },
+        { name: "geo.region", content: "IN-MH" },
+        { name: "geo.placename", content: "Pune, Maharashtra, India" },
       ],
       links: [{ rel: "canonical", href: "https://primecool.in/booking" }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: "Prime Cool Online HVAC Service Booking",
+            url: "https://primecool.in/booking",
+            description,
+            provider: {
+              "@type": "HVACBusiness",
+              name: "Prime Cool",
+              telephone: "+917507408461",
+              url: "https://primecool.in",
+            },
+            areaServed: [
+              "Pune", "Wagholi", "Kharadi", "Hadapsar", "Hinjewadi",
+              "Ranjangaon MIDC", "Chakan MIDC", "Bhosari MIDC", "Baner", "Kothrud"
+            ],
+            availableChannel: {
+              "@type": "ServiceChannel",
+              serviceUrl: "https://primecool.in/booking",
+              servicePhone: "+917507408461",
+            },
+          }),
+        },
+      ],
     };
   },
   component: BookingPage,
