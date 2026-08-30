@@ -24,6 +24,8 @@ import {
   Snowflake,
   ShieldCheck,
   ChevronRight,
+  Zap,
+  Sparkles,
 } from "lucide-react";
 
 export const Route = createFileRoute("/booking")({
@@ -391,19 +393,83 @@ function BookingPage() {
 
       {/* Main Content */}
       <main className="flex-1 pt-24 pb-16 px-6 relative z-10">
-        <div className="mx-auto max-w-6xl">
-          <div className="text-center max-w-2xl mx-auto mb-12 animate-fade-up">
+        <div className="mx-auto max-w-6xl space-y-10">
+          <div className="text-center max-w-2xl mx-auto animate-fade-up">
             <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-3">
               <span className="h-px w-6 bg-primary" />
               Scheduling Desk
             </div>
             <h1 className="font-display text-4xl md:text-5xl font-bold leading-tight">
-              Schedule your mechanical <span className="text-shimmer">service today.</span>
+              Book your mechanical <span className="text-shimmer">service today.</span>
             </h1>
             <p className="mt-3 text-sm text-muted-foreground delay-100 animate-fade-up">
-              Select your service, choose an available date, and pick a time slot. We will allocate
-              the correct engineer and dispatch them along the Wagholi–Shirur route.
+              Choose your preferred booking channel below. WhatsApp booking connects you instantly with our dispatch team.
             </p>
+          </div>
+
+          {/* 🟢 OPTION 1: INSTANT WHATSAPP BOOKING (PRIORITY #1) */}
+          <div className="rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-r from-slate-950 via-emerald-950/20 to-slate-950 p-6 sm:p-8 shadow-[0_0_35px_rgba(37,211,102,0.15)] relative overflow-hidden animate-fade-up">
+            <div className="absolute -top-12 -right-12 w-64 h-64 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+            <div className="relative z-10 grid lg:grid-cols-12 gap-6 items-center">
+              <div className="lg:col-span-8 space-y-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold font-mono">
+                    <Zap className="h-3.5 w-3.5 fill-emerald-400" />
+                    Option 1: Fastest Booking (Recommended)
+                  </span>
+                  <span className="text-xs text-slate-300 font-mono flex items-center gap-1">
+                    <Clock className="h-3.5 w-3.5 text-emerald-400" /> ~30-Sec Direct Response
+                  </span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white">
+                  Instant 1-Click WhatsApp Service Booking
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed max-w-2xl">
+                  Skip the form! Chat directly with lead engineer Saurav Temgire. Send photos or videos of your faulty AC / machine, get instant quotes, and receive live technician ETA.
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-[11px] font-mono text-slate-300">
+                  <div className="flex items-center gap-1.5 bg-slate-900/70 px-2.5 py-1.5 rounded-lg border border-slate-800">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                    <span>Instant Dispatch</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-slate-900/70 px-2.5 py-1.5 rounded-lg border border-slate-800">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                    <span>Send Fault Media</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-slate-900/70 px-2.5 py-1.5 rounded-lg border border-slate-800 col-span-2 sm:col-span-1">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                    <span>Live GPS Tracking</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-4 flex flex-col gap-3">
+                <a
+                  href={`https://wa.me/${cmsPhone.replace(/\D/g, "")}?text=${encodeURIComponent(
+                    selectedService
+                      ? `Hi Prime Cool, I would like to instantly book a service for: ${selectedService}. Please dispatch engineer.`
+                      : "Hi Prime Cool, I would like to book an AC / HVAC repair service. Please share technician availability.",
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-[#25D366] to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold py-4 px-6 text-base shadow-[0_0_25px_rgba(37,211,102,0.4)] transition-all transform hover:-translate-y-0.5 active:scale-95 text-center"
+                >
+                  <MessageSquare className="h-5 w-5 fill-white" />
+                  <span>Book via WhatsApp Now</span>
+                </a>
+                <p className="text-center text-[11px] text-emerald-400/90 font-mono">
+                  {selectedService ? `Selected: ${selectedService}` : "Pre-fills your service request"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative flex items-center py-2">
+            <div className="flex-grow border-t border-border"></div>
+            <span className="flex-shrink-0 mx-4 text-xs font-mono text-muted-foreground uppercase tracking-widest bg-card px-4 py-1.5 rounded-full border border-border">
+              Option 2: Or Book Online with Time-Slot
+            </span>
+            <div className="flex-grow border-t border-border"></div>
           </div>
 
           <form
@@ -621,38 +687,44 @@ function BookingPage() {
                           Processing...
                         </>
                       ) : (
-                        "Confirm Service Booking"
+                        "Confirm Online Slot Booking"
                       )}
                     </button>
-                    <p className="text-center text-[10px] text-muted-foreground mt-3 uppercase tracking-wider font-semibold">
-                      No upfront payment required
+                    <p className="text-center text-[10px] text-muted-foreground mt-2 uppercase tracking-wider font-semibold">
+                      No upfront payment required · Pay after repair
                     </p>
                   </div>
 
                   <div className="relative flex items-center py-2">
                     <div className="flex-grow border-t border-border/50"></div>
-                    <span className="flex-shrink-0 mx-4 text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
-                      or reach out directly
+                    <span className="flex-shrink-0 mx-3 text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
+                      other booking channels
                     </span>
                     <div className="flex-grow border-t border-border/50"></div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    <a
-                      href={`https://api.whatsapp.com/send/?phone=${cmsPhone.replace(/\\D/g, "")}&text=Hi+Prime+Cool%2C+I+need+a+service.`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-500 hover:bg-emerald-500/20 transition"
-                    >
-                      <MessageSquare className="h-4 w-4" /> WhatsApp
-                    </a>
-                    <a
-                      href={`tel:${cmsPhone.replace(/\\s+/g, "")}`}
-                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-slate-900/60 px-4 py-3 text-sm font-semibold hover:bg-card transition"
-                    >
-                      <PhoneIcon className="h-4 w-4 text-primary" /> Call Now
-                    </a>
-                  </div>
+                  {/* WhatsApp Priority Option */}
+                  <a
+                    href={`https://wa.me/${cmsPhone.replace(/\D/g, "")}?text=${encodeURIComponent(
+                      selectedService
+                        ? `Hi Prime Cool, I would like to book a service for: ${selectedService}.`
+                        : "Hi Prime Cool, I would like to book an AC / HVAC repair service.",
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-[#25D366] hover:from-emerald-500 hover:to-emerald-400 text-white font-bold py-3 px-4 text-xs shadow-md shadow-emerald-500/20 transition-all text-center"
+                  >
+                    <MessageSquare className="h-4 w-4" />
+                    <span>Option 1: Quick WhatsApp Booking (Fastest)</span>
+                  </a>
+
+                  <a
+                    href={`tel:${cmsPhone.replace(/\s+/g, "")}`}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-slate-900/60 hover:bg-slate-800 text-slate-200 font-semibold py-2.5 px-4 text-xs transition"
+                  >
+                    <PhoneIcon className="h-3.5 w-3.5 text-primary" />
+                    <span>Option 3: Call 24/7 Helpline ({cmsPhone})</span>
+                  </a>
                 </div>
               </div>
             </div>

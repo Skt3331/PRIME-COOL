@@ -215,6 +215,20 @@ export const Route = createFileRoute("/locations/$slug")({
   component: LocationHubPage,
 });
 
+function getSafeMapEmbedUrl(mapUrl?: string, name?: string): string {
+  if (
+    mapUrl &&
+    typeof mapUrl === "string" &&
+    mapUrl.trim().startsWith("https://") &&
+    !mapUrl.includes("!1m18") &&
+    mapUrl.includes("output=embed")
+  ) {
+    return mapUrl;
+  }
+  const query = name ? `${name}, Pune, Maharashtra, India` : "Pune, Maharashtra, India";
+  return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+}
+
 function LocationHubPage() {
   const { location, cms, geo } = Route.useLoaderData();
   const socials = cms?.socials || {};
@@ -386,25 +400,18 @@ function LocationHubPage() {
 
           {/* Map & Landmark Stats Card */}
           <div className="lg:col-span-5 border border-slate-800 bg-slate-900/50 p-6 sm:p-7 rounded-3xl space-y-6 shadow-xl backdrop-blur-md">
-            {location.mapEmbedUrl ? (
-              <div className="border border-slate-800 rounded-2xl overflow-hidden shadow-lg h-[200px] bg-slate-950">
-                <iframe
-                  title={`Google Map for ${location.name}`}
-                  src={location.mapEmbedUrl}
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen={false}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-            ) : (
-              <div className="border border-slate-800 rounded-2xl bg-slate-950 flex flex-col items-center justify-center p-6 text-center text-xs text-slate-400">
-                <MapPin className="h-8 w-8 text-sky-400/40 mb-2" />
-                <span>Geographic service boundaries for {location.name}</span>
-              </div>
-            )}
+            <div className="border border-slate-800 rounded-2xl overflow-hidden shadow-lg h-[200px] bg-slate-950">
+              <iframe
+                title={`Google Map for ${location.name}`}
+                src={getSafeMapEmbedUrl(location.mapEmbedUrl, location.name)}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
 
             <div className="space-y-3 text-xs border-t border-slate-800 pt-4">
               {location.landmarks && location.landmarks.length > 0 && (

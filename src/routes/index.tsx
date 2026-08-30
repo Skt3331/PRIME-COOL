@@ -13,7 +13,6 @@ import serviceHeavyMech from "@/assets/service_heavy_mech.webp";
 import serviceElectrical from "@/assets/service_electrical.webp";
 import serviceOverhauls from "@/assets/service_overhauls.webp";
 import serviceAmc from "@/assets/service_amc.webp";
-import { WhatsAppWidget } from "../components/WhatsAppWidget";
 import {
   Snowflake,
   Wind,
@@ -354,7 +353,6 @@ function Index() {
         <Faq faqs={cms.faqs} />
         <Contact cms={cms} />
       </main>
-      {cms?.whatsapp && <WhatsAppWidget whatsapp={cms.whatsapp} />}
     </div>
   );
 }

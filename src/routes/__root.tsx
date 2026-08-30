@@ -16,6 +16,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { trackVisit, getCmsSettings } from "../lib/api";
 import { Toaster } from "sonner";
 import { AiDiagnosticsWidget } from "../components/AiDiagnosticsWidget";
+import { WhatsAppWidget } from "../components/WhatsAppWidget";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 function NotFoundComponent() {
@@ -168,10 +169,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
         { rel: "stylesheet", href: appCss },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap",
-        },
       ],
     };
   },
@@ -260,6 +257,25 @@ function RootComponent() {
             "@context": "https://schema.org",
             "@graph": [
               {
+                "@type": "WebSite",
+                "@id": "https://primecool.in/#website",
+                url: "https://primecool.in",
+                name: "Prime Cool",
+                description:
+                  "Engineered HVAC, AC Repair, Industrial Refrigeration & PCB Micro-Soldering in Pune",
+                publisher: {
+                  "@id": "https://primecool.in/#organization",
+                },
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: {
+                    "@type": "EntryPoint",
+                    urlTemplate: "https://primecool.in/search?q={search_term_string}",
+                  },
+                  "query-input": "required name=search_term_string",
+                },
+              },
+              {
                 "@type": "Organization",
                 "@id": "https://primecool.in/#organization",
                 name: "Prime Cool",
@@ -301,7 +317,7 @@ function RootComponent() {
                 ].filter(Boolean),
               },
               {
-                "@type": ["HVACBusiness", "LocalBusiness"],
+                "@type": ["HVACBusiness", "LocalBusiness", "ProfessionalService"],
                 "@id": "https://primecool.in/#localbusiness",
                 name: "Prime Cool - HVAC, AC Repair & Industrial Refrigeration",
                 url: "https://primecool.in",
@@ -311,12 +327,52 @@ function RootComponent() {
                 description:
                   "Rapid-response HVAC, 24x7 emergency AC repair, inverter PCB micro-soldering, industrial chiller plant maintenance, and commercial cold storage servicing in Pune & MIDCs.",
                 priceRange: "₹₹",
+                paymentAccepted: "Cash, Credit Card, UPI, Net Banking",
+                currenciesAccepted: "INR",
                 aggregateRating: {
                   "@type": "AggregateRating",
                   ratingValue: "4.9",
                   reviewCount: "1850",
                   bestRating: "5",
                   worstRating: "1",
+                },
+                hasOfferCatalog: {
+                  "@type": "OfferCatalog",
+                  name: "Prime Cool HVAC & Appliance Services",
+                  itemListElement: [
+                    {
+                      "@type": "Offer",
+                      itemOffered: {
+                        "@type": "Service",
+                        name: "Split AC Jet Service & Repair",
+                        description: "High-pressure jet wash, gas charging, and cooling fault repairs for all inverter and non-inverter split ACs in Pune.",
+                      },
+                    },
+                    {
+                      "@type": "Offer",
+                      itemOffered: {
+                        "@type": "Service",
+                        name: "Inverter PCB Micro-Soldering Repair",
+                        description: "Component-level IPM module replacement and microcontroller repair with same-day doorstep testing.",
+                      },
+                    },
+                    {
+                      "@type": "Offer",
+                      itemOffered: {
+                        "@type": "Service",
+                        name: "Industrial Chiller & VRF AMC",
+                        description: "Process chiller descaling, VRV multi-zone maintenance, and commercial cooling tower overhauls in Chakan & Ranjangaon MIDCs.",
+                      },
+                    },
+                    {
+                      "@type": "Offer",
+                      itemOffered: {
+                        "@type": "Service",
+                        name: "Commercial Cold Storage & Refrigeration Repair",
+                        description: "Walk-in cold room troubleshooting, blast freezer temperature calibration, and deep freezer compressor rebuilds.",
+                      },
+                    },
+                  ],
                 },
                 areaServed: [
                   "Wagholi",
@@ -390,6 +446,18 @@ function RootComponent() {
 
       {/* Global Footer */}
       {!isAdminRoute && <Footer cms={cms} />}
+
+      {!isAdminRoute && (
+        <WhatsAppWidget
+          whatsapp={{
+            enabled: cms?.whatsapp?.enabled ?? true,
+            number: cms?.whatsapp?.number || cms?.socials?.phone || "+917507408461",
+            defaultMessage:
+              cms?.whatsapp?.defaultMessage ||
+              "Hi Prime Cool, I need HVAC / AC service assistance in Pune.",
+          }}
+        />
+      )}
 
       <AiDiagnosticsWidget />
       <Toaster position="top-right" theme="dark" closeButton richColors />

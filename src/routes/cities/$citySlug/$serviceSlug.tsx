@@ -76,6 +76,20 @@ export const Route = createFileRoute("/cities/$citySlug/$serviceSlug")({
   component: LocationServicePage,
 });
 
+function getSafeMapEmbedUrl(mapUrl?: string, name?: string): string {
+  if (
+    mapUrl &&
+    typeof mapUrl === "string" &&
+    mapUrl.trim().startsWith("https://") &&
+    !mapUrl.includes("!1m18") &&
+    mapUrl.includes("output=embed")
+  ) {
+    return mapUrl;
+  }
+  const query = name ? `${name}, Pune, Maharashtra, India` : "Pune, Maharashtra, India";
+  return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+}
+
 function LocationServicePage() {
   const { city, service, cms } = Route.useLoaderData();
   const socials = cms?.socials || {};
@@ -327,20 +341,18 @@ function LocationServicePage() {
           </div>
 
           {/* Interactive Map Embed */}
-          {city.mapEmbedUrl && (
-            <div className="border border-border/60 rounded-2xl overflow-hidden shadow-lg h-[260px] bg-slate-950">
-              <iframe
-                title={`Google Map showing coverage in ${city.name}`}
-                src={city.mapEmbedUrl}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
-          )}
+          <div className="border border-border/60 rounded-2xl overflow-hidden shadow-lg h-[260px] bg-slate-950">
+            <iframe
+              title={`Google Map showing coverage in ${city.name}`}
+              src={getSafeMapEmbedUrl(city.mapEmbedUrl, city.name)}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={false}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
         </div>
 
         {/* Local Testimonials */}

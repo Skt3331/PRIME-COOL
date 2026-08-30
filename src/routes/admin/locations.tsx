@@ -301,7 +301,7 @@ function AdminLocationsPage() {
               <div className="relative">
                 <Map className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="https://www.google.com/maps/embed?pb=..."
+                  placeholder="https://maps.google.com/maps?q=LocationName,Pune&output=embed"
                   className="pl-9"
                   value={mapEmbedUrl}
                   onChange={(e) => setMapEmbedUrl(e.target.value)}

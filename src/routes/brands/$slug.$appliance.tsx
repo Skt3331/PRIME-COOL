@@ -30,6 +30,7 @@ import {
   Tv,
   Check,
   FileCheck,
+  MessageSquare,
 } from "lucide-react";
 import { useState, useMemo } from "react";
 import { Breadcrumbs } from "../../components/Breadcrumbs";
@@ -742,23 +743,32 @@ function BrandLocationView({ data }: { data: any }) {
               <strong className="text-white font-medium">{brand.name}</strong> split ACs, inverters, cassettes, VRV/VRF systems, refrigerators, and washing machines across {location.name}.
             </p>
 
-            {/* Quick CTAs */}
-            <div className="flex flex-wrap gap-4 pt-2">
+            {/* Quick CTAs - WhatsApp First */}
+            <div className="flex flex-wrap gap-3 pt-2">
+              <a
+                href={`https://wa.me/${phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi Prime Cool, I need urgent ${brand.name} service / repair in ${location.name}.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-emerald-600 to-[#25D366] hover:from-emerald-500 hover:to-emerald-400 text-white font-bold px-7 py-3.5 text-sm shadow-[0_0_25px_rgba(37,211,102,0.4)] transition-all transform hover:-translate-y-0.5 cursor-pointer"
+              >
+                <MessageSquare className="h-4 w-4" />
+                <span>WhatsApp {brand.name} Center</span>
+              </a>
+              <a
+                href={`tel:${phone.replace(/\s+/g, "")}`}
+                className="inline-flex items-center gap-2.5 rounded-full border border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-white font-semibold px-7 py-3.5 text-sm transition-all transform hover:-translate-y-0.5 cursor-pointer backdrop-blur-sm shadow-md"
+              >
+                <Phone className="h-4 w-4 text-sky-400" />
+                <span>Call Hotline: {phone}</span>
+              </a>
               <Link
                 to="/booking"
                 search={{}}
-                className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold px-8 py-4 text-sm shadow-xl shadow-sky-500/25 transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 font-semibold px-6 py-3.5 text-xs transition-all cursor-pointer"
               >
-                <Calendar className="h-4 w-4" />
-                <span>Book {brand.name} Repair Online</span>
+                <Calendar className="h-4 w-4 text-sky-400" />
+                <span>Book Online Slot</span>
               </Link>
-              <a
-                href={`tel:${phone.replace(/\s+/g, "")}`}
-                className="inline-flex items-center gap-2.5 rounded-full border border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-white font-semibold px-8 py-4 text-sm transition-all transform hover:-translate-y-0.5 cursor-pointer backdrop-blur-sm shadow-md"
-              >
-                <Phone className="h-4 w-4 text-sky-400" />
-                <span>24/7 Hotline: {phone}</span>
-              </a>
             </div>
 
             {/* SLA Highlights */}
@@ -812,6 +822,73 @@ function BrandLocationView({ data }: { data: any }) {
             <div className="rounded-2xl bg-slate-950/70 p-4 border border-slate-800/60 flex items-center justify-between text-xs">
               <span className="text-slate-400">Lead Systems Engineer:</span>
               <span className="text-sky-300 font-medium font-mono">Saurav Kailas Temgire</span>
+            </div>
+          </div>
+        </section>
+
+        {/* 🏬 DEDICATED SERVICE CENTER CONTACT & DISPATCH DESK */}
+        <section className="rounded-3xl border border-sky-500/30 bg-gradient-to-br from-slate-950 via-slate-900/90 to-slate-950 p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 grid lg:grid-cols-12 gap-6 items-center">
+            <div className="lg:col-span-8 space-y-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-400 text-xs font-bold font-mono">
+                  <Building2 className="h-3.5 w-3.5" />
+                  {brand.name} Service Center Contact Desk · {location.name}
+                </span>
+                <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                  <CheckCircle2 className="h-3 w-3" /> Technicians on Duty
+                </span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold font-display text-white">
+                Direct Contact & Doorstep Dispatch for {brand.name} in {location.name}
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
+                For prompt {brand.name} inverter split AC repairs, gas filling, PCB micro-soldering, and commercial maintenance, contact our local service center desk directly.
+              </p>
+              <div className="grid sm:grid-cols-2 gap-3 text-xs text-slate-300 pt-1 font-mono">
+                <div className="flex items-start gap-2 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+                  <MapPin className="h-4 w-4 text-sky-400 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-white block">Service Center Address:</strong>
+                    <span>Prime Cool Hub, {location.name} Route, Pune - 412207</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+                  <Clock className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-white block">Operating Hours:</strong>
+                    <span>24x7 Emergency Support · 8:00 AM – 9:00 PM Daily</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-4 flex flex-col gap-3">
+              <a
+                href={`https://wa.me/${phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi Prime Cool, I need ${brand.name} service center assistance in ${location.name}.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold py-3.5 px-5 text-sm shadow-[0_0_20px_rgba(37,211,102,0.35)] transition-all"
+              >
+                <MessageSquare className="h-4 w-4" />
+                <span>1-Click WhatsApp Desk</span>
+              </a>
+              <a
+                href={`tel:${phone.replace(/\s+/g, "")}`}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-700 bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 px-5 text-sm transition-all"
+              >
+                <Phone className="h-4 w-4 text-sky-400" />
+                <span>Call Center: {phone}</span>
+              </a>
+              <Link
+                to="/booking"
+                search={{}}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-2xl border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 font-semibold py-2.5 px-5 text-xs transition-all text-center"
+              >
+                <Calendar className="h-3.5 w-3.5" />
+                <span>Schedule Online Booking</span>
+              </Link>
             </div>
           </div>
         </section>
@@ -1168,21 +1245,30 @@ function BrandLocationView({ data }: { data: any }) {
               Our mobile technical vans carry pre-staged OEM {brand.name} compressors, capacitors, fan motors, and refrigerant cylinders for same-day recovery.
             </p>
           </div>
-          <div className="flex flex-wrap justify-center gap-4 relative z-10 pt-2">
+          <div className="flex flex-wrap justify-center gap-3 relative z-10 pt-2">
+            <a
+              href={`https://wa.me/${phone.replace(/\D/g, "")}?text=${encodeURIComponent(`EMERGENCY: Urgent ${brand.name} AC/appliance breakdown in ${location.name}. Please dispatch engineer immediately.`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-emerald-600 to-[#25D366] hover:from-emerald-500 hover:to-emerald-400 text-white font-bold px-8 py-4 text-sm shadow-xl shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5 cursor-pointer"
+            >
+              <MessageSquare className="h-4 w-4" />
+              <span>1-Click WhatsApp Dispatch</span>
+            </a>
             <a
               href={`tel:${phone.replace(/\s+/g, "")}`}
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold px-8 py-4 text-sm shadow-xl shadow-sky-500/30 transition-all transform hover:-translate-y-0.5 cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/90 hover:bg-slate-800 text-white font-semibold px-8 py-4 text-sm transition-all transform hover:-translate-y-0.5 cursor-pointer"
             >
-              <Phone className="h-4 w-4" />
-              <span>Call Lead Engineer Now ({phone})</span>
+              <Phone className="h-4 w-4 text-sky-400" />
+              <span>Call Hotline ({phone})</span>
             </a>
             <Link
               to="/booking"
               search={{}}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-8 py-4 text-sm transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 font-semibold px-6 py-4 text-sm transition-all cursor-pointer"
             >
               <Calendar className="h-4 w-4 text-sky-400" />
-              <span>Schedule Inspection Slot</span>
+              <span>Schedule Slot</span>
             </Link>
           </div>
         </section>
@@ -1303,20 +1389,31 @@ function BrandApplianceView({ data }: { data: any }) {
           <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto font-light">
             Book our certified technician for 45-minute doorstep dispatch across Pune & PCMC.
           </p>
-          <div className="flex flex-wrap justify-center gap-4 pt-2">
+          <div className="flex flex-wrap justify-center gap-3 pt-2">
+            <a
+              href={`https://wa.me/${phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi Prime Cool, I need service assistance for ${brand.name} ${appliance.title}.`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs shadow-lg shadow-emerald-500/25 transition cursor-pointer inline-flex items-center gap-2"
+            >
+              <MessageSquare className="h-4 w-4" />
+              <span>WhatsApp Booking</span>
+            </a>
+            <a
+              href={`tel:${phone.replace(/\s+/g, "")}`}
+              className="px-8 py-3.5 rounded-full border border-slate-700 bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition cursor-pointer inline-flex items-center gap-2"
+            >
+              <Phone className="h-4 w-4 text-sky-400" />
+              <span>Call {phone}</span>
+            </a>
             <Link
               to="/booking"
               search={{}}
-              className="px-8 py-3.5 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs shadow-lg shadow-sky-500/25 transition cursor-pointer"
+              className="px-8 py-3.5 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs shadow-lg shadow-sky-500/25 transition cursor-pointer inline-flex items-center gap-2"
             >
-              Book Service Online
+              <Calendar className="h-4 w-4" />
+              <span>Book Online</span>
             </Link>
-            <a
-              href={`tel:${phone.replace(/\s+/g, "")}`}
-              className="px-8 py-3.5 rounded-full border border-slate-700 bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition cursor-pointer"
-            >
-              Call {phone}
-            </a>
           </div>
         </div>
       </main>

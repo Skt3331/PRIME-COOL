@@ -16,6 +16,10 @@ import {
   Wrench,
   Clock,
   CheckCircle2,
+  MessageSquare,
+  Calendar,
+  Headphones,
+  Mail,
 } from "lucide-react";
 
 export const Route = createFileRoute("/brands/")({
@@ -201,8 +205,11 @@ const BRAND_COMPARISONS = [
 ];
 
 function BrandsDirectoryPage() {
-  const { cms } = Route.useLoaderData();
+  const { cms } = Route.useLoaderData() as { cms: any };
   const phone = cms?.socials?.phone || "+917507408461";
+  const email = cms?.socials?.email || "support@primecool.in";
+  const formattedPhone = phone.replace(/\D/g, "");
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedBrandForHub, setSelectedBrandForHub] = useState("daikin");
 
@@ -222,7 +229,7 @@ function BrandsDirectoryPage() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(14,165,233,0.12),transparent_60%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.08),transparent_50%)] pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 z-10 space-y-16">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 z-10 space-y-12">
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/25 text-sky-400 text-xs font-mono font-bold uppercase tracking-widest shadow-[0_0_15px_rgba(14,165,233,0.2)]">
@@ -239,6 +246,72 @@ function BrandsDirectoryPage() {
             Locate certified Brand Authorized Service Centers for Daikin, Voltas, Blue Star, LG, Hitachi, Carrier, Panasonic, and Samsung. 100% genuine OEM spare parts, 45-minute doorstep dispatch, and factory-trained engineers.
           </p>
         </div>
+
+        {/* 📞 DEDICATED SERVICE CENTER CONTACT & HELPDESK CARD */}
+        <section className="rounded-3xl border border-emerald-500/30 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 grid lg:grid-cols-12 gap-6 items-center">
+            <div className="lg:col-span-7 space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-bold font-mono">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+                  Service Center Helpdesk Active (24x7)
+                </span>
+                <span className="text-xs text-slate-400 font-mono">
+                  Doorstep Dispatch: 45 Mins
+                </span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold font-display text-white">
+                Need Immediate Assistance from a Brand Service Center?
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
+                Connect directly with certified service engineers for AC breakdown repair, gas recharging, inverter PCB replacements, and OEM warranty claims across Pune, PCMC & MIDCs.
+              </p>
+              <div className="flex flex-wrap gap-4 text-xs text-slate-400 font-mono pt-1">
+                <div className="flex items-center gap-1.5">
+                  <MapPin className="h-3.5 w-3.5 text-sky-400" />
+                  <span>HQ: Wagholi-Shirur Corridor, Pune</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Clock className="h-3.5 w-3.5 text-emerald-400" />
+                  <span>24x7 Emergency & Daily 8AM - 9PM</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3">
+              {/* Option 1: WhatsApp Contact */}
+              <a
+                href={`https://wa.me/${formattedPhone}?text=${encodeURIComponent("Hi Prime Cool, I need assistance from the Brand Authorized Service Center.")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 inline-flex items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-[#25D366] hover:from-emerald-500 hover:to-emerald-400 text-white font-bold px-6 py-3.5 text-sm shadow-[0_0_20px_rgba(37,211,102,0.35)] transition-all transform hover:-translate-y-0.5"
+              >
+                <MessageSquare className="h-4 w-4" />
+                <span>1-Click WhatsApp Helpdesk</span>
+              </a>
+
+              {/* Option 2: 24/7 Hotline */}
+              <a
+                href={`tel:${phone.replace(/\s+/g, "")}`}
+                className="flex-1 inline-flex items-center justify-center gap-2.5 rounded-2xl border border-slate-700 bg-slate-900/90 hover:bg-slate-800 text-white font-semibold px-6 py-3.5 text-sm transition-all"
+              >
+                <Phone className="h-4 w-4 text-sky-400" />
+                <span>Call Hotline: {phone}</span>
+              </a>
+
+              {/* Option 3: Book Online */}
+              <Link
+                to="/booking"
+                search={{}}
+                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 font-semibold px-6 py-2.5 text-xs transition-all text-center"
+              >
+                <Calendar className="h-3.5 w-3.5" />
+                <span>Schedule Online Service Slot</span>
+              </Link>
+            </div>
+          </div>
+        </section>
 
         {/* 🏬 INTERACTIVE SERVICE CENTER LOCATOR HUB */}
         <section className="rounded-3xl border border-sky-500/30 bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-slate-950 p-6 sm:p-10 backdrop-blur-xl shadow-2xl space-y-6">

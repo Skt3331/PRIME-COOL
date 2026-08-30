@@ -65,14 +65,17 @@ app.use((req, res, next) => {
   next();
 });
 
-// 1. Serve static files from dist/client
+// 1. Serve static files from dist/client with high-performance caching
 app.use(
   express.static(CLIENT_DIR, {
     index: "index.html",
     maxAge: "1y",
+    immutable: true,
     setHeaders: (res, filePath) => {
       if (filePath.endsWith(".html")) {
         res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
+      } else if (filePath.match(/\.(js|css|webp|png|jpg|jpeg|svg|woff2|woff|ttf)$/)) {
+        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
       }
     },
   }),

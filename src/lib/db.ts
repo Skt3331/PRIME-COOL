@@ -330,7 +330,7 @@ function getInitialLocations(): LocationDetail[] {
         },
       ],
       mapEmbedUrl:
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d3782.2612989435647!2d73.97827827519266!3d18.574635682527878!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c3f878f10fb5%3A0x6b4ef82110c73243!2sWagholi%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000",
+        "https://maps.google.com/maps?q=Wagholi%2C%20Pune%2C%20Maharashtra&t=&z=13&ie=UTF8&iwloc=&output=embed",
       faqs: [
         {
           q: "How fast can you dispatch an AC technician in Wagholi?",
@@ -354,7 +354,7 @@ function getInitialLocations(): LocationDetail[] {
         },
       ],
       mapEmbedUrl:
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d3783.5029012435647!2d73.9262!3d18.5089!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c1f9d50a2f5f%3A0xe5a3c9e6db3fbc5!2sHadapsar%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000",
+        "https://maps.google.com/maps?q=Hadapsar%2C%20Pune%2C%20Maharashtra&t=&z=13&ie=UTF8&iwloc=&output=embed",
       faqs: [
         {
           q: "Do you service VRF/VRV air conditioning systems?",

@@ -18,6 +18,7 @@ import {
   CheckCircle2,
   Cpu,
   Sparkles,
+  MessageSquare,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -189,20 +190,65 @@ function BrandDetailsPage() {
           </p>
 
           <div className="flex flex-wrap gap-3 pt-2">
+            <a
+              href={`https://wa.me/${phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi Prime Cool, I need ${brand.name} Service Center assistance in Pune.`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-600 to-[#25D366] hover:from-emerald-500 hover:to-emerald-400 text-white font-bold px-6 py-2.5 text-xs shadow-lg shadow-emerald-500/25 transition cursor-pointer"
+            >
+              <MessageSquare className="h-4 w-4" />
+              <span>WhatsApp {brand.name} Desk</span>
+            </a>
+            <a
+              href={`tel:${phone.replace(/\s+/g, "")}`}
+              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-6 py-2.5 text-xs transition cursor-pointer"
+            >
+              <Phone className="h-4 w-4 text-sky-400" />
+              <span>Call Hotline ({phone})</span>
+            </a>
             <button
               onClick={() => setActiveTab("centers")}
-              className="inline-flex items-center gap-2 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-6 py-2.5 text-xs shadow-lg shadow-sky-500/20 transition cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-full bg-sky-500/15 border border-sky-500/30 hover:bg-sky-500/25 text-sky-300 font-bold px-6 py-2.5 text-xs transition cursor-pointer"
             >
               <Building2 className="h-4 w-4" />
-              <span>Find {brand.name} Service Centers Near Me</span>
+              <span>Find Centers Near Me</span>
             </button>
+          </div>
+        </div>
+
+        {/* 🏬 SERVICE CENTER CONTACT & HELPDESK BANNER */}
+        <div className="rounded-3xl border border-sky-500/30 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 p-6 sm:p-7 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                <CheckCircle2 className="h-3 w-3" /> Certified {brand.name} Service Network
+              </span>
+              <span className="text-[11px] font-mono text-slate-400">45-Min Doorstep Dispatch</span>
+            </div>
+            <h2 className="text-lg sm:text-xl font-bold text-white">
+              Official {brand.name} Customer Support & Engineer Dispatch
+            </h2>
+            <p className="text-xs text-slate-300 font-light max-w-2xl">
+              Hub Location: Wagholi-Shirur Industrial Corridor, Nagar Road, Pune · 24x7 Emergency Breakdown & 8:00 AM – 9:00 PM Service Desk
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            <a
+              href={`https://wa.me/${phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi Prime Cool, I need ${brand.name} technician dispatch.`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold px-5 py-3 text-xs shadow-md shadow-emerald-500/20 transition"
+            >
+              <MessageSquare className="h-3.5 w-3.5" />
+              <span>1-Click WhatsApp</span>
+            </a>
             <Link
               to="/booking"
               search={{}}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-6 py-2.5 text-xs transition cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-2xl border border-slate-700 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-5 py-3 text-xs transition"
             >
-              <Calendar className="h-4 w-4 text-sky-400" />
-              <span>Book Doorstep Visit</span>
+              <Calendar className="h-3.5 w-3.5 text-sky-400" />
+              <span>Schedule Slot</span>
             </Link>
           </div>
         </div>

@@ -70,6 +70,20 @@ export const Route = createFileRoute("/cities/$slug")({
   component: LocationDetailsPage,
 });
 
+function getSafeMapEmbedUrl(mapUrl?: string, name?: string): string {
+  if (
+    mapUrl &&
+    typeof mapUrl === "string" &&
+    mapUrl.trim().startsWith("https://") &&
+    !mapUrl.includes("!1m18") &&
+    mapUrl.includes("output=embed")
+  ) {
+    return mapUrl;
+  }
+  const query = name ? `${name}, Pune, Maharashtra, India` : "Pune, Maharashtra, India";
+  return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+}
+
 function LocationDetailsPage() {
   const { location, cms } = Route.useLoaderData();
   const socials = cms?.socials || {};
@@ -217,24 +231,18 @@ function LocationDetailsPage() {
 
           {/* Map & Immediate Action Card */}
           <div className="lg:col-span-5 sticky top-24 space-y-6">
-            {location.mapEmbedUrl ? (
-              <div className="aspect-video w-full rounded-2xl border border-border overflow-hidden bg-slate-900 relative shadow-xl">
-                <iframe
-                  src={location.mapEmbedUrl}
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen={false}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title={`${location.name} Service Map`}
-                />
-              </div>
-            ) : (
-              <div className="aspect-video w-full rounded-2xl border border-border flex items-center justify-center bg-slate-900/50 text-muted-foreground text-xs">
-                Map coverage is managed dynamically by central dispatch.
-              </div>
-            )}
+            <div className="aspect-video w-full rounded-2xl border border-border overflow-hidden bg-slate-900 relative shadow-xl">
+              <iframe
+                src={getSafeMapEmbedUrl(location.mapEmbedUrl, location.name)}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title={`${location.name} Service Map`}
+              />
+            </div>
 
             {/* Quick Dispatch Box */}
             <div className="border border-border bg-slate-900/80 backdrop-blur-md rounded-2xl p-6 shadow-xl space-y-6">
