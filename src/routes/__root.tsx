@@ -29,7 +29,8 @@ function NotFoundComponent() {
           Page Not Found
         </h1>
         <p className="text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
-          The requested page or diagnostic resource could not be found or has been relocated to our updated service directory.
+          The requested page or diagnostic resource could not be found or has been relocated to our
+          updated service directory.
         </p>
 
         <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
@@ -41,7 +42,7 @@ function NotFoundComponent() {
             Return to Home
           </Link>
           <Link
-            to="/services"
+            to={"/services" as any}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-xs font-bold text-slate-200 hover:bg-white/10 hover:text-white transition"
           >
             Browse Services Directory
@@ -112,14 +113,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       meta: [
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { name: "google-site-verification", content: "804_rTKMffV7SOqPQIoeFjuvO3lgthIdcQTQpAUtMxQ" },
+        {
+          name: "google-site-verification",
+          content: "804_rTKMffV7SOqPQIoeFjuvO3lgthIdcQTQpAUtMxQ",
+        },
         { title: "Prime Cool — HVAC, Appliance & Industrial Mechanical Solutions in Pune" },
         {
           name: "description",
           content:
-            "Prime Cool delivers rapid-response HVAC, refrigeration, appliance repair, and heavy industrial mechanical services across Pune, Wagholi–Shirur, Karegaon and Ranjangaon.",
+            "Prime Cool delivers rapid-response HVAC, refrigeration, appliance repair, and heavy industrial mechanical services across Pune, Wagholi–Shirur, Karegaon and Ranjangaon MIDC.",
         },
         { name: "author", content: "Prime Cool" },
+        { name: "robots", content: "index, follow, max-image-preview:large" },
+        { property: "og:site_name", content: "Prime Cool" },
+        { property: "og:locale", content: "en_IN" },
         { property: "og:title", content: "Prime Cool — Engineered Climate & Mechanical Solutions" },
         {
           property: "og:description",
@@ -127,18 +134,37 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             "From split ACs to factory cooling towers — precision engineering, zero-downtime maintenance, and rapid service along the Wagholi–Shirur corridor.",
         },
         { property: "og:type", content: "website" },
+        { property: "og:url", content: "https://primecool.in" },
         { property: "og:image", content: "https://primecool.in/logo.png" },
         { property: "og:image:width", content: "512" },
         { property: "og:image:height", content: "512" },
         { property: "og:image:type", content: "image/png" },
+        { property: "og:image:alt", content: "Prime Cool Engineered HVAC & Mechanical Solutions" },
         { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:site", content: "@primecool_in" },
+        { name: "twitter:title", content: "Prime Cool — HVAC & Industrial Mechanical Solutions" },
+        {
+          name: "twitter:description",
+          content:
+            "Rapid-response HVAC, cold room maintenance, and industrial mechanical services in Pune.",
+        },
         { name: "twitter:image", content: "https://primecool.in/logo.png" },
       ],
       links: [
+        { rel: "canonical", href: "https://primecool.in" },
         { rel: "icon", type: "image/x-icon", href: "https://primecool.in/favicon.ico" },
-        { rel: "icon", type: "image/png", sizes: "32x32", href: "https://primecool.in/favicon.png" },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "32x32",
+          href: "https://primecool.in/favicon.png",
+        },
         { rel: "icon", type: "image/png", sizes: "192x192", href: "https://primecool.in/logo.png" },
-        { rel: "apple-touch-icon", sizes: "180x180", href: "https://primecool.in/apple-touch-icon.png" },
+        {
+          rel: "apple-touch-icon",
+          sizes: "180x180",
+          href: "https://primecool.in/apple-touch-icon.png",
+        },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
         { rel: "stylesheet", href: appCss },
@@ -245,7 +271,7 @@ function RootComponent() {
                   contentUrl: cms?.theme?.logo || "https://primecool.in/logo.png",
                   caption: "Prime Cool Mechanical & Climate Solutions Logo",
                   width: 512,
-                  height: 512
+                  height: 512,
                 },
                 image: cms?.theme?.logo || "https://primecool.in/logo.png",
                 telephone: cms?.socials?.phone || "+917507408461",
@@ -265,7 +291,8 @@ function RootComponent() {
                 logo: cms?.theme?.logo || "https://primecool.in/logo.png",
                 image: cms?.theme?.logo || "https://primecool.in/logo.png",
                 telephone: cms?.socials?.phone || "+917507408461",
-                description: "Rapid-response HVAC, air conditioning repair, refrigeration, and industrial cooling solutions in Pune.",
+                description:
+                  "Rapid-response HVAC, air conditioning repair, refrigeration, and industrial cooling solutions in Pune.",
                 priceRange: "$$",
                 areaServed: [
                   "Wagholi",
@@ -315,8 +342,8 @@ function RootComponent() {
                   cms?.socials?.youtube,
                   cms?.socials?.twitter,
                 ].filter(Boolean),
-              }
-            ]
+              },
+            ],
           }),
         }}
       />
@@ -324,44 +351,15 @@ function RootComponent() {
       {!isAdminRoute && <Header cms={cms} />}
 
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <div className={!isAdminRoute ? "pt-16" : ""}>
+      <div className="min-h-screen w-full overflow-x-clip">
         <Outlet />
       </div>
 
       {/* Global Footer */}
       {!isAdminRoute && <Footer cms={cms} />}
 
-      {/* Google Analytics 4 Script (Deferred) */}
-      <DeferredGTM />
       <AiDiagnosticsWidget />
       <Toaster position="top-right" theme="dark" closeButton richColors />
     </QueryClientProvider>
-  );
-}
-
-function DeferredGTM() {
-  const [load, setLoad] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoad(true), 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!load) return null;
-
-  return (
-    <>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-PC12345678" />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){window.dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-PC12345678', { send_page_view: false });
-      `,
-        }}
-      />
-    </>
   );
 }

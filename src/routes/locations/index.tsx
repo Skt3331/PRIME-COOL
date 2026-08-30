@@ -23,7 +23,8 @@ export const Route = createFileRoute("/locations/")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.locations;
-    const pageTitle = seo?.title || "HVAC, AC Repair & Industrial Service Locations | Prime Cool Pune";
+    const pageTitle =
+      seo?.title || "HVAC, AC Repair & Industrial Service Locations | Prime Cool Pune";
     const pageDesc =
       seo?.description ||
       "Explore Prime Cool service hubs across Wagholi, Hadapsar, Kharadi, Chakan MIDC, Ranjangaon MIDC, Shirur, Pune, and Maharashtra. 24/7 priority technician dispatch.";
@@ -47,12 +48,42 @@ export const Route = createFileRoute("/locations/")({
             url: "https://primecool.in/locations",
             numberOfItems: 6,
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Wagholi HQ & Service Hub", url: "https://primecool.in/locations/wagholi" },
-              { "@type": "ListItem", position: 2, name: "Hadapsar & Magarpatta IT City", url: "https://primecool.in/locations/hadapsar" },
-              { "@type": "ListItem", position: 3, name: "Kharadi EON Free Zone Corridor", url: "https://primecool.in/locations/kharadi" },
-              { "@type": "ListItem", position: 4, name: "Chakan Industrial Zone (MIDC)", url: "https://primecool.in/locations/chakan-midc" },
-              { "@type": "ListItem", position: 5, name: "Ranjangaon MIDC Industrial Hub", url: "https://primecool.in/locations/ranjangaon-midc" },
-              { "@type": "ListItem", position: 6, name: "Shirur Industrial Zone & City", url: "https://primecool.in/locations/shirur" },
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Wagholi HQ & Service Hub",
+                url: "https://primecool.in/locations/wagholi",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Hadapsar & Magarpatta IT City",
+                url: "https://primecool.in/locations/hadapsar",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "Kharadi EON Free Zone Corridor",
+                url: "https://primecool.in/locations/kharadi",
+              },
+              {
+                "@type": "ListItem",
+                position: 4,
+                name: "Chakan Industrial Zone (MIDC)",
+                url: "https://primecool.in/locations/chakan-midc",
+              },
+              {
+                "@type": "ListItem",
+                position: 5,
+                name: "Ranjangaon MIDC Industrial Hub",
+                url: "https://primecool.in/locations/ranjangaon-midc",
+              },
+              {
+                "@type": "ListItem",
+                position: 6,
+                name: "Shirur Industrial Zone & City",
+                url: "https://primecool.in/locations/shirur",
+              },
             ],
           }),
         },
@@ -137,7 +168,12 @@ const LOCATION_HUBS = [
     dispatchTime: "30 - 45 Mins",
     techsOnStandby: "7 Industrial Engineers",
     address: "Chakan Industrial Area Phase 1-4, Pune",
-    popularServices: ["CNC Machine Chillers", "Process Cooling", "Air Compressors", "HVAC Plant AMC"],
+    popularServices: [
+      "CNC Machine Chillers",
+      "Process Cooling",
+      "Air Compressors",
+      "HVAC Plant AMC",
+    ],
     badgeColor: "bg-emerald-500/10 border-emerald-500/30 text-emerald-400",
   },
   {
@@ -170,7 +206,12 @@ const LOCATION_HUBS = [
     dispatchTime: "15 - 25 Mins",
     techsOnStandby: "5 Technicians",
     address: "Ahmednagar Highway, Lonikand, Pune",
-    popularServices: ["Residential AC Tune-Up", "Refrigerator Repair", "Washing Machine", "Gas Leak"],
+    popularServices: [
+      "Residential AC Tune-Up",
+      "Refrigerator Repair",
+      "Washing Machine",
+      "Gas Leak",
+    ],
     badgeColor: "bg-cyan-500/10 border-cyan-500/30 text-cyan-400",
   },
   {
@@ -192,7 +233,12 @@ const LOCATION_HUBS = [
     dispatchTime: "25 - 40 Mins",
     techsOnStandby: "5 Technicians",
     address: "Pabal Road Junction, Shikrapur, MH",
-    popularServices: ["Cold Storage Freezers", "Display Cabinets", "Packaged Units", "Water Coolers"],
+    popularServices: [
+      "Cold Storage Freezers",
+      "Display Cabinets",
+      "Packaged Units",
+      "Water Coolers",
+    ],
     badgeColor: "bg-emerald-500/10 border-emerald-500/30 text-emerald-400",
   },
   {
@@ -278,7 +324,9 @@ function LocationsDirectoryPage() {
   const { cms } = Route.useLoaderData();
   const phone = cms?.socials?.phone || "+917507408461";
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeRegion, setActiveRegion] = useState<"all" | "pune-east" | "midc" | "pune-city" | "districts">("all");
+  const [activeRegion, setActiveRegion] = useState<
+    "all" | "pune-east" | "midc" | "pune-city" | "districts"
+  >("all");
 
   const filteredLocations = LOCATION_HUBS.filter((loc) => {
     const matchesSearch =
@@ -316,7 +364,9 @@ function LocationsDirectoryPage() {
             Service Locations & <span className="text-shimmer">Regional Hubs.</span>
           </h1>
           <p className="text-base text-slate-400 leading-relaxed">
-            Prime Cool operates dedicated mobile technician units along the Wagholi–Shirur industrial corridor, Pune Metro, and MIDC manufacturing zones. Rapid on-site dispatch under 30 to 45 minutes.
+            Prime Cool operates dedicated mobile technician units along the Wagholi–Shirur
+            industrial corridor, Pune Metro, and MIDC manufacturing zones. Rapid on-site dispatch
+            under 30 to 45 minutes.
           </p>
         </div>
 
@@ -367,7 +417,9 @@ function LocationsDirectoryPage() {
 
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${loc.badgeColor}`}>
+                    <span
+                      className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${loc.badgeColor}`}
+                    >
                       {loc.type}
                     </span>
                   </div>
@@ -383,22 +435,33 @@ function LocationsDirectoryPage() {
 
                   <div className="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-black/40 border border-white/5 mb-4 text-xs">
                     <div>
-                      <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">Dispatch SLA</span>
+                      <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">
+                        Dispatch SLA
+                      </span>
                       <span className="font-bold text-white flex items-center gap-1 mt-0.5">
                         <Clock className="h-3.5 w-3.5 text-emerald-400" /> {loc.dispatchTime}
                       </span>
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">Field Engineers</span>
-                      <span className="font-bold text-[#00c8ff] mt-0.5 block">{loc.techsOnStandby}</span>
+                      <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">
+                        Field Engineers
+                      </span>
+                      <span className="font-bold text-[#00c8ff] mt-0.5 block">
+                        {loc.techsOnStandby}
+                      </span>
                     </div>
                   </div>
 
                   <div className="space-y-1.5 mb-6">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Top Local Services:</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">
+                      Top Local Services:
+                    </span>
                     <div className="flex flex-wrap gap-1.5">
                       {loc.popularServices.map((srv, idx) => (
-                        <span key={idx} className="text-[11px] px-2.5 py-0.5 rounded-lg bg-white/5 border border-white/8 text-slate-300">
+                        <span
+                          key={idx}
+                          className="text-[11px] px-2.5 py-0.5 rounded-lg bg-white/5 border border-white/8 text-slate-300"
+                        >
                           {srv}
                         </span>
                       ))}
@@ -430,7 +493,8 @@ function LocationsDirectoryPage() {
             <Building2 className="w-12 h-12 text-slate-600 mx-auto mb-4" />
             <h3 className="text-lg font-bold text-white">No locations found</h3>
             <p className="text-slate-400 mt-1 text-xs max-w-xs mx-auto">
-              We couldn't find any hub matching your search query. We serve all areas across Pune district!
+              We couldn't find any hub matching your search query. We serve all areas across Pune
+              district!
             </p>
           </div>
         )}
@@ -442,7 +506,8 @@ function LocationsDirectoryPage() {
             Active Emergency Coverage on Wagholi–Shirur Highway
           </h2>
           <p className="text-sm text-slate-400 mb-8 max-w-2xl mx-auto">
-            Our mobile emergency vans are equipped with recovery units, vacuum pumps, and OEM spare parts for 45-minute emergency breakdown response.
+            Our mobile emergency vans are equipped with recovery units, vacuum pumps, and OEM spare
+            parts for 45-minute emergency breakdown response.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

@@ -20,7 +20,9 @@ export const Route = createFileRoute("/brands/")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.brands;
-    const pageTitle = seo?.title || "Supported AC & Refrigeration Brands | Daikin, Voltas, Blue Star, LG | Prime Cool";
+    const pageTitle =
+      seo?.title ||
+      "Supported AC & Refrigeration Brands | Daikin, Voltas, Blue Star, LG | Prime Cool";
     const pageDesc =
       seo?.description ||
       "Certified multi-brand AC repair and servicing for Daikin, Voltas, Blue Star, LG, Hitachi, Carrier, Panasonic, Godrej, Whirlpool, O General, and Copeland across Pune.";
@@ -53,7 +55,12 @@ const BRANDS_LIST = [
     name: "Voltas",
     category: "Tata Enterprise — All Seasons",
     desc: "India's highest market-share brand for heavy-duty tropicalized split, window, and commercial ACs.",
-    popularModels: ["Maha Adjustable Inverter", "Voltas Vertis", "Cassette AC", "Commercial Cold Chain"],
+    popularModels: [
+      "Maha Adjustable Inverter",
+      "Voltas Vertis",
+      "Cassette AC",
+      "Commercial Cold Chain",
+    ],
     badgeColor: "bg-blue-500/10 border-blue-500/30 text-blue-400",
   },
   {
@@ -69,7 +76,12 @@ const BRANDS_LIST = [
     name: "LG Electronics",
     category: "Dual Inverter Technology",
     desc: "Korean innovations featuring Dual Inverter compressors, AI Convertible 6-in-1 cooling, and ThinQ IoT.",
-    popularModels: ["Dual Inverter Split", "Multi V VRF", "Artcool Inverter", "Commercial Refrigeration"],
+    popularModels: [
+      "Dual Inverter Split",
+      "Multi V VRF",
+      "Artcool Inverter",
+      "Commercial Refrigeration",
+    ],
     badgeColor: "bg-rose-500/10 border-rose-500/30 text-rose-400",
   },
   {
@@ -85,7 +97,12 @@ const BRANDS_LIST = [
     name: "Carrier",
     category: "Commercial HVAC Pioneer",
     desc: "Global HVAC leaders in centrifugal chillers, air handling units, package systems, and split ACs.",
-    popularModels: ["Indus Inverter", "AquaSnap Chiller", "30XW Screw Chiller", "Transicold Transport"],
+    popularModels: [
+      "Indus Inverter",
+      "AquaSnap Chiller",
+      "30XW Screw Chiller",
+      "Transicold Transport",
+    ],
     badgeColor: "bg-amber-500/10 border-amber-500/30 text-amber-400",
   },
   {
@@ -109,7 +126,12 @@ const BRANDS_LIST = [
     name: "O General (Fujitsu General)",
     category: "Heavy Duty Tropical Cooling",
     desc: "Premium Japanese heavy-duty cooling engineered for extreme 55°C ambient temperatures.",
-    popularModels: ["ASGG Tropical Inverter", "Augg Ductable", "VRF Tropical", "Commercial Cassette"],
+    popularModels: [
+      "ASGG Tropical Inverter",
+      "Augg Ductable",
+      "VRF Tropical",
+      "Commercial Cassette",
+    ],
     badgeColor: "bg-blue-500/10 border-blue-500/30 text-blue-400",
   },
   {
@@ -123,9 +145,21 @@ const BRANDS_LIST = [
 ];
 
 const BRAND_COMPARISONS = [
-  { slug: "daikin-vs-hitachi", title: "Daikin vs Hitachi", desc: "Compare Japanese inverter efficiency, compressor warranties, and VRF capabilities." },
-  { slug: "carrier-vs-blue-star", title: "Carrier vs Blue Star", desc: "Compare commercial chiller overhauls, ductable units, and package plants." },
-  { slug: "lg-vs-samsung", title: "LG vs Samsung", desc: "Compare Dual Inverter vs WindFree cooling technology and smart app diagnostics." },
+  {
+    slug: "daikin-vs-hitachi",
+    title: "Daikin vs Hitachi",
+    desc: "Compare Japanese inverter efficiency, compressor warranties, and VRF capabilities.",
+  },
+  {
+    slug: "carrier-vs-blue-star",
+    title: "Carrier vs Blue Star",
+    desc: "Compare commercial chiller overhauls, ductable units, and package plants.",
+  },
+  {
+    slug: "lg-vs-samsung",
+    title: "LG vs Samsung",
+    desc: "Compare Dual Inverter vs WindFree cooling technology and smart app diagnostics.",
+  },
 ];
 
 function BrandsDirectoryPage() {
@@ -158,7 +192,9 @@ function BrandsDirectoryPage() {
             Supported Brands & <span className="text-shimmer">OEM Directory.</span>
           </h1>
           <p className="text-base text-slate-400 leading-relaxed">
-            We service, repair, and maintain all major Japanese, Indian, Korean, and American AC brands using 100% genuine manufacturer spare parts and certified field diagnostic procedures.
+            We service, repair, and maintain all major Japanese, Indian, Korean, and American AC
+            brands using 100% genuine manufacturer spare parts and certified field diagnostic
+            procedures.
           </p>
         </div>
 
@@ -187,7 +223,9 @@ function BrandsDirectoryPage() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${brand.badgeColor}`}>
+                  <span
+                    className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${brand.badgeColor}`}
+                  >
                     {brand.category}
                   </span>
                 </div>
@@ -196,15 +234,18 @@ function BrandsDirectoryPage() {
                   {brand.name}
                 </h3>
 
-                <p className="text-xs text-slate-400 leading-relaxed mb-5">
-                  {brand.desc}
-                </p>
+                <p className="text-xs text-slate-400 leading-relaxed mb-5">{brand.desc}</p>
 
                 <div className="space-y-2 mb-6">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Popular Models & Systems:</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                    Popular Models & Systems:
+                  </span>
                   <div className="flex flex-wrap gap-1.5">
                     {brand.popularModels.map((m, idx) => (
-                      <span key={idx} className="text-[11px] px-2.5 py-1 rounded-lg bg-white/5 border border-white/8 text-slate-300">
+                      <span
+                        key={idx}
+                        className="text-[11px] px-2.5 py-1 rounded-lg bg-white/5 border border-white/8 text-slate-300"
+                      >
                         {m}
                       </span>
                     ))}
@@ -241,9 +282,7 @@ function BrandsDirectoryPage() {
                 <h3 className="font-bold text-base text-white group-hover:text-[#00c8ff] transition-colors mb-1">
                   {comp.title}
                 </h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  {comp.desc}
-                </p>
+                <p className="text-xs text-slate-400 leading-relaxed">{comp.desc}</p>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-[#00c8ff] mt-4 block">
                   Read Comparison &rarr;
                 </span>

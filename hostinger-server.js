@@ -40,7 +40,7 @@ app.use(
         res.setHeader("Cache-Control", "public, max-age=86400");
       }
     },
-  })
+  }),
 );
 
 // URL Canonicalization Middleware for Google Search Console
@@ -48,20 +48,20 @@ app.use((req, res, next) => {
   const host = req.headers.host || "";
   const isWww = host.startsWith("www.");
   const pathname = req.path;
-  
+
   // Remove trailing slashes (except root '/') to prevent duplicate URL issues in Google Search Console
   if (pathname.length > 1 && pathname.endsWith("/")) {
     const query = req.url.slice(pathname.length);
     const safePath = pathname.slice(0, -1) + query;
     return res.redirect(301, safePath);
   }
-  
+
   // Redirect www to non-www
   if (isWww) {
     const cleanHost = host.replace(/^www\./, "");
     return res.redirect(301, `${req.protocol}://${cleanHost}${req.url}`);
   }
-  
+
   next();
 });
 
@@ -75,7 +75,7 @@ app.use(
         res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
       }
     },
-  })
+  }),
 );
 
 // Scheduled Sitemap Generation (Every 2 hours)
@@ -117,7 +117,9 @@ function scheduleNextMidnightRun() {
   nextMidnight.setHours(24, 0, 0, 0); // 00:00:00 midnight
   const timeToMidnight = nextMidnight.getTime() - now.getTime();
 
-  console.log(`[Nightly Blog Automation] Next scheduled 50-blog generation in ${(timeToMidnight / 3600000).toFixed(2)} hours (at 00:00).`);
+  console.log(
+    `[Nightly Blog Automation] Next scheduled 50-blog generation in ${(timeToMidnight / 3600000).toFixed(2)} hours (at 00:00).`,
+  );
 
   setTimeout(() => {
     runNightlyBlogAutomation();
@@ -131,12 +133,19 @@ scheduleNextMidnightRun();
 app.all("/api/admin/trigger-blog-automation", (req, res) => {
   const count = req.query.count || 50;
   console.log(`[API Trigger] Triggering blog automation bot for ${count} blogs...`);
-  exec(`"${process.execPath}" automation/gemini-bot.js --count ${count}`, (error, stdout, stderr) => {
-    if (error) {
-      return res.status(500).json({ success: false, error: error.message });
-    }
-    res.json({ success: true, message: `Successfully generated ${count} blogs and synced with MySQL database & sitemap!`, output: stdout });
-  });
+  exec(
+    `"${process.execPath}" automation/gemini-bot.js --count ${count}`,
+    (error, stdout, stderr) => {
+      if (error) {
+        return res.status(500).json({ success: false, error: error.message });
+      }
+      res.json({
+        success: true,
+        message: `Successfully generated ${count} blogs and synced with MySQL database & sitemap!`,
+        output: stdout,
+      });
+    },
+  );
 });
 
 // 2. Delegate everything else to TanStack Start SSR handler

@@ -20,7 +20,7 @@ export const Route = createFileRoute("/brands/$slug")({
     if (!brand) {
       const formattedBrand = params.slug
         .split("-")
-        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
         .join(" ");
       brand = {
         name: formattedBrand,
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/brands/$slug")({
         spares: ["Capacitors", "PCBs", "Sensors"],
         maintenance: ["Filter cleaning", "Coil washing"],
         warranty: "90 Days on parts",
-        errorCodes: []
+        errorCodes: [],
       };
     }
     const { settings } = await getCmsSettings();
@@ -71,8 +71,50 @@ function BrandDetailsPage() {
       err.fix.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": `https://primecool.in/brands/${brand.slug}#article`,
+        headline: `${brand.name} HVAC Error Codes, Diagnostics & Genuine Spares`,
+        description: `Comprehensive troubleshooting manual, searchable fault error codes, and OEM spare parts reference for ${brand.name} air conditioners and refrigeration units.`,
+        author: {
+          "@type": "Organization",
+          name: "Prime Cool",
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Prime Cool",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://primecool.in/logo.png",
+          },
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `https://primecool.in/brands/${brand.slug}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://primecool.in/" },
+          { "@type": "ListItem", position: 2, name: "Brands", item: "https://primecool.in/brands" },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: brand.name,
+            item: `https://primecool.in/brands/${brand.slug}`,
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen text-foreground flex flex-col justify-between bg-slate-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
       {/* Background gradients */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--electric)_8%,transparent),transparent_60%)] pointer-events-none" />
 

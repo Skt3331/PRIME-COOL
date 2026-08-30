@@ -1,6 +1,28 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
-import { Phone, Clock, Menu, X, AlertTriangle, Search, Zap, ChevronDown, Calculator, BookOpen, MapPin, Globe, Award, Settings, Thermometer, Wrench, Briefcase, FileText, ShieldAlert, Sparkles, Snowflake } from "lucide-react";
+import {
+  Phone,
+  Clock,
+  Menu,
+  X,
+  AlertTriangle,
+  Search,
+  Zap,
+  ChevronDown,
+  Calculator,
+  BookOpen,
+  MapPin,
+  Globe,
+  Award,
+  Settings,
+  Thermometer,
+  Wrench,
+  Briefcase,
+  FileText,
+  ShieldAlert,
+  Sparkles,
+  Snowflake,
+} from "lucide-react";
 import logo from "../assets/logo.webp";
 import { SiteSearch } from "./SiteSearch";
 
@@ -44,7 +66,10 @@ export function Header({ cms }: { cms?: any }) {
     };
   }, [isMobileMenuOpen]);
 
-  const logoSrc = (cms?.theme?.logo && typeof cms.theme.logo === "string" && cms.theme.logo.trim() !== "") ? cms.theme.logo : logo;
+  const logoSrc =
+    cms?.theme?.logo && typeof cms.theme.logo === "string" && cms.theme.logo.trim() !== ""
+      ? cms.theme.logo
+      : logo;
 
   return (
     <>
@@ -55,15 +80,22 @@ export function Header({ cms }: { cms?: any }) {
             : "bg-[#09090f]/80 backdrop-blur-xl border-b border-white/5 py-3"
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6">
+        <div className="mx-auto flex max-w-7xl 2xl:max-w-[1536px] items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo Brand Badge */}
-          <Link to="/" className="flex items-center gap-3 group relative z-50 shrink-0" onClick={closeMobileMenu}>
+          <Link
+            to="/"
+            className="flex items-center gap-3 group relative z-50 shrink-0"
+            onClick={closeMobileMenu}
+          >
             <div className="relative flex items-center justify-center h-10 w-10 min-w-[40px] min-h-[40px] rounded-xl bg-gradient-to-br from-[#00c8ff]/20 to-[#0066ff]/20 border border-[#00c8ff]/50 shadow-[0_0_15px_rgba(0,200,255,0.3)] shrink-0 overflow-hidden group-hover:scale-105 transition-transform duration-300">
               <img
                 src={logoSrc}
                 alt="Prime Cool"
                 className="h-full w-full object-cover relative z-10"
+                width={40}
+                height={40}
                 loading="eager"
+                decoding="async"
                 onError={(e) => {
                   e.currentTarget.style.opacity = "0";
                 }}
@@ -75,7 +107,8 @@ export function Header({ cms }: { cms?: any }) {
                 {cms?.theme?.siteName || "Prime Cool"}
               </span>
               <span className="text-[10px] font-semibold tracking-widest text-[#00c8ff] uppercase mt-0.5 opacity-90 flex items-center gap-1">
-                <Sparkles className="h-2.5 w-2.5 text-[#00c8ff] animate-pulse" /> HVAC & Refrigeration
+                <Sparkles className="h-2.5 w-2.5 text-[#00c8ff] animate-pulse" /> HVAC &
+                Refrigeration
               </span>
             </div>
           </Link>
@@ -85,38 +118,126 @@ export function Header({ cms }: { cms?: any }) {
             {/* Services Mega Menu */}
             <div className="relative group px-1">
               <Link
-                to="/services"
+                to={"/services" as any}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-full text-slate-300 group-hover:text-white group-hover:bg-white/10 transition-all duration-200"
               >
                 <Wrench className="h-3.5 w-3.5 text-[#00c8ff]" />
-                Services <ChevronDown className="h-3.5 w-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-300" />
+                Services{" "}
+                <ChevronDown className="h-3.5 w-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-300" />
               </Link>
 
               <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 pointer-events-none group-hover:pointer-events-auto z-50">
                 <div className="w-[560px] bg-[#0a0a0f]/98 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl p-5 grid grid-cols-2 gap-6 relative overflow-hidden">
                   <div className="space-y-3">
-                    <Link to="/services" search={{ cat: "residential" }} className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#00c8ff] transition">
-                      <Thermometer className="h-3.5 w-3.5 text-[#00c8ff]" /> 🏡 Residential Services &rarr;
+                    <Link
+                      to="/services"
+                      search={{ cat: "residential" }}
+                      className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#00c8ff] transition"
+                    >
+                      <Thermometer className="h-3.5 w-3.5 text-[#00c8ff]" /> 🏡 Residential Services
+                      &rarr;
                     </Link>
                     <ul className="space-y-2 text-xs">
-                      <li><Link to="/services/split-ac-repair" className="text-slate-400 hover:text-white font-semibold text-[#00c8ff] transition">Split & Inverter AC Jet Servicing</Link></li>
-                      <li><Link to="/services/window-ac-repair" className="text-slate-400 hover:text-white transition">Window AC Servicing & Chemical Wash</Link></li>
-                      <li><Link to="/services/ac-gas-charging" className="text-slate-400 hover:text-white transition">AC Gas Charging & Leak Detection</Link></li>
-                      <li><Link to="/services/fridge-repair" className="text-slate-400 hover:text-white transition">Domestic Refrigerator Maintenance</Link></li>
-                      <li><Link to="/services/washing-machine" className="text-slate-400 hover:text-white transition">Washing Machine Drum & Motor Repair</Link></li>
+                      <li>
+                        <Link
+                          to={"/services/split-ac-repair" as any}
+                          className="text-slate-400 hover:text-white font-semibold text-[#00c8ff] transition"
+                        >
+                          Split & Inverter AC Jet Servicing
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/services/window-ac-repair" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Window AC Servicing & Chemical Wash
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/services/ac-gas-charging" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          AC Gas Charging & Leak Detection
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/services/fridge-repair" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Domestic Refrigerator Maintenance
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/services/washing-machine" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Washing Machine Drum & Motor Repair
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                   <div className="space-y-3">
-                    <Link to="/services" search={{ cat: "commercial" }} className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#0066ff] transition">
-                      <Settings className="h-3.5 w-3.5 text-[#0066ff]" /> 🏢 Commercial & Industrial &rarr;
+                    <Link
+                      to="/services"
+                      search={{ cat: "commercial" }}
+                      className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#0066ff] transition"
+                    >
+                      <Settings className="h-3.5 w-3.5 text-[#0066ff]" /> 🏢 Commercial & Industrial
+                      &rarr;
                     </Link>
                     <ul className="space-y-2 text-xs">
-                      <li><Link to="/services/cassette-ac-repair" className="text-slate-400 hover:text-white font-semibold text-[#0066ff] transition">Cassette & Ductable Central AC</Link></li>
-                      <li><Link to="/services/vrf-systems" className="text-slate-400 hover:text-white font-semibold text-[#0066ff] transition">VRF / VRV Multi-Zone AMC</Link></li>
-                      <li><Link to="/services/server-room-cooling" className="text-slate-400 hover:text-white transition">Server Room Precision Cooling</Link></li>
-                      <li><Link to="/services/cold-rooms" className="text-slate-400 hover:text-white transition">Walk-in Cold Rooms & Blast Freezers</Link></li>
-                      <li><Link to="/services/chillers" className="text-slate-400 hover:text-white transition">Process Water Chillers & Plant AMC</Link></li>
-                      <li><Link to="/services" className="font-bold text-[#00c8ff] hover:underline transition mt-1 inline-block">Browse All Services Directory &rarr;</Link></li>
+                      <li>
+                        <Link
+                          to={"/services/cassette-ac-repair" as any}
+                          className="text-slate-400 hover:text-white font-semibold text-[#0066ff] transition"
+                        >
+                          Cassette & Ductable Central AC
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/services/vrf-systems" as any}
+                          className="text-slate-400 hover:text-white font-semibold text-[#0066ff] transition"
+                        >
+                          VRF / VRV Multi-Zone AMC
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/services/server-room-cooling" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Server Room Precision Cooling
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/services/cold-rooms" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Walk-in Cold Rooms & Blast Freezers
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/services/chillers" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Process Water Chillers & Plant AMC
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/services" as any}
+                          className="font-bold text-[#00c8ff] hover:underline transition mt-1 inline-block"
+                        >
+                          Browse All Services Directory &rarr;
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -139,33 +260,112 @@ export function Header({ cms }: { cms?: any }) {
                 className="flex items-center gap-1.5 px-3 py-2 rounded-full text-slate-300 group-hover:text-white group-hover:bg-white/10 transition-all duration-200"
               >
                 <MapPin className="h-3.5 w-3.5 text-[#00c8ff]" />
-                Locations <ChevronDown className="h-3.5 w-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-300" />
+                Locations{" "}
+                <ChevronDown className="h-3.5 w-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-300" />
               </Link>
 
               <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 pointer-events-none group-hover:pointer-events-auto z-50">
                 <div className="w-[520px] bg-[#0a0a0f]/98 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl p-5 grid grid-cols-2 gap-5 relative overflow-hidden">
                   <div className="space-y-3">
-                    <Link to="/locations" className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#00c8ff] transition">
-                      <MapPin className="h-3.5 w-3.5 text-[#00c8ff]" /> Regional Locations Directory &rarr;
+                    <Link
+                      to="/locations"
+                      className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#00c8ff] transition"
+                    >
+                      <MapPin className="h-3.5 w-3.5 text-[#00c8ff]" /> Regional Locations Directory
+                      &rarr;
                     </Link>
                     <ul className="space-y-2 text-xs">
-                      <li><Link to="/locations/wagholi" className="text-slate-400 hover:text-white transition">Wagholi (Hub & HQ)</Link></li>
-                      <li><Link to="/locations/hadapsar" className="text-slate-400 hover:text-white transition">Hadapsar & Magarpatta</Link></li>
-                      <li><Link to="/locations/kharadi" className="text-slate-400 hover:text-white transition">Kharadi EON IT Park</Link></li>
-                      <li><Link to="/locations/lonikand" className="text-slate-400 hover:text-white transition">Lonikand & Bakori</Link></li>
-                      <li><Link to="/locations/koregaon-bhima" className="text-slate-400 hover:text-white transition">Koregaon Bhima</Link></li>
+                      <li>
+                        <Link
+                          to={"/locations/wagholi" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Wagholi (Hub & HQ)
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/locations/hadapsar" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Hadapsar & Magarpatta
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/locations/kharadi" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Kharadi EON IT Park
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/locations/lonikand" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Lonikand & Bakori
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/locations/koregaon-bhima" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Koregaon Bhima
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                   <div className="space-y-3">
-                    <Link to="/cities" className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#0066ff] transition">
-                      <Globe className="h-3.5 w-3.5 text-[#0066ff]" /> Industrial Zones & Districts &rarr;
+                    <Link
+                      to="/cities"
+                      className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#0066ff] transition"
+                    >
+                      <Globe className="h-3.5 w-3.5 text-[#0066ff]" /> Industrial Zones & Districts
+                      &rarr;
                     </Link>
                     <ul className="space-y-2 text-xs">
-                      <li><Link to="/locations/ranjangaon-midc" className="text-slate-400 hover:text-white transition">Ranjangaon MIDC Plant Hub</Link></li>
-                      <li><Link to="/locations/chakan-midc" className="text-slate-400 hover:text-white transition">Chakan MIDC Auto Corridor</Link></li>
-                      <li><Link to="/locations/shirur" className="text-slate-400 hover:text-white transition">Shirur & Karegaon</Link></li>
-                      <li><Link to="/cities/pune" className="text-slate-400 hover:text-white transition">Pune District</Link></li>
-                      <li><Link to="/cities/mumbai" className="text-slate-400 hover:text-white transition">Mumbai & Thane</Link></li>
+                      <li>
+                        <Link
+                          to={"/locations/ranjangaon-midc" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Ranjangaon MIDC Plant Hub
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/locations/chakan-midc" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Chakan MIDC Auto Corridor
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/locations/shirur" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Shirur & Karegaon
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/cities/pune" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Pune District
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/cities/mumbai" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Mumbai & Thane
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -179,33 +379,110 @@ export function Header({ cms }: { cms?: any }) {
                 className="flex items-center gap-1.5 px-3 py-2 rounded-full text-slate-300 group-hover:text-white group-hover:bg-white/10 transition-all duration-200"
               >
                 <Award className="h-3.5 w-3.5 text-amber-400" />
-                Brands <ChevronDown className="h-3.5 w-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-300" />
+                Brands{" "}
+                <ChevronDown className="h-3.5 w-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-300" />
               </Link>
 
               <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 pointer-events-none group-hover:pointer-events-auto z-50">
                 <div className="w-[500px] bg-[#0a0a0f]/98 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl p-5 grid grid-cols-2 gap-5 relative overflow-hidden">
                   <div className="space-y-3">
-                    <Link to="/brands" className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#00c8ff] transition">
+                    <Link
+                      to="/brands"
+                      className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#00c8ff] transition"
+                    >
                       <Award className="h-3.5 w-3.5 text-[#00c8ff]" /> OEM Brands Directory &rarr;
                     </Link>
                     <ul className="space-y-2 text-xs">
-                      <li><Link to="/brands/daikin" className="text-slate-400 hover:text-white transition">Daikin Air Conditioning</Link></li>
-                      <li><Link to="/brands/voltas" className="text-slate-400 hover:text-white transition">Voltas Systems</Link></li>
-                      <li><Link to="/brands/blue-star" className="text-slate-400 hover:text-white transition">Blue Star Commercial</Link></li>
-                      <li><Link to="/brands/lg" className="text-slate-400 hover:text-white transition">LG Electronics</Link></li>
-                      <li><Link to="/brands/hitachi" className="text-slate-400 hover:text-white transition">Hitachi Cooling</Link></li>
-                      <li><Link to="/brands/carrier" className="text-slate-400 hover:text-white transition">Carrier HVAC</Link></li>
+                      <li>
+                        <Link
+                          to={"/brands/daikin" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Daikin Air Conditioning
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/brands/voltas" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Voltas Systems
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/brands/blue-star" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Blue Star Commercial
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/brands/lg" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          LG Electronics
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/brands/hitachi" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Hitachi Cooling
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/brands/carrier" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Carrier HVAC
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                   <div className="space-y-3">
-                    <Link to="/brands" className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#0066ff] transition">
+                    <Link
+                      to="/brands"
+                      className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#0066ff] transition"
+                    >
                       <Zap className="h-3.5 w-3.5 text-[#0066ff]" /> OEM Comparisons &rarr;
                     </Link>
                     <ul className="space-y-2 text-xs">
-                      <li><Link to="/brands/compare/daikin-vs-hitachi" className="text-slate-400 hover:text-white transition">Daikin vs Hitachi Comparison</Link></li>
-                      <li><Link to="/brands/compare/carrier-vs-blue-star" className="text-slate-400 hover:text-white transition">Carrier vs Blue Star</Link></li>
-                      <li><Link to="/brands/compare/lg-vs-samsung" className="text-slate-400 hover:text-white transition">LG vs Samsung</Link></li>
-                      <li><Link to="/guides/brand-comparisons" className="font-bold text-[#00c8ff] hover:underline transition mt-2 inline-block">All Brand Comparisons &rarr;</Link></li>
+                      <li>
+                        <Link
+                          to={"/brands/compare/daikin-vs-hitachi" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Daikin vs Hitachi Comparison
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/brands/compare/carrier-vs-blue-star" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Carrier vs Blue Star
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to={"/brands/compare/lg-vs-samsung" as any}
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          LG vs Samsung
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/guides/brand-comparisons"
+                          className="font-bold text-[#00c8ff] hover:underline transition mt-2 inline-block"
+                        >
+                          All Brand Comparisons &rarr;
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -219,34 +496,111 @@ export function Header({ cms }: { cms?: any }) {
                 className="flex items-center gap-1.5 px-3 py-2 rounded-full text-slate-300 group-hover:text-white group-hover:bg-white/10 transition-all duration-200"
               >
                 <Calculator className="h-3.5 w-3.5 text-emerald-400" />
-                Calculators <ChevronDown className="h-3.5 w-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-300" />
+                Calculators{" "}
+                <ChevronDown className="h-3.5 w-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-300" />
               </Link>
 
               <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 pointer-events-none group-hover:pointer-events-auto z-50">
                 <div className="w-[560px] bg-[#0a0a0f]/98 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl p-5 grid grid-cols-2 gap-5 relative overflow-hidden">
                   <div className="space-y-3">
-                    <Link to="/calculators" className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#00c8ff] transition">
-                      <Calculator className="h-3.5 w-3.5 text-[#00c8ff]" /> Interactive Calculators &rarr;
+                    <Link
+                      to="/calculators"
+                      className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#00c8ff] transition"
+                    >
+                      <Calculator className="h-3.5 w-3.5 text-[#00c8ff]" /> Interactive Calculators
+                      &rarr;
                     </Link>
                     <ul className="space-y-2 text-xs">
-                      <li><Link to="/calculators" className="font-bold text-[#00c8ff] hover:underline transition">Calculators Main Dashboard</Link></li>
-                      <li><Link to="/tools/tonnage-calculator" className="text-slate-400 hover:text-white transition">AC Tonnage Calculator</Link></li>
-                      <li><Link to="/tools/pt-calculator" className="text-slate-400 hover:text-white transition">Refrigerant PT Pressure-Temp Chart</Link></li>
-                      <li><Link to="/tools/superheat-calculator" className="text-slate-400 hover:text-white transition">Superheat Diagnostic Calculator</Link></li>
-                      <li><Link to="/tools/subcooling-calculator" className="text-slate-400 hover:text-white transition">Subcooling Diagnostic Tool</Link></li>
-                      <li><Link to="/tools/electricity-cost" className="text-slate-400 hover:text-white transition">Monthly Electricity Cost Estimator</Link></li>
+                      <li>
+                        <Link
+                          to="/calculators"
+                          className="font-bold text-[#00c8ff] hover:underline transition"
+                        >
+                          Calculators Main Dashboard
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tools/tonnage-calculator"
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          AC Tonnage Calculator
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tools/pt-calculator"
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Refrigerant PT Pressure-Temp Chart
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tools/superheat-calculator"
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Superheat Diagnostic Calculator
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tools/subcooling-calculator"
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Subcooling Diagnostic Tool
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tools/electricity-cost"
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Monthly Electricity Cost Estimator
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                   <div className="space-y-3">
-                    <Link to="/resources" className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#0066ff] transition">
-                      <BookOpen className="h-3.5 w-3.5 text-[#0066ff]" /> Tech Guides & Formulas &rarr;
+                    <Link
+                      to="/resources"
+                      className="flex items-center gap-2 text-white font-bold text-xs uppercase tracking-wider border-b border-white/10 pb-2 hover:text-[#0066ff] transition"
+                    >
+                      <BookOpen className="h-3.5 w-3.5 text-[#0066ff]" /> Tech Guides & Formulas
+                      &rarr;
                     </Link>
                     <ul className="space-y-2 text-xs">
-                      <li><Link to="/resources" className="text-slate-400 hover:text-white transition">Full Resources Hub</Link></li>
-                      <li><Link to="/guides" className="text-slate-400 hover:text-white transition">Troubleshooting Guides Hub</Link></li>
-                      <li><Link to="/formulas" className="text-slate-400 hover:text-white transition">Engineering Formulas Library</Link></li>
-                      <li><Link to="/refrigerants" className="text-slate-400 hover:text-white transition">Refrigerants PT Technical Hub</Link></li>
-                      <li><Link to="/glossary" className="text-slate-400 hover:text-white transition">HVAC/R Glossary (A-Z)</Link></li>
+                      <li>
+                        <Link
+                          to="/resources"
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Full Resources Hub
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/guides" className="text-slate-400 hover:text-white transition">
+                          Troubleshooting Guides Hub
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/formulas" className="text-slate-400 hover:text-white transition">
+                          Engineering Formulas Library
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/refrigerants"
+                          className="text-slate-400 hover:text-white transition"
+                        >
+                          Refrigerants PT Technical Hub
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/glossary" className="text-slate-400 hover:text-white transition">
+                          HVAC/R Glossary (A-Z)
+                        </Link>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -320,7 +674,11 @@ export function Header({ cms }: { cms?: any }) {
               aria-label="Toggle navigation menu"
               aria-expanded={isMobileMenuOpen}
             >
-              {isMobileMenuOpen ? <X className="h-5 w-5 text-[#00c8ff]" /> : <Menu className="h-5 w-5 text-white" />}
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5 text-[#00c8ff]" />
+              ) : (
+                <Menu className="h-5 w-5 text-white" />
+              )}
             </button>
           </div>
         </div>
@@ -337,7 +695,9 @@ export function Header({ cms }: { cms?: any }) {
               onClick={closeMobileMenu}
               className="flex items-center justify-between p-4 border border-[#00c8ff]/30 rounded-2xl bg-[#00c8ff]/10 font-bold text-white hover:bg-[#00c8ff]/20 transition"
             >
-              <span className="flex items-center gap-2.5"><Thermometer className="h-4.5 w-4.5 text-[#00c8ff]" /> 🏡 Residential AC & Appliance</span>
+              <span className="flex items-center gap-2.5">
+                <Thermometer className="h-4.5 w-4.5 text-[#00c8ff]" /> 🏡 Residential AC & Appliance
+              </span>
               <span className="text-xs text-[#00c8ff] font-bold">&rarr;</span>
             </Link>
 
@@ -348,7 +708,9 @@ export function Header({ cms }: { cms?: any }) {
               onClick={closeMobileMenu}
               className="flex items-center justify-between p-4 border border-[#0066ff]/30 rounded-2xl bg-[#0066ff]/10 font-bold text-white hover:bg-[#0066ff]/20 transition"
             >
-              <span className="flex items-center gap-2.5"><Settings className="h-4.5 w-4.5 text-[#0066ff]" /> 🏢 Commercial HVAC & Industrial</span>
+              <span className="flex items-center gap-2.5">
+                <Settings className="h-4.5 w-4.5 text-[#0066ff]" /> 🏢 Commercial HVAC & Industrial
+              </span>
               <span className="text-xs text-[#0066ff] font-bold">&rarr;</span>
             </Link>
 
@@ -359,7 +721,9 @@ export function Header({ cms }: { cms?: any }) {
               onClick={closeMobileMenu}
               className="flex items-center justify-between p-4 border border-amber-500/30 rounded-2xl bg-amber-500/10 font-bold text-amber-400 hover:bg-amber-500/20 transition"
             >
-              <span className="flex items-center gap-2.5"><Zap className="h-4.5 w-4.5 text-amber-400" /> ⚡ 50 Inverter PCB Repair Services</span>
+              <span className="flex items-center gap-2.5">
+                <Zap className="h-4.5 w-4.5 text-amber-400" /> ⚡ 50 Inverter PCB Repair Services
+              </span>
               <span className="text-xs text-amber-400 font-bold">&rarr;</span>
             </Link>
 
@@ -370,18 +734,65 @@ export function Header({ cms }: { cms?: any }) {
                 onClick={() => toggleMobileAccordion("locations")}
                 className="w-full flex items-center justify-between p-4 font-bold text-white text-left active:bg-white/10 transition cursor-pointer"
               >
-                <span className="flex items-center gap-2.5"><MapPin className="h-4.5 w-4.5 text-[#00c8ff]" /> Locations & Hubs</span>
-                <ChevronDown className={`h-4.5 w-4.5 text-slate-400 transition-transform duration-200 ${openMobileAccordion === "locations" ? "rotate-180 text-[#00c8ff]" : ""}`} />
+                <span className="flex items-center gap-2.5">
+                  <MapPin className="h-4.5 w-4.5 text-[#00c8ff]" /> Locations & Hubs
+                </span>
+                <ChevronDown
+                  className={`h-4.5 w-4.5 text-slate-400 transition-transform duration-200 ${openMobileAccordion === "locations" ? "rotate-180 text-[#00c8ff]" : ""}`}
+                />
               </button>
               {openMobileAccordion === "locations" && (
                 <div className="p-3.5 border-t border-white/10 bg-black/60 flex flex-col gap-2.5 text-xs text-slate-300 animate-fade-in">
-                  <Link to="/locations" onClick={closeMobileMenu} className="font-bold text-[#00c8ff] hover:underline flex items-center justify-between py-1"><span>All Regional Locations</span><span>&rarr;</span></Link>
-                  <Link to="/locations/wagholi" onClick={closeMobileMenu} className="hover:text-white py-1">Wagholi (Main HQ)</Link>
-                  <Link to="/locations/hadapsar" onClick={closeMobileMenu} className="hover:text-white py-1">Hadapsar & Magarpatta</Link>
-                  <Link to="/locations/kharadi" onClick={closeMobileMenu} className="hover:text-white py-1">Kharadi IT Corridor</Link>
-                  <Link to="/locations/chakan-midc" onClick={closeMobileMenu} className="hover:text-white py-1">Chakan MIDC Industrial</Link>
-                  <Link to="/locations/ranjangaon-midc" onClick={closeMobileMenu} className="hover:text-white py-1">Ranjangaon MIDC Hub</Link>
-                  <Link to="/cities/pune" onClick={closeMobileMenu} className="hover:text-white py-1">Pune District</Link>
+                  <Link
+                    to="/locations"
+                    onClick={closeMobileMenu}
+                    className="font-bold text-[#00c8ff] hover:underline flex items-center justify-between py-1"
+                  >
+                    <span>All Regional Locations</span>
+                    <span>&rarr;</span>
+                  </Link>
+                  <Link
+                    to={"/locations/wagholi" as any}
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Wagholi (Main HQ)
+                  </Link>
+                  <Link
+                    to={"/locations/hadapsar" as any}
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Hadapsar & Magarpatta
+                  </Link>
+                  <Link
+                    to={"/locations/kharadi" as any}
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Kharadi IT Corridor
+                  </Link>
+                  <Link
+                    to={"/locations/chakan-midc" as any}
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Chakan MIDC Industrial
+                  </Link>
+                  <Link
+                    to={"/locations/ranjangaon-midc" as any}
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Ranjangaon MIDC Hub
+                  </Link>
+                  <Link
+                    to={"/cities/pune" as any}
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Pune District
+                  </Link>
                 </div>
               )}
             </div>
@@ -393,18 +804,71 @@ export function Header({ cms }: { cms?: any }) {
                 onClick={() => toggleMobileAccordion("brands")}
                 className="w-full flex items-center justify-between p-4 font-bold text-white text-left active:bg-white/10 transition cursor-pointer"
               >
-                <span className="flex items-center gap-2.5"><Award className="h-4.5 w-4.5 text-[#00c8ff]" /> Brands & OEM</span>
-                <ChevronDown className={`h-4.5 w-4.5 text-slate-400 transition-transform duration-200 ${openMobileAccordion === "brands" ? "rotate-180 text-[#00c8ff]" : ""}`} />
+                <span className="flex items-center gap-2.5">
+                  <Award className="h-4.5 w-4.5 text-[#00c8ff]" /> Brands & OEM
+                </span>
+                <ChevronDown
+                  className={`h-4.5 w-4.5 text-slate-400 transition-transform duration-200 ${openMobileAccordion === "brands" ? "rotate-180 text-[#00c8ff]" : ""}`}
+                />
               </button>
               {openMobileAccordion === "brands" && (
                 <div className="p-3.5 border-t border-white/10 bg-black/60 flex flex-col gap-2.5 text-xs text-slate-300 animate-fade-in">
-                  <Link to="/brands" onClick={closeMobileMenu} className="font-bold text-[#00c8ff] hover:underline flex items-center justify-between py-1"><span>OEM Brands Hub</span><span>&rarr;</span></Link>
-                  <Link to="/brands/daikin" onClick={closeMobileMenu} className="hover:text-white py-1">Daikin Service</Link>
-                  <Link to="/brands/voltas" onClick={closeMobileMenu} className="hover:text-white py-1">Voltas Systems</Link>
-                  <Link to="/brands/blue-star" onClick={closeMobileMenu} className="hover:text-white py-1">Blue Star Commercial</Link>
-                  <Link to="/brands/lg" onClick={closeMobileMenu} className="hover:text-white py-1">LG Electronics</Link>
-                  <Link to="/brands/hitachi" onClick={closeMobileMenu} className="hover:text-white py-1">Hitachi Cooling</Link>
-                  <Link to="/brands/carrier" onClick={closeMobileMenu} className="hover:text-white py-1">Carrier Commercial</Link>
+                  <Link
+                    to="/brands"
+                    onClick={closeMobileMenu}
+                    className="font-bold text-[#00c8ff] hover:underline flex items-center justify-between py-1"
+                  >
+                    <span>OEM Brands Hub</span>
+                    <span>&rarr;</span>
+                  </Link>
+                  <Link
+                    to="/brands/$slug"
+                    params={{ slug: "daikin" }}
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Daikin Service
+                  </Link>
+                  <Link
+                    to="/brands/$slug"
+                    params={{ slug: "voltas" }}
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Voltas Systems
+                  </Link>
+                  <Link
+                    to="/brands/$slug"
+                    params={{ slug: "blue-star" }}
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Blue Star Commercial
+                  </Link>
+                  <Link
+                    to="/brands/$slug"
+                    params={{ slug: "lg" }}
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    LG Electronics
+                  </Link>
+                  <Link
+                    to="/brands/$slug"
+                    params={{ slug: "hitachi" }}
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Hitachi Cooling
+                  </Link>
+                  <Link
+                    to="/brands/$slug"
+                    params={{ slug: "carrier" }}
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Carrier Commercial
+                  </Link>
                 </div>
               )}
             </div>
@@ -416,32 +880,92 @@ export function Header({ cms }: { cms?: any }) {
                 onClick={() => toggleMobileAccordion("tools")}
                 className="w-full flex items-center justify-between p-4 font-bold text-white text-left active:bg-white/10 transition cursor-pointer"
               >
-                <span className="flex items-center gap-2.5"><Calculator className="h-4.5 w-4.5 text-[#00c8ff]" /> Engineering Tools</span>
-                <ChevronDown className={`h-4.5 w-4.5 text-slate-400 transition-transform duration-200 ${openMobileAccordion === "tools" ? "rotate-180 text-[#00c8ff]" : ""}`} />
+                <span className="flex items-center gap-2.5">
+                  <Calculator className="h-4.5 w-4.5 text-[#00c8ff]" /> Engineering Tools
+                </span>
+                <ChevronDown
+                  className={`h-4.5 w-4.5 text-slate-400 transition-transform duration-200 ${openMobileAccordion === "tools" ? "rotate-180 text-[#00c8ff]" : ""}`}
+                />
               </button>
               {openMobileAccordion === "tools" && (
                 <div className="p-3.5 border-t border-white/10 bg-black/60 flex flex-col gap-2.5 text-xs text-slate-300 animate-fade-in">
-                  <Link to="/calculators" onClick={closeMobileMenu} className="font-bold text-[#00c8ff] hover:underline flex items-center justify-between py-1"><span>Calculators Main Dashboard</span><span>&rarr;</span></Link>
-                  <Link to="/tools/tonnage-calculator" onClick={closeMobileMenu} className="hover:text-white py-1">AC Tonnage Calculator</Link>
-                  <Link to="/tools/pt-calculator" onClick={closeMobileMenu} className="hover:text-white py-1">Refrigerant PT Chart</Link>
-                  <Link to="/tools/superheat-calculator" onClick={closeMobileMenu} className="hover:text-white py-1">Superheat Diagnostic</Link>
-                  <Link to="/tools/subcooling-calculator" onClick={closeMobileMenu} className="hover:text-white py-1">Subcooling Diagnostic</Link>
-                  <Link to="/tools/electricity-cost" onClick={closeMobileMenu} className="hover:text-white py-1">Electricity Cost Estimator</Link>
+                  <Link
+                    to="/calculators"
+                    onClick={closeMobileMenu}
+                    className="font-bold text-[#00c8ff] hover:underline flex items-center justify-between py-1"
+                  >
+                    <span>Calculators Main Dashboard</span>
+                    <span>&rarr;</span>
+                  </Link>
+                  <Link
+                    to="/tools/tonnage-calculator"
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    AC Tonnage Calculator
+                  </Link>
+                  <Link
+                    to="/tools/pt-calculator"
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Refrigerant PT Chart
+                  </Link>
+                  <Link
+                    to="/tools/superheat-calculator"
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Superheat Diagnostic
+                  </Link>
+                  <Link
+                    to="/tools/subcooling-calculator"
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Subcooling Diagnostic
+                  </Link>
+                  <Link
+                    to="/tools/electricity-cost"
+                    onClick={closeMobileMenu}
+                    className="hover:text-white py-1"
+                  >
+                    Electricity Cost Estimator
+                  </Link>
                 </div>
               )}
             </div>
 
             {/* General Direct Links */}
-            <Link to="/portfolio" onClick={closeMobileMenu} className="px-4 py-3 rounded-2xl font-bold text-slate-200 hover:text-white hover:bg-white/5 transition border border-white/5">Case Studies & Projects</Link>
-            <Link to="/resources" onClick={closeMobileMenu} className="px-4 py-3 rounded-2xl font-bold text-slate-200 hover:text-white hover:bg-white/5 transition border border-white/5">Resources Dashboard</Link>
-            <Link to="/blogs" onClick={closeMobileMenu} className="px-4 py-3 rounded-2xl font-bold text-slate-200 hover:text-white hover:bg-white/5 transition border border-white/5">Blogs & Tech Articles</Link>
+            <Link
+              to="/portfolio"
+              onClick={closeMobileMenu}
+              className="px-4 py-3 rounded-2xl font-bold text-slate-200 hover:text-white hover:bg-white/5 transition border border-white/5"
+            >
+              Case Studies & Projects
+            </Link>
+            <Link
+              to="/resources"
+              onClick={closeMobileMenu}
+              className="px-4 py-3 rounded-2xl font-bold text-slate-200 hover:text-white hover:bg-white/5 transition border border-white/5"
+            >
+              Resources Dashboard
+            </Link>
+            <Link
+              to="/blogs"
+              onClick={closeMobileMenu}
+              className="px-4 py-3 rounded-2xl font-bold text-slate-200 hover:text-white hover:bg-white/5 transition border border-white/5"
+            >
+              Blogs & Tech Articles
+            </Link>
 
             <Link
               to="/emergency"
               onClick={closeMobileMenu}
               className="flex items-center gap-2.5 px-4 py-3.5 rounded-2xl font-bold text-red-400 bg-red-500/10 hover:bg-red-500/20 transition border border-red-500/30 mt-1 shadow-md"
             >
-              <AlertTriangle className="h-4.5 w-4.5 text-red-400 animate-pulse" /> Code Red Emergency Dispatch
+              <AlertTriangle className="h-4.5 w-4.5 text-red-400 animate-pulse" /> Code Red
+              Emergency Dispatch
             </Link>
           </nav>
 

@@ -23,7 +23,8 @@ export const Route = createFileRoute("/services/")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.services;
-    const pageTitle = seo?.title || "Professional HVAC, AC Repair & Refrigeration Services | Prime Cool";
+    const pageTitle =
+      seo?.title || "Professional HVAC, AC Repair & Refrigeration Services | Prime Cool";
     const pageDesc =
       seo?.description ||
       "Comprehensive cooling services across Maharashtra. We offer split AC repair, VRF/VRV central HVAC, water chillers, cold rooms, and commercial refrigeration maintenance.";
@@ -47,13 +48,48 @@ export const Route = createFileRoute("/services/")({
             url: "https://primecool.in/services",
             numberOfItems: 7,
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Split & Inverter AC Repair", url: "https://primecool.in/services/split-ac-repair" },
-              { "@type": "ListItem", position: 2, name: "Cassette AC Maintenance", url: "https://primecool.in/services/cassette-ac-repair" },
-              { "@type": "ListItem", position: 3, name: "AC Gas Recharging & Leak Testing", url: "https://primecool.in/services/ac-gas-charging" },
-              { "@type": "ListItem", position: 4, name: "VRF / VRV Central HVAC Systems", url: "https://primecool.in/services/vrf-systems" },
-              { "@type": "ListItem", position: 5, name: "Walk-in Cold Rooms & Blast Freezers", url: "https://primecool.in/services/cold-rooms" },
-              { "@type": "ListItem", position: 6, name: "Commercial Refrigerator Overhaul", url: "https://primecool.in/services/fridge-repair" },
-              { "@type": "ListItem", position: 7, name: "Industrial Washing & Laundry Plant", url: "https://primecool.in/services/washing-machine" },
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Split & Inverter AC Repair",
+                url: "https://primecool.in/services/split-ac-repair",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Cassette AC Maintenance",
+                url: "https://primecool.in/services/cassette-ac-repair",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "AC Gas Recharging & Leak Testing",
+                url: "https://primecool.in/services/ac-gas-charging",
+              },
+              {
+                "@type": "ListItem",
+                position: 4,
+                name: "VRF / VRV Central HVAC Systems",
+                url: "https://primecool.in/services/vrf-systems",
+              },
+              {
+                "@type": "ListItem",
+                position: 5,
+                name: "Walk-in Cold Rooms & Blast Freezers",
+                url: "https://primecool.in/services/cold-rooms",
+              },
+              {
+                "@type": "ListItem",
+                position: 6,
+                name: "Commercial Refrigerator Overhaul",
+                url: "https://primecool.in/services/fridge-repair",
+              },
+              {
+                "@type": "ListItem",
+                position: 7,
+                name: "Industrial Washing & Laundry Plant",
+                url: "https://primecool.in/services/washing-machine",
+              },
             ],
           }),
         },
@@ -91,8 +127,8 @@ function ServicesDirectoryPage() {
       activeCategory === "all"
         ? !s.slug.startsWith("pcb-")
         : activeCategory === "pcb"
-        ? s.slug.startsWith("pcb-")
-        : s.category === activeCategory;
+          ? s.slug.startsWith("pcb-")
+          : s.category === activeCategory;
 
     return matchesSearch && matchesCategory;
   });
@@ -123,7 +159,9 @@ function ServicesDirectoryPage() {
             Services & <span className="text-shimmer">Engineering Hub.</span>
           </h1>
           <p className="text-base text-slate-400 leading-relaxed">
-            From residential split AC tuning to heavy industrial refrigeration plants, we provide certified HVAC diagnostics, rapid installations, and zero-downtime preventative maintenance.
+            From residential split AC tuning to heavy industrial refrigeration plants, we provide
+            certified HVAC diagnostics, rapid installations, and zero-downtime preventative
+            maintenance.
           </p>
         </div>
 
@@ -183,9 +221,7 @@ function ServicesDirectoryPage() {
                   <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
                     {s.title}
                   </h3>
-                  <p className="text-slate-400 text-sm mb-6 line-clamp-3">
-                    {s.tagline}
-                  </p>
+                  <p className="text-slate-400 text-sm mb-6 line-clamp-3">{s.tagline}</p>
 
                   <ul className="space-y-2 mb-6">
                     {s.features.slice(0, 3).map((feat, idx) => (
@@ -225,7 +261,8 @@ function ServicesDirectoryPage() {
             Need Custom HVAC or Plant Engineering?
           </h2>
           <p className="text-slate-400 mb-8 max-w-2xl mx-auto">
-            Get in touch with our lead diagnostic engineer for dedicated contract plans, audits, and custom cooling requirements.
+            Get in touch with our lead diagnostic engineer for dedicated contract plans, audits, and
+            custom cooling requirements.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

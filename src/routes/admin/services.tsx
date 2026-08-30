@@ -329,7 +329,8 @@ function AdminServicesPage() {
             <div className="border-t border-border pt-6 mt-6">
               <h3 className="text-lg font-semibold mb-4">SEO Overrides (Optional)</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Leave blank to use the global SEO pattern for services. Fill them in to override meta tags.
+                Leave blank to use the global SEO pattern for services. Fill them in to override
+                meta tags.
               </p>
               <div className="space-y-4">
                 <div className="space-y-2">

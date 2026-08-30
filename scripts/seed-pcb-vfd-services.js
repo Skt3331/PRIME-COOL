@@ -15,7 +15,7 @@ const pcbTopics = [
   "DC Bus High Voltage Capacitor Refurbishment",
   "Inverter Drive Phase Voltage Unbalance Fix",
   "PCB Heatsink Compound Repasting & Descaling",
-  "Surge Varistor MOV Overvoltage Protection Fix"
+  "Surge Varistor MOV Overvoltage Protection Fix",
 ];
 
 const vfdTopics = [
@@ -28,10 +28,26 @@ const vfdTopics = [
   "AHU Supply Fan VFD Differential Pressure Setup",
   "VFD Braking Resistor & Dynamic Stopping Tune",
   "Submersible Water Pump VFD Constant Pressure Setup",
-  "Industrial Conveyor Motor VFD Torque Vector Tuning"
+  "Industrial Conveyor Motor VFD Torque Vector Tuning",
 ];
 
-const brands = ["Daikin", "Voltas", "Blue Star", "LG", "Hitachi", "Carrier", "Panasonic", "Godrej", "O General", "Mitsubishi", "Danfoss", "ABB", "Schneider", "Siemens", "Yaskawa"];
+const brands = [
+  "Daikin",
+  "Voltas",
+  "Blue Star",
+  "LG",
+  "Hitachi",
+  "Carrier",
+  "Panasonic",
+  "Godrej",
+  "O General",
+  "Mitsubishi",
+  "Danfoss",
+  "ABB",
+  "Schneider",
+  "Siemens",
+  "Yaskawa",
+];
 
 // Generate 50 PCB Services
 for (let i = 1; i <= 50; i++) {
@@ -39,7 +55,7 @@ for (let i = 1; i <= 50; i++) {
   const topic = pcbTopics[i % pcbTopics.length];
   const slug = `pcb-${brand.toLowerCase().replace(/[^a-z0-9]/g, "-")}-${topic.toLowerCase().replace(/[^a-z0-9]/g, "-")}-${i}`;
   const title = `${brand} Inverter AC PCB: ${topic} #${i}`;
-  
+
   pcbServices.push({
     slug,
     title,
@@ -51,19 +67,22 @@ for (let i = 1; i <= 50; i++) {
       "Oscilloscope PWM signal waveform analysis",
       "Component-level SMD IC and diode replacement",
       "Thermal compound repasting & heatsink cleaning",
-      "24-Hour continuous load bench testing"
+      "24-Hour continuous load bench testing",
     ],
     process: [
       "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
       "Component desoldering using ESD-safe rework station",
       "Replacement with OEM rated capacitors and IGBT modules",
-      "Coating mainboard with conformal moisture isolation resin"
+      "Coating mainboard with conformal moisture isolation resin",
     ],
     faqs: [
-      { q: `Can a burnt ${brand} PCB be repaired instead of replaced?`, a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost." }
+      {
+        q: `Can a burnt ${brand} PCB be repaired instead of replaced?`,
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
     seoTitle: `${title} | Prime Cool`,
-    seoDesc: `Component-level repair for ${brand} inverter AC PCBs in Pune & MIDC industrial parks. Specialist in ${topic}.`
+    seoDesc: `Component-level repair for ${brand} inverter AC PCBs in Pune & MIDC industrial parks. Specialist in ${topic}.`,
   });
 }
 
@@ -85,23 +104,28 @@ for (let i = 1; i <= 60; i++) {
       "PID loop parameterization & sensor feedback calibration",
       "Harmonic suppression & dV/dt filter installation",
       "DC bus capacitor bank health audit",
-      "Modbus / BACnet SCADA communication setup"
+      "Modbus / BACnet SCADA communication setup",
     ],
     process: [
       "Motor nameplate data input and auto-tuning calibration",
       "Acceleration & deceleration ramp curve optimization",
       "Thermal overload relay & short-circuit trip verification",
-      "Full load current and harmonic distortion harmonic logging"
+      "Full load current and harmonic distortion harmonic logging",
     ],
     faqs: [
-      { q: `How much energy does installing a VFD on a cooling tower save?`, a: "Installing a VFD allows fan speed modulation based on wet-bulb temperature, reducing fan electrical consumption by up to 35-50%." }
+      {
+        q: `How much energy does installing a VFD on a cooling tower save?`,
+        a: "Installing a VFD allows fan speed modulation based on wet-bulb temperature, reducing fan electrical consumption by up to 35-50%.",
+      },
     ],
     seoTitle: `${title} | Prime Cool`,
-    seoDesc: `Industrial VFD tuning and repair for ${brand} drives in Chakan & Ranjangaon MIDC. ${topic}.`
+    seoDesc: `Industrial VFD tuning and repair for ${brand} drives in Chakan & Ranjangaon MIDC. ${topic}.`,
   });
 }
 
-console.log(`Generated ${pcbServices.length} PCB Services and ${vfdServices.length} VFD Services! Total: ${pcbServices.length + vfdServices.length}`);
+console.log(
+  `Generated ${pcbServices.length} PCB Services and ${vfdServices.length} VFD Services! Total: ${pcbServices.length + vfdServices.length}`,
+);
 
 // Read current services-data.ts
 const servicesDataPath = path.join(process.cwd(), "src", "lib", "services-data.ts");
@@ -109,14 +133,13 @@ let currentContent = fs.readFileSync(servicesDataPath, "utf8");
 
 // Parse existing export const servicesData
 const allNewServices = [...pcbServices, ...vfdServices];
-const newEntries = allNewServices.map(s => `  "${s.slug}": ${JSON.stringify(s, null, 4)}`).join(",\n");
+const newEntries = allNewServices
+  .map((s) => `  "${s.slug}": ${JSON.stringify(s, null, 4)}`)
+  .join(",\n");
 
 // Insert new entries into servicesData object
 const insertMarker = "export const servicesData: Record<string, ServiceDetail> = {";
-const updatedContent = currentContent.replace(
-  insertMarker,
-  `${insertMarker}\n${newEntries},`
-);
+const updatedContent = currentContent.replace(insertMarker, `${insertMarker}\n${newEntries},`);
 
 fs.writeFileSync(servicesDataPath, updatedContent, "utf8");
 console.log(`Successfully updated ${servicesDataPath} with ${allNewServices.length} new services!`);
@@ -125,11 +148,13 @@ console.log(`Successfully updated ${servicesDataPath} with ${allNewServices.leng
 const sitemapConstantsPath = path.join(process.cwd(), "src", "lib", "sitemap-constants.ts");
 let sitemapContent = fs.readFileSync(sitemapConstantsPath, "utf8");
 
-const newSlugs = allNewServices.map(s => `  "${s.slug}"`).join(",\n");
+const newSlugs = allNewServices.map((s) => `  "${s.slug}"`).join(",\n");
 sitemapContent = sitemapContent.replace(
   "export const SERVICES = [",
-  `export const SERVICES = [\n${newSlugs},`
+  `export const SERVICES = [\n${newSlugs},`,
 );
 
 fs.writeFileSync(sitemapConstantsPath, sitemapContent, "utf8");
-console.log(`Successfully updated ${sitemapConstantsPath} with ${allNewServices.length} new service slugs!`);
+console.log(
+  `Successfully updated ${sitemapConstantsPath} with ${allNewServices.length} new service slugs!`,
+);

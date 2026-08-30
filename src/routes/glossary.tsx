@@ -12,8 +12,15 @@ export const Route = createFileRoute("/glossary")({
         content:
           "Comprehensive dictionary of HVAC, thermodynamic, and mechanical refrigeration terms including accumulator, superheat, COP, VRF, subcooling, and chiller approach temperatures.",
       },
-      { property: "og:title", content: "HVAC & Refrigeration Technical Glossary | A-Z Terms | Prime Cool" },
-      { property: "og:description", content: "Comprehensive dictionary of HVAC, thermodynamic, and mechanical refrigeration terms." },
+      {
+        property: "og:title",
+        content: "HVAC & Refrigeration Technical Glossary | A-Z Terms | Prime Cool",
+      },
+      {
+        property: "og:description",
+        content:
+          "Comprehensive dictionary of HVAC, thermodynamic, and mechanical refrigeration terms.",
+      },
       { property: "og:type", content: "website" },
     ],
     links: [{ rel: "canonical", href: "https://primecool.in/glossary" }],
@@ -25,7 +32,8 @@ export const Route = createFileRoute("/glossary")({
           "@type": "DefinedTermSet",
           name: "Prime Cool Technical HVAC Glossary",
           url: "https://primecool.in/glossary",
-          description: "A-Z technical dictionary of heating, ventilation, air conditioning, and refrigeration concepts.",
+          description:
+            "A-Z technical dictionary of heating, ventilation, air conditioning, and refrigeration concepts.",
         }),
       },
     ],

@@ -20,7 +20,7 @@ export const Route = createFileRoute("/industrial/$topic")({
     if (!topic) {
       const formattedTopic = params.topic
         .split("-")
-        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
         .join(" ");
       topic = {
         id: params.topic.toLowerCase(),
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/industrial/$topic")({
         features: ["Heavy Duty", "High Efficiency"],
         diagnosticCodes: [],
         maintenanceChecklist: ["Regular Inspection", "Lubrication"],
-        faqs: []
+        faqs: [],
       };
     }
 
@@ -68,7 +68,7 @@ function IndustrialTopicPage() {
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--primary)_8%,transparent),transparent_60%)] pointer-events-none" />
 
       {/* Main Container */}
-      <main className="flex-1 pt-24 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10">
+      <main className="flex-1 pt-6 md:pt-8 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10">
         <Breadcrumbs />
 
         {/* Hero Segment */}

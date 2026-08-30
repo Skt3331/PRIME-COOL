@@ -1,112 +1,232 @@
-import { categories, websiteServices, brands, comparisonPairs, sparePartsPriceList, locations } from "./config.js";
-
-const authors = [
-  "Saurav Kailas Temgire (Lead HVAC Engineer)",
-  "Prime Cool Engineering Team",
-  "Senior Inverter PCB Electronics Specialist"
-];
+import {
+  DAILY_QUOTAS,
+  trendingTopics,
+  locations,
+  commercialTopics,
+  industrialTopics,
+  brands,
+  sparePartsPriceList,
+  errorCodes,
+  authors,
+} from "./config.js";
 
 /**
- * Builds prompt payload for Gemini API based on a generated topic seed
+ * Builds system & user prompt payload for Gemini API
  */
 export function generatePromptForTopic(topicSeed) {
-  const { type, index, location, brand1, brand2, sparePart, category } = topicSeed;
+  const { type, index, location, brand1, brand2, sparePart, errorCode, category, topicTitle, focus, keywords } = topicSeed;
 
-  const locationContext = `${location.area}, ${location.city} (${location.landmark}, Postal ${location.postal})`;
+  const locStr = `${location.area}, ${location.city} (${location.landmark}, Postal ${location.postal})`;
 
-  const systemInstructions = `You are a Senior HVAC & Refrigeration Lead Systems Engineer for Prime Cool Pune.
-Write a comprehensive, professional, highly technical, and engaging SEO blog post in Markdown format.
-Include clear section headers, Markdown comparison/pricing tables, realistic engineering specs, troubleshooting steps, and local service availability in ${locationContext}.
+  const systemInstructions = `You are the Principal HVAC & Industrial Systems Engineer for Prime Cool Pune (Proprietor: Saurav Kailas Temgire).
+Write an authoritative, highly technical, and engaging SEO blog post in structured Markdown format.
+Include clear H2 and H3 section headers, Markdown comparison/pricing tables with realistic INR (₹) rates, step-by-step diagnostic workflows with multimeter test points, error code matrix, 3-4 schema-ready FAQs, and localized Prime Cool emergency doorstep service availability in ${locStr}.
 
-Strictly format your response as a SINGLE VALID JSON object without any backticks around it or JSON formatting tags like \`\`\`json.
+Strictly format your response as a SINGLE VALID JSON object without backticks around it or JSON formatting tags like \`\`\`json.
 The JSON object MUST contain the following keys:
 {
-  "title": "Clear, compelling blog post title",
-  "slug": "url-friendly-kebab-case-slug",
-  "summary": "100-140 word executive summary highlighting key findings, engineering specs, and local Pune/Shirur availability.",
+  "title": "Compelling, keyword-rich SEO blog title (under 75 characters)",
+  "slug": "url-friendly-kebab-case-slug-without-special-chars",
+  "summary": "120-150 word executive summary highlighting key findings, engineering specs, and Pune/PCMC doorstep service availability.",
   "category": "${category}",
-  "author": "${authors[index % authors.length]}",
-  "seoTitle": "SEO title under 65 chars | Prime Cool Pune",
-  "seoDesc": "Meta description under 155 chars with location and key terms.",
-  "seoKeywords": "comma separated relevant technical keywords including location and brand names",
-  "content": "Full markdown body content (minimum 600 words) formatted with headings (##, ###), bullet points, markdown tables, pricing tables in INR (₹), and step-by-step diagnostic workflows."
+  "author": "${topicSeed.author || authors[index % authors.length]}",
+  "seoTitle": "High CTR SEO title under 60 chars | Prime Cool Pune",
+  "seoDesc": "Meta description under 155 chars with location, focus keywords and 24/7 call to action.",
+  "seoKeywords": "${keywords || 'HVAC repair Pune, AC service, commercial chiller maintenance'}",
+  "content": "Full markdown body content (minimum 750 words) with structured headings (##, ###), bullet points, markdown technical tables, pricing tables in INR (₹), error code matrices, 3-4 high-intent FAQs, and emergency call-to-action (+91 7507408461)."
 }`;
 
   let userPrompt = "";
 
-  switch (type) {
-    case "comparison":
-      userPrompt = `Write a deep-dive technical comparison blog post evaluating "${brand1}" vs "${brand2}" for residential and commercial customers in ${locationContext}.
-Include:
-1. Detailed pull-down cooling time, compressor architecture (Inverter vs Fixed Speed, Rotary vs Scroll), and power draw analysis.
-2. Atmospheric fin corrosion resistance in high ambient temperatures near ${location.area}.
-3. Comprehensive markdown comparison table comparing ISEER rating, noise level dB, warranty terms, and spare parts cost in INR ₹.
-4. Maintenance recommendations and local Prime Cool field support details in ${location.area}.`;
-      break;
+  if (type === "trending") {
+    userPrompt = `Write a deep-dive engineering analysis on: "${topicTitle}".
+Focus Area: ${focus}.
+Location Context: ${locStr}.
 
-    case "pricing":
-      userPrompt = `Write an official spare parts replacement & pricing guide for "${sparePart.part}" in ${locationContext}.
-Include:
-1. Technical reasons for component failure (over-voltage spikes, thermal degradation, gas leakage, IPM driver breakdown).
-2. Genuine OEM vs Aftermarket pricing breakdown table in INR (ranging ₹${sparePart.minPrice} to ₹${sparePart.maxPrice} ${sparePart.unit}) with warranty duration (${sparePart.warranty}).
-3. Step-by-step diagnostic testing procedures using a digital multimeter or oscilloscope (e.g. U-V-W resistance, capacitor microfarads, gas pressure manifold checks).
-4. Direct emergency repair booking details with Prime Cool technical team in ${location.area}.`;
-      break;
+Required Sections:
+1. Executive Technical Overview & Thermodynamic / Electronic Principles.
+2. Direct Comparison Matrix Table (${brand1} vs ${brand2}) comparing energy efficiency (ISEER/COP), power draw under 48°C ambient heat, failure rates, and spare parts cost in INR ₹.
+3. Inverter Board & Power Electronics Troubleshooting (Gate driver signals, IPM diode drop 0.45V-0.60V DC, SMPS rails).
+4. Error Code Reference Table including ${errorCode.code} (${errorCode.name} - ${errorCode.desc}).
+5. Realistic Spare Parts Price Table (INR ₹) featuring ${sparePart.part} (₹${sparePart.minPrice} - ₹${sparePart.maxPrice} ${sparePart.unit}).
+6. Frequently Asked Questions (3-4 technical FAQs with in-depth answers).
+7. Pune / PCMC 2-Hour Doorstep Service & Rapid Dispatch info (+91 7507408461).`;
+  } else if (type === "location") {
+    userPrompt = `Write a comprehensive, hyper-localized HVAC & Heavy Appliance Engineering Service Guide for "${location.area}, ${location.city}" (Landmark: ${location.landmark}, Postal: ${location.postal}).
+Focus: Fast Doorstep Repair for Inverter Split ACs, Cassette ACs, Frost-Free Refrigerators, Front-Load Washing Machines, and Commercial Freezers.
 
-    case "pcb_electronics":
-      userPrompt = `Write an advanced Inverter AC & Appliance PCB Electronics Repair Field Manual focusing on ${brand1} Inverter Boards in ${locationContext}.
-Include:
-1. Microcontroller, IPM (Intelligent Power Module), SMPS power supply 15V/12V/5V DC rail diagnostics.
-2. Error code lookup and optical isolator pulse verification (E1 to E12 diagnostic matrix table).
-3. Circuit safety discharge protocol (draining 400V DC capacitors through 1kΩ resistor).
-4. On-site field repair guidelines and board replacement costs for clients in ${location.area}.`;
-      break;
+Required Sections:
+1. Local Operational Challenges in ${location.area} (power line voltage spikes, hard water drum scaling, ambient summer temperatures up to 43°C).
+2. Diagnostic & Repair Protocol:
+   - AC Gas Leakage (R-32 / R-410A) & Nitrogen Pressure Hold Testing (450 PSI).
+   - Inverter PCB micro-soldering & error code resolution (${errorCode.code}: ${errorCode.desc}).
+   - Refrigerator defrost sensor & washing machine spider bearing replacement.
+3. Transparent Spare Parts & Service Pricing Table for ${location.area} in INR ₹.
+4. Error Code Matrix Table & Multimeter Testing Checklist.
+5. Frequently Asked Questions (3-4 FAQs specific to homeowners & businesses in ${location.area}).
+6. Prime Cool Rapid Mobile Dispatch in ${location.area} (<45 minutes SLA, 24/7 Hotline: +91 7507408461).`;
+  } else if (type === "commercial") {
+    userPrompt = `Write an official Commercial HVAC & Refrigeration Engineering Manual on: "${topicTitle}".
+Focus: ${focus}.
+Facility Location: Commercial hubs in ${locStr}.
 
-    case "refrigerator_washing":
-      userPrompt = `Write a step-by-step troubleshooting and repair guide for ${brand1} Inverter Refrigerators & ${brand2} Fully Automatic Washing Machines in ${locationContext}.
-Include:
-1. Refrigerator cooling failure, frost build-up, inverter linear compressor relay testing, and gas leak symptoms.
-2. Washing machine spin cycle noise, drum bearing spider damage, drain pump clog, and E4/UE error codes.
-3. Spare parts pricing table for motors, water valves, door gaskets, and main PCBs in INR ₹.
-4. Fast 2-hour doorstep repair services offered by Prime Cool across ${location.area} and nearby industrial belts.`;
-      break;
+Required Sections:
+1. System Engineering Architecture & Commercial Part-Load Energy Efficiency (BMS / VRF / Cold Room).
+2. Preventative Maintenance & Quarterly AMC Audit Checklist (Compressor oil acidity, EEV stepping, condenser descaling).
+3. Commercial Technical Comparison / Capacity Matrix Table.
+4. Error Code & Safety Lockout Diagnostics (${errorCode.code}: ${errorCode.name}).
+5. Commercial Spare Parts & AMC Cost Breakdown in INR ₹.
+6. 3-4 Commercial Facility Manager FAQs.
+7. Commercial Emergency Service & AMC Booking details with Prime Cool (+91 7507408461).`;
+  } else {
+    // industrial
+    userPrompt = `Write an advanced Heavy Industrial HVAC & Mechanical Process Cooling Overhaul Manual on: "${topicTitle}".
+Focus: ${focus}.
+Industrial MIDC Zone: ${locStr}.
 
-    default: // Regional Field Guide
-      userPrompt = `Write a regional HVAC & Heavy Appliance Engineering Service Dispatch Log for ${locationContext}.
-Include:
-1. Operational challenges due to ambient heat, dust, and industrial power fluctuations in ${location.area}.
-2. Comprehensive preventive maintenance checklist for residential split ACs, commercial cassette units, and cold storage freezers.
-3. Spare parts availability matrix and emergency field dispatch contact info for Prime Cool in ${location.area}.`;
-      break;
+Required Sections:
+1. Heavy Industrial Process Cooling Dynamics (Process Water Chillers, Cooling Towers, VFDs, Cleanrooms).
+2. Step-by-Step Major Overhaul & Precision Alignment Protocol (Laser alignment, vibration analysis <2.5 mm/s RMS, tube eddy current testing).
+3. Industrial Performance & Heat Load Calculation Matrix Table.
+4. Industrial Error Codes, Interlock Safety Trips & Electrical Diagnostics (${errorCode.code}).
+5. Heavy Industrial Spare Parts & Turnaround Overhaul Pricing in INR ₹.
+6. 3-4 Industrial Plant Engineer FAQs.
+7. 24/7 Industrial Breakdown Dispatch SLA (<2 hours in Chakan, Bhosari, Ranjangaon MIDC, Call: +91 7507408461).`;
   }
 
   return { systemInstructions, userPrompt };
 }
 
 /**
- * Creates a batch of topic seeds for batch generation
+ * Creates the exact daily batch quota of topic seeds:
+ * 10 Trending + 20 Location + 10 Commercial + 10 Industrial = 50 Total Blogs
+ * Accepts optional existingSlugs/existingTitles set to guarantee zero duplicate seed topics.
  */
-export function buildTopicSeedBatch(count = 50) {
+export function buildTopicSeedBatch(count = 50, existingSlugs = new Set()) {
   const seeds = [];
-  const types = ["comparison", "pricing", "pcb_electronics", "refrigerator_washing", "regional"];
 
-  for (let i = 0; i < count; i++) {
-    const type = types[i % types.length];
-    const category = categories[i % categories.length];
-    const location = locations[i % locations.length];
+  // Calculate proportions based on DAILY_QUOTAS
+  let trendingCount = DAILY_QUOTAS.trending;
+  let locationCount = DAILY_QUOTAS.location;
+  let commercialCount = DAILY_QUOTAS.commercial;
+  let industrialCount = DAILY_QUOTAS.industrial;
+
+  if (count !== DAILY_QUOTAS.total) {
+    const ratio = count / DAILY_QUOTAS.total;
+    trendingCount = Math.max(1, Math.round(DAILY_QUOTAS.trending * ratio));
+    locationCount = Math.max(1, Math.round(DAILY_QUOTAS.location * ratio));
+    commercialCount = Math.max(1, Math.round(DAILY_QUOTAS.commercial * ratio));
+    industrialCount = Math.max(1, count - (trendingCount + locationCount + commercialCount));
+  }
+
+  let globalIndex = 0;
+  const dateKey = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+
+  // 1. Trending Topics (10)
+  for (let i = 0; i < trendingCount; i++) {
+    globalIndex++;
+    const t = trendingTopics[i % trendingTopics.length];
+    const loc = locations[i % locations.length];
     const brand1 = brands[i % brands.length];
-    const brand2 = brands[(i + 1) % brands.length];
-    const pair = comparisonPairs[i % comparisonPairs.length];
+    const brand2 = brands[(i + 3) % brands.length];
     const sparePart = sparePartsPriceList[i % sparePartsPriceList.length];
+    const errorCode = errorCodes[i % errorCodes.length];
 
     seeds.push({
-      index: i + 1,
-      type,
-      category,
-      location,
-      brand1: pair ? pair.p1 : brand1,
-      brand2: pair ? pair.p2 : brand2,
-      sparePart
+      type: "trending",
+      index: globalIndex,
+      category: t.category,
+      topicTitle: t.topic,
+      focus: t.focus,
+      keywords: t.keywords,
+      location: loc,
+      brand1,
+      brand2,
+      sparePart,
+      errorCode,
+      author: authors[globalIndex % authors.length],
+      dateKey,
+    });
+  }
+
+  // 2. Location Topics (20)
+  for (let i = 0; i < locationCount; i++) {
+    globalIndex++;
+    const loc = locations[i % locations.length];
+    const brand1 = brands[(i + 1) % brands.length];
+    const brand2 = brands[(i + 4) % brands.length];
+    const sparePart = sparePartsPriceList[(i + 2) % sparePartsPriceList.length];
+    const errorCode = errorCodes[i % errorCodes.length];
+    const serviceType = i % 3 === 0 ? "Inverter Split AC & Cassette Repair" : i % 3 === 1 ? "Refrigerator & Deep Freezer Service" : "Washing Machine & PCB Electronics Repair";
+
+    seeds.push({
+      type: "location",
+      index: globalIndex,
+      category: "Regional HVAC & Appliance Field Dispatch",
+      topicTitle: `${loc.area} Doorstep ${serviceType} & Maintenance Guide`,
+      focus: `Local field diagnostics, OEM parts availability, power surge protection, and fast technician dispatch in ${loc.area}`,
+      keywords: `${loc.area} AC repair, appliance service ${loc.area} Pune, ${brand1} repair ${loc.area}, refrigerator gas filling ${loc.area}`,
+      location: loc,
+      brand1,
+      brand2,
+      sparePart,
+      errorCode,
+      author: authors[globalIndex % authors.length],
+      dateKey,
+    });
+  }
+
+  // 3. Commercial Topics (10)
+  for (let i = 0; i < commercialCount; i++) {
+    globalIndex++;
+    const c = commercialTopics[i % commercialTopics.length];
+    const loc = locations[(i + 2) % locations.length];
+    const brand1 = brands[(i + 2) % brands.length];
+    const brand2 = brands[(i + 5) % brands.length];
+    const sparePart = sparePartsPriceList[(i + 4) % sparePartsPriceList.length];
+    const errorCode = errorCodes[(i + 1) % errorCodes.length];
+
+    seeds.push({
+      type: "commercial",
+      index: globalIndex,
+      category: c.category,
+      topicTitle: c.topic,
+      focus: c.focus,
+      keywords: c.keywords,
+      location: loc,
+      brand1,
+      brand2,
+      sparePart,
+      errorCode,
+      author: authors[globalIndex % authors.length],
+      dateKey,
+    });
+  }
+
+  // 4. Industrial Topics (10)
+  for (let i = 0; i < industrialCount; i++) {
+    globalIndex++;
+    const ind = industrialTopics[i % industrialTopics.length];
+    const loc = locations[(i + 5) % locations.length];
+    const brand1 = brands[(i + 3) % brands.length];
+    const brand2 = brands[(i + 6) % brands.length];
+    const sparePart = sparePartsPriceList[(i + 6) % sparePartsPriceList.length];
+    const errorCode = errorCodes[(i + 2) % errorCodes.length];
+
+    seeds.push({
+      type: "industrial",
+      index: globalIndex,
+      category: ind.category,
+      topicTitle: ind.topic,
+      focus: ind.focus,
+      keywords: ind.keywords,
+      location: loc,
+      brand1,
+      brand2,
+      sparePart,
+      errorCode,
+      author: authors[globalIndex % authors.length],
+      dateKey,
     });
   }
 

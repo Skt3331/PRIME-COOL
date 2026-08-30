@@ -20,8 +20,15 @@ export const Route = createFileRoute("/emergency")({
         content:
           "24/7 priority emergency dispatch for industrial and commercial HVAC/R breakdowns in Pune, Wagholi, Ranjangaon, and Chakan MIDC. Guaranteed 15-minute response.",
       },
-      { property: "og:title", content: "Code Red Emergency Breakdown Dispatch 24/7 | Prime Cool Pune" },
-      { property: "og:description", content: "24/7 priority emergency dispatch for industrial and commercial HVAC/R breakdowns in Pune, Wagholi, Ranjangaon, and Chakan MIDC." },
+      {
+        property: "og:title",
+        content: "Code Red Emergency Breakdown Dispatch 24/7 | Prime Cool Pune",
+      },
+      {
+        property: "og:description",
+        content:
+          "24/7 priority emergency dispatch for industrial and commercial HVAC/R breakdowns in Pune, Wagholi, Ranjangaon, and Chakan MIDC.",
+      },
       { property: "og:type", content: "website" },
     ],
     links: [{ rel: "canonical", href: "https://primecool.in/emergency" }],
@@ -96,7 +103,7 @@ function EmergencyPortal() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-6 max-w-5xl mx-auto">
+    <div className="min-h-screen pt-8 md:pt-12 pb-20 px-6 max-w-5xl mx-auto">
       <div className="mb-10 text-center max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-2 rounded-full bg-red-500/10 border border-red-500/20 px-4 py-1.5 text-red-400 font-mono text-sm font-bold uppercase tracking-wider mb-6 animate-pulse">
           <AlertTriangle className="w-4 h-4" /> Code Red Dispatch Protocol

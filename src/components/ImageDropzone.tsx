@@ -59,7 +59,10 @@ export function ImageDropzone({
           const dataUrl = canvas.toDataURL("image/webp", 0.8);
 
           setPreview(dataUrl);
-          onImageProcessed({ name: file.name.replace(/\.[^/.]+$/, "") + ".webp", base64: dataUrl }, dataUrl);
+          onImageProcessed(
+            { name: file.name.replace(/\.[^/.]+$/, "") + ".webp", base64: dataUrl },
+            dataUrl,
+          );
         } else {
           toast.error("Failed to process image.");
         }

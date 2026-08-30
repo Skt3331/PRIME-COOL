@@ -22,7 +22,8 @@ export const Route = createFileRoute("/industrial/")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.industrial;
-    const pageTitle = seo?.title || "Heavy Industrial HVAC & Chiller Plant Engineering | Prime Cool Pune";
+    const pageTitle =
+      seo?.title || "Heavy Industrial HVAC & Chiller Plant Engineering | Prime Cool Pune";
     const pageDesc =
       seo?.description ||
       "Industrial chiller plant maintenance, CNC cooling, cold storage overhauls, cooling tower water treatment, and factory HVAC contract plans across Pune and Maharashtra MIDC belts.";
@@ -47,7 +48,12 @@ const INDUSTRIAL_TOPICS = [
     title: "Chiller Plant Operations & Overhauls",
     category: "Chillers & Compressors",
     desc: "Centrifugal, screw, and reciprocating water chiller overhaul, oil analysis, condenser descaling, and PLC integration.",
-    features: ["Screw & Centrifugal Chiller Overhaul", "Oil Analysis & Filter Changeout", "Condenser & Evaporator Tube Descaling", "PLC & BMS Integration"],
+    features: [
+      "Screw & Centrifugal Chiller Overhaul",
+      "Oil Analysis & Filter Changeout",
+      "Condenser & Evaporator Tube Descaling",
+      "PLC & BMS Integration",
+    ],
     badgeColor: "bg-cyan-500/10 border-cyan-500/30 text-cyan-400",
   },
   {
@@ -55,7 +61,12 @@ const INDUSTRIAL_TOPICS = [
     title: "Cooling Tower Water Treatment & AMC",
     category: "Water Treatment & Drift",
     desc: "Counterflow and crossflow induced-draft cooling tower drift eliminator replacement, nozzle cleaning, and water treatment.",
-    features: ["Drift Eliminator Replacement", "Water Chemical Treatment", "Fan Motor Bearing Servicing", "Approach Temperature Tuning"],
+    features: [
+      "Drift Eliminator Replacement",
+      "Water Chemical Treatment",
+      "Fan Motor Bearing Servicing",
+      "Approach Temperature Tuning",
+    ],
     badgeColor: "bg-blue-500/10 border-blue-500/30 text-blue-400",
   },
   {
@@ -63,7 +74,12 @@ const INDUSTRIAL_TOPICS = [
     title: "Industrial Cold Rooms & Blast Freezers",
     category: "Cold Chain & Refrigeration",
     desc: "Walk-in chillers, cold storage rooms, pharmaceutical cleanroom HVAC, and -40°C blast freezer refrigeration plants.",
-    features: ["PUF Panel Installation & Leak Repair", "Defrost Heater & Expansion Valves", "Pharma Cleanroom Humidity Control", "-40°C Blast Freezer Servicing"],
+    features: [
+      "PUF Panel Installation & Leak Repair",
+      "Defrost Heater & Expansion Valves",
+      "Pharma Cleanroom Humidity Control",
+      "-40°C Blast Freezer Servicing",
+    ],
     badgeColor: "bg-purple-500/10 border-purple-500/30 text-purple-400",
   },
   {
@@ -71,7 +87,12 @@ const INDUSTRIAL_TOPICS = [
     title: "CNC Machine & Hydraulic Oil Cooling",
     category: "Precision Engineering",
     desc: "Precision oil chillers, CNC spindle cooling units, and panel air conditioning for high-tolerance automotive manufacturing.",
-    features: ["CNC Spindle Oil Chiller Repair", "Control Panel Air Conditioner Servicing", "Coolant Heat Exchanger Flushing", "Thermal Overload Protection"],
+    features: [
+      "CNC Spindle Oil Chiller Repair",
+      "Control Panel Air Conditioner Servicing",
+      "Coolant Heat Exchanger Flushing",
+      "Thermal Overload Protection",
+    ],
     badgeColor: "bg-amber-500/10 border-amber-500/30 text-amber-400",
   },
 ];
@@ -105,7 +126,9 @@ function IndustrialDirectoryPage() {
             Industrial Systems & <span className="text-shimmer">Plant AMC Hub.</span>
           </h1>
           <p className="text-base text-slate-400 leading-relaxed">
-            Zero-downtime mechanical maintenance contracts, chiller plant overhauls, process cooling, and industrial cold storage solutions across Ranjangaon, Chakan, Bhosari, and Talegaon MIDC.
+            Zero-downtime mechanical maintenance contracts, chiller plant overhauls, process
+            cooling, and industrial cold storage solutions across Ranjangaon, Chakan, Bhosari, and
+            Talegaon MIDC.
           </p>
         </div>
 
@@ -134,7 +157,9 @@ function IndustrialDirectoryPage() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${topic.badgeColor}`}>
+                  <span
+                    className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${topic.badgeColor}`}
+                  >
                     {topic.category}
                   </span>
                 </div>
@@ -143,12 +168,12 @@ function IndustrialDirectoryPage() {
                   {topic.title}
                 </h3>
 
-                <p className="text-xs text-slate-400 leading-relaxed mb-6">
-                  {topic.desc}
-                </p>
+                <p className="text-xs text-slate-400 leading-relaxed mb-6">{topic.desc}</p>
 
                 <div className="space-y-2 mb-6">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Key Engineering Deliverables:</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                    Key Engineering Deliverables:
+                  </span>
                   <div className="grid sm:grid-cols-2 gap-2">
                     {topic.features.map((feat, idx) => (
                       <div key={idx} className="flex items-start text-xs text-slate-300">

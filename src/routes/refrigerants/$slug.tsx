@@ -33,7 +33,7 @@ export const Route = createFileRoute("/refrigerants/$slug")({
         leakDetection: ["Electronic sniffer", "Soap bubbles"],
         recovery: ["Use certified recovery unit"],
         retrofit: "Consult OEM documentation",
-        antoine: { A: 4.0, B: 900, C: 250 }
+        antoine: { A: 4.0, B: 900, C: 250 },
       };
     }
     const { settings } = await getCmsSettings();

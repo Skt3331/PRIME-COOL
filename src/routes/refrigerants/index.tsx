@@ -21,7 +21,9 @@ export const Route = createFileRoute("/refrigerants/")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.refrigerants;
-    const pageTitle = seo?.title || "Refrigerant PT Pressure Charts & Technical Hub | R410A, R32, R134a | Prime Cool";
+    const pageTitle =
+      seo?.title ||
+      "Refrigerant PT Pressure Charts & Technical Hub | R410A, R32, R134a | Prime Cool";
     const pageDesc =
       seo?.description ||
       "Technical thermodynamic pressure-temperature PT data, glide properties, charging procedures, and leak diagnostics for R-410A, R-32, R-134a, R-404A, R-407C, R-22, and R-290.";
@@ -137,7 +139,8 @@ function RefrigerantsDirectoryPage() {
             Refrigerant PT Data & <span className="text-shimmer">Technical Hub.</span>
           </h1>
           <p className="text-base text-slate-400 leading-relaxed">
-            Pressure-Temperature (PT) charts, suction operating bounds, safety classifications, and charging diagnostics for field HVAC technicians and plant engineers.
+            Pressure-Temperature (PT) charts, suction operating bounds, safety classifications, and
+            charging diagnostics for field HVAC technicians and plant engineers.
           </p>
         </div>
 
@@ -166,7 +169,9 @@ function RefrigerantsDirectoryPage() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${ref.badgeColor}`}>
+                  <span
+                    className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${ref.badgeColor}`}
+                  >
                     {ref.type}
                   </span>
                 </div>
@@ -175,18 +180,24 @@ function RefrigerantsDirectoryPage() {
                   {ref.name}
                 </h3>
 
-                <p className="text-xs text-slate-400 leading-relaxed mb-5">
-                  {ref.desc}
-                </p>
+                <p className="text-xs text-slate-400 leading-relaxed mb-5">{ref.desc}</p>
 
                 <div className="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-black/40 border border-white/5 mb-6 text-xs">
                   <div>
-                    <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">Suction PSI Range</span>
-                    <span className="font-bold text-emerald-400 block mt-0.5">{ref.suctionPSI}</span>
+                    <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">
+                      Suction PSI Range
+                    </span>
+                    <span className="font-bold text-emerald-400 block mt-0.5">
+                      {ref.suctionPSI}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">Discharge PSI Range</span>
-                    <span className="font-bold text-[#00c8ff] block mt-0.5">{ref.dischargePSI}</span>
+                    <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">
+                      Discharge PSI Range
+                    </span>
+                    <span className="font-bold text-[#00c8ff] block mt-0.5">
+                      {ref.dischargePSI}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -206,9 +217,12 @@ function RefrigerantsDirectoryPage() {
 
         {/* Quick Launch PT Tool Banner */}
         <div className="p-8 rounded-3xl bg-gradient-to-br from-slate-900 via-[#0a0a14] to-[#09090f] border border-white/10 text-center max-w-4xl mx-auto shadow-2xl">
-          <h2 className="font-display text-2xl font-bold text-white mb-2">Need Live Interactive Pressure-Temperature Calculations?</h2>
+          <h2 className="font-display text-2xl font-bold text-white mb-2">
+            Need Live Interactive Pressure-Temperature Calculations?
+          </h2>
           <p className="text-sm text-slate-400 mb-6 max-w-xl mx-auto">
-            Use our field-ready PT chart tool to dynamically look up bubble/dew saturation points for R-410A, R-32, R-134a, R-404A, and R-22.
+            Use our field-ready PT chart tool to dynamically look up bubble/dew saturation points
+            for R-410A, R-32, R-134a, R-404A, and R-22.
           </p>
           <Link
             to="/tools/pt-calculator"

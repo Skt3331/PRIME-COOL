@@ -7,16 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import {
-  MapPin,
-  Plus,
-  Trash2,
-  FileText,
-  Pencil,
-  Tag,
-  Map,
-  Save,
-} from "lucide-react";
+import { MapPin, Plus, Trash2, FileText, Pencil, Tag, Map, Save } from "lucide-react";
 
 export const Route = createFileRoute("/admin/locations")({
   head: () => ({
@@ -38,7 +29,7 @@ function AdminLocationsPage() {
   const [mapEmbedUrl, setMapEmbedUrl] = useState("");
   const [reviewsJson, setReviewsJson] = useState("[]");
   const [faqsJson, setFaqsJson] = useState("[]");
-  
+
   const [seoTitle, setSeoTitle] = useState("");
   const [seoDesc, setSeoDesc] = useState("");
   const [seoKeywords, setSeoKeywords] = useState("");
@@ -148,9 +139,18 @@ function AdminLocationsPage() {
       slug,
       name,
       type,
-      pincodes: pincodes.split(",").map(s => s.trim()).filter(Boolean),
-      landmarks: landmarks.split(",").map(s => s.trim()).filter(Boolean),
-      nearbyBusinesses: nearbyBusinesses.split(",").map(s => s.trim()).filter(Boolean),
+      pincodes: pincodes
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+      landmarks: landmarks
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+      nearbyBusinesses: nearbyBusinesses
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
       mapEmbedUrl,
       reviews: parsedReviews,
       faqs: parsedFaqs,
@@ -191,10 +191,11 @@ function AdminLocationsPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const locations = locationsData?.locations || [];
-  const filteredLocations = locations.filter((loc: any) =>
-    loc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    loc.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (loc.pincodes || []).join(" ").includes(searchQuery)
+  const filteredLocations = locations.filter(
+    (loc: any) =>
+      loc.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      loc.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (loc.pincodes || []).join(" ").includes(searchQuery),
   );
 
   return (
@@ -316,7 +317,9 @@ function AdminLocationsPage() {
                   className="font-mono text-xs"
                   value={reviewsJson}
                   onChange={(e) => setReviewsJson(e.target.value)}
-                  placeholder={'[\n  {\n    "author": "Aniket",\n    "rating": 5,\n    "text": "Good",\n    "role": "Customer"\n  }\n]'}
+                  placeholder={
+                    '[\n  {\n    "author": "Aniket",\n    "rating": 5,\n    "text": "Good",\n    "role": "Customer"\n  }\n]'
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -330,11 +333,12 @@ function AdminLocationsPage() {
                 />
               </div>
             </div>
-            
+
             <div className="border-t border-border pt-6 mt-6">
               <h3 className="text-lg font-semibold mb-4">SEO Overrides (Optional)</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Leave these blank to use the global SEO pattern for locations. Fill them in to override the meta tags for this specific location page.
+                Leave these blank to use the global SEO pattern for locations. Fill them in to
+                override the meta tags for this specific location page.
               </p>
               <div className="space-y-4">
                 <div className="space-y-2">

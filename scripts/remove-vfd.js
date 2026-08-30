@@ -34,6 +34,6 @@ const sitemapConstantsPath = path.join(process.cwd(), "src", "lib", "sitemap-con
 let sitemapContent = fs.readFileSync(sitemapConstantsPath, "utf8");
 
 const sitemapLines = sitemapContent.split("\n");
-const cleanedSitemapLines = sitemapLines.filter(l => !l.includes('"vfd-'));
+const cleanedSitemapLines = sitemapLines.filter((l) => !l.includes('"vfd-'));
 fs.writeFileSync(sitemapConstantsPath, cleanedSitemapLines.join("\n"), "utf8");
 console.log("Cleaned vfd- entries from sitemap-constants.ts");

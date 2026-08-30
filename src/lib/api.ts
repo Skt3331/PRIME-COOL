@@ -38,6 +38,10 @@ import {
   addLocationHelper,
   updateLocationHelper,
   deleteLocationHelper,
+  getSitemapStatsHelper,
+  regenerateSitemapsHelper,
+  getRobotsTxtHelper,
+  updateRobotsTxtHelper,
 } from "./api-helpers.server";
 
 // 1. Visit Tracking Server Functions
@@ -50,13 +54,17 @@ export const getVisits = createServerFn({ method: "GET" }).handler(async () => {
 });
 
 // 2. Portfolio Server Functions
-export const getPublicProjects = createServerFn({ method: "GET" }).handler(async (): Promise<{ projects: any }> => {
-  return await getPublicProjectsHelper();
-});
+export const getPublicProjects = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ projects: any }> => {
+    return await getPublicProjectsHelper();
+  },
+);
 
-export const getAdminProjects = createServerFn({ method: "GET" }).handler(async (): Promise<{ projects: any }> => {
-  return await getAdminProjectsHelper();
-});
+export const getAdminProjects = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ projects: any }> => {
+    return await getAdminProjectsHelper();
+  },
+);
 
 export const createProject = createServerFn({ method: "POST" })
   .validator(
@@ -124,9 +132,11 @@ export const createBooking = createServerFn({ method: "POST" })
     return await createBookingHelper(data);
   });
 
-export const getAdminBookings = createServerFn({ method: "GET" }).handler(async (): Promise<{ bookings: any }> => {
-  return await getAdminBookingsHelper();
-});
+export const getAdminBookings = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ bookings: any }> => {
+    return await getAdminBookingsHelper();
+  },
+);
 
 export const updateBookingStatus = createServerFn({ method: "POST" })
   .validator(
@@ -146,9 +156,11 @@ export const deleteBooking = createServerFn({ method: "POST" })
   });
 
 // 4. Notifications Server Function
-export const getAdminNotifications = createServerFn({ method: "GET" }).handler(async (): Promise<{ notifications: any }> => {
-  return await getAdminNotificationsHelper();
-});
+export const getAdminNotifications = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ notifications: any }> => {
+    return await getAdminNotificationsHelper();
+  },
+);
 
 // 5. Admin Settings Update Function
 export const changeAdminSettings = createServerFn({ method: "POST" })
@@ -163,9 +175,11 @@ export const changeAdminSettings = createServerFn({ method: "POST" })
   });
 
 // 6. CMS & FAQ Server Functions
-export const getCmsSettings = createServerFn({ method: "GET" }).handler(async (): Promise<{ settings: any }> => {
-  return await getCmsSettingsHelper();
-});
+export const getCmsSettings = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ settings: any }> => {
+    return await getCmsSettingsHelper();
+  },
+);
 
 export const updateCmsSettings = createServerFn({ method: "POST" })
   .validator(
@@ -199,36 +213,46 @@ export const updateCmsSettings = createServerFn({ method: "POST" })
           ogTitle: z.string(),
           ogDescription: z.string(),
         }),
-        resources: z.object({
-          title: z.string(),
-          description: z.string(),
-          ogTitle: z.string(),
-          ogDescription: z.string(),
-        }).default({ title: "", description: "", ogTitle: "", ogDescription: "" }),
-        calculators: z.object({
-          title: z.string(),
-          description: z.string(),
-          ogTitle: z.string(),
-          ogDescription: z.string(),
-        }).default({ title: "", description: "", ogTitle: "", ogDescription: "" }),
-        blogs: z.object({
-          title: z.string(),
-          description: z.string(),
-          ogTitle: z.string(),
-          ogDescription: z.string(),
-        }).default({ title: "", description: "", ogTitle: "", ogDescription: "" }),
-        brands: z.object({
-          title: z.string(),
-          description: z.string(),
-          ogTitle: z.string(),
-          ogDescription: z.string(),
-        }).default({ title: "", description: "", ogTitle: "", ogDescription: "" }),
-        locations: z.object({
-          title: z.string(),
-          description: z.string(),
-          ogTitle: z.string(),
-          ogDescription: z.string(),
-        }).default({ title: "", description: "", ogTitle: "", ogDescription: "" }),
+        resources: z
+          .object({
+            title: z.string(),
+            description: z.string(),
+            ogTitle: z.string(),
+            ogDescription: z.string(),
+          })
+          .default({ title: "", description: "", ogTitle: "", ogDescription: "" }),
+        calculators: z
+          .object({
+            title: z.string(),
+            description: z.string(),
+            ogTitle: z.string(),
+            ogDescription: z.string(),
+          })
+          .default({ title: "", description: "", ogTitle: "", ogDescription: "" }),
+        blogs: z
+          .object({
+            title: z.string(),
+            description: z.string(),
+            ogTitle: z.string(),
+            ogDescription: z.string(),
+          })
+          .default({ title: "", description: "", ogTitle: "", ogDescription: "" }),
+        brands: z
+          .object({
+            title: z.string(),
+            description: z.string(),
+            ogTitle: z.string(),
+            ogDescription: z.string(),
+          })
+          .default({ title: "", description: "", ogTitle: "", ogDescription: "" }),
+        locations: z
+          .object({
+            title: z.string(),
+            description: z.string(),
+            ogTitle: z.string(),
+            ogDescription: z.string(),
+          })
+          .default({ title: "", description: "", ogTitle: "", ogDescription: "" }),
       }),
       theme: z.object({
         siteName: z.string().optional(),
@@ -308,9 +332,11 @@ export const updateCmsSettings = createServerFn({ method: "POST" })
     return await updateCmsSettingsHelper(data);
   });
 
-export const getFaqs = createServerFn({ method: "GET" }).handler(async (): Promise<{ faqs: any }> => {
-  return await getFaqsHelper();
-});
+export const getFaqs = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ faqs: any }> => {
+    return await getFaqsHelper();
+  },
+);
 
 export const addFaq = createServerFn({ method: "POST" })
   .validator(
@@ -342,13 +368,17 @@ export const deleteFaq = createServerFn({ method: "POST" })
   });
 
 // 7. Blogs Server Functions
-export const getPublicBlogs = createServerFn({ method: "GET" }).handler(async (): Promise<{ blogs: any }> => {
-  return await getPublicBlogsHelper();
-});
+export const getPublicBlogs = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ blogs: any }> => {
+    return await getPublicBlogsHelper();
+  },
+);
 
-export const getAdminBlogs = createServerFn({ method: "GET" }).handler(async (): Promise<{ blogs: any }> => {
-  return await getAdminBlogsHelper();
-});
+export const getAdminBlogs = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ blogs: any }> => {
+    return await getAdminBlogsHelper();
+  },
+);
 
 export const createBlog = createServerFn({ method: "POST" })
   .validator(
@@ -400,13 +430,17 @@ export const getDbStatus = createServerFn({ method: "GET" }).handler(async () =>
 });
 
 // 8. Services Server Functions
-export const getPublicServices = createServerFn({ method: "GET" }).handler(async (): Promise<{ services: any }> => {
-  return await getPublicServicesHelper();
-});
+export const getPublicServices = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ services: any }> => {
+    return await getPublicServicesHelper();
+  },
+);
 
-export const getAdminServices = createServerFn({ method: "GET" }).handler(async (): Promise<{ services: any }> => {
-  return await getAdminServicesHelper();
-});
+export const getAdminServices = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ services: any }> => {
+    return await getAdminServicesHelper();
+  },
+);
 
 export const createService = createServerFn({ method: "POST" })
   .validator(
@@ -456,9 +490,11 @@ export const deleteService = createServerFn({ method: "POST" })
   });
 
 // 9. Calculators Server Functions
-export const getCalculatorsList = createServerFn({ method: "GET" }).handler(async (): Promise<{ calculators: any }> => {
-  return await getCalculatorsHelper();
-});
+export const getCalculatorsList = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ calculators: any }> => {
+    return await getCalculatorsHelper();
+  },
+);
 
 export const updateCalculatorMeta = createServerFn({ method: "POST" })
   .validator(
@@ -478,9 +514,11 @@ export const updateCalculatorMeta = createServerFn({ method: "POST" })
   });
 
 // 10. Locations Server Functions
-export const getLocations = createServerFn({ method: "GET" }).handler(async (): Promise<{ locations: any }> => {
-  return await getLocationsHelper();
-});
+export const getLocations = createServerFn({ method: "GET" }).handler(
+  async (): Promise<{ locations: any }> => {
+    return await getLocationsHelper();
+  },
+);
 
 export const addLocation = createServerFn({ method: "POST" })
   .validator(
@@ -497,19 +535,19 @@ export const addLocation = createServerFn({ method: "POST" })
           rating: z.number(),
           text: z.string(),
           role: z.string().optional(),
-        })
+        }),
       ),
       mapEmbedUrl: z.string(),
       faqs: z.array(
         z.object({
           q: z.string(),
           a: z.string(),
-        })
+        }),
       ),
       seoTitle: z.string().optional(),
       seoDesc: z.string().optional(),
       seoKeywords: z.string().optional(),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     return await addLocationHelper(data);
@@ -524,25 +562,29 @@ export const updateLocation = createServerFn({ method: "POST" })
       pincodes: z.array(z.string()).optional(),
       landmarks: z.array(z.string()).optional(),
       nearbyBusinesses: z.array(z.string()).optional(),
-      reviews: z.array(
-        z.object({
-          author: z.string(),
-          rating: z.number(),
-          text: z.string(),
-          role: z.string().optional(),
-        })
-      ).optional(),
+      reviews: z
+        .array(
+          z.object({
+            author: z.string(),
+            rating: z.number(),
+            text: z.string(),
+            role: z.string().optional(),
+          }),
+        )
+        .optional(),
       mapEmbedUrl: z.string().optional(),
-      faqs: z.array(
-        z.object({
-          q: z.string(),
-          a: z.string(),
-        })
-      ).optional(),
+      faqs: z
+        .array(
+          z.object({
+            q: z.string(),
+            a: z.string(),
+          }),
+        )
+        .optional(),
       seoTitle: z.string().optional(),
       seoDesc: z.string().optional(),
       seoKeywords: z.string().optional(),
-    })
+    }),
   )
   .handler(async ({ data }) => {
     return await updateLocationHelper(data);
@@ -552,4 +594,25 @@ export const deleteLocation = createServerFn({ method: "POST" })
   .validator(z.object({ slug: z.string() }))
   .handler(async ({ data }) => {
     return await deleteLocationHelper(data);
+  });
+
+// 12. SEO & Sitemap Server Functions
+export const getSitemapStats = createServerFn({ method: "GET" }).handler(async () => {
+  return await getSitemapStatsHelper();
+});
+
+export const regenerateSitemaps = createServerFn({ method: "POST" }).handler(
+  async (): Promise<{ success: boolean; stats?: any; error?: string; output?: string }> => {
+    return await regenerateSitemapsHelper();
+  },
+);
+
+export const getRobotsTxt = createServerFn({ method: "GET" }).handler(async () => {
+  return await getRobotsTxtHelper();
+});
+
+export const updateRobotsTxt = createServerFn({ method: "POST" })
+  .validator(z.object({ content: z.string() }))
+  .handler(async ({ data }) => {
+    return await updateRobotsTxtHelper(data);
   });

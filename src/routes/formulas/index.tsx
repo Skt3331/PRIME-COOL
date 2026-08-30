@@ -21,7 +21,8 @@ export const Route = createFileRoute("/formulas/")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.formulas;
-    const pageTitle = seo?.title || "HVAC & Refrigeration Engineering Formulas Reference | Prime Cool";
+    const pageTitle =
+      seo?.title || "HVAC & Refrigeration Engineering Formulas Reference | Prime Cool";
     const pageDesc =
       seo?.description ||
       "Comprehensive thermodynamic formulas reference for sensible heat, latent heat, enthalpy, CFM airflow calculations, COP to EER conversions, superheat, and subcooling.";
@@ -85,7 +86,8 @@ function FormulasDirectoryPage() {
             Engineering <span className="text-shimmer">Formulas Library.</span>
           </h1>
           <p className="text-base text-slate-400 leading-relaxed">
-            Essential thermodynamic formulas, heat transfer equations, airflow relations, pressure conversions, and efficiency metrics for HVAC/R field engineers.
+            Essential thermodynamic formulas, heat transfer equations, airflow relations, pressure
+            conversions, and efficiency metrics for HVAC/R field engineers.
           </p>
         </div>
 
@@ -114,7 +116,9 @@ function FormulasDirectoryPage() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${cat.badgeColor}`}>
+                  <span
+                    className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${cat.badgeColor}`}
+                  >
                     {cat.category}
                   </span>
                 </div>
@@ -123,14 +127,12 @@ function FormulasDirectoryPage() {
                   {cat.title}
                 </h3>
 
-                <p className="text-xs text-slate-400 leading-relaxed mb-6 font-mono">
-                  {cat.desc}
-                </p>
+                <p className="text-xs text-slate-400 leading-relaxed mb-6 font-mono">{cat.desc}</p>
               </div>
 
               <div className="pt-4 border-t border-white/8 flex items-center justify-between">
                 <Link
-                  to={`/formulas/${cat.slug}`}
+                  to={`/formulas/${cat.slug}` as any}
                   className="inline-flex items-center gap-2 text-xs font-bold text-[#00c8ff] hover:text-[#00ffcc] transition-colors"
                 >
                   View Full Formula Sheet & Derivations &rarr;

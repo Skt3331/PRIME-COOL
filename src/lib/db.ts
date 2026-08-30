@@ -314,13 +314,29 @@ function getInitialLocations(): LocationDetail[] {
       name: "Wagholi",
       type: "locality",
       pincodes: ["412207", "411047"],
-      landmarks: ["Wagheshwar Temple", "Lexicon International School", "Wagholi Plaza", "BJS College"],
+      landmarks: [
+        "Wagheshwar Temple",
+        "Lexicon International School",
+        "Wagholi Plaza",
+        "BJS College",
+      ],
       nearbyBusinesses: ["Decathlon Wagholi", "Soyuz Industrial Tools", "Ganesh Supermarket"],
       reviews: [
-        { author: "Aniket Shinde", rating: 5, text: "Excellent split AC gas filling service in Wagholi.", role: "Homeowner" }
+        {
+          author: "Aniket Shinde",
+          rating: 5,
+          text: "Excellent split AC gas filling service in Wagholi.",
+          role: "Homeowner",
+        },
       ],
-      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d3782.2612989435647!2d73.97827827519266!3d18.574635682527878!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c3f878f10fb5%3A0x6b4ef82110c73243!2sWagholi%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000",
-      faqs: [{ q: "How fast can you dispatch an AC technician in Wagholi?", a: "We provide emergency AC dispatch under 45 minutes." }]
+      mapEmbedUrl:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d3782.2612989435647!2d73.97827827519266!3d18.574635682527878!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c3f878f10fb5%3A0x6b4ef82110c73243!2sWagholi%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000",
+      faqs: [
+        {
+          q: "How fast can you dispatch an AC technician in Wagholi?",
+          a: "We provide emergency AC dispatch under 45 minutes.",
+        },
+      ],
     },
     {
       slug: "hadapsar",
@@ -329,10 +345,23 @@ function getInitialLocations(): LocationDetail[] {
       pincodes: ["411028", "411013"],
       landmarks: ["Magarpatta City", "SP Infocity", "Noble Hospital"],
       nearbyBusinesses: ["Accenture SP Infocity", "Amanora Mall"],
-      reviews: [{ author: "Vikram Sen", rating: 5, text: "Excellent server room cooling setup.", role: "IT Director" }],
-      mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d3783.5029012435647!2d73.9262!3d18.5089!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c1f9d50a2f5f%3A0xe5a3c9e6db3fbc5!2sHadapsar%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000",
-      faqs: [{ q: "Do you service VRF/VRV air conditioning systems?", a: "Yes, we offer quarterly preventative descaling." }]
-    }
+      reviews: [
+        {
+          author: "Vikram Sen",
+          rating: 5,
+          text: "Excellent server room cooling setup.",
+          role: "IT Director",
+        },
+      ],
+      mapEmbedUrl:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m12!1m3!1d3783.5029012435647!2d73.9262!3d18.5089!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c1f9d50a2f5f%3A0xe5a3c9e6db3fbc5!2sHadapsar%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000",
+      faqs: [
+        {
+          q: "Do you service VRF/VRV air conditioning systems?",
+          a: "Yes, we offer quarterly preventative descaling.",
+        },
+      ],
+    },
   ];
 }
 
@@ -507,31 +536,36 @@ function getInitialData(): DbSchema {
         },
         resources: {
           title: "Technical Resources & Guides — Prime Cool",
-          description: "Explore our collection of technical guides, engineering resources, and maintenance tips for HVAC and refrigeration.",
+          description:
+            "Explore our collection of technical guides, engineering resources, and maintenance tips for HVAC and refrigeration.",
           ogTitle: "Resources — Prime Cool",
           ogDescription: "Explore our collection of technical guides and maintenance tips.",
         },
         calculators: {
           title: "HVAC & Electrical Calculators — Prime Cool",
-          description: "Free interactive calculators for AC tonnage, subcooling, superheat, and electricity costs.",
+          description:
+            "Free interactive calculators for AC tonnage, subcooling, superheat, and electricity costs.",
           ogTitle: "HVAC Calculators — Prime Cool",
           ogDescription: "Calculate AC tonnage, superheat, subcooling, and more.",
         },
         blogs: {
           title: "Engineering Blog & Updates — Prime Cool",
-          description: "Read the latest updates, industry news, and technical deep-dives from the Prime Cool engineering team.",
+          description:
+            "Read the latest updates, industry news, and technical deep-dives from the Prime Cool engineering team.",
           ogTitle: "Blog — Prime Cool",
           ogDescription: "Industry news and technical deep-dives.",
         },
         brands: {
           title: "Brands We Service — Prime Cool",
-          description: "We repair and service all major HVAC and refrigeration brands including Daikin, Voltas, LG, and Blue Star.",
+          description:
+            "We repair and service all major HVAC and refrigeration brands including Daikin, Voltas, LG, and Blue Star.",
           ogTitle: "Supported Brands — Prime Cool",
           ogDescription: "Authorized service for all major HVAC/R brands.",
         },
         locations: {
           title: "Service Locations — Prime Cool",
-          description: "Find Prime Cool HVAC and refrigeration service centers near you in Pune, Wagholi, Shirur, and surrounding areas.",
+          description:
+            "Find Prime Cool HVAC and refrigeration service centers near you in Pune, Wagholi, Shirur, and surrounding areas.",
           ogTitle: "Locations — Prime Cool",
           ogDescription: "Find a Prime Cool service center near you.",
         },
@@ -674,7 +708,9 @@ export async function getMySQLPool(): Promise<mysql.Pool | null> {
       if (sqlPool) {
         try {
           await sqlPool.end();
-        } catch (_) {}
+        } catch (_) {
+          // ignore pool termination errors during fallback
+        }
       }
       sqlPool = null;
     }
@@ -1001,7 +1037,7 @@ async function initializeMySQLTables(p: mysql.Pool) {
               loc.seoTitle || null,
               loc.seoDesc || null,
               loc.seoKeywords || null,
-            ]
+            ],
           );
         }
         seeded = true;
@@ -1029,7 +1065,7 @@ async function initializeMySQLTables(p: mysql.Pool) {
             loc.seoTitle || null,
             loc.seoDesc || null,
             loc.seoKeywords || null,
-          ]
+          ],
         );
       }
     }
@@ -1130,7 +1166,9 @@ export async function writeDb(data: DbSchema): Promise<void> {
     try {
       const stats = await fs.stat(DB_FILE);
       lastDbMtime = stats.mtimeMs;
-    } catch (_) {}
+    } catch (_) {
+      // ignore stat errors
+    }
     cachedDbSchema = data;
   });
 }
@@ -2165,7 +2203,7 @@ export async function addLocation(location: LocationDetail): Promise<LocationDet
           location.seoTitle || null,
           location.seoDesc || null,
           location.seoKeywords || null,
-        ]
+        ],
       );
       return location;
     } catch (err) {

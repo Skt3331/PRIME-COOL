@@ -31,7 +31,7 @@ export const Route = createFileRoute("/blogs_/$slug")({
       { name: "twitter:description", content: pageDesc },
       { name: "twitter:image", content: blog.image || "" },
     ];
-    
+
     if ((blog as any).seoKeywords) {
       meta.push({ name: "keywords", content: (blog as any).seoKeywords });
     }
@@ -50,41 +50,46 @@ function BlogDetailsPage() {
   const phone = socials.phone || "+917507408461";
 
   const imageUrl = blog.image
-    ? (blog.image.startsWith("http") ? blog.image : `https://primecool.in${blog.image.startsWith("/") ? "" : "/"}${blog.image}`)
+    ? blog.image.startsWith("http")
+      ? blog.image
+      : `https://primecool.in${blog.image.startsWith("/") ? "" : "/"}${blog.image}`
     : "https://primecool.in/logo.png";
 
   const blogSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "mainEntityOfPage": {
+    mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://primecool.in/blogs/${blog.slug}`
+      "@id": `https://primecool.in/blogs/${blog.slug}`,
     },
-    "headline": blog.title,
-    "image": [imageUrl],
-    "datePublished": blog.createdAt,
-    "dateModified": blog.updatedAt || blog.createdAt,
-    "author": {
+    headline: blog.title,
+    image: [imageUrl],
+    datePublished: blog.createdAt,
+    dateModified: blog.updatedAt || blog.createdAt,
+    author: {
       "@type": "Person",
-      "name": blog.author || "Saurav Kailas Temgire"
+      name: blog.author || "Saurav Kailas Temgire",
     },
-    "publisher": {
+    publisher: {
       "@type": "Organization",
-      "name": "Prime Cool HVAC & Refrigeration",
-      "logo": {
+      name: "Prime Cool HVAC & Refrigeration",
+      logo: {
         "@type": "ImageObject",
-        "url": cms?.theme?.logo || "https://primecool.in/logo.png"
-      }
+        url: cms?.theme?.logo || "https://primecool.in/logo.png",
+      },
     },
-    "description": blog.summary
+    description: blog.summary,
   };
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col justify-between relative overflow-hidden">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+      />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,102,255,0.05),transparent_50%)] pointer-events-none" />
       {/* Main Content */}
-      <main className="flex-1 pt-24 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10">
+      <main className="flex-1 pt-8 md:pt-10 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10">
         <article className="mx-auto max-w-3xl animate-fade-up">
           {/* Article Header */}
           <div className="space-y-4 mb-8">
@@ -154,7 +159,8 @@ function BlogDetailsPage() {
                 <Calculator className="h-5 w-5 text-primary" /> Try Our HVAC Calculators
               </h3>
               <p className="text-sm text-muted-foreground mt-2 max-w-md">
-                Estimate your AC electricity bill or find out the perfect AC tonnage for your room using our free interactive calculators.
+                Estimate your AC electricity bill or find out the perfect AC tonnage for your room
+                using our free interactive calculators.
               </p>
             </div>
             <Link to="/resources" className="btn-secondary whitespace-nowrap shrink-0">

@@ -11,12 +11,34 @@ const categories = [
   "Cold Storage & Pharma Blast Freezers",
   "Home Appliance Repair (Fridges & Washers)",
   "Energy Conservation & Solar Inverter AC",
-  "Regional HVAC Field Engineering Guides"
+  "Regional HVAC Field Engineering Guides",
 ];
 
-const brands = ["Daikin", "Voltas", "Blue Star", "LG", "Hitachi", "Carrier", "Panasonic", "Godrej", "O General", "Mitsubishi"];
+const brands = [
+  "Daikin",
+  "Voltas",
+  "Blue Star",
+  "LG",
+  "Hitachi",
+  "Carrier",
+  "Panasonic",
+  "Godrej",
+  "O General",
+  "Mitsubishi",
+];
 const refrigerants = ["R-32", "R-410A", "R-134a", "R-404A", "R-407C", "R-22", "R-290"];
-const locations = ["Wagholi", "Hadapsar", "Kharadi IT Park", "Chakan MIDC", "Ranjangaon MIDC", "Shirur", "Pune Metro", "PCMC", "Thane", "Nashik"];
+const locations = [
+  "Wagholi",
+  "Hadapsar",
+  "Kharadi IT Park",
+  "Chakan MIDC",
+  "Ranjangaon MIDC",
+  "Shirur",
+  "Pune Metro",
+  "PCMC",
+  "Thane",
+  "Nashik",
+];
 
 const pcbTopics = [
   "IPM (Intelligent Power Module) IGBT Switching Faults & U-V-W Resistance Testing",
@@ -26,7 +48,7 @@ const pcbTopics = [
   "BLDC Outdoor Condenser Fan Motor Driver IC & PWM Speed Control Repair",
   "Microcontroller EEPROM Data Corruption & Firmware Flash Recovery",
   "DC Bus Voltage Sensor Resistance Drift & High Voltage Capacitor Testing",
-  "Compressor Phase Voltage Unbalance & Inverter Drive Frequency Oscillation"
+  "Compressor Phase Voltage Unbalance & Inverter Drive Frequency Oscillation",
 ];
 
 const comparisonTopics = [
@@ -36,7 +58,7 @@ const comparisonTopics = [
   "Carrier Heavy Duty Scroll vs O General Tropical Inverter: MIDC Field Case",
   "Panasonic Nanoe-G Air Purification vs Godrej 5-Star Eco-Inverter",
   "Screw Chiller vs Centrifugal Chiller vs Scroll Chiller 500 TR Efficiency",
-  "VRF Heat Pump vs VRF Heat Recovery 3-Pipe System Commercial Audit"
+  "VRF Heat Pump vs VRF Heat Recovery 3-Pipe System Commercial Audit",
 ];
 
 const blogs = [];
@@ -50,7 +72,7 @@ categories.forEach((cat, cIdx) => {
     const loc = locations[(i + cIdx) % locations.length];
     const pcbTopic = pcbTopics[i % pcbTopics.length];
     const compTopic = comparisonTopics[i % comparisonTopics.length];
-    
+
     let title = "";
     let slug = "";
     let summary = "";
@@ -194,13 +216,16 @@ Prime Cool operates dedicated mobile units carrying OEM spare parts, nitrogen le
       seoTitle: `${title} | Prime Cool`,
       seoDesc: summary,
       seoKeywords: `${brand1}, ${brand2}, ${ref}, PCB repair, ${pcbTopic.split(" ")[0]}, ${loc}, HVAC service`,
-      createdAt: new Date(Date.now() - (500 - blogId) * 3600000).toISOString()
+      createdAt: new Date(Date.now() - (500 - blogId) * 3600000).toISOString(),
     });
     blogId++;
   }
 });
 
 console.log(`Generated ${blogs.length} SEO blogs! Writing to src/lib/blogs-data.json...`);
-fs.writeFileSync(path.join(process.cwd(), "src", "lib", "blogs-data.json"), JSON.stringify(blogs, null, 2));
+fs.writeFileSync(
+  path.join(process.cwd(), "src", "lib", "blogs-data.json"),
+  JSON.stringify(blogs, null, 2),
+);
 
 console.log("Done generating 500 trending & PCB blogs!");

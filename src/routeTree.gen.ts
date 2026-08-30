@@ -91,6 +91,7 @@ import { Route as CitiesSlugRouteImport } from './routes/cities/$slug'
 import { Route as BrandsSlugRouteImport } from './routes/brands/$slug'
 import { Route as BlogsSlugRouteImport } from './routes/blogs_.$slug'
 import { Route as AdminServicesRouteImport } from './routes/admin/services'
+import { Route as AdminSeoRouteImport } from './routes/admin/seo'
 import { Route as AdminPortfolioRouteImport } from './routes/admin/portfolio'
 import { Route as AdminPagesRouteImport } from './routes/admin/pages'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
@@ -521,6 +522,11 @@ const AdminServicesRoute = AdminServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSeoRoute = AdminSeoRouteImport.update({
+  id: '/seo',
+  path: '/seo',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminPortfolioRoute = AdminPortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
@@ -596,6 +602,7 @@ export interface FileRoutesByFullPath {
   '/admin/login': typeof AdminLoginRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/admin/services': typeof AdminServicesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/brands/$slug': typeof BrandsSlugRouteWithChildren
@@ -690,6 +697,7 @@ export interface FileRoutesByTo {
   '/admin/login': typeof AdminLoginRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/admin/services': typeof AdminServicesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/brands/$slug': typeof BrandsSlugRouteWithChildren
@@ -786,6 +794,7 @@ export interface FileRoutesById {
   '/admin/login': typeof AdminLoginRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/admin/services': typeof AdminServicesRoute
   '/blogs_/$slug': typeof BlogsSlugRoute
   '/brands/$slug': typeof BrandsSlugRouteWithChildren
@@ -883,6 +892,7 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/pages'
     | '/admin/portfolio'
+    | '/admin/seo'
     | '/admin/services'
     | '/blogs/$slug'
     | '/brands/$slug'
@@ -977,6 +987,7 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/pages'
     | '/admin/portfolio'
+    | '/admin/seo'
     | '/admin/services'
     | '/blogs/$slug'
     | '/brands/$slug'
@@ -1072,6 +1083,7 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/pages'
     | '/admin/portfolio'
+    | '/admin/seo'
     | '/admin/services'
     | '/blogs_/$slug'
     | '/brands/$slug'
@@ -1814,6 +1826,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServicesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/seo': {
+      id: '/admin/seo'
+      path: '/seo'
+      fullPath: '/admin/seo'
+      preLoaderRoute: typeof AdminSeoRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/portfolio': {
       id: '/admin/portfolio'
       path: '/portfolio'
@@ -1902,6 +1921,7 @@ interface AdminRouteChildren {
   AdminLoginRoute: typeof AdminLoginRoute
   AdminPagesRoute: typeof AdminPagesRoute
   AdminPortfolioRoute: typeof AdminPortfolioRoute
+  AdminSeoRoute: typeof AdminSeoRoute
   AdminServicesRoute: typeof AdminServicesRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -1914,6 +1934,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminLoginRoute: AdminLoginRoute,
   AdminPagesRoute: AdminPagesRoute,
   AdminPortfolioRoute: AdminPortfolioRoute,
+  AdminSeoRoute: AdminSeoRoute,
   AdminServicesRoute: AdminServicesRoute,
   AdminIndexRoute: AdminIndexRoute,
 }

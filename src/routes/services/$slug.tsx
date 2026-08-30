@@ -29,13 +29,19 @@ export const Route = createFileRoute("/services/$slug")({
         title: formattedTitle,
         slug: params.slug.toLowerCase(),
         tagline: `Professional ${formattedTitle} services by Prime Cool in Pune & Maharashtra.`,
-        category: "HVAC & Mechanical Services",
-        overview: `Prime Cool provides expert ${formattedTitle} for residential, commercial, and industrial facilities. Our certified engineers deliver rapid-response servicing with genuine spare parts and zero-downtime maintenance.`,
+        category: "commercial" as const,
+        description: `Prime Cool provides expert ${formattedTitle} for residential, commercial, and industrial facilities. Our certified engineers deliver rapid-response servicing with genuine spare parts and zero-downtime maintenance.`,
+        priceEstimate: "Starts from ₹599 + Spares",
         features: [
           "Rapid On-Site Response under 60 minutes",
           "100% OEM Spare Parts Guarantee",
           "Certified HVAC & Refrigeration Technicians",
           "Transparent Standardized Pricing",
+        ],
+        process: [
+          "Initial inspection and diagnostic log check",
+          "Component repair and cleaning",
+          "Post-repair SLA validation and commissioning",
         ],
         faqs: [
           {
@@ -55,7 +61,7 @@ export const Route = createFileRoute("/services/$slug")({
     if (!service) return { meta: [] };
     const pageTitle = service.seoTitle || `${service.title} — Prime Cool India`;
     const pageDesc = service.seoDesc || service.tagline;
-    
+
     const meta: any[] = [
       { title: pageTitle },
       { name: "description", content: pageDesc },
@@ -63,7 +69,7 @@ export const Route = createFileRoute("/services/$slug")({
       { property: "og:description", content: pageDesc },
       { property: "og:type", content: "website" },
     ];
-    
+
     if (service.seoKeywords) {
       meta.push({ name: "keywords", content: service.seoKeywords });
     }
@@ -131,7 +137,15 @@ function ServiceDetailsPage() {
       telephone: phone,
       logo: "https://primecool.in/logo.png",
     },
-    areaServed: ["Wagholi", "Shirur", "Hadapsar", "Kharadi", "Chakan MIDC", "Ranjangaon MIDC", "Pune"],
+    areaServed: [
+      "Wagholi",
+      "Shirur",
+      "Hadapsar",
+      "Kharadi",
+      "Chakan MIDC",
+      "Ranjangaon MIDC",
+      "Pune",
+    ],
     description: service.seoDesc || service.tagline,
   };
 

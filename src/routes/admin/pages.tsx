@@ -321,11 +321,7 @@ function AdminPagesPage() {
     updateCmsMutation.isPending;
 
   const isLoading =
-    locationsLoading ||
-    servicesLoading ||
-    blogsLoading ||
-    calculatorsLoading ||
-    cmsLoading;
+    locationsLoading || servicesLoading || blogsLoading || calculatorsLoading || cmsLoading;
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2">
@@ -452,8 +448,9 @@ function AdminPagesPage() {
             return (
               <div
                 key={page.id}
-                className={`p-5 rounded-2xl border bg-card/50 transition-all flex flex-col justify-between group ${hasSeo ? "border-border" : "border-amber-500/20 bg-amber-500/[0.01]"
-                  } hover:border-primary/50`}
+                className={`p-5 rounded-2xl border bg-card/50 transition-all flex flex-col justify-between group ${
+                  hasSeo ? "border-border" : "border-amber-500/20 bg-amber-500/[0.01]"
+                } hover:border-primary/50`}
               >
                 <div className="space-y-2">
                   <div className="flex justify-between items-start gap-4">
@@ -487,11 +484,19 @@ function AdminPagesPage() {
                   <div className="space-y-1 pt-2 border-t border-border/30">
                     <div className="text-xs font-medium text-foreground truncate">
                       <span className="text-muted-foreground font-normal">Title:</span>{" "}
-                      {page.seoTitle || <span className="text-muted-foreground/60 italic font-normal">None (using public template)</span>}
+                      {page.seoTitle || (
+                        <span className="text-muted-foreground/60 italic font-normal">
+                          None (using public template)
+                        </span>
+                      )}
                     </div>
                     <div className="text-xs text-muted-foreground line-clamp-2">
                       <span className="text-muted-foreground font-normal">Desc:</span>{" "}
-                      {page.seoDesc || <span className="text-muted-foreground/60 italic font-normal">None (using public template)</span>}
+                      {page.seoDesc || (
+                        <span className="text-muted-foreground/60 italic font-normal">
+                          None (using public template)
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>

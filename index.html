@@ -1,27 +1,82 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/assets/logo.webp" />
-    <title>Prime Cool — HVAC, Appliance & Industrial Mechanical Solutions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- DNS Prefetch & Preconnect for High-Speed Asset Delivery -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    />
+
+    <title>Prime Cool — HVAC, Appliance & Industrial Mechanical Solutions Pune</title>
     <meta
       name="description"
-      content="Prime Cool delivers rapid-response mechanical repairs, AC installations, commercial chillers, and cold rooms."
+      content="Prime Cool delivers 24x7 rapid-response HVAC repairs, split/cassette AC servicing, commercial chillers, VRF AMC, and cold storage maintenance across Wagholi, Pune, Chakan & Ranjangaon MIDC."
     />
-    <meta name="google-site-verification" content="804_rTKMffV7SOqPQIoeFjuvO3lgthIdcQTQpAUtMxQ" />
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-F8F323J407"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <meta
+      name="keywords"
+      content="AC repair Pune, HVAC engineer Pune, Wagholi AC service, split AC repair, VRF AMC Pune, chiller plant maintenance, cold room repair, PCB board repair"
+    />
+    <meta name="author" content="Prime Cool Mechanical Engineering" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="theme-color" content="#09090f" />
 
-  gtag('config', 'G-F8F323J407');
-</script>
+    <!-- Geo Meta Tags for Local SEO Ranking -->
+    <meta name="geo.region" content="IN-MH" />
+    <meta name="geo.placename" content="Wagholi, Pune, Maharashtra" />
+    <meta name="geo.position" content="18.5793;73.9814" />
+    <meta name="ICBM" content="18.5793, 73.9814" />
+
+    <!-- Google Site Verification -->
+    <meta name="google-site-verification" content="804_rTKMffV7SOqPQIoeFjuvO3lgthIdcQTQpAUtMxQ" />
+
+    <!-- Non-Blocking Google Analytics Loader for 100 PageSpeed Performance -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-F8F323J407", { send_page_view: false });
+
+      // Defer GA4 script loading until idle to keep main thread 100% free
+      function loadAnalytics() {
+        if (window.__gaLoaded) return;
+        window.__gaLoaded = true;
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=G-F8F323J407";
+        document.head.appendChild(s);
+      }
+
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(function () {
+          setTimeout(loadAnalytics, 2500);
+        });
+      } else {
+        window.addEventListener("load", function () {
+          setTimeout(loadAnalytics, 2500);
+        });
+      }
+    </script>
   </head>
-  <body>
-    <div id="root"></div>
+  <body
+    class="bg-black text-foreground antialiased selection:bg-cyan-500/30 selection:text-white overflow-x-clip"
+  >
+    <div id="root" class="min-h-screen flex flex-col overflow-x-clip"></div>
     <script type="module" src="/src/start.ts"></script>
   </body>
 </html>

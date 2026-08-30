@@ -11,4 +11,6 @@ const part2 = lines.slice(2014);
 
 const newContent = [...part1, ...part2].join("\n");
 fs.writeFileSync(servicesDataPath, newContent, "utf8");
-console.log(`Cleaned services-data.ts: line count reduced from ${lines.length} to ${newContent.split("\n").length}`);
+console.log(
+  `Cleaned services-data.ts: line count reduced from ${lines.length} to ${newContent.split("\n").length}`,
+);

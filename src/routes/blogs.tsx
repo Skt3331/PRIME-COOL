@@ -52,7 +52,8 @@ function BlogsPage() {
   const ITEMS_PER_PAGE = 25;
 
   const totalPages = Math.ceil((blogs?.length || 0) / ITEMS_PER_PAGE);
-  const paginatedBlogs = blogs?.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE) || [];
+  const paginatedBlogs =
+    blogs?.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE) || [];
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col justify-between relative overflow-hidden">
@@ -80,58 +81,58 @@ function BlogsPage() {
             <div className="space-y-12">
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {paginatedBlogs.map((b: any, idx: number) => (
-                <Link
-                  key={b.id}
-                  to="/blogs/$slug"
-                  params={{ slug: b.slug }}
-                  className="cv-auto gpu-accelerated group surface-card border-border/60 hover:border-primary/40 rounded-2xl overflow-hidden flex flex-col justify-between hover:scale-[1.02] transition-all duration-300"
-                >
-                  <div className="relative z-10 h-full flex flex-col justify-between">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                    <div>
-                      {b.image && (
-                        <div className="aspect-video relative overflow-hidden bg-muted">
-                          <img
-                            src={b.image}
-                            alt={b.title}
-                            className="object-cover w-full h-full group-hover:scale-110 transition duration-500"
-                            loading="lazy"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent pointer-events-none" />
+                  <Link
+                    key={b.id}
+                    to="/blogs/$slug"
+                    params={{ slug: b.slug }}
+                    className="cv-auto gpu-accelerated group surface-card border-border/60 hover:border-primary/40 rounded-2xl overflow-hidden flex flex-col justify-between hover:scale-[1.02] transition-all duration-300"
+                  >
+                    <div className="relative z-10 h-full flex flex-col justify-between">
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                      <div>
+                        {b.image && (
+                          <div className="aspect-video relative overflow-hidden bg-muted">
+                            <img
+                              src={b.image}
+                              alt={b.title}
+                              className="object-cover w-full h-full group-hover:scale-110 transition duration-500"
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent pointer-events-none" />
+                          </div>
+                        )}
+                        <div className="p-6 space-y-3 relative z-20">
+                          <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-mono">
+                            <Calendar className="h-3 w-3 text-primary" />
+                            <span>
+                              {new Date(b.createdAt).toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              })}
+                            </span>
+                          </div>
+                          <h3 className="font-display font-semibold text-lg leading-snug group-hover:text-primary transition line-clamp-2 text-white">
+                            {b.title}
+                          </h3>
+                          <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
+                            {b.summary}
+                          </p>
                         </div>
-                      )}
-                      <div className="p-6 space-y-3 relative z-20">
-                        <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-mono">
-                          <Calendar className="h-3 w-3 text-primary" />
-                          <span>
-                            {new Date(b.createdAt).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                            })}
-                          </span>
-                        </div>
-                        <h3 className="font-display font-semibold text-lg leading-snug group-hover:text-primary transition line-clamp-2 text-white">
-                          {b.title}
-                        </h3>
-                        <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
-                          {b.summary}
-                        </p>
+                      </div>
+
+                      <div className="p-6 pt-0 border-t border-border/40 mt-4 flex items-center text-xs text-primary font-semibold group-hover:underline relative z-20">
+                        Read Article &rarr;
                       </div>
                     </div>
-
-                    <div className="p-6 pt-0 border-t border-border/40 mt-4 flex items-center text-xs text-primary font-semibold group-hover:underline relative z-20">
-                      Read Article &rarr;
-                    </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
               </div>
 
               {totalPages > 1 && (
                 <div className="flex justify-center items-center gap-4 mt-12">
                   <button
-                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
                     className="px-4 py-2 rounded-full border border-border bg-card/50 text-sm font-medium hover:bg-card hover:text-primary transition disabled:opacity-50 disabled:pointer-events-none"
                   >
@@ -141,7 +142,7 @@ function BlogsPage() {
                     Page {currentPage} of {totalPages}
                   </span>
                   <button
-                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                     disabled={currentPage === totalPages}
                     className="px-4 py-2 rounded-full border border-border bg-card/50 text-sm font-medium hover:bg-card hover:text-primary transition disabled:opacity-50 disabled:pointer-events-none"
                   >

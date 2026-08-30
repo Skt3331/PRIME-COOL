@@ -15,6 +15,7 @@ import {
   BookOpen,
   MapPin,
   FileText,
+  Search,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -75,6 +76,11 @@ function AdminLayout() {
       name: "Dashboard",
       path: "/admin",
       icon: LayoutDashboard,
+    },
+    {
+      name: "SEO Center",
+      path: "/admin/seo",
+      icon: Search,
     },
     {
       name: "Pages Mgr",

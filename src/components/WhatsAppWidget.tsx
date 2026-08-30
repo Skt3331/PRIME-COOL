@@ -5,13 +5,13 @@ export function WhatsAppWidget({
 }: {
   whatsapp: { enabled: boolean; number: string; defaultMessage: string };
 }) {
-  if (!whatsapp?.enabled) return null;
-
   const [position, setPosition] = useState({ x: 0, y: 0 }); // offset from bottom-right
   const [isDragging, setIsDragging] = useState(false);
 
   const startPos = useRef({ x: 0, y: 0 });
   const currentPos = useRef({ x: 0, y: 0 });
+
+  if (!whatsapp?.enabled) return null;
 
   const handlePointerDown = (e: React.PointerEvent) => {
     e.preventDefault();

@@ -127,7 +127,8 @@ function GuidesDirectoryPage() {
             Troubleshooting <span className="text-shimmer">Guides Hub.</span>
           </h1>
           <p className="text-base text-slate-400 leading-relaxed">
-            Practical HVAC/R field troubleshooting procedures, pressure anomaly diagnostics, OEM error code tables, and superheat calculation walkthroughs.
+            Practical HVAC/R field troubleshooting procedures, pressure anomaly diagnostics, OEM
+            error code tables, and superheat calculation walkthroughs.
           </p>
         </div>
 
@@ -156,7 +157,9 @@ function GuidesDirectoryPage() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${guide.badgeColor}`}>
+                  <span
+                    className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${guide.badgeColor}`}
+                  >
                     {guide.category}
                   </span>
                 </div>
@@ -165,14 +168,12 @@ function GuidesDirectoryPage() {
                   {guide.title}
                 </h3>
 
-                <p className="text-xs text-slate-400 leading-relaxed mb-6">
-                  {guide.desc}
-                </p>
+                <p className="text-xs text-slate-400 leading-relaxed mb-6">{guide.desc}</p>
               </div>
 
               <div className="pt-4 border-t border-white/8 flex items-center justify-between">
                 <Link
-                  to={`/guides/${guide.slug}`}
+                  to={`/guides/${guide.slug}` as any}
                   className="inline-flex items-center gap-2 text-xs font-bold text-[#00c8ff] hover:text-[#00ffcc] transition-colors"
                 >
                   Read Diagnostic Guide &rarr;

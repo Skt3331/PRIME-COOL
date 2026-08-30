@@ -94,22 +94,59 @@ export const Route = createFileRoute("/")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.home;
-    const title = seo?.title || "Prime Cool | Industrial Cooling & Commercial HVAC Engineering Pune";
+    const faqs = loaderData?.cms?.faqs || [];
+    const title =
+      seo?.title || "Prime Cool | Industrial Cooling & Commercial HVAC Engineering Pune";
     const description =
       seo?.description ||
       "Prime Cool delivers 24x7 emergency HVAC repair, chiller plant overhauls, commercial VRF installations, split AC jet cleaning, and cold storage maintenance across Wagholi, Pune, Chakan, and Ranjangaon MIDC.";
+
+    const faqSchemaItems = (
+      faqs.length > 0
+        ? faqs
+        : [
+            {
+              q: "What areas in Pune do you provide emergency HVAC and AC repairs?",
+              a: "We provide rapid 24x7 response across Wagholi, Hadapsar, Kharadi, Koregaon Bhima, Shikrapur, Shirur, Karegaon MIDC, Ranjangaon MIDC, Chakan MIDC, Bhosari, and all major Pune industrial & residential zones.",
+            },
+            {
+              q: "Do you offer Annual Maintenance Contracts (AMC) for commercial and industrial plants?",
+              a: "Yes, Prime Cool offers tiered AMCs tailored for residential homes, commercial offices/clinics, and heavy MIDC industrial manufacturing plants with guaranteed SLA response times under 4 hours.",
+            },
+            {
+              q: "What refrigerants and AC brands do you service?",
+              a: "We service all major brands including Daikin, Voltas, Blue Star, LG, Carrier, Hitachi, Panasonic, Samsung, Godrej, Mitsubishi, and Carrier Transicold using genuine R-32, R-410A, R-134a, R-404A, and R-407C refrigerants.",
+            },
+          ]
+    ).map((f: any) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: f.a,
+      },
+    }));
 
     return {
       meta: [
         { title },
         { name: "description", content: description },
+        {
+          name: "keywords",
+          content:
+            "AC service Pune, HVAC engineer Wagholi, chiller overhaul Ranjangaon, VRF AMC Chakan, cold room repair, PCB circuit repair Pune",
+        },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "website" },
+        { property: "og:url", content: "https://primecool.in" },
         { property: "og:image", content: "https://primecool.in/logo.png" },
+        { property: "og:site_name", content: "Prime Cool" },
+        { property: "og:locale", content: "en_IN" },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },
+        { name: "twitter:image", content: "https://primecool.in/logo.png" },
       ],
       links: [{ rel: "canonical", href: "https://primecool.in" }],
       scripts: [
@@ -117,46 +154,110 @@ export const Route = createFileRoute("/")({
           type: "application/ld+json",
           children: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "Prime Cool",
-            url: "https://primecool.in",
-            logo: "https://primecool.in/logo.png",
-            image: "https://primecool.in/logo.png",
-            sameAs: ["https://primecool.in/"],
-          }),
-        },
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "HVACBusiness",
-            name: "Prime Cool Engineering",
-            url: "https://primecool.in",
-            logo: "https://primecool.in/logo.png",
-            image: "https://primecool.in/logo.png",
-            telephone: "+917507408461",
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: "A-12, Green City, Wagholi-Bhavadi Road",
-              addressLocality: "Wagholi, Pune",
-              addressRegion: "Maharashtra",
-              postalCode: "412207",
-              addressCountry: "IN",
-            },
-            geo: {
-              "@type": "GeoCoordinates",
-              latitude: 18.5793,
-              longitude: 73.9814,
-            },
-            areaServed: ["Pune", "PCMC", "Wagholi", "Ranjangaon MIDC", "Chakan MIDC", "Kharadi", "Hadapsar"],
-            openingHoursSpecification: {
-              "@type": "OpeningHoursSpecification",
-              dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-              opens: "00:00",
-              closes: "23:59",
-            },
-            priceRange: "₹₹",
-            sameAs: ["https://primecool.in/"],
+            "@graph": [
+              {
+                "@type": "WebSite",
+                "@id": "https://primecool.in/#website",
+                url: "https://primecool.in",
+                name: "Prime Cool",
+                description: "HVAC, Commercial Cooling & Industrial Mechanical Engineering in Pune",
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: "https://primecool.in/services?q={search_term_string}",
+                  "query-input": "required name=search_term_string",
+                },
+              },
+              {
+                "@type": "Organization",
+                "@id": "https://primecool.in/#organization",
+                name: "Prime Cool",
+                url: "https://primecool.in",
+                logo: "https://primecool.in/logo.png",
+                image: "https://primecool.in/logo.png",
+                telephone: "+917507408461",
+                sameAs: ["https://primecool.in/"],
+              },
+              {
+                "@type": "HVACBusiness",
+                "@id": "https://primecool.in/#hvacbusiness",
+                name: "Prime Cool Mechanical & Climate Engineering",
+                url: "https://primecool.in",
+                logo: "https://primecool.in/logo.png",
+                image: "https://primecool.in/logo.png",
+                telephone: "+917507408461",
+                priceRange: "₹₹",
+                address: {
+                  "@type": "PostalAddress",
+                  streetAddress: "A-12, Green City, Wagholi-Bhavadi Road",
+                  addressLocality: "Wagholi, Pune",
+                  addressRegion: "Maharashtra",
+                  postalCode: "412207",
+                  addressCountry: "IN",
+                },
+                geo: {
+                  "@type": "GeoCoordinates",
+                  latitude: 18.5793,
+                  longitude: 73.9814,
+                },
+                areaServed: [
+                  "Pune",
+                  "PCMC",
+                  "Wagholi",
+                  "Hadapsar",
+                  "Kharadi",
+                  "Koregaon Bhima",
+                  "Shikrapur",
+                  "Shirur",
+                  "Karegaon MIDC",
+                  "Ranjangaon MIDC",
+                  "Chakan MIDC",
+                  "Bhosari MIDC",
+                  "Talegaon MIDC",
+                  "Mumbai",
+                  "Thane",
+                  "Nashik",
+                ],
+                openingHoursSpecification: {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday",
+                  ],
+                  opens: "00:00",
+                  closes: "23:59",
+                },
+                aggregateRating: {
+                  "@type": "AggregateRating",
+                  ratingValue: "4.9",
+                  reviewCount: "450",
+                  bestRating: "5",
+                  worstRating: "1",
+                },
+                sameAs: ["https://primecool.in/"],
+              },
+              {
+                "@type": "BreadcrumbList",
+                "@id": "https://primecool.in/#breadcrumb",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: "https://primecool.in",
+                  },
+                ],
+              },
+              {
+                "@type": "FAQPage",
+                "@id": "https://primecool.in/#faq",
+                mainEntity: faqSchemaItems,
+              },
+            ],
           }),
         },
       ],
@@ -235,8 +336,8 @@ function Index() {
   const { projects, cms, blogs, services } = Route.useLoaderData();
 
   return (
-    <div className="min-h-screen text-foreground">
-      <main>
+    <div className="min-h-screen text-foreground w-full overflow-x-clip selection:bg-[#00c8ff]/20">
+      <main className="w-full overflow-x-clip">
         <Hero hero={cms.hero} />
         <Stats cms={cms} />
         <Services services={services} />
@@ -265,7 +366,7 @@ function ResourceHub() {
       className="py-24 border-t border-border bg-card/10 relative overflow-hidden"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,color-mix(in_oklab,var(--primary)_6%,transparent),transparent_50%)] pointer-events-none" />
-      <div className="relative mx-auto max-w-7xl px-6">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5 space-y-6">
             <SectionHeader
@@ -314,7 +415,7 @@ function ResourceHub() {
 
             <div className="surface-card rounded-2xl p-5 space-y-3 border border-border/60 hover:border-primary/40 transition">
               <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 border border-primary/20 text-primary">
-                <Zap className="h-4.5 w-4.5" />
+                <Wind className="h-4.5 w-4.5" />
               </div>
               <h3 className="font-display font-semibold text-foreground text-sm">
                 Calculators &amp; Converters
@@ -396,12 +497,12 @@ function Hero({ hero }: { hero: any }) {
   return (
     <section
       id="top"
-      className="relative pt-16 sm:pt-20 md:pt-24 lg:pt-28 pb-16 md:pb-24 overflow-hidden"
+      className="relative pt-6 sm:pt-8 md:pt-10 lg:pt-12 pb-14 md:pb-20 overflow-hidden"
       style={{ background: "var(--gradient-hero)" }}
     >
       <div
         aria-hidden
-        className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none"
+        className="absolute inset-0 opacity-35 mix-blend-screen pointer-events-none"
         style={{
           backgroundImage: `url(${hero?.backgroundImage || heroImage})`,
           backgroundSize: "cover",
@@ -414,23 +515,23 @@ function Hero({ hero }: { hero: any }) {
       {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
-          className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-20 blur-3xl animate-spin-slow"
+          className="absolute -top-40 -right-40 w-[500px] xl:w-[600px] h-[500px] xl:h-[600px] rounded-full opacity-20 blur-3xl animate-spin-slow"
           style={{
             background: "radial-gradient(circle, #00c8ff 0%, #0066ff 50%, transparent 70%)",
           }}
         />
         <div
-          className="absolute -bottom-20 -left-20 w-[400px] h-[400px] rounded-full opacity-15 blur-3xl"
+          className="absolute -bottom-20 -left-20 w-[350px] xl:w-[400px] h-[350px] xl:h-[400px] rounded-full opacity-15 blur-3xl"
           style={{
             background: "radial-gradient(circle, #0066ff 0%, #8b5cf6 60%, transparent 80%)",
           }}
         />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-16 items-center">
-        <div className="animate-fade-up">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-center">
+        <div className="lg:col-span-7 animate-fade-up space-y-6">
           {/* Location pill */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-1.5 text-xs text-slate-300 mb-4 sm:mb-6">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm px-3.5 py-1.5 text-xs text-slate-300">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00c8ff] opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00c8ff]" />
@@ -438,15 +539,17 @@ function Hero({ hero }: { hero: any }) {
             Pune · Wagholi–Shirur corridor · Karegaon · Ranjangaon
           </div>
 
-          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] text-white">
+          <h1 className="font-display text-3xl sm:text-5xl lg:text-5xl xl:text-6xl font-bold leading-[1.08] tracking-tight text-white">
             {hero.title1}
             <br />
             <span className="text-shimmer">{hero.title2}</span>
           </h1>
 
-          <p className="mt-4 sm:mt-6 text-base sm:text-lg text-slate-400 max-w-lg leading-relaxed">{hero.subtitle}</p>
+          <p className="text-sm sm:text-base lg:text-lg text-slate-300 max-w-xl leading-relaxed">
+            {hero.subtitle}
+          </p>
 
-          <div className="mt-6 sm:mt-8 flex flex-wrap gap-4">
+          <div className="flex flex-wrap items-center gap-3.5 pt-2">
             <Link to={hero.cta1Link} className="btn-primary">
               {hero.cta1Text} <ArrowRight className="h-4 w-4" />
             </Link>
@@ -456,19 +559,19 @@ function Hero({ hero }: { hero: any }) {
           </div>
 
           {/* Google Reviews rating badge */}
-          <div className="mt-8 inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-3.5">
+          <div className="inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-3">
             <div className="flex text-amber-400 gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="h-4 w-4 fill-current" />
               ))}
             </div>
             <div>
-              <span className="font-bold text-white text-sm block">4.9 / 5 Stars</span>
-              <span className="text-xs text-slate-400">Based on 450+ Google Reviews</span>
+              <span className="font-bold text-white text-xs sm:text-sm block">4.9 / 5 Stars</span>
+              <span className="text-[11px] text-slate-400">Based on 450+ Google Reviews</span>
             </div>
           </div>
 
-          <div className="mt-8 flex items-center gap-6 text-xs text-slate-500">
+          <div className="flex flex-wrap items-center gap-5 sm:gap-6 text-xs text-slate-400 pt-1">
             {[
               { icon: Clock, label: "Rapid Response" },
               { icon: ShieldCheck, label: "AMC Backed" },
@@ -481,73 +584,77 @@ function Hero({ hero }: { hero: any }) {
           </div>
         </div>
 
-        <div className="relative hidden lg:block animate-slide-right">
+        <div className="lg:col-span-5 relative hidden lg:block animate-slide-right py-4 px-2">
           {/* Main image card */}
           <div
-            className="relative rounded-3xl overflow-hidden border border-white/10"
-            style={{ boxShadow: "0 0 60px rgba(0,200,255,0.25), 0 30px 80px rgba(0,0,0,0.6)" }}
+            className="relative rounded-3xl overflow-hidden border border-white/10 mx-auto max-w-[420px] xl:max-w-none"
+            style={{ boxShadow: "0 0 50px rgba(0,200,255,0.2), 0 25px 60px rgba(0,0,0,0.6)" }}
           >
             <img
               src={heroImage}
-              alt="Futuristic HVAC and industrial cooling visualization"
-              className="w-full aspect-square object-cover"
+              alt="Futuristic HVAC and industrial cooling engineering in Pune"
+              className="w-full aspect-4/3 xl:aspect-square object-cover"
               fetchPriority="high"
+              loading="eager"
+              decoding="async"
+              width={600}
+              height={600}
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#09090f]/70 via-transparent to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between rounded-2xl border border-white/10 bg-[#09090f]/70 backdrop-blur-xl p-4">
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#09090f]/75 via-transparent to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-2xl border border-white/10 bg-[#09090f]/80 backdrop-blur-xl p-3.5">
               <div>
-                <div className="text-xs text-slate-400">Live Service</div>
-                <div className="font-display font-semibold text-white">
+                <div className="text-[11px] text-slate-400 font-mono">Live Deployment</div>
+                <div className="font-display font-semibold text-white text-sm">
                   Cooling Tower · Ranjangaon
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-xs text-slate-400">Status</div>
-                <div className="text-sm font-bold text-[#00c8ff]">● Optimal</div>
+                <div className="text-[11px] text-slate-400 font-mono">Telemetry</div>
+                <div className="text-xs font-bold text-[#00c8ff]">● 100% Operational</div>
               </div>
             </div>
           </div>
 
           {/* Floating badges */}
-          <div className="absolute -top-5 -left-5 animate-float">
+          <div className="absolute -top-1 left-0 z-20 animate-float">
             <div
-              className="rounded-2xl border border-white/10 bg-[#111118]/90 backdrop-blur-xl px-4 py-3 flex items-center gap-3"
-              style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.5)" }}
+              className="rounded-2xl border border-white/10 bg-[#111118]/95 backdrop-blur-xl px-3.5 py-2.5 flex items-center gap-2.5"
+              style={{ boxShadow: "0 8px 25px rgba(0,0,0,0.5)" }}
             >
               <div
-                className="h-9 w-9 rounded-xl flex items-center justify-center"
+                className="h-8 w-8 rounded-xl flex items-center justify-center"
                 style={{
                   background: "linear-gradient(135deg, #00c8ff20, #0066ff20)",
                   border: "1px solid rgba(0,200,255,0.3)",
                 }}
               >
-                <Snowflake className="h-4.5 w-4.5 text-[#00c8ff]" />
+                <Snowflake className="h-4 w-4 text-[#00c8ff]" />
               </div>
-              <div className="text-xs">
-                <div className="font-bold text-white">-3°C</div>
+              <div className="text-[11px]">
+                <div className="font-bold text-white">-3°C Hold</div>
                 <div className="text-slate-400">Refrigerant Optimal</div>
               </div>
             </div>
           </div>
           <div
-            className="absolute -bottom-5 -right-5 animate-float"
+            className="absolute -bottom-1 right-0 z-20 animate-float"
             style={{ animationDelay: "1.5s" }}
           >
             <div
-              className="rounded-2xl border border-white/10 bg-[#111118]/90 backdrop-blur-xl px-4 py-3 flex items-center gap-3"
-              style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.5)" }}
+              className="rounded-2xl border border-white/10 bg-[#111118]/95 backdrop-blur-xl px-3.5 py-2.5 flex items-center gap-2.5"
+              style={{ boxShadow: "0 8px 25px rgba(0,0,0,0.5)" }}
             >
               <div
-                className="h-9 w-9 rounded-xl flex items-center justify-center"
+                className="h-8 w-8 rounded-xl flex items-center justify-center"
                 style={{
                   background: "linear-gradient(135deg, #0066ff20, #8b5cf620)",
                   border: "1px solid rgba(0,102,255,0.3)",
                 }}
               >
-                <Gauge className="h-4.5 w-4.5 text-[#0066ff]" />
+                <Gauge className="h-4 w-4 text-[#0066ff]" />
               </div>
-              <div className="text-xs">
-                <div className="font-bold text-white">5.2 bar</div>
+              <div className="text-[11px]">
+                <div className="font-bold text-white">5.2 bar SLA</div>
                 <div className="text-slate-400">Pressure Verified</div>
               </div>
             </div>
@@ -699,7 +806,7 @@ function ServiceCard({
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#09090f] via-black/30 to-transparent pointer-events-none" />
-        
+
         {/* Badges overlay */}
         <div className="absolute top-3 left-3 flex items-center gap-1.5">
           <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#00c8ff]/20 border border-[#00c8ff]/40 text-[#00c8ff] backdrop-blur-md shadow-sm">

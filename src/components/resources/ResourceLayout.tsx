@@ -188,57 +188,26 @@ export function ResourceLayout({
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,200,255,0.05),transparent_50%)] pointer-events-none" />
       <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
 
-      {/* Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-black/60 border-b border-border shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
-        <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="relative">
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#00ffcc]/30 to-[#00c8ff]/20 blur-lg group-hover:blur-xl transition-all" />
-              <img src={logo} alt="Prime Cool logo" className="relative h-9 w-9" />
-            </div>
-            <span className="font-display font-bold text-lg tracking-tight text-white">
-              Prime <span className="text-shimmer">Cool</span>
+      {/* Main Container */}
+      <div className="flex-1 pt-6 md:pt-8 pb-16 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl 2xl:max-w-[1536px] grid md:grid-cols-12 gap-8 items-start">
+          {/* Mobile Category Trigger */}
+          <div className="md:hidden col-span-12 flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/10">
+            <span className="text-xs font-semibold text-slate-300 flex items-center gap-2">
+              <BookOpen className="h-4 w-4 text-[#00c8ff]" /> Technical Resources Directory
             </span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <a
-              href={`tel:${phone.replace(/\s+/g, "")}`}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 p-2 sm:px-3 sm:py-1.5 text-xs font-medium text-slate-300 hover:bg-white/10 hover:border-white/20 hover:text-white transition"
-              title="Call Support"
-            >
-              <Phone className="h-4 w-4 text-[#00c8ff]" />
-              <span className="hidden sm:inline">{phone}</span>
-            </a>
-            <Link
-              to="/resources"
-              className="hidden md:inline-flex items-center gap-1.5 text-sm font-medium text-slate-400 hover:text-white transition group"
-            >
-              <HelpCircle className="h-4 w-4 group-hover:text-[#00c8ff]" />
-              <span>Resources Home</span>
-            </Link>
-            <Link
-              to="/"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-400 hover:text-white transition group"
-            >
-              <ArrowLeft className="h-4 w-4 group-hover:text-[#00c8ff]" />
-              <span>Home</span>
-            </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-slate-400 hover:text-white hover:bg-white/8 rounded-lg transition"
+              className="px-3 py-1.5 rounded-xl bg-[#00c8ff]/10 border border-[#00c8ff]/30 text-xs font-bold text-[#00c8ff] hover:bg-[#00c8ff]/20 transition flex items-center gap-1.5"
             >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              <span>{mobileMenuOpen ? "Close Menu" : "Browse Categories"}</span>
             </button>
           </div>
-        </div>
-      </header>
 
-      {/* Main Container */}
-      <div className="flex-1 pt-24 pb-16 px-6">
-        <div className="mx-auto max-w-7xl grid md:grid-cols-12 gap-8 items-start">
-          {/* Sidebar Left Navigation - Hidden on mobile, sticky on desktop */}
+          {/* Sidebar Left Navigation */}
           <aside
-            className={`fixed inset-y-0 left-0 z-40 w-64 border-r border-white/8 bg-[#09090f]/95 backdrop-blur-2xl p-6 flex flex-col justify-between transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:h-auto md:w-auto md:border-r-0 md:bg-transparent md:p-0 md:col-span-3 ${
+            className={`fixed inset-y-0 left-0 z-50 w-72 border-r border-white/10 bg-[#09090f]/98 backdrop-blur-2xl p-6 flex flex-col justify-between transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:h-auto md:w-auto md:border-r-0 md:bg-transparent md:p-0 md:col-span-3 ${
               mobileMenuOpen ? "translate-x-0 top-16" : "max-md:-translate-x-full"
             }`}
           >
@@ -337,7 +306,6 @@ export function ResourceLayout({
           </main>
         </div>
       </div>
-
     </div>
   );
 }

@@ -378,7 +378,9 @@ function CmsPage() {
 
             <div className="space-y-2 pt-4 border-t border-border mt-6">
               <Label>Website Favicon (Browser Tab Icon)</Label>
-              <p className="text-xs text-muted-foreground mb-2">Recommended: 32x32 or 64x64 PNG or SVG</p>
+              <p className="text-xs text-muted-foreground mb-2">
+                Recommended: 32x32 or 64x64 PNG or SVG
+              </p>
               <ImageDropzone
                 onImageProcessed={(fileData, url) => {
                   setFormData({
@@ -426,7 +428,18 @@ function CmsPage() {
 
         {activeTab === "seo" && (
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2">
-            {(["home", "booking", "portfolio", "resources", "calculators", "blogs", "brands", "locations"] as const).map((page) => (
+            {(
+              [
+                "home",
+                "booking",
+                "portfolio",
+                "resources",
+                "calculators",
+                "blogs",
+                "brands",
+                "locations",
+              ] as const
+            ).map((page) => (
               <div key={page} className="space-y-4">
                 <h2 className="text-lg font-semibold capitalize border-b border-border pb-2">
                   {page} Page SEO

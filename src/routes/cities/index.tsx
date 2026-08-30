@@ -21,7 +21,8 @@ export const Route = createFileRoute("/cities/")({
   },
   head: ({ loaderData }) => {
     const seo = loaderData?.cms?.seo?.cities;
-    const pageTitle = seo?.title || "Cities & Districts Served | Pune, PCMC, Mumbai, Thane, Nashik | Prime Cool";
+    const pageTitle =
+      seo?.title || "Cities & Districts Served | Pune, PCMC, Mumbai, Thane, Nashik | Prime Cool";
     const pageDesc =
       seo?.description ||
       "Certified HVAC, AC repair, cold room, and chiller maintenance services across Pune Metropolitan Area, PCMC, Mumbai, Thane, Nashik, and Ahmednagar.";
@@ -102,7 +103,9 @@ function CitiesDirectoryPage() {
             Cities & <span className="text-shimmer">Districts Directory.</span>
           </h1>
           <p className="text-base text-slate-400 leading-relaxed">
-            Prime Cool services metropolitan cities, industrial MIDC zones, and regional districts across Maharashtra with certified HVAC diagnostic engineers and emergency response dispatch.
+            Prime Cool services metropolitan cities, industrial MIDC zones, and regional districts
+            across Maharashtra with certified HVAC diagnostic engineers and emergency response
+            dispatch.
           </p>
         </div>
 
@@ -131,7 +134,9 @@ function CitiesDirectoryPage() {
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${city.badgeColor}`}>
+                  <span
+                    className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${city.badgeColor}`}
+                  >
                     {city.hubType}
                   </span>
                 </div>
@@ -146,13 +151,17 @@ function CitiesDirectoryPage() {
 
                 <div className="grid grid-cols-2 gap-2 p-3 rounded-2xl bg-black/40 border border-white/5 mb-6 text-xs">
                   <div>
-                    <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">Response SLA</span>
+                    <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">
+                      Response SLA
+                    </span>
                     <span className="font-bold text-white flex items-center gap-1 mt-0.5">
                       <Clock className="h-3.5 w-3.5 text-emerald-400" /> {city.dispatchSLA}
                     </span>
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">Deployments</span>
+                    <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">
+                      Deployments
+                    </span>
                     <span className="font-bold text-[#00c8ff] mt-0.5 block">{city.units}</span>
                   </div>
                 </div>

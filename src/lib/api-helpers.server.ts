@@ -659,3 +659,113 @@ export async function deleteLocationHelper(data: { slug: string }) {
   }
   return { success };
 }
+
+// ---------------- SEO & Sitemap API Helpers ----------------
+
+export async function getSitemapStatsHelper() {
+  await requireAdminAuth();
+  const rootDir = getAppRoot();
+  const publicDir = path.resolve(rootDir, "public");
+
+  const sitemaps = [];
+  let totalUrls = 0;
+
+  try {
+    const files = await fs.readdir(publicDir);
+    for (const file of files) {
+      if (file.startsWith("sitemap") && file.endsWith(".xml")) {
+        const filePath = path.join(publicDir, file);
+        const stat = await fs.stat(filePath);
+        const content = await fs.readFile(filePath, "utf8");
+
+        let count = 0;
+        if (file === "sitemap.xml") {
+          const matches = content.match(/<sitemap>/g);
+          count = matches ? matches.length : 0;
+        } else {
+          const matches = content.match(/<loc>/g);
+          count = matches ? matches.length : 0;
+          totalUrls += count;
+        }
+
+        sitemaps.push({
+          name: file,
+          url: `https://primecool.in/${file}`,
+          count,
+          sizeBytes: stat.size,
+          updatedAt: stat.mtime.toISOString(),
+          isIndex: file === "sitemap.xml",
+        });
+      }
+    }
+  } catch (err) {
+    console.error("Error reading sitemaps in getSitemapStatsHelper:", err);
+  }
+
+  // Sort index first, then alphabetically
+  sitemaps.sort((a, b) => {
+    if (a.isIndex) return -1;
+    if (b.isIndex) return 1;
+    return a.name.localeCompare(b.name);
+  });
+
+  return {
+    success: true,
+    totalUrls,
+    sitemaps,
+  };
+}
+
+export async function regenerateSitemapsHelper() {
+  await requireAdminAuth();
+  const rootDir = getAppRoot();
+  const scriptPath = path.resolve(rootDir, "scripts/generate-sitemap.js");
+
+  try {
+    const sitemapModule = await import(scriptPath);
+    if (sitemapModule && typeof sitemapModule.generateSitemap === "function") {
+      const result = await sitemapModule.generateSitemap();
+      return { success: true, result, stats: await getSitemapStatsHelper() };
+    }
+  } catch (e: any) {
+    console.warn("Direct generateSitemap import failed, trying child_process exec:", e?.message);
+  }
+
+  return new Promise<{ success: boolean; stats?: any; error?: string; output?: string }>(
+    (resolve) => {
+      exec("node scripts/generate-sitemap.js", { cwd: rootDir }, async (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Sitemap manual generation error: ${error.message}`);
+          return resolve({ success: false, error: error.message });
+        }
+        console.log("Manual sitemap regeneration completed:", stdout);
+        const stats = await getSitemapStatsHelper();
+        resolve({ success: true, stats, output: stdout });
+      });
+    },
+  );
+}
+
+export async function getRobotsTxtHelper() {
+  await requireAdminAuth();
+  const rootDir = getAppRoot();
+  const robotsPath = path.resolve(rootDir, "public/robots.txt");
+  try {
+    const content = await fs.readFile(robotsPath, "utf8");
+    return { success: true, content };
+  } catch (err: any) {
+    return { success: false, error: err?.message || "Failed to read robots.txt" };
+  }
+}
+
+export async function updateRobotsTxtHelper(data: { content: string }) {
+  await requireAdminAuth();
+  const rootDir = getAppRoot();
+  const robotsPath = path.resolve(rootDir, "public/robots.txt");
+  try {
+    await fs.writeFile(robotsPath, data.content, "utf8");
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err?.message || "Failed to write robots.txt" };
+  }
+}

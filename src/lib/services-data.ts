@@ -15,1405 +15,1583 @@ export interface ServiceDetail {
 
 export const servicesData: Record<string, ServiceDetail> = {
   "pcb-voltas-smps-switch-mode-power-supply-15v-rail-repair-1": {
-    "slug": "pcb-voltas-smps-switch-mode-power-supply-15v-rail-repair-1",
-    "title": "Voltas Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #1",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Voltas inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Voltas inverter air conditioners. Includes smps switch-mode power supply 15v rail repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-voltas-smps-switch-mode-power-supply-15v-rail-repair-1",
+    title: "Voltas Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #1",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Voltas inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Voltas inverter air conditioners. Includes smps switch-mode power supply 15v rail repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Voltas PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Voltas PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Voltas Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #1 | Prime Cool",
-    "seoDesc": "Component-level repair for Voltas inverter AC PCBs in Pune & MIDC industrial parks. Specialist in SMPS Switch-Mode Power Supply 15V Rail Repair."
-},
+    seoTitle:
+      "Voltas Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #1 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Voltas inverter AC PCBs in Pune & MIDC industrial parks. Specialist in SMPS Switch-Mode Power Supply 15V Rail Repair.",
+  },
   "pcb-blue-star-optocoupler-communication-loop-refurbishment-2": {
-    "slug": "pcb-blue-star-optocoupler-communication-loop-refurbishment-2",
-    "title": "Blue Star Inverter AC PCB: Optocoupler Communication Loop Refurbishment #2",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Blue Star inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Blue Star inverter air conditioners. Includes optocoupler communication loop refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-blue-star-optocoupler-communication-loop-refurbishment-2",
+    title: "Blue Star Inverter AC PCB: Optocoupler Communication Loop Refurbishment #2",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Blue Star inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Blue Star inverter air conditioners. Includes optocoupler communication loop refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Blue Star PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Blue Star PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Blue Star Inverter AC PCB: Optocoupler Communication Loop Refurbishment #2 | Prime Cool",
-    "seoDesc": "Component-level repair for Blue Star inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Optocoupler Communication Loop Refurbishment."
-},
+    seoTitle:
+      "Blue Star Inverter AC PCB: Optocoupler Communication Loop Refurbishment #2 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Blue Star inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Optocoupler Communication Loop Refurbishment.",
+  },
   "pcb-lg-microcontroller-eeprom-data-flashing---tuning-3": {
-    "slug": "pcb-lg-microcontroller-eeprom-data-flashing---tuning-3",
-    "title": "LG Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #3",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for LG inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for LG inverter air conditioners. Includes microcontroller eeprom data flashing & tuning, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-lg-microcontroller-eeprom-data-flashing---tuning-3",
+    title: "LG Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #3",
+    category: "industrial",
+    tagline: "Precision component-level electronics repair for LG inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for LG inverter air conditioners. Includes microcontroller eeprom data flashing & tuning, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt LG PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt LG PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "LG Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #3 | Prime Cool",
-    "seoDesc": "Component-level repair for LG inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Microcontroller EEPROM Data Flashing & Tuning."
-},
+    seoTitle: "LG Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #3 | Prime Cool",
+    seoDesc:
+      "Component-level repair for LG inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Microcontroller EEPROM Data Flashing & Tuning.",
+  },
   "pcb-hitachi-current-sensing-shunt-resistor-calibration-4": {
-    "slug": "pcb-hitachi-current-sensing-shunt-resistor-calibration-4",
-    "title": "Hitachi Inverter AC PCB: Current Sensing Shunt Resistor Calibration #4",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Hitachi inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Hitachi inverter air conditioners. Includes current sensing shunt resistor calibration, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-hitachi-current-sensing-shunt-resistor-calibration-4",
+    title: "Hitachi Inverter AC PCB: Current Sensing Shunt Resistor Calibration #4",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Hitachi inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Hitachi inverter air conditioners. Includes current sensing shunt resistor calibration, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Hitachi PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Hitachi PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Hitachi Inverter AC PCB: Current Sensing Shunt Resistor Calibration #4 | Prime Cool",
-    "seoDesc": "Component-level repair for Hitachi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Current Sensing Shunt Resistor Calibration."
-},
+    seoTitle: "Hitachi Inverter AC PCB: Current Sensing Shunt Resistor Calibration #4 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Hitachi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Current Sensing Shunt Resistor Calibration.",
+  },
   "pcb-carrier-bldc-condenser-fan-motor-driver-ic-repair-5": {
-    "slug": "pcb-carrier-bldc-condenser-fan-motor-driver-ic-repair-5",
-    "title": "Carrier Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #5",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Carrier inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Carrier inverter air conditioners. Includes bldc condenser fan motor driver ic repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-carrier-bldc-condenser-fan-motor-driver-ic-repair-5",
+    title: "Carrier Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #5",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Carrier inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Carrier inverter air conditioners. Includes bldc condenser fan motor driver ic repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Carrier PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Carrier PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Carrier Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #5 | Prime Cool",
-    "seoDesc": "Component-level repair for Carrier inverter AC PCBs in Pune & MIDC industrial parks. Specialist in BLDC Condenser Fan Motor Driver IC Repair."
-},
+    seoTitle: "Carrier Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #5 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Carrier inverter AC PCBs in Pune & MIDC industrial parks. Specialist in BLDC Condenser Fan Motor Driver IC Repair.",
+  },
   "pcb-panasonic-dc-bus-high-voltage-capacitor-refurbishment-6": {
-    "slug": "pcb-panasonic-dc-bus-high-voltage-capacitor-refurbishment-6",
-    "title": "Panasonic Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #6",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Panasonic inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Panasonic inverter air conditioners. Includes dc bus high voltage capacitor refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-panasonic-dc-bus-high-voltage-capacitor-refurbishment-6",
+    title: "Panasonic Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #6",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Panasonic inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Panasonic inverter air conditioners. Includes dc bus high voltage capacitor refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Panasonic PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Panasonic PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Panasonic Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #6 | Prime Cool",
-    "seoDesc": "Component-level repair for Panasonic inverter AC PCBs in Pune & MIDC industrial parks. Specialist in DC Bus High Voltage Capacitor Refurbishment."
-},
+    seoTitle:
+      "Panasonic Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #6 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Panasonic inverter AC PCBs in Pune & MIDC industrial parks. Specialist in DC Bus High Voltage Capacitor Refurbishment.",
+  },
   "pcb-godrej-inverter-drive-phase-voltage-unbalance-fix-7": {
-    "slug": "pcb-godrej-inverter-drive-phase-voltage-unbalance-fix-7",
-    "title": "Godrej Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #7",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Godrej inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Godrej inverter air conditioners. Includes inverter drive phase voltage unbalance fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-godrej-inverter-drive-phase-voltage-unbalance-fix-7",
+    title: "Godrej Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #7",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Godrej inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Godrej inverter air conditioners. Includes inverter drive phase voltage unbalance fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Godrej PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Godrej PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Godrej Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #7 | Prime Cool",
-    "seoDesc": "Component-level repair for Godrej inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Inverter Drive Phase Voltage Unbalance Fix."
-},
+    seoTitle: "Godrej Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #7 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Godrej inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Inverter Drive Phase Voltage Unbalance Fix.",
+  },
   "pcb-o-general-pcb-heatsink-compound-repasting---descaling-8": {
-    "slug": "pcb-o-general-pcb-heatsink-compound-repasting---descaling-8",
-    "title": "O General Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #8",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for O General inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for O General inverter air conditioners. Includes pcb heatsink compound repasting & descaling, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-o-general-pcb-heatsink-compound-repasting---descaling-8",
+    title: "O General Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #8",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for O General inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for O General inverter air conditioners. Includes pcb heatsink compound repasting & descaling, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt O General PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt O General PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "O General Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #8 | Prime Cool",
-    "seoDesc": "Component-level repair for O General inverter AC PCBs in Pune & MIDC industrial parks. Specialist in PCB Heatsink Compound Repasting & Descaling."
-},
+    seoTitle:
+      "O General Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #8 | Prime Cool",
+    seoDesc:
+      "Component-level repair for O General inverter AC PCBs in Pune & MIDC industrial parks. Specialist in PCB Heatsink Compound Repasting & Descaling.",
+  },
   "pcb-mitsubishi-surge-varistor-mov-overvoltage-protection-fix-9": {
-    "slug": "pcb-mitsubishi-surge-varistor-mov-overvoltage-protection-fix-9",
-    "title": "Mitsubishi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #9",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Mitsubishi inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Mitsubishi inverter air conditioners. Includes surge varistor mov overvoltage protection fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-mitsubishi-surge-varistor-mov-overvoltage-protection-fix-9",
+    title: "Mitsubishi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #9",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Mitsubishi inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Mitsubishi inverter air conditioners. Includes surge varistor mov overvoltage protection fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Mitsubishi PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Mitsubishi PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Mitsubishi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #9 | Prime Cool",
-    "seoDesc": "Component-level repair for Mitsubishi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Surge Varistor MOV Overvoltage Protection Fix."
-},
+    seoTitle:
+      "Mitsubishi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #9 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Mitsubishi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Surge Varistor MOV Overvoltage Protection Fix.",
+  },
   "pcb-danfoss-ipm-module-igbt-transistor-switching-repair-10": {
-    "slug": "pcb-danfoss-ipm-module-igbt-transistor-switching-repair-10",
-    "title": "Danfoss Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #10",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Danfoss inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Danfoss inverter air conditioners. Includes ipm module igbt transistor switching repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-danfoss-ipm-module-igbt-transistor-switching-repair-10",
+    title: "Danfoss Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #10",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Danfoss inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Danfoss inverter air conditioners. Includes ipm module igbt transistor switching repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Danfoss PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Danfoss PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Danfoss Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #10 | Prime Cool",
-    "seoDesc": "Component-level repair for Danfoss inverter AC PCBs in Pune & MIDC industrial parks. Specialist in IPM Module IGBT Transistor Switching Repair."
-},
+    seoTitle:
+      "Danfoss Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #10 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Danfoss inverter AC PCBs in Pune & MIDC industrial parks. Specialist in IPM Module IGBT Transistor Switching Repair.",
+  },
   "pcb-abb-smps-switch-mode-power-supply-15v-rail-repair-11": {
-    "slug": "pcb-abb-smps-switch-mode-power-supply-15v-rail-repair-11",
-    "title": "ABB Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #11",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for ABB inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for ABB inverter air conditioners. Includes smps switch-mode power supply 15v rail repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-abb-smps-switch-mode-power-supply-15v-rail-repair-11",
+    title: "ABB Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #11",
+    category: "industrial",
+    tagline: "Precision component-level electronics repair for ABB inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for ABB inverter air conditioners. Includes smps switch-mode power supply 15v rail repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt ABB PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt ABB PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "ABB Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #11 | Prime Cool",
-    "seoDesc": "Component-level repair for ABB inverter AC PCBs in Pune & MIDC industrial parks. Specialist in SMPS Switch-Mode Power Supply 15V Rail Repair."
-},
+    seoTitle: "ABB Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #11 | Prime Cool",
+    seoDesc:
+      "Component-level repair for ABB inverter AC PCBs in Pune & MIDC industrial parks. Specialist in SMPS Switch-Mode Power Supply 15V Rail Repair.",
+  },
   "pcb-schneider-optocoupler-communication-loop-refurbishment-12": {
-    "slug": "pcb-schneider-optocoupler-communication-loop-refurbishment-12",
-    "title": "Schneider Inverter AC PCB: Optocoupler Communication Loop Refurbishment #12",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Schneider inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Schneider inverter air conditioners. Includes optocoupler communication loop refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-schneider-optocoupler-communication-loop-refurbishment-12",
+    title: "Schneider Inverter AC PCB: Optocoupler Communication Loop Refurbishment #12",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Schneider inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Schneider inverter air conditioners. Includes optocoupler communication loop refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Schneider PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Schneider PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Schneider Inverter AC PCB: Optocoupler Communication Loop Refurbishment #12 | Prime Cool",
-    "seoDesc": "Component-level repair for Schneider inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Optocoupler Communication Loop Refurbishment."
-},
+    seoTitle:
+      "Schneider Inverter AC PCB: Optocoupler Communication Loop Refurbishment #12 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Schneider inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Optocoupler Communication Loop Refurbishment.",
+  },
   "pcb-siemens-microcontroller-eeprom-data-flashing---tuning-13": {
-    "slug": "pcb-siemens-microcontroller-eeprom-data-flashing---tuning-13",
-    "title": "Siemens Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #13",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Siemens inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Siemens inverter air conditioners. Includes microcontroller eeprom data flashing & tuning, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-siemens-microcontroller-eeprom-data-flashing---tuning-13",
+    title: "Siemens Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #13",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Siemens inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Siemens inverter air conditioners. Includes microcontroller eeprom data flashing & tuning, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Siemens PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Siemens PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Siemens Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #13 | Prime Cool",
-    "seoDesc": "Component-level repair for Siemens inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Microcontroller EEPROM Data Flashing & Tuning."
-},
+    seoTitle:
+      "Siemens Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #13 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Siemens inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Microcontroller EEPROM Data Flashing & Tuning.",
+  },
   "pcb-yaskawa-current-sensing-shunt-resistor-calibration-14": {
-    "slug": "pcb-yaskawa-current-sensing-shunt-resistor-calibration-14",
-    "title": "Yaskawa Inverter AC PCB: Current Sensing Shunt Resistor Calibration #14",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Yaskawa inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Yaskawa inverter air conditioners. Includes current sensing shunt resistor calibration, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-yaskawa-current-sensing-shunt-resistor-calibration-14",
+    title: "Yaskawa Inverter AC PCB: Current Sensing Shunt Resistor Calibration #14",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Yaskawa inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Yaskawa inverter air conditioners. Includes current sensing shunt resistor calibration, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Yaskawa PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Yaskawa PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Yaskawa Inverter AC PCB: Current Sensing Shunt Resistor Calibration #14 | Prime Cool",
-    "seoDesc": "Component-level repair for Yaskawa inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Current Sensing Shunt Resistor Calibration."
-},
+    seoTitle:
+      "Yaskawa Inverter AC PCB: Current Sensing Shunt Resistor Calibration #14 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Yaskawa inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Current Sensing Shunt Resistor Calibration.",
+  },
   "pcb-daikin-bldc-condenser-fan-motor-driver-ic-repair-15": {
-    "slug": "pcb-daikin-bldc-condenser-fan-motor-driver-ic-repair-15",
-    "title": "Daikin Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #15",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Daikin inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Daikin inverter air conditioners. Includes bldc condenser fan motor driver ic repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-daikin-bldc-condenser-fan-motor-driver-ic-repair-15",
+    title: "Daikin Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #15",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Daikin inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Daikin inverter air conditioners. Includes bldc condenser fan motor driver ic repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Daikin PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Daikin PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Daikin Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #15 | Prime Cool",
-    "seoDesc": "Component-level repair for Daikin inverter AC PCBs in Pune & MIDC industrial parks. Specialist in BLDC Condenser Fan Motor Driver IC Repair."
-},
+    seoTitle: "Daikin Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #15 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Daikin inverter AC PCBs in Pune & MIDC industrial parks. Specialist in BLDC Condenser Fan Motor Driver IC Repair.",
+  },
   "pcb-voltas-dc-bus-high-voltage-capacitor-refurbishment-16": {
-    "slug": "pcb-voltas-dc-bus-high-voltage-capacitor-refurbishment-16",
-    "title": "Voltas Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #16",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Voltas inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Voltas inverter air conditioners. Includes dc bus high voltage capacitor refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-voltas-dc-bus-high-voltage-capacitor-refurbishment-16",
+    title: "Voltas Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #16",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Voltas inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Voltas inverter air conditioners. Includes dc bus high voltage capacitor refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Voltas PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Voltas PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Voltas Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #16 | Prime Cool",
-    "seoDesc": "Component-level repair for Voltas inverter AC PCBs in Pune & MIDC industrial parks. Specialist in DC Bus High Voltage Capacitor Refurbishment."
-},
+    seoTitle:
+      "Voltas Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #16 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Voltas inverter AC PCBs in Pune & MIDC industrial parks. Specialist in DC Bus High Voltage Capacitor Refurbishment.",
+  },
   "pcb-blue-star-inverter-drive-phase-voltage-unbalance-fix-17": {
-    "slug": "pcb-blue-star-inverter-drive-phase-voltage-unbalance-fix-17",
-    "title": "Blue Star Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #17",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Blue Star inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Blue Star inverter air conditioners. Includes inverter drive phase voltage unbalance fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-blue-star-inverter-drive-phase-voltage-unbalance-fix-17",
+    title: "Blue Star Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #17",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Blue Star inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Blue Star inverter air conditioners. Includes inverter drive phase voltage unbalance fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Blue Star PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Blue Star PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Blue Star Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #17 | Prime Cool",
-    "seoDesc": "Component-level repair for Blue Star inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Inverter Drive Phase Voltage Unbalance Fix."
-},
+    seoTitle:
+      "Blue Star Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #17 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Blue Star inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Inverter Drive Phase Voltage Unbalance Fix.",
+  },
   "pcb-lg-pcb-heatsink-compound-repasting---descaling-18": {
-    "slug": "pcb-lg-pcb-heatsink-compound-repasting---descaling-18",
-    "title": "LG Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #18",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for LG inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for LG inverter air conditioners. Includes pcb heatsink compound repasting & descaling, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-lg-pcb-heatsink-compound-repasting---descaling-18",
+    title: "LG Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #18",
+    category: "industrial",
+    tagline: "Precision component-level electronics repair for LG inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for LG inverter air conditioners. Includes pcb heatsink compound repasting & descaling, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt LG PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt LG PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "LG Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #18 | Prime Cool",
-    "seoDesc": "Component-level repair for LG inverter AC PCBs in Pune & MIDC industrial parks. Specialist in PCB Heatsink Compound Repasting & Descaling."
-},
+    seoTitle: "LG Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #18 | Prime Cool",
+    seoDesc:
+      "Component-level repair for LG inverter AC PCBs in Pune & MIDC industrial parks. Specialist in PCB Heatsink Compound Repasting & Descaling.",
+  },
   "pcb-hitachi-surge-varistor-mov-overvoltage-protection-fix-19": {
-    "slug": "pcb-hitachi-surge-varistor-mov-overvoltage-protection-fix-19",
-    "title": "Hitachi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #19",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Hitachi inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Hitachi inverter air conditioners. Includes surge varistor mov overvoltage protection fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-hitachi-surge-varistor-mov-overvoltage-protection-fix-19",
+    title: "Hitachi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #19",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Hitachi inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Hitachi inverter air conditioners. Includes surge varistor mov overvoltage protection fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Hitachi PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Hitachi PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Hitachi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #19 | Prime Cool",
-    "seoDesc": "Component-level repair for Hitachi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Surge Varistor MOV Overvoltage Protection Fix."
-},
+    seoTitle:
+      "Hitachi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #19 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Hitachi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Surge Varistor MOV Overvoltage Protection Fix.",
+  },
   "pcb-carrier-ipm-module-igbt-transistor-switching-repair-20": {
-    "slug": "pcb-carrier-ipm-module-igbt-transistor-switching-repair-20",
-    "title": "Carrier Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #20",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Carrier inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Carrier inverter air conditioners. Includes ipm module igbt transistor switching repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-carrier-ipm-module-igbt-transistor-switching-repair-20",
+    title: "Carrier Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #20",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Carrier inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Carrier inverter air conditioners. Includes ipm module igbt transistor switching repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Carrier PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Carrier PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Carrier Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #20 | Prime Cool",
-    "seoDesc": "Component-level repair for Carrier inverter AC PCBs in Pune & MIDC industrial parks. Specialist in IPM Module IGBT Transistor Switching Repair."
-},
+    seoTitle:
+      "Carrier Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #20 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Carrier inverter AC PCBs in Pune & MIDC industrial parks. Specialist in IPM Module IGBT Transistor Switching Repair.",
+  },
   "pcb-panasonic-smps-switch-mode-power-supply-15v-rail-repair-21": {
-    "slug": "pcb-panasonic-smps-switch-mode-power-supply-15v-rail-repair-21",
-    "title": "Panasonic Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #21",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Panasonic inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Panasonic inverter air conditioners. Includes smps switch-mode power supply 15v rail repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-panasonic-smps-switch-mode-power-supply-15v-rail-repair-21",
+    title: "Panasonic Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #21",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Panasonic inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Panasonic inverter air conditioners. Includes smps switch-mode power supply 15v rail repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Panasonic PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Panasonic PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Panasonic Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #21 | Prime Cool",
-    "seoDesc": "Component-level repair for Panasonic inverter AC PCBs in Pune & MIDC industrial parks. Specialist in SMPS Switch-Mode Power Supply 15V Rail Repair."
-},
+    seoTitle:
+      "Panasonic Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #21 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Panasonic inverter AC PCBs in Pune & MIDC industrial parks. Specialist in SMPS Switch-Mode Power Supply 15V Rail Repair.",
+  },
   "pcb-godrej-optocoupler-communication-loop-refurbishment-22": {
-    "slug": "pcb-godrej-optocoupler-communication-loop-refurbishment-22",
-    "title": "Godrej Inverter AC PCB: Optocoupler Communication Loop Refurbishment #22",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Godrej inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Godrej inverter air conditioners. Includes optocoupler communication loop refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-godrej-optocoupler-communication-loop-refurbishment-22",
+    title: "Godrej Inverter AC PCB: Optocoupler Communication Loop Refurbishment #22",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Godrej inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Godrej inverter air conditioners. Includes optocoupler communication loop refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Godrej PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Godrej PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Godrej Inverter AC PCB: Optocoupler Communication Loop Refurbishment #22 | Prime Cool",
-    "seoDesc": "Component-level repair for Godrej inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Optocoupler Communication Loop Refurbishment."
-},
+    seoTitle:
+      "Godrej Inverter AC PCB: Optocoupler Communication Loop Refurbishment #22 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Godrej inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Optocoupler Communication Loop Refurbishment.",
+  },
   "pcb-o-general-microcontroller-eeprom-data-flashing---tuning-23": {
-    "slug": "pcb-o-general-microcontroller-eeprom-data-flashing---tuning-23",
-    "title": "O General Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #23",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for O General inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for O General inverter air conditioners. Includes microcontroller eeprom data flashing & tuning, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-o-general-microcontroller-eeprom-data-flashing---tuning-23",
+    title: "O General Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #23",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for O General inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for O General inverter air conditioners. Includes microcontroller eeprom data flashing & tuning, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt O General PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt O General PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "O General Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #23 | Prime Cool",
-    "seoDesc": "Component-level repair for O General inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Microcontroller EEPROM Data Flashing & Tuning."
-},
+    seoTitle:
+      "O General Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #23 | Prime Cool",
+    seoDesc:
+      "Component-level repair for O General inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Microcontroller EEPROM Data Flashing & Tuning.",
+  },
   "pcb-mitsubishi-current-sensing-shunt-resistor-calibration-24": {
-    "slug": "pcb-mitsubishi-current-sensing-shunt-resistor-calibration-24",
-    "title": "Mitsubishi Inverter AC PCB: Current Sensing Shunt Resistor Calibration #24",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Mitsubishi inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Mitsubishi inverter air conditioners. Includes current sensing shunt resistor calibration, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-mitsubishi-current-sensing-shunt-resistor-calibration-24",
+    title: "Mitsubishi Inverter AC PCB: Current Sensing Shunt Resistor Calibration #24",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Mitsubishi inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Mitsubishi inverter air conditioners. Includes current sensing shunt resistor calibration, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Mitsubishi PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Mitsubishi PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Mitsubishi Inverter AC PCB: Current Sensing Shunt Resistor Calibration #24 | Prime Cool",
-    "seoDesc": "Component-level repair for Mitsubishi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Current Sensing Shunt Resistor Calibration."
-},
+    seoTitle:
+      "Mitsubishi Inverter AC PCB: Current Sensing Shunt Resistor Calibration #24 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Mitsubishi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Current Sensing Shunt Resistor Calibration.",
+  },
   "pcb-danfoss-bldc-condenser-fan-motor-driver-ic-repair-25": {
-    "slug": "pcb-danfoss-bldc-condenser-fan-motor-driver-ic-repair-25",
-    "title": "Danfoss Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #25",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Danfoss inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Danfoss inverter air conditioners. Includes bldc condenser fan motor driver ic repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-danfoss-bldc-condenser-fan-motor-driver-ic-repair-25",
+    title: "Danfoss Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #25",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Danfoss inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Danfoss inverter air conditioners. Includes bldc condenser fan motor driver ic repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Danfoss PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Danfoss PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Danfoss Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #25 | Prime Cool",
-    "seoDesc": "Component-level repair for Danfoss inverter AC PCBs in Pune & MIDC industrial parks. Specialist in BLDC Condenser Fan Motor Driver IC Repair."
-},
+    seoTitle: "Danfoss Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #25 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Danfoss inverter AC PCBs in Pune & MIDC industrial parks. Specialist in BLDC Condenser Fan Motor Driver IC Repair.",
+  },
   "pcb-abb-dc-bus-high-voltage-capacitor-refurbishment-26": {
-    "slug": "pcb-abb-dc-bus-high-voltage-capacitor-refurbishment-26",
-    "title": "ABB Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #26",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for ABB inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for ABB inverter air conditioners. Includes dc bus high voltage capacitor refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-abb-dc-bus-high-voltage-capacitor-refurbishment-26",
+    title: "ABB Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #26",
+    category: "industrial",
+    tagline: "Precision component-level electronics repair for ABB inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for ABB inverter air conditioners. Includes dc bus high voltage capacitor refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt ABB PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt ABB PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "ABB Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #26 | Prime Cool",
-    "seoDesc": "Component-level repair for ABB inverter AC PCBs in Pune & MIDC industrial parks. Specialist in DC Bus High Voltage Capacitor Refurbishment."
-},
+    seoTitle: "ABB Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #26 | Prime Cool",
+    seoDesc:
+      "Component-level repair for ABB inverter AC PCBs in Pune & MIDC industrial parks. Specialist in DC Bus High Voltage Capacitor Refurbishment.",
+  },
   "pcb-schneider-inverter-drive-phase-voltage-unbalance-fix-27": {
-    "slug": "pcb-schneider-inverter-drive-phase-voltage-unbalance-fix-27",
-    "title": "Schneider Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #27",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Schneider inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Schneider inverter air conditioners. Includes inverter drive phase voltage unbalance fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-schneider-inverter-drive-phase-voltage-unbalance-fix-27",
+    title: "Schneider Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #27",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Schneider inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Schneider inverter air conditioners. Includes inverter drive phase voltage unbalance fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Schneider PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Schneider PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Schneider Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #27 | Prime Cool",
-    "seoDesc": "Component-level repair for Schneider inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Inverter Drive Phase Voltage Unbalance Fix."
-},
+    seoTitle:
+      "Schneider Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #27 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Schneider inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Inverter Drive Phase Voltage Unbalance Fix.",
+  },
   "pcb-siemens-pcb-heatsink-compound-repasting---descaling-28": {
-    "slug": "pcb-siemens-pcb-heatsink-compound-repasting---descaling-28",
-    "title": "Siemens Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #28",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Siemens inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Siemens inverter air conditioners. Includes pcb heatsink compound repasting & descaling, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-siemens-pcb-heatsink-compound-repasting---descaling-28",
+    title: "Siemens Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #28",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Siemens inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Siemens inverter air conditioners. Includes pcb heatsink compound repasting & descaling, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Siemens PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Siemens PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Siemens Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #28 | Prime Cool",
-    "seoDesc": "Component-level repair for Siemens inverter AC PCBs in Pune & MIDC industrial parks. Specialist in PCB Heatsink Compound Repasting & Descaling."
-},
+    seoTitle:
+      "Siemens Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #28 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Siemens inverter AC PCBs in Pune & MIDC industrial parks. Specialist in PCB Heatsink Compound Repasting & Descaling.",
+  },
   "pcb-yaskawa-surge-varistor-mov-overvoltage-protection-fix-29": {
-    "slug": "pcb-yaskawa-surge-varistor-mov-overvoltage-protection-fix-29",
-    "title": "Yaskawa Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #29",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Yaskawa inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Yaskawa inverter air conditioners. Includes surge varistor mov overvoltage protection fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-yaskawa-surge-varistor-mov-overvoltage-protection-fix-29",
+    title: "Yaskawa Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #29",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Yaskawa inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Yaskawa inverter air conditioners. Includes surge varistor mov overvoltage protection fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Yaskawa PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Yaskawa PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Yaskawa Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #29 | Prime Cool",
-    "seoDesc": "Component-level repair for Yaskawa inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Surge Varistor MOV Overvoltage Protection Fix."
-},
+    seoTitle:
+      "Yaskawa Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #29 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Yaskawa inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Surge Varistor MOV Overvoltage Protection Fix.",
+  },
   "pcb-daikin-ipm-module-igbt-transistor-switching-repair-30": {
-    "slug": "pcb-daikin-ipm-module-igbt-transistor-switching-repair-30",
-    "title": "Daikin Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #30",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Daikin inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Daikin inverter air conditioners. Includes ipm module igbt transistor switching repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-daikin-ipm-module-igbt-transistor-switching-repair-30",
+    title: "Daikin Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #30",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Daikin inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Daikin inverter air conditioners. Includes ipm module igbt transistor switching repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Daikin PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Daikin PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Daikin Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #30 | Prime Cool",
-    "seoDesc": "Component-level repair for Daikin inverter AC PCBs in Pune & MIDC industrial parks. Specialist in IPM Module IGBT Transistor Switching Repair."
-},
+    seoTitle:
+      "Daikin Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #30 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Daikin inverter AC PCBs in Pune & MIDC industrial parks. Specialist in IPM Module IGBT Transistor Switching Repair.",
+  },
   "pcb-voltas-smps-switch-mode-power-supply-15v-rail-repair-31": {
-    "slug": "pcb-voltas-smps-switch-mode-power-supply-15v-rail-repair-31",
-    "title": "Voltas Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #31",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Voltas inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Voltas inverter air conditioners. Includes smps switch-mode power supply 15v rail repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-voltas-smps-switch-mode-power-supply-15v-rail-repair-31",
+    title: "Voltas Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #31",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Voltas inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Voltas inverter air conditioners. Includes smps switch-mode power supply 15v rail repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Voltas PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Voltas PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Voltas Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #31 | Prime Cool",
-    "seoDesc": "Component-level repair for Voltas inverter AC PCBs in Pune & MIDC industrial parks. Specialist in SMPS Switch-Mode Power Supply 15V Rail Repair."
-},
+    seoTitle:
+      "Voltas Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #31 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Voltas inverter AC PCBs in Pune & MIDC industrial parks. Specialist in SMPS Switch-Mode Power Supply 15V Rail Repair.",
+  },
   "pcb-blue-star-optocoupler-communication-loop-refurbishment-32": {
-    "slug": "pcb-blue-star-optocoupler-communication-loop-refurbishment-32",
-    "title": "Blue Star Inverter AC PCB: Optocoupler Communication Loop Refurbishment #32",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Blue Star inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Blue Star inverter air conditioners. Includes optocoupler communication loop refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-blue-star-optocoupler-communication-loop-refurbishment-32",
+    title: "Blue Star Inverter AC PCB: Optocoupler Communication Loop Refurbishment #32",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Blue Star inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Blue Star inverter air conditioners. Includes optocoupler communication loop refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Blue Star PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Blue Star PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Blue Star Inverter AC PCB: Optocoupler Communication Loop Refurbishment #32 | Prime Cool",
-    "seoDesc": "Component-level repair for Blue Star inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Optocoupler Communication Loop Refurbishment."
-},
+    seoTitle:
+      "Blue Star Inverter AC PCB: Optocoupler Communication Loop Refurbishment #32 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Blue Star inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Optocoupler Communication Loop Refurbishment.",
+  },
   "pcb-lg-microcontroller-eeprom-data-flashing---tuning-33": {
-    "slug": "pcb-lg-microcontroller-eeprom-data-flashing---tuning-33",
-    "title": "LG Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #33",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for LG inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for LG inverter air conditioners. Includes microcontroller eeprom data flashing & tuning, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-lg-microcontroller-eeprom-data-flashing---tuning-33",
+    title: "LG Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #33",
+    category: "industrial",
+    tagline: "Precision component-level electronics repair for LG inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for LG inverter air conditioners. Includes microcontroller eeprom data flashing & tuning, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt LG PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt LG PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "LG Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #33 | Prime Cool",
-    "seoDesc": "Component-level repair for LG inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Microcontroller EEPROM Data Flashing & Tuning."
-},
+    seoTitle: "LG Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #33 | Prime Cool",
+    seoDesc:
+      "Component-level repair for LG inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Microcontroller EEPROM Data Flashing & Tuning.",
+  },
   "pcb-hitachi-current-sensing-shunt-resistor-calibration-34": {
-    "slug": "pcb-hitachi-current-sensing-shunt-resistor-calibration-34",
-    "title": "Hitachi Inverter AC PCB: Current Sensing Shunt Resistor Calibration #34",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Hitachi inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Hitachi inverter air conditioners. Includes current sensing shunt resistor calibration, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-hitachi-current-sensing-shunt-resistor-calibration-34",
+    title: "Hitachi Inverter AC PCB: Current Sensing Shunt Resistor Calibration #34",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Hitachi inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Hitachi inverter air conditioners. Includes current sensing shunt resistor calibration, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Hitachi PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Hitachi PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Hitachi Inverter AC PCB: Current Sensing Shunt Resistor Calibration #34 | Prime Cool",
-    "seoDesc": "Component-level repair for Hitachi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Current Sensing Shunt Resistor Calibration."
-},
+    seoTitle:
+      "Hitachi Inverter AC PCB: Current Sensing Shunt Resistor Calibration #34 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Hitachi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Current Sensing Shunt Resistor Calibration.",
+  },
   "pcb-carrier-bldc-condenser-fan-motor-driver-ic-repair-35": {
-    "slug": "pcb-carrier-bldc-condenser-fan-motor-driver-ic-repair-35",
-    "title": "Carrier Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #35",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Carrier inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Carrier inverter air conditioners. Includes bldc condenser fan motor driver ic repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-carrier-bldc-condenser-fan-motor-driver-ic-repair-35",
+    title: "Carrier Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #35",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Carrier inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Carrier inverter air conditioners. Includes bldc condenser fan motor driver ic repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Carrier PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Carrier PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Carrier Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #35 | Prime Cool",
-    "seoDesc": "Component-level repair for Carrier inverter AC PCBs in Pune & MIDC industrial parks. Specialist in BLDC Condenser Fan Motor Driver IC Repair."
-},
+    seoTitle: "Carrier Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #35 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Carrier inverter AC PCBs in Pune & MIDC industrial parks. Specialist in BLDC Condenser Fan Motor Driver IC Repair.",
+  },
   "pcb-panasonic-dc-bus-high-voltage-capacitor-refurbishment-36": {
-    "slug": "pcb-panasonic-dc-bus-high-voltage-capacitor-refurbishment-36",
-    "title": "Panasonic Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #36",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Panasonic inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Panasonic inverter air conditioners. Includes dc bus high voltage capacitor refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-panasonic-dc-bus-high-voltage-capacitor-refurbishment-36",
+    title: "Panasonic Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #36",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Panasonic inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Panasonic inverter air conditioners. Includes dc bus high voltage capacitor refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Panasonic PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Panasonic PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Panasonic Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #36 | Prime Cool",
-    "seoDesc": "Component-level repair for Panasonic inverter AC PCBs in Pune & MIDC industrial parks. Specialist in DC Bus High Voltage Capacitor Refurbishment."
-},
+    seoTitle:
+      "Panasonic Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #36 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Panasonic inverter AC PCBs in Pune & MIDC industrial parks. Specialist in DC Bus High Voltage Capacitor Refurbishment.",
+  },
   "pcb-godrej-inverter-drive-phase-voltage-unbalance-fix-37": {
-    "slug": "pcb-godrej-inverter-drive-phase-voltage-unbalance-fix-37",
-    "title": "Godrej Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #37",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Godrej inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Godrej inverter air conditioners. Includes inverter drive phase voltage unbalance fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-godrej-inverter-drive-phase-voltage-unbalance-fix-37",
+    title: "Godrej Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #37",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Godrej inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Godrej inverter air conditioners. Includes inverter drive phase voltage unbalance fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Godrej PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Godrej PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Godrej Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #37 | Prime Cool",
-    "seoDesc": "Component-level repair for Godrej inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Inverter Drive Phase Voltage Unbalance Fix."
-},
+    seoTitle: "Godrej Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #37 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Godrej inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Inverter Drive Phase Voltage Unbalance Fix.",
+  },
   "pcb-o-general-pcb-heatsink-compound-repasting---descaling-38": {
-    "slug": "pcb-o-general-pcb-heatsink-compound-repasting---descaling-38",
-    "title": "O General Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #38",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for O General inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for O General inverter air conditioners. Includes pcb heatsink compound repasting & descaling, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-o-general-pcb-heatsink-compound-repasting---descaling-38",
+    title: "O General Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #38",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for O General inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for O General inverter air conditioners. Includes pcb heatsink compound repasting & descaling, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt O General PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt O General PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "O General Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #38 | Prime Cool",
-    "seoDesc": "Component-level repair for O General inverter AC PCBs in Pune & MIDC industrial parks. Specialist in PCB Heatsink Compound Repasting & Descaling."
-},
+    seoTitle:
+      "O General Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #38 | Prime Cool",
+    seoDesc:
+      "Component-level repair for O General inverter AC PCBs in Pune & MIDC industrial parks. Specialist in PCB Heatsink Compound Repasting & Descaling.",
+  },
   "pcb-mitsubishi-surge-varistor-mov-overvoltage-protection-fix-39": {
-    "slug": "pcb-mitsubishi-surge-varistor-mov-overvoltage-protection-fix-39",
-    "title": "Mitsubishi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #39",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Mitsubishi inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Mitsubishi inverter air conditioners. Includes surge varistor mov overvoltage protection fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-mitsubishi-surge-varistor-mov-overvoltage-protection-fix-39",
+    title: "Mitsubishi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #39",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Mitsubishi inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Mitsubishi inverter air conditioners. Includes surge varistor mov overvoltage protection fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Mitsubishi PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Mitsubishi PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Mitsubishi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #39 | Prime Cool",
-    "seoDesc": "Component-level repair for Mitsubishi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Surge Varistor MOV Overvoltage Protection Fix."
-},
+    seoTitle:
+      "Mitsubishi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #39 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Mitsubishi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Surge Varistor MOV Overvoltage Protection Fix.",
+  },
   "pcb-danfoss-ipm-module-igbt-transistor-switching-repair-40": {
-    "slug": "pcb-danfoss-ipm-module-igbt-transistor-switching-repair-40",
-    "title": "Danfoss Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #40",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Danfoss inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Danfoss inverter air conditioners. Includes ipm module igbt transistor switching repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-danfoss-ipm-module-igbt-transistor-switching-repair-40",
+    title: "Danfoss Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #40",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Danfoss inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Danfoss inverter air conditioners. Includes ipm module igbt transistor switching repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Danfoss PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Danfoss PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Danfoss Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #40 | Prime Cool",
-    "seoDesc": "Component-level repair for Danfoss inverter AC PCBs in Pune & MIDC industrial parks. Specialist in IPM Module IGBT Transistor Switching Repair."
-},
+    seoTitle:
+      "Danfoss Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #40 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Danfoss inverter AC PCBs in Pune & MIDC industrial parks. Specialist in IPM Module IGBT Transistor Switching Repair.",
+  },
   "pcb-abb-smps-switch-mode-power-supply-15v-rail-repair-41": {
-    "slug": "pcb-abb-smps-switch-mode-power-supply-15v-rail-repair-41",
-    "title": "ABB Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #41",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for ABB inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for ABB inverter air conditioners. Includes smps switch-mode power supply 15v rail repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-abb-smps-switch-mode-power-supply-15v-rail-repair-41",
+    title: "ABB Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #41",
+    category: "industrial",
+    tagline: "Precision component-level electronics repair for ABB inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for ABB inverter air conditioners. Includes smps switch-mode power supply 15v rail repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt ABB PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt ABB PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "ABB Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #41 | Prime Cool",
-    "seoDesc": "Component-level repair for ABB inverter AC PCBs in Pune & MIDC industrial parks. Specialist in SMPS Switch-Mode Power Supply 15V Rail Repair."
-},
+    seoTitle: "ABB Inverter AC PCB: SMPS Switch-Mode Power Supply 15V Rail Repair #41 | Prime Cool",
+    seoDesc:
+      "Component-level repair for ABB inverter AC PCBs in Pune & MIDC industrial parks. Specialist in SMPS Switch-Mode Power Supply 15V Rail Repair.",
+  },
   "pcb-schneider-optocoupler-communication-loop-refurbishment-42": {
-    "slug": "pcb-schneider-optocoupler-communication-loop-refurbishment-42",
-    "title": "Schneider Inverter AC PCB: Optocoupler Communication Loop Refurbishment #42",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Schneider inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Schneider inverter air conditioners. Includes optocoupler communication loop refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-schneider-optocoupler-communication-loop-refurbishment-42",
+    title: "Schneider Inverter AC PCB: Optocoupler Communication Loop Refurbishment #42",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Schneider inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Schneider inverter air conditioners. Includes optocoupler communication loop refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Schneider PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Schneider PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Schneider Inverter AC PCB: Optocoupler Communication Loop Refurbishment #42 | Prime Cool",
-    "seoDesc": "Component-level repair for Schneider inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Optocoupler Communication Loop Refurbishment."
-},
+    seoTitle:
+      "Schneider Inverter AC PCB: Optocoupler Communication Loop Refurbishment #42 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Schneider inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Optocoupler Communication Loop Refurbishment.",
+  },
   "pcb-siemens-microcontroller-eeprom-data-flashing---tuning-43": {
-    "slug": "pcb-siemens-microcontroller-eeprom-data-flashing---tuning-43",
-    "title": "Siemens Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #43",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Siemens inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Siemens inverter air conditioners. Includes microcontroller eeprom data flashing & tuning, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-siemens-microcontroller-eeprom-data-flashing---tuning-43",
+    title: "Siemens Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #43",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Siemens inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Siemens inverter air conditioners. Includes microcontroller eeprom data flashing & tuning, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Siemens PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Siemens PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Siemens Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #43 | Prime Cool",
-    "seoDesc": "Component-level repair for Siemens inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Microcontroller EEPROM Data Flashing & Tuning."
-},
+    seoTitle:
+      "Siemens Inverter AC PCB: Microcontroller EEPROM Data Flashing & Tuning #43 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Siemens inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Microcontroller EEPROM Data Flashing & Tuning.",
+  },
   "pcb-yaskawa-current-sensing-shunt-resistor-calibration-44": {
-    "slug": "pcb-yaskawa-current-sensing-shunt-resistor-calibration-44",
-    "title": "Yaskawa Inverter AC PCB: Current Sensing Shunt Resistor Calibration #44",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Yaskawa inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Yaskawa inverter air conditioners. Includes current sensing shunt resistor calibration, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-yaskawa-current-sensing-shunt-resistor-calibration-44",
+    title: "Yaskawa Inverter AC PCB: Current Sensing Shunt Resistor Calibration #44",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Yaskawa inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Yaskawa inverter air conditioners. Includes current sensing shunt resistor calibration, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Yaskawa PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Yaskawa PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Yaskawa Inverter AC PCB: Current Sensing Shunt Resistor Calibration #44 | Prime Cool",
-    "seoDesc": "Component-level repair for Yaskawa inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Current Sensing Shunt Resistor Calibration."
-},
+    seoTitle:
+      "Yaskawa Inverter AC PCB: Current Sensing Shunt Resistor Calibration #44 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Yaskawa inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Current Sensing Shunt Resistor Calibration.",
+  },
   "pcb-daikin-bldc-condenser-fan-motor-driver-ic-repair-45": {
-    "slug": "pcb-daikin-bldc-condenser-fan-motor-driver-ic-repair-45",
-    "title": "Daikin Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #45",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Daikin inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Daikin inverter air conditioners. Includes bldc condenser fan motor driver ic repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-daikin-bldc-condenser-fan-motor-driver-ic-repair-45",
+    title: "Daikin Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #45",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Daikin inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Daikin inverter air conditioners. Includes bldc condenser fan motor driver ic repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Daikin PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Daikin PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Daikin Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #45 | Prime Cool",
-    "seoDesc": "Component-level repair for Daikin inverter AC PCBs in Pune & MIDC industrial parks. Specialist in BLDC Condenser Fan Motor Driver IC Repair."
-},
+    seoTitle: "Daikin Inverter AC PCB: BLDC Condenser Fan Motor Driver IC Repair #45 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Daikin inverter AC PCBs in Pune & MIDC industrial parks. Specialist in BLDC Condenser Fan Motor Driver IC Repair.",
+  },
   "pcb-voltas-dc-bus-high-voltage-capacitor-refurbishment-46": {
-    "slug": "pcb-voltas-dc-bus-high-voltage-capacitor-refurbishment-46",
-    "title": "Voltas Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #46",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Voltas inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Voltas inverter air conditioners. Includes dc bus high voltage capacitor refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-voltas-dc-bus-high-voltage-capacitor-refurbishment-46",
+    title: "Voltas Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #46",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Voltas inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Voltas inverter air conditioners. Includes dc bus high voltage capacitor refurbishment, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Voltas PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Voltas PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Voltas Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #46 | Prime Cool",
-    "seoDesc": "Component-level repair for Voltas inverter AC PCBs in Pune & MIDC industrial parks. Specialist in DC Bus High Voltage Capacitor Refurbishment."
-},
+    seoTitle:
+      "Voltas Inverter AC PCB: DC Bus High Voltage Capacitor Refurbishment #46 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Voltas inverter AC PCBs in Pune & MIDC industrial parks. Specialist in DC Bus High Voltage Capacitor Refurbishment.",
+  },
   "pcb-blue-star-inverter-drive-phase-voltage-unbalance-fix-47": {
-    "slug": "pcb-blue-star-inverter-drive-phase-voltage-unbalance-fix-47",
-    "title": "Blue Star Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #47",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Blue Star inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Blue Star inverter air conditioners. Includes inverter drive phase voltage unbalance fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-blue-star-inverter-drive-phase-voltage-unbalance-fix-47",
+    title: "Blue Star Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #47",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Blue Star inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Blue Star inverter air conditioners. Includes inverter drive phase voltage unbalance fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Blue Star PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Blue Star PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Blue Star Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #47 | Prime Cool",
-    "seoDesc": "Component-level repair for Blue Star inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Inverter Drive Phase Voltage Unbalance Fix."
-},
+    seoTitle:
+      "Blue Star Inverter AC PCB: Inverter Drive Phase Voltage Unbalance Fix #47 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Blue Star inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Inverter Drive Phase Voltage Unbalance Fix.",
+  },
   "pcb-lg-pcb-heatsink-compound-repasting---descaling-48": {
-    "slug": "pcb-lg-pcb-heatsink-compound-repasting---descaling-48",
-    "title": "LG Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #48",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for LG inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for LG inverter air conditioners. Includes pcb heatsink compound repasting & descaling, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-lg-pcb-heatsink-compound-repasting---descaling-48",
+    title: "LG Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #48",
+    category: "industrial",
+    tagline: "Precision component-level electronics repair for LG inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for LG inverter air conditioners. Includes pcb heatsink compound repasting & descaling, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt LG PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt LG PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "LG Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #48 | Prime Cool",
-    "seoDesc": "Component-level repair for LG inverter AC PCBs in Pune & MIDC industrial parks. Specialist in PCB Heatsink Compound Repasting & Descaling."
-},
+    seoTitle: "LG Inverter AC PCB: PCB Heatsink Compound Repasting & Descaling #48 | Prime Cool",
+    seoDesc:
+      "Component-level repair for LG inverter AC PCBs in Pune & MIDC industrial parks. Specialist in PCB Heatsink Compound Repasting & Descaling.",
+  },
   "pcb-hitachi-surge-varistor-mov-overvoltage-protection-fix-49": {
-    "slug": "pcb-hitachi-surge-varistor-mov-overvoltage-protection-fix-49",
-    "title": "Hitachi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #49",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Hitachi inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Hitachi inverter air conditioners. Includes surge varistor mov overvoltage protection fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-hitachi-surge-varistor-mov-overvoltage-protection-fix-49",
+    title: "Hitachi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #49",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Hitachi inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Hitachi inverter air conditioners. Includes surge varistor mov overvoltage protection fix, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Hitachi PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Hitachi PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Hitachi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #49 | Prime Cool",
-    "seoDesc": "Component-level repair for Hitachi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Surge Varistor MOV Overvoltage Protection Fix."
-},
+    seoTitle:
+      "Hitachi Inverter AC PCB: Surge Varistor MOV Overvoltage Protection Fix #49 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Hitachi inverter AC PCBs in Pune & MIDC industrial parks. Specialist in Surge Varistor MOV Overvoltage Protection Fix.",
+  },
   "pcb-carrier-ipm-module-igbt-transistor-switching-repair-50": {
-    "slug": "pcb-carrier-ipm-module-igbt-transistor-switching-repair-50",
-    "title": "Carrier Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #50",
-    "category": "industrial",
-    "tagline": "Precision component-level electronics repair for Carrier inverter AC & VRF mainboards.",
-    "description": "Professional PCB electronics repair for Carrier inverter air conditioners. Includes ipm module igbt transistor switching repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
-    "priceEstimate": "Starts from ₹1,499 + Spares",
-    "features": [
-        "Oscilloscope PWM signal waveform analysis",
-        "Component-level SMD IC and diode replacement",
-        "Thermal compound repasting & heatsink cleaning",
-        "24-Hour continuous load bench testing"
+    slug: "pcb-carrier-ipm-module-igbt-transistor-switching-repair-50",
+    title: "Carrier Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #50",
+    category: "industrial",
+    tagline:
+      "Precision component-level electronics repair for Carrier inverter AC & VRF mainboards.",
+    description:
+      "Professional PCB electronics repair for Carrier inverter air conditioners. Includes ipm module igbt transistor switching repair, oscilloscope signal analysis, SMD diode replacement, and high-voltage capacitor testing.",
+    priceEstimate: "Starts from ₹1,499 + Spares",
+    features: [
+      "Oscilloscope PWM signal waveform analysis",
+      "Component-level SMD IC and diode replacement",
+      "Thermal compound repasting & heatsink cleaning",
+      "24-Hour continuous load bench testing",
     ],
-    "process": [
-        "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
-        "Component desoldering using ESD-safe rework station",
-        "Replacement with OEM rated capacitors and IGBT modules",
-        "Coating mainboard with conformal moisture isolation resin"
+    process: [
+      "Diagnostic isolation of high voltage DC bus vs low voltage logic rail",
+      "Component desoldering using ESD-safe rework station",
+      "Replacement with OEM rated capacitors and IGBT modules",
+      "Coating mainboard with conformal moisture isolation resin",
     ],
-    "faqs": [
-        {
-            "q": "Can a burnt Carrier PCB be repaired instead of replaced?",
-            "a": "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost."
-        }
+    faqs: [
+      {
+        q: "Can a burnt Carrier PCB be repaired instead of replaced?",
+        a: "Yes! Over 90% of inverter PCB failures are caused by burnt SMPS diodes or IPM modules which can be repaired at a fraction of mainboard replacement cost.",
+      },
     ],
-    "seoTitle": "Carrier Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #50 | Prime Cool",
-    "seoDesc": "Component-level repair for Carrier inverter AC PCBs in Pune & MIDC industrial parks. Specialist in IPM Module IGBT Transistor Switching Repair."
-},
+    seoTitle:
+      "Carrier Inverter AC PCB: IPM Module IGBT Transistor Switching Repair #50 | Prime Cool",
+    seoDesc:
+      "Component-level repair for Carrier inverter AC PCBs in Pune & MIDC industrial parks. Specialist in IPM Module IGBT Transistor Switching Repair.",
+  },
   // --- Residential Services ---
   "split-ac-repair": {
     slug: "split-ac-repair",
@@ -1442,7 +1620,8 @@ export const servicesData: Record<string, ServiceDetail> = {
       },
     ],
     seoTitle: "Split & Inverter AC Jet Servicing in Pune | Prime Cool",
-    seoDesc: "Professional high-pressure jet wash and chemical servicing for split & inverter ACs in Pune, Wagholi, Kharadi, and Hadapsar. Guaranteed cooling.",
+    seoDesc:
+      "Professional high-pressure jet wash and chemical servicing for split & inverter ACs in Pune, Wagholi, Kharadi, and Hadapsar. Guaranteed cooling.",
   },
   "window-ac-repair": {
     slug: "window-ac-repair",
@@ -1639,7 +1818,8 @@ export const servicesData: Record<string, ServiceDetail> = {
     slug: "vrf-systems",
     title: "VRF / VRV Multi-Zone Climate Systems",
     category: "commercial",
-    tagline: "Inverter compressor oil management, expansion valve tuning, and branch selector box repairs.",
+    tagline:
+      "Inverter compressor oil management, expansion valve tuning, and branch selector box repairs.",
     description:
       "Expert diagnostics for Daikin VRV, Mitsubishi City Multi, LG Multi V, and Voltas VRF systems. Specialist in E3/E5 communication fault resolution, Electronic Expansion Valve (EEV) step motor replacement, oil return solenoid cycle checks, and centralized touch controller programming.",
     priceEstimate: "Custom Site Quote",

@@ -11,6 +11,7 @@ const OUTPUT_FILE = path.resolve(__dirname, "../public/sitemap.xml");
 
 // Walk directory recursively
 function getFiles(dir, fileList = []) {
+  if (!fs.existsSync(dir)) return fileList;
   const files = fs.readdirSync(dir);
   for (const file of files) {
     const filePath = path.join(dir, file);
@@ -24,8 +25,8 @@ function getFiles(dir, fileList = []) {
   return fileList;
 }
 
-async function getBlogs() {
-  // Load environment variables manually
+// Load environment variables manually
+function loadEnv() {
   try {
     const envPath = path.resolve(__dirname, "../.env");
     if (fs.existsSync(envPath)) {
@@ -51,7 +52,10 @@ async function getBlogs() {
   } catch (e) {
     // Ignore
   }
+}
 
+async function getBlogs() {
+  loadEnv();
   const host = process.env.DB_HOST;
   const user = process.env.DB_USER;
   const password = process.env.DB_PASSWORD;
@@ -70,13 +74,9 @@ async function getBlogs() {
       });
       const [rows] = await connection.query("SELECT * FROM blogs ORDER BY createdAt DESC");
       await connection.end();
-      console.log(`Successfully fetched ${rows.length} blogs from MySQL database for sitemap.`);
       return rows;
     } catch (err) {
-      console.error(
-        "Failed to fetch blogs from MySQL for sitemap, falling back to db.json:",
-        err.message,
-      );
+      // Ignore
     }
   }
 
@@ -85,10 +85,9 @@ async function getBlogs() {
   if (fs.existsSync(blogsDataPath)) {
     try {
       const blogsJson = JSON.parse(fs.readFileSync(blogsDataPath, "utf8"));
-      console.log(`Loaded ${blogsJson.length} blogs from blogs-data.json for sitemap.`);
       return blogsJson;
     } catch (err) {
-      console.error("Failed to parse blogs-data.json:", err.message);
+      // Ignore
     }
   }
 
@@ -102,7 +101,6 @@ async function getBlogs() {
       const sqlBlogs = [];
       while ((match = regex.exec(sqlContent)) !== null) {
         const valuesStr = match[1];
-        // Match the first 3 strings in the tuple: ('id', 'title', 'slug', ...)
         const rowRegex = /\(\s*'[^']*'\s*,\s*'[^']*'\s*,\s*'([^']+)'/g;
         let rowMatch;
         while ((rowMatch = rowRegex.exec(valuesStr)) !== null) {
@@ -110,32 +108,18 @@ async function getBlogs() {
         }
       }
       if (sqlBlogs.length > 0) {
-        console.log(`Successfully read ${sqlBlogs.length} blogs from database.sql for sitemap.`);
         return sqlBlogs;
       }
     } catch (e) {
-      console.error("Failed to parse database.sql for sitemap generation:", e);
+      // Ignore
     }
   }
 
-  // Fallback to db.json
-  const dbPath = path.resolve(__dirname, "../data/db.json");
-  if (fs.existsSync(dbPath)) {
-    try {
-      const dbStr = fs.readFileSync(dbPath, "utf8");
-      const db = JSON.parse(dbStr);
-      if (db.blogs && Array.isArray(db.blogs)) {
-        console.log(`Successfully read ${db.blogs.length} blogs from db.json for sitemap.`);
-        return db.blogs;
-      }
-    } catch (e) {
-      console.error("Failed to parse db.json for sitemap generation:", e);
-    }
-  }
   return [];
 }
 
 async function getDbLocations() {
+  loadEnv();
   const host = process.env.DB_HOST;
   const user = process.env.DB_USER;
   const password = process.env.DB_PASSWORD;
@@ -154,73 +138,43 @@ async function getDbLocations() {
       });
       const [rows] = await connection.query("SELECT slug FROM locations");
       await connection.end();
-      console.log(`Successfully fetched ${rows.length} locations from MySQL database for sitemap.`);
-      return rows.map(r => r.slug);
+      return rows.map((r) => r.slug);
     } catch (err) {
-      console.error(
-        "Failed to fetch locations from MySQL for sitemap, falling back to db.json:",
-        err.message,
-      );
+      // Ignore
     }
   }
 
-  // Fallback to db.json
   const dbPath = path.resolve(__dirname, "../data/db.json");
   if (fs.existsSync(dbPath)) {
     try {
       const dbStr = fs.readFileSync(dbPath, "utf8");
       const db = JSON.parse(dbStr);
       if (db.locations && Array.isArray(db.locations)) {
-        console.log(`Successfully read ${db.locations.length} locations from db.json for sitemap.`);
-        return db.locations.map(l => l.slug);
+        return db.locations.map((l) => l.slug);
       }
     } catch (e) {
-      console.error("Failed to parse db.json for sitemap locations:", e);
+      // Ignore
     }
   }
   return [];
 }
 
-async function getDbServices() {
-  const host = process.env.DB_HOST;
-  const user = process.env.DB_USER;
-  const password = process.env.DB_PASSWORD;
-  const database = process.env.DB_DATABASE;
-  const port = process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306;
-
-  if (host && user && database) {
+async function getServicesFromServicesDataFile() {
+  const servicesPath = path.resolve(__dirname, "../src/lib/services-data.ts");
+  const extracted = [];
+  if (fs.existsSync(servicesPath)) {
     try {
-      const mysql = await import("mysql2/promise");
-      const connection = await mysql.createConnection({
-        host,
-        port,
-        user,
-        password,
-        database,
-      });
-      const [rows] = await connection.query("SELECT slug FROM services");
-      await connection.end();
-      console.log(`Successfully fetched ${rows.length} services from MySQL database for sitemap.`);
-      return rows.map(r => r.slug);
-    } catch (err) {
-      console.error("Failed to fetch services from MySQL for sitemap, falling back to db.json:", err.message);
-    }
-  }
-
-  const dbPath = path.resolve(__dirname, "../data/db.json");
-  if (fs.existsSync(dbPath)) {
-    try {
-      const dbStr = fs.readFileSync(dbPath, "utf8");
-      const db = JSON.parse(dbStr);
-      if (db.services && Array.isArray(db.services)) {
-        console.log(`Successfully read ${db.services.length} services from db.json for sitemap.`);
-        return db.services.map(s => s.slug);
+      const content = fs.readFileSync(servicesPath, "utf8");
+      const matchRegex = /"([^"]+)":\s*\{\s*"slug":/g;
+      let match;
+      while ((match = matchRegex.exec(content)) !== null) {
+        extracted.push(match[1]);
       }
     } catch (e) {
-      console.error("Failed to parse db.json for sitemap services:", e);
+      // Ignore
     }
   }
-  return [];
+  return extracted;
 }
 
 function escapeXml(unsafe) {
@@ -232,101 +186,108 @@ function escapeXml(unsafe) {
     .replace(/'/g, "&apos;");
 }
 
-async function generateSitemap() {
-  console.log("Generating sitemap...");
+export async function generateSitemap() {
+  console.log(
+    "Generating 100% complete sitemaps with all services, locations, and matrix routes...",
+  );
 
-  if (!fs.existsSync(ROUTES_DIR)) {
-    console.warn(`Routes directory not found: ${ROUTES_DIR}. Skipping static routes discovery and using pre-computed dynamic routes.`);
-    // Initialize empty files list to prevent crash
-    var allFiles = [];
-  } else {
-    var allFiles = getFiles(ROUTES_DIR);
-  }
-  const urls = [];
   const currentDate = new Date().toISOString().split("T")[0];
 
-  for (const filePath of allFiles) {
-    const relativePath = path.relative(ROUTES_DIR, filePath);
-
-    // Normalize path separators to forward slashes
-    const normalizedPath = relativePath.replace(/\\/g, "/");
-
-    // Skip dynamic parameterized templates and layout wrappers
-    if (
-      normalizedPath.includes("$") ||
-      normalizedPath.startsWith("__") ||
-      normalizedPath.startsWith("_") ||
-      normalizedPath.includes("/__") ||
-      normalizedPath.includes("/_") ||
-      normalizedPath.startsWith("admin/") ||
-      normalizedPath === "admin.tsx"
-    ) {
-      continue;
-    }
-
-    // Convert file path to URL path
-    let routePath = normalizedPath.replace(/\.tsx?$/, "");
-
-    if (routePath === "index") {
-      routePath = "";
-    } else if (routePath.endsWith("/index")) {
-      routePath = routePath.slice(0, -6);
-    }
-
-    const fullUrl = `${BASE_URL}/${routePath}`.replace(/\/$/, ""); // remove trailing slash if any
-
-    // Determine changefreq and priority based on route path
-    let changefreq = "monthly";
-    let priority = "0.7";
-
-    if (routePath === "") {
-      changefreq = "weekly";
-      priority = "1.0";
-    } else if (routePath === "booking" || routePath === "portfolio" || routePath === "resources") {
-      changefreq = "weekly";
-      priority = "0.9";
-    } else if (routePath.startsWith("guides/")) {
-      changefreq = "monthly";
-      priority = "0.8";
-    } else if (routePath.startsWith("interactive/")) {
-      changefreq = "monthly";
-      priority = "0.7";
-    } else if (routePath.startsWith("tools/")) {
-      changefreq = "monthly";
-      priority = "0.8";
-    }
-
-    urls.push({
-      loc: fullUrl,
-      lastmod: currentDate,
-      changefreq,
-      priority,
-    });
-  }
-
-  // Primary Core Operational Locations
-  const CORE_LOCATIONS = [
-    "wagholi",
-    "hadapsar",
-    "kharadi",
-    "chakan-midc",
-    "ranjangaon-midc",
-    "shirur",
-    "koregaon-bhima",
-    "shikrapur",
-    "lonikand",
-    "karegaon",
-    "pimpri-chinchwad",
+  // Core Cities List
+  const CORE_CITIES = [
     "pune",
     "mumbai",
     "thane",
     "navi-mumbai",
-    "nashik"
+    "nashik",
+    "pimpri-chinchwad",
+    "nagpur",
+    "aurangabad",
+    "kolhapur",
+    "solapur",
+  ];
+
+  // Comprehensive Localities & Industrial Hubs List
+  const CORE_LOCATIONS = [
+    // Pune East & Nagar Road Corridor
+    "wagholi",
+    "hadapsar",
+    "kharadi",
+    "viman-nagar",
+    "kalyani-nagar",
+    "magarpatta",
+    "kesnand",
+    "lonikand",
+    "bakori",
+    "awhalwadi",
+    "ubale-nagar",
+    "mundhwa",
+    "fursungi",
+    "sasane-nagar",
+    "handewadi",
+    "fatima-nagar",
+    "ramtekdi",
+    "chandan-nagar",
+    "rakshak-nagar",
+    "koregaon-bhima",
+    "sanaswadi",
+    "shikrapur",
+    "kondhapuri",
+    "karegaon",
+    "shirur",
+    "sarola",
+    "ranjangaon-midc",
+
+    // Pune North & Industrial Corridor
+    "chakan-midc",
+    "bhosari-midc",
+    "talegaon-midc",
+    "kuruli",
+    "mahalunge",
+    "moshi",
+    "chikhali",
+    "alandi",
+    "rajgurunagar",
+    "dighi",
+    "charholi",
+    "yerawada",
+    "lohegaon",
+
+    // Pune West & IT Corridors
+    "hinjewadi",
+    "baner",
+    "balewadi",
+    "wakad",
+    "pimple-saudagar",
+    "pimple-nilakh",
+    "aundh",
+    "bavdhan",
+    "kothrud",
+    "warje",
+    "tathawade",
+    "punawale",
+    "marunji",
+    "ravet",
+    "akurdi",
+    "nigdi",
+
+    // Pune Central & South
+    "shivajinagar",
+    "swargate",
+    "camp",
+    "kondhwa",
+    "katraj",
+    "dhankawadi",
+    "bibwewadi",
+    "undri",
+    "pisoli",
+    "mohammadwadi",
   ];
 
   const dbLocations = await getDbLocations();
   const LOCATIONS = Array.from(new Set([...CORE_LOCATIONS, ...dbLocations]));
 
+  // OEM Brands
   const BRANDS = [
     "daikin",
     "lg",
@@ -352,129 +313,8 @@ async function generateSitemap() {
     "emerson",
   ];
 
-  const REFRIGERANTS = ["r134a", "r410a", "r32", "r404a", "r407c", "r22", "r290"];
+  const BRAND_APPLIANCES = ["ac", "fridge", "washing-machine", "hvac"];
 
-  const defaultServices = [
-    "split-ac-repair",
-    "window-ac-repair",
-    "inverter-ac-repair",
-    "portable-ac-repair",
-    "tower-ac-repair",
-    "cassette-ac-repair",
-    "vrf-systems",
-    "vrv-systems",
-    "ahu",
-    "fcu",
-    "package-units",
-    "ductable-ac",
-    "precision-ac",
-    "server-room-cooling",
-    "cold-rooms",
-    "walk-in-chillers",
-    "walk-in-freezers",
-    "ice-machines",
-    "blast-freezers",
-    "bottle-coolers",
-    "display-counters",
-    "water-coolers",
-    "deep-freezers",
-    "commercial-refrigerators",
-    "chillers",
-    "cooling-towers",
-    "industrial-compressors",
-    "process-cooling",
-    "dairy-refrigeration",
-    "pharma-refrigeration",
-    "ac-repair",
-    "ac-installation",
-    "ac-uninstallation",
-    "ac-shifting",
-    "ac-gas-charging",
-    "ac-gas-leak-repair",
-    "commercial-ac-installation",
-    "office-hvac-solutions",
-    "warehouse-hvac",
-    "factory-hvac",
-    "hospital-hvac",
-    "school-hvac",
-    "hotel-hvac",
-    "restaurant-hvac",
-    "industrial-cooling",
-    "cold-room-repair",
-    "cold-storage-maintenance",
-    "cnc-machine-cooling",
-    "air-compressors",
-  ];
-
-  const dbServices = await getDbServices();
-  const SERVICES = Array.from(new Set([...dbServices, ...defaultServices]));
-
-  // 1. Locations SEO URLs
-  for (const loc of LOCATIONS) {
-    urls.push({
-      loc: `${BASE_URL}/locations/${loc}`,
-      lastmod: currentDate,
-      changefreq: "weekly",
-      priority: "0.85",
-    });
-  }
-
-  // 1b. Single Authoritative Service x Core Locations URLs (focused on active hubs)
-  for (const loc of CORE_LOCATIONS) {
-    for (const service of SERVICES) {
-      urls.push({
-        loc: `${BASE_URL}/services/${service}/${loc}`,
-        lastmod: currentDate,
-        changefreq: "weekly",
-        priority: "0.80",
-      });
-    }
-  }
-
-  // 1c. Cities SEO URLs
-  for (const loc of CORE_LOCATIONS) {
-    urls.push({
-      loc: `${BASE_URL}/cities/${loc}`,
-      lastmod: currentDate,
-      changefreq: "weekly",
-      priority: "0.85",
-    });
-  }
-
-  // 2. Services SEO URLs
-  for (const service of SERVICES) {
-    urls.push({
-      loc: `${BASE_URL}/services/${service}`,
-      lastmod: currentDate,
-      changefreq: "weekly",
-      priority: "0.90",
-    });
-  }
-
-  // 3. Brands SEO URLs
-  for (const brand of BRANDS) {
-    urls.push({
-      loc: `${BASE_URL}/brands/${brand}`,
-      lastmod: currentDate,
-      changefreq: "monthly",
-      priority: "0.80",
-    });
-  }
-
-  // 3b. Dynamic Brand-Appliance SEO URLs
-  const APPLIANCES = ["ac", "fridge", "washing-machine", "hvac"];
-  for (const brand of BRANDS) {
-    for (const app of APPLIANCES) {
-      urls.push({
-        loc: `${BASE_URL}/brands/${brand}/${app}`,
-        lastmod: currentDate,
-        changefreq: "monthly",
-        priority: "0.75",
-      });
-    }
-  }
-
-  // 3c. Dynamic Brand Comparisons SEO URLs
   const COMPARISONS = [
     "carrier-vs-hitachi",
     "daikin-vs-hitachi",
@@ -492,109 +332,312 @@ async function generateSitemap() {
     "mitsubishi-vs-daikin",
     "panasonic-vs-daikin",
   ];
-  for (const comp of COMPARISONS) {
-    urls.push({
-      loc: `${BASE_URL}/brands/compare/${comp}`,
-      lastmod: currentDate,
-      changefreq: "monthly",
-      priority: "0.80",
-    });
-  }
 
-  // 4. Refrigerants SEO URLs
-  for (const ref of REFRIGERANTS) {
-    urls.push({
-      loc: `${BASE_URL}/refrigerants/${ref}`,
-      lastmod: currentDate,
-      changefreq: "monthly",
-      priority: "0.80",
-    });
-  }
+  const REFRIGERANTS = ["r134a", "r410a", "r32", "r404a", "r407c", "r22", "r290"];
 
-  // 4b. Industrial Systems SEO URLs
   const INDUSTRIAL_TOPICS = [
     "vrf-vrv-systems",
     "industrial-air-dryers",
     "large-scale-ducting",
     "chiller-plant-operations",
   ];
-  for (const topic of INDUSTRIAL_TOPICS) {
-    urls.push({
-      loc: `${BASE_URL}/industrial/${topic}`,
+
+  // Comprehensive Services List
+  const standardServices = [
+    "split-ac-repair",
+    "window-ac-repair",
+    "inverter-ac-repair",
+    "portable-ac-repair",
+    "tower-ac-repair",
+    "cassette-ac-repair",
+    "vrf-systems",
+    "vrv-systems",
+    "ahu",
+    "fcu",
+    "package-units",
+    "ductable-ac",
+    "precision-ac",
+    "server-room-cooling",
+    "cold-rooms",
+    "cold-room-repair",
+    "cold-storage-maintenance",
+    "walk-in-chillers",
+    "walk-in-freezers",
+    "ice-machines",
+    "blast-freezers",
+    "bottle-coolers",
+    "display-counters",
+    "water-coolers",
+    "deep-freezers",
+    "commercial-refrigerators",
+    "chillers",
+    "cooling-towers",
+    "industrial-compressors",
+    "process-cooling",
+    "cnc-machine-cooling",
+    "air-compressors",
+    "dairy-refrigeration",
+    "pharma-refrigeration",
+    "ac-repair",
+    "ac-installation",
+    "ac-uninstallation",
+    "ac-shifting",
+    "ac-gas-charging",
+    "ac-gas-leak-repair",
+    "commercial-ac-installation",
+    "office-hvac-solutions",
+    "warehouse-hvac",
+    "factory-hvac",
+    "hospital-hvac",
+    "school-hvac",
+    "hotel-hvac",
+    "restaurant-hvac",
+    "industrial-cooling",
+  ];
+
+  const servicesDataSlugs = await getServicesFromServicesDataFile();
+  const ALL_SERVICES = Array.from(new Set([...standardServices, ...servicesDataSlugs]));
+
+  // Global Canonical Map (guarantees zero duplicate URLs)
+  const urlMap = new Map();
+
+  function addUrl(rawPath, { changefreq = "monthly", priority = "0.7", category = "other" } = {}) {
+    let cleanPath = rawPath.trim();
+    if (!cleanPath.startsWith("/")) cleanPath = "/" + cleanPath;
+    cleanPath = cleanPath.replace(/\/+$/, ""); // remove trailing slash except root
+    const fullUrl = cleanPath === "" ? BASE_URL : `${BASE_URL}${cleanPath}`;
+
+    if (urlMap.has(fullUrl)) {
+      const existing = urlMap.get(fullUrl);
+      if (parseFloat(priority) > parseFloat(existing.priority)) {
+        existing.priority = priority;
+        existing.changefreq = changefreq;
+        existing.category = category;
+      }
+      return;
+    }
+
+    urlMap.set(fullUrl, {
+      loc: fullUrl,
       lastmod: currentDate,
-      changefreq: "monthly",
-      priority: "0.85",
+      changefreq,
+      priority,
+      category,
     });
   }
 
-  // 4c. Emergency Portal
-  urls.push({
-    loc: `${BASE_URL}/emergency`,
-    lastmod: currentDate,
-    changefreq: "weekly",
-    priority: "0.90",
-  });
+  // 1. CORE STATIC PAGES
+  addUrl("/", { changefreq: "daily", priority: "1.0", category: "main" });
+  addUrl("/booking", { changefreq: "weekly", priority: "0.95", category: "main" });
+  addUrl("/emergency", { changefreq: "daily", priority: "0.95", category: "main" });
+  addUrl("/services", { changefreq: "weekly", priority: "0.90", category: "main" });
+  addUrl("/locations", { changefreq: "weekly", priority: "0.90", category: "main" });
+  addUrl("/cities", { changefreq: "weekly", priority: "0.90", category: "main" });
+  addUrl("/brands", { changefreq: "weekly", priority: "0.85", category: "main" });
+  addUrl("/portfolio", { changefreq: "weekly", priority: "0.85", category: "main" });
+  addUrl("/blogs", { changefreq: "daily", priority: "0.85", category: "main" });
+  addUrl("/calculators", { changefreq: "weekly", priority: "0.85", category: "main" });
+  addUrl("/resources", { changefreq: "weekly", priority: "0.85", category: "main" });
+  addUrl("/glossary", { changefreq: "monthly", priority: "0.80", category: "main" });
+  addUrl("/guides", { changefreq: "weekly", priority: "0.80", category: "main" });
+  addUrl("/formulas", { changefreq: "monthly", priority: "0.80", category: "main" });
+  addUrl("/refrigerants", { changefreq: "monthly", priority: "0.80", category: "main" });
+  addUrl("/industrial", { changefreq: "monthly", priority: "0.80", category: "main" });
 
-  // 5. Load dynamic blogs from database or db.json fallback
-  const blogs = await getBlogs();
-  for (const blog of blogs) {
-    if (blog.slug) {
-      urls.push({
-        loc: `${BASE_URL}/blogs/${blog.slug}`,
-        lastmod: currentDate,
+  // 2. STATIC ROUTES FROM src/routes
+  const allFiles = getFiles(ROUTES_DIR);
+  for (const filePath of allFiles) {
+    const relativePath = path.relative(ROUTES_DIR, filePath);
+    const normalizedPath = relativePath.replace(/\\/g, "/");
+
+    if (
+      normalizedPath.includes("$") ||
+      normalizedPath.startsWith("__") ||
+      normalizedPath.startsWith("_") ||
+      normalizedPath.includes("/__") ||
+      normalizedPath.includes("/_") ||
+      normalizedPath.startsWith("admin/") ||
+      normalizedPath === "admin.tsx" ||
+      normalizedPath.startsWith("portal/")
+    ) {
+      continue;
+    }
+
+    let routePath = normalizedPath.replace(/\.tsx?$/, "");
+    if (routePath === "index") routePath = "";
+    else if (routePath.endsWith("/index")) routePath = routePath.slice(0, -6);
+
+    let category = "other";
+    let priority = "0.7";
+    let changefreq = "monthly";
+
+    if (
+      routePath === "" ||
+      routePath === "booking" ||
+      routePath === "emergency" ||
+      routePath === "portfolio" ||
+      routePath === "blogs" ||
+      routePath === "services" ||
+      routePath === "locations" ||
+      routePath === "cities" ||
+      routePath === "brands" ||
+      routePath === "calculators" ||
+      routePath === "resources" ||
+      routePath === "glossary"
+    ) {
+      category = "main";
+      priority = "0.85";
+    } else if (routePath.startsWith("tools/")) {
+      category = "tools-guides";
+      priority = "0.80";
+    } else if (routePath.startsWith("guides/")) {
+      category = "tools-guides";
+      priority = "0.80";
+    } else if (routePath.startsWith("formulas/")) {
+      category = "tools-guides";
+      priority = "0.75";
+    } else if (routePath.startsWith("interactive/")) {
+      category = "tools-guides";
+      priority = "0.75";
+    } else if (routePath.startsWith("cities/")) {
+      category = "cities";
+      priority = "0.85";
+    } else if (routePath.startsWith("locations/")) {
+      category = "locations";
+      priority = "0.85";
+    } else if (routePath.startsWith("services/")) {
+      category = "services";
+      priority = "0.90";
+    } else if (routePath.startsWith("brands/")) {
+      category = "brands";
+      priority = "0.80";
+    } else if (routePath.startsWith("refrigerants/")) {
+      category = "tools-guides";
+      priority = "0.80";
+    } else if (routePath.startsWith("industrial/")) {
+      category = "tools-guides";
+      priority = "0.80";
+    }
+
+    addUrl(`/${routePath}`, { changefreq, priority, category });
+  }
+
+  // 3. ALL STANDALONE SERVICES
+  for (const service of ALL_SERVICES) {
+    addUrl(`/services/${service}`, {
+      changefreq: "weekly",
+      priority: "0.90",
+      category: "services",
+    });
+  }
+
+  // 4. ALL STANDALONE LOCATIONS
+  for (const loc of LOCATIONS) {
+    addUrl(`/locations/${loc}`, {
+      changefreq: "weekly",
+      priority: "0.85",
+      category: "locations",
+    });
+  }
+
+  // 5. ALL CITIES & CITY-SERVICE MATRIX
+  for (const city of CORE_CITIES) {
+    addUrl(`/cities/${city}`, {
+      changefreq: "weekly",
+      priority: "0.85",
+      category: "cities",
+    });
+
+    for (const service of standardServices) {
+      addUrl(`/cities/${city}/${service}`, {
         changefreq: "weekly",
-        priority: "0.85",
+        priority: "0.80",
+        category: "cities",
       });
     }
   }
 
-  // Categorize URLs into dedicated logical sitemaps
-  const categorizedUrls = {
+  // 6. ALL SERVICES x LOCATIONS MATRIX
+  for (const loc of LOCATIONS) {
+    for (const service of standardServices) {
+      addUrl(`/services/${service}/${loc}`, {
+        changefreq: "weekly",
+        priority: "0.80",
+        category: "services-locations",
+      });
+    }
+  }
+
+  // 7. ALL BRANDS, APPLIANCES & COMPARISONS
+  for (const brand of BRANDS) {
+    addUrl(`/brands/${brand}`, {
+      changefreq: "monthly",
+      priority: "0.80",
+      category: "brands",
+    });
+
+    for (const app of BRAND_APPLIANCES) {
+      addUrl(`/brands/${brand}/${app}`, {
+        changefreq: "monthly",
+        priority: "0.75",
+        category: "brands",
+      });
+    }
+  }
+
+  for (const comp of COMPARISONS) {
+    addUrl(`/brands/compare/${comp}`, {
+      changefreq: "monthly",
+      priority: "0.80",
+      category: "brands",
+    });
+  }
+
+  // 8. ALL REFRIGERANTS & INDUSTRIAL TOPICS
+  for (const ref of REFRIGERANTS) {
+    addUrl(`/refrigerants/${ref}`, {
+      changefreq: "monthly",
+      priority: "0.80",
+      category: "tools-guides",
+    });
+  }
+
+  for (const topic of INDUSTRIAL_TOPICS) {
+    addUrl(`/industrial/${topic}`, {
+      changefreq: "monthly",
+      priority: "0.80",
+      category: "tools-guides",
+    });
+  }
+
+  // 9. ALL BLOGS
+  const blogs = await getBlogs();
+  for (const blog of blogs) {
+    if (blog.slug) {
+      addUrl(`/blogs/${blog.slug}`, {
+        changefreq: "weekly",
+        priority: "0.85",
+        category: "blogs",
+      });
+    }
+  }
+
+  // CATEGORIZATION BUCKETS
+  const categorized = {
     main: [],
     services: [],
     locations: [],
     cities: [],
     "services-locations": [],
     brands: [],
+    "tools-guides": [],
     blogs: [],
-    other: []
+    other: [],
   };
 
-  for (const url of urls) {
-    const pathParts = url.loc.replace(BASE_URL, '').split('/').filter(Boolean);
-    if (pathParts.length === 0) {
-      categorizedUrls.main.push(url);
-    } else if (pathParts[0] === 'services') {
-      if (pathParts.length === 1) {
-        categorizedUrls.main.push(url);
-      } else if (pathParts.length === 2) {
-        categorizedUrls.services.push(url);
-      } else {
-        categorizedUrls["services-locations"].push(url);
-      }
-    } else if (pathParts[0] === 'locations') {
-      if (pathParts.length === 1) {
-        categorizedUrls.main.push(url);
-      } else {
-        categorizedUrls.locations.push(url);
-      }
-    } else if (pathParts[0] === 'cities') {
-      if (pathParts.length === 1) {
-        categorizedUrls.main.push(url);
-      } else {
-        categorizedUrls.cities.push(url);
-      }
-    } else if (pathParts[0] === 'brands') {
-      categorizedUrls.brands.push(url);
-    } else if (pathParts[0] === 'blogs') {
-      if (pathParts.length === 1) {
-        categorizedUrls.main.push(url);
-      } else {
-        categorizedUrls.blogs.push(url);
-      }
-    } else {
-      categorizedUrls.other.push(url);
-    }
+  for (const urlObj of urlMap.values()) {
+    const bucket = categorized[urlObj.category] ? urlObj.category : "other";
+    categorized[bucket].push(urlObj);
   }
 
   const URLS_PER_SITEMAP = 5000;
@@ -604,7 +647,7 @@ async function generateSitemap() {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  // Clean up any old sitemap XML files in output directory
+  // Clean old sub-sitemaps
   const existingFiles = fs.readdirSync(outputDir);
   for (const file of existingFiles) {
     if (file.startsWith("sitemap") && file.endsWith(".xml") && file !== "sitemap.xml") {
@@ -616,10 +659,11 @@ async function generateSitemap() {
     }
   }
 
-  for (const [category, catUrls] of Object.entries(categorizedUrls)) {
+  const stats = {};
+
+  for (const [category, catUrls] of Object.entries(categorized)) {
     if (catUrls.length === 0) continue;
-    
-    // Sort urls by priority desc, then loc asc for each category
+
     catUrls.sort((a, b) => {
       const pA = parseFloat(a.priority);
       const pB = parseFloat(b.priority);
@@ -627,15 +671,18 @@ async function generateSitemap() {
       return a.loc.localeCompare(b.loc);
     });
 
+    stats[category] = catUrls.length;
+
     const chunks = [];
     for (let i = 0; i < catUrls.length; i += URLS_PER_SITEMAP) {
       chunks.push(catUrls.slice(i, i + URLS_PER_SITEMAP));
     }
 
     chunks.forEach((chunk, index) => {
-      const filename = chunks.length === 1 ? `sitemap-${category}.xml` : `sitemap-${category}-${index + 1}.xml`;
+      const filename =
+        chunks.length === 1 ? `sitemap-${category}.xml` : `sitemap-${category}-${index + 1}.xml`;
       const filePath = path.join(outputDir, filename);
-      
+
       let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
       xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
       for (const url of chunk) {
@@ -647,14 +694,14 @@ async function generateSitemap() {
         xml += "  </url>\n";
       }
       xml += "</urlset>\n";
-      
+
       fs.writeFileSync(filePath, xml, "utf8");
       sitemapFiles.push(filename);
-      console.log(`Generated ${filename} with ${chunk.length} URLs`);
+      console.log(`Generated ${filename} with ${chunk.length} unique URLs`);
     });
   }
 
-  // Generate sitemap index
+  // Generate sitemap index (sitemap.xml)
   let indexXml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   indexXml += '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
   for (const file of sitemapFiles) {
@@ -664,10 +711,20 @@ async function generateSitemap() {
     indexXml += "  </sitemap>\n";
   }
   indexXml += "</sitemapindex>\n";
-  
+
   fs.writeFileSync(OUTPUT_FILE, indexXml, "utf8");
-  console.log(`Successfully generated sitemap index at ${OUTPUT_FILE} linking to ${sitemapFiles.length} sitemaps.`);
+  console.log(
+    `Successfully generated sitemap index at ${OUTPUT_FILE} linking to ${sitemapFiles.length} sub-sitemaps (${urlMap.size} total unique URLs).`,
+  );
+
+  return {
+    totalUrls: urlMap.size,
+    sitemapFiles,
+    categories: stats,
+    generatedAt: currentDate,
+  };
 }
 
-generateSitemap().catch(console.error);
-
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  generateSitemap().catch(console.error);
+}

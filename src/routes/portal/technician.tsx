@@ -190,30 +190,8 @@ function TechnicianPortal() {
     <div className="min-h-screen text-foreground flex flex-col justify-between bg-slate-950">
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--electric)_8%,transparent),transparent_60%)] pointer-events-none" />
 
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-slate-950/60 border-b border-border/80">
-        <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <img src={logo} alt="Prime Cool logo" className="h-9 w-9" />
-            <span className="font-display font-bold text-lg tracking-tight">
-              Prime <span className="text-gradient">Cool</span>
-            </span>
-          </Link>
-          <span className="text-xs font-mono uppercase bg-purple-500/10 border border-purple-500/20 text-purple-400 px-3 py-1 rounded-full">
-            Tech Dispatch Dashboard
-          </span>
-          <Link
-            to="/"
-            className="text-sm font-medium hover:text-primary transition flex items-center gap-1"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            <span>Home</span>
-          </Link>
-        </div>
-      </header>
-
       {/* Main container */}
-      <main className="flex-1 pt-24 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-12 gap-8">
+      <main className="flex-1 pt-6 md:pt-8 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-12 gap-8">
         {/* Left Column: Job Selector & Job Management */}
         <div className="lg:col-span-8 space-y-8">
           {/* Active Job Profile */}

@@ -1,88 +1,80 @@
-# Prime Cool HVAC & Appliance AI Blog Automation Bot
+# Prime Cool AI Blog Automation & Daily Regeneration Engine 🤖🚀
 
-An autonomous AI content engine powered by Google Gemini API (`gemini-2.5-flash` / `gemini-1.5-flash`). The bot automatically generates daily high-converting, SEO-optimized engineering blogs, spare parts pricing guides, and brand comparison reviews covering HVAC, Refrigeration, Washing Machines, and Inverter PCB Repair across Pune, Shirur, Hadapsar, Chakan, PCMC, Thane, Nashik, and surrounding regions.
+Automated, SEO-rich blog generation and daily synchronization system for **Prime Cool HVAC, Refrigeration & Industrial Mechanical Solutions (Pune & Maharashtra)**.
 
----
-
-## 🚀 Features
-
-- **Google Gemini AI Integration**: Calls Gemini REST API to create 600+ word technical articles formatted in Markdown with comparison matrices, pricing tables (INR ₹), error code reference tables, and multimeter diagnostics.
-- **Smart Engine Fallback**: Seamless fallback generator if no `GEMINI_API_KEY` is provided or if network fails.
-- **Rich Niche Coverage**:
-  - **HVAC & Split ACs**: Daikin, Voltas, Blue Star, LG Dual Inverter, Hitachi, O General, Mitsubishi.
-  - **Inverter Refrigerators**: Double Door, Frost-Free, Side-by-Side, Linear Compressor Repair, Defrost Thermostat.
-  - **Washing Machines**: Front Load AI Direct Drive, Top Load Digital Inverter, Spider Bearings, PCB Mainboards, E4/UE Errors.
-  - **Spare Parts & Pricing**: Inverter PCBs, IPM IGBT Modules, Rotary Compressors, EEV Valves, Gas Charges (R32, R410A, R134a).
-  - **Regional SEO**: Pune, Shirur, Wagholi, Hadapsar, Kharadi IT Park, Chakan MIDC, Ranjangaon, PCMC, Kothrud, Viman Nagar, Bhosari, Hinjewadi.
-- **Live Database Sync**: Directly updates `src/lib/blogs-data.json` and `data/db.json`, instantly appearing live on `/blogs` and `/blogs/$slug`.
-- **Automatic Sitemap Update**: Triggers `npm run sitemap` after every batch.
+Powered by **Google Gemini API**, a high-precision **Smart Fallback Engine**, **Active Deduplication**, and **Automated Sitemap XML Updates**.
 
 ---
 
-## 📁 Directory Structure
+## 🎯 Daily 50-Blog Quota Distribution
 
-```text
-automation/
-├── config.js          # Categories, brand pairs, spare parts price list (INR), locations & settings
-├── prompts.js         # Prompt generators for Gemini API (Comparisons, Pricing, PCBs, Regional)
-├── gemini-bot.js      # Main automation runner CLI
-├── cron-scheduler.js  # Daily daemon scheduler (runs every 24 hours)
-└── README.md          # Documentation
-```
+The system automatically generates **50 comprehensive, SEO-optimized blogs daily** structured into 4 high-value categories:
+
+| Category | Daily Target | Topics Covered | Key Value & SEO Focus |
+| :--- | :--- | :--- | :--- |
+| **Trending Topics** | **10 Blogs** | R-32 vs R-454B eco-refrigerants, AI Dual Inverter ACs, Inverter PCB micro-soldering, Front Load washer drum spiders, BLDC fan motors | High search volume keywords, technical comparison tables, ISEER calculations, power savings. |
+| **Location SEO** | **20 Blogs** | Wagholi, Kharadi, Hadapsar, Hinjewadi, Chakan, Bhosari, Kothrud, Baner, Wakad, Shikrapur, Shirur, etc. | Hyper-localized Pune/PCMC search queries, local landmarks, pincodes, rapid 45-min doorstep dispatch SLAs. |
+| **Commercial HVAC/R** | **10 Blogs** | Commercial VRV/VRF multi-zone, cold rooms & walk-in freezers, cassette AC drain pumps, server room PAC cooling, restaurant ventilation | Corporate AMC terms, BMS automation, IPLV part-load metrics, supermarket chiller maintenance. |
+| **Industrial Mechanical** | **10 Blogs** | Process water chillers (50-500 TR), industrial cooling tower overhauls, compressed air dryers, industrial VFD drives, pharma cleanroom HVAC | MIDC manufacturing zones (Chakan, Bhosari, Ranjangaon), screw compressor overhauls, IKW/TR efficiency. |
 
 ---
 
-## 🛠️ Quick Start & Usage
+## 🛡️ Active Deduplication Engine
 
-### 1. Configure Gemini API Key (Optional)
-Add your Gemini API Key in your `.env` file or export it in your environment:
+The bot features a zero-duplicate guarantee:
+- Before generation, it loads all existing slugs and titles from `src/lib/blogs-data.json`, `data/db.json`, and MySQL.
+- When creating seeds or AI outputs, candidate slugs and titles are verified against the global database.
+- If a matching topic is detected, unique timestamp/date/sub-locational signatures are automatically injected, preventing slug collisions and content duplication.
 
-```env
-GEMINI_API_KEY=your_google_gemini_api_key_here
-```
+---
 
-### 2. Run Single Generation Batch (e.g. 50 blogs)
+## 🔍 SEO & Content Quality Standards
 
+Every generated blog includes:
+- **Title Tag (`seoTitle`)**: Under 60 characters, high CTR, keyword and location optimized.
+- **Meta Description (`seoDesc`)**: Under 155 characters with service details and 24/7 call-to-action.
+- **Structured Content**: H2/H3 headings, minimum 750 words.
+- **Markdown Tables**:
+  - Technical engineering specification & brand comparison tables.
+  - Genuine OEM spare parts pricing table in INR (₹) with warranty terms.
+  - Multimeter diagnostic & error code matrix table (E1-E12, CH05, F3, etc.).
+- **Schema-Ready FAQs**: 3 to 4 high-intent search questions answered with technical depth.
+- **Local Pune Dispatch CTA**: Direct emergency hotline (+91 7507408461).
+
+---
+
+## ⚙️ Commands & Running the Bot
+
+### 1. Run Daily Generation Batch (50 Blogs: 10+20+10+10)
 ```bash
 npm run bot:generate
+# or
+node automation/gemini-bot.js --daily
 ```
 
-Or specify a custom blog count:
-
-```bash
-npm run bot:generate -- --count 20
-```
-
-### 3. Run Daily Scheduled Daemon
-
+### 2. Run Daily Automated Cron Daemon (24/7 Background Runner)
 ```bash
 npm run bot:daily
+# or
+node automation/cron-scheduler.js
+```
+
+### 3. Generate Specific Batch Sizes or Categories
+```bash
+# Generate 10 specific location blogs
+node automation/gemini-bot.js --count 10 --type location
+
+# Generate 5 industrial blogs
+node automation/gemini-bot.js --count 5 --type industrial
+
+# Custom batch of 20 blogs
+node automation/gemini-bot.js --count 20
 ```
 
 ---
 
-## ⏰ Automating Daily 50-Blog Uploads
-
-### Option A: Windows Task Scheduler
-1. Open **Task Scheduler** on Windows.
-2. Create a new Task named `PrimeCoolBlogBot`.
-3. Action: `Start a program` -> `node`
-4. Arguments: `c:\Users\svtv0\Desktop\prime-cool\automation\gemini-bot.js --count 50`
-5. Trigger: Daily at `00:00`.
-
-### Option B: Linux / Server Cron Job
-Add to crontab (`crontab -e`):
-
-```cron
-0 0 * * * cd /var/www/prime-cool && npm run bot:generate >> /var/log/prime-cool-bot.log 2>&1
-```
-
----
-
-## 📊 Live Verification
-
-1. Open `/blogs` in your browser or run dev server:
-   ```bash
-   npm run dev
-   ```
-2. Navigate to [http://localhost:3000/blogs](http://localhost:3000/blogs) to see all newly generated articles rendered with dates, pagination, tags, and full Markdown tables.
+## 📁 Files Synced Automatically
+1. `src/lib/blogs-data.json` - Static frontend seed & fast SSR rendering.
+2. `data/db.json` - Local database cache.
+3. MySQL `blogs` table - Remote database synchronization (if configured in `.env`).
+4. `public/sitemap.xml` & `public/sitemap-blogs.xml` - Automatically rebuilt via `npm run sitemap`.

@@ -232,8 +232,7 @@ function AdminBlogsPage() {
             </>
           ) : (
             <>
-              <Sparkles className="h-4 w-4 text-yellow-300" />
-              ⚡ Auto-Generate 50 AI Blogs Now
+              <Sparkles className="h-4 w-4 text-yellow-300" />⚡ Auto-Generate 50 AI Blogs Now
             </>
           )}
         </Button>
@@ -373,43 +372,43 @@ function AdminBlogsPage() {
               </button>
               {showSeoFields && (
                 <div className="p-4 space-y-4 bg-background/20">
-                    <div className="space-y-1">
-                      <Label htmlFor="seoTitle" className="text-xs text-slate-400">
-                        SEO Meta Title
-                      </Label>
-                      <Input
-                        id="seoTitle"
-                        placeholder="e.g. 5 Signs Your AC Needs Repair | Prime Cool"
-                        value={seoTitle}
-                        onChange={(e) => setSeoTitle(e.target.value)}
-                        className="rounded-lg bg-background/50 border-white/10"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <Label htmlFor="seoDesc" className="text-xs text-slate-400">
-                        SEO Meta Description
-                      </Label>
-                      <Textarea
-                        id="seoDesc"
-                        rows={2}
-                        placeholder="A short snippet that appears in Google search results..."
-                        value={seoDesc}
-                        onChange={(e) => setSeoDesc(e.target.value)}
-                        className="rounded-lg bg-background/50 border-white/10"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <Label htmlFor="seoKeywords" className="text-xs text-slate-400">
-                        SEO Keywords (Comma separated)
-                      </Label>
-                      <Input
-                        id="seoKeywords"
-                        placeholder="e.g. ac repair, hvac guide, prime cool blog"
-                        value={seoKeywords}
-                        onChange={(e) => setSeoKeywords(e.target.value)}
-                        className="rounded-lg bg-background/50 border-white/10"
-                      />
-                    </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="seoTitle" className="text-xs text-slate-400">
+                      SEO Meta Title
+                    </Label>
+                    <Input
+                      id="seoTitle"
+                      placeholder="e.g. 5 Signs Your AC Needs Repair | Prime Cool"
+                      value={seoTitle}
+                      onChange={(e) => setSeoTitle(e.target.value)}
+                      className="rounded-lg bg-background/50 border-white/10"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="seoDesc" className="text-xs text-slate-400">
+                      SEO Meta Description
+                    </Label>
+                    <Textarea
+                      id="seoDesc"
+                      rows={2}
+                      placeholder="A short snippet that appears in Google search results..."
+                      value={seoDesc}
+                      onChange={(e) => setSeoDesc(e.target.value)}
+                      className="rounded-lg bg-background/50 border-white/10"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="seoKeywords" className="text-xs text-slate-400">
+                      SEO Keywords (Comma separated)
+                    </Label>
+                    <Input
+                      id="seoKeywords"
+                      placeholder="e.g. ac repair, hvac guide, prime cool blog"
+                      value={seoKeywords}
+                      onChange={(e) => setSeoKeywords(e.target.value)}
+                      className="rounded-lg bg-background/50 border-white/10"
+                    />
+                  </div>
                 </div>
               )}
             </div>
@@ -464,7 +463,10 @@ function AdminBlogsPage() {
 
             {(() => {
               const totalPages = Math.ceil(blogs.length / ITEMS_PER_PAGE);
-              const paginatedBlogs = blogs.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+              const paginatedBlogs = blogs.slice(
+                (currentPage - 1) * ITEMS_PER_PAGE,
+                currentPage * ITEMS_PER_PAGE,
+              );
 
               if (blogsLoading) {
                 return (
@@ -476,125 +478,140 @@ function AdminBlogsPage() {
               }
 
               return blogs.length > 0 ? (
-              <div className="overflow-x-auto rounded-xl border border-white/10 bg-white/5">
-                <table className="w-full text-left text-sm">
-                  <thead className="bg-black/20 text-muted-foreground">
-                    <tr>
-                      <th className="px-4 py-3 font-medium">Image</th>
-                      <th className="px-4 py-3 font-medium">Article Details</th>
-                      <th className="px-4 py-3 font-medium">Category / Author</th>
-                      <th className="px-4 py-3 font-medium text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/10">
-                    {paginatedBlogs.map((b: any) => (
-                      <tr key={b.id} className="hover:bg-white/5 transition">
-                        <td className="px-4 py-3 align-top">
-                          {b.image ? (
-                            <div className="w-16 h-12 rounded overflow-hidden relative border border-border/40">
-                              <img src={b.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
-                            </div>
-                          ) : (
-                            <div className="w-16 h-12 rounded bg-muted flex items-center justify-center text-muted-foreground border border-border/40">
-                              <FileImage className="h-4 w-4" />
-                            </div>
-                          )}
-                        </td>
-                        <td className="px-4 py-3 align-top">
-                          <h3 className="font-display font-semibold text-sm leading-snug max-w-[200px] line-clamp-2">{b.title}</h3>
-                          <div className="text-[10px] font-mono text-muted-foreground/60 mt-1 flex items-center gap-1">
-                            <Calendar className="h-3 w-3" />
-                            {new Date(b.createdAt).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })}
-                          </div>
-                          <div className="text-[10px] font-mono text-muted-foreground/50 mt-0.5">/{b.slug}</div>
-                        </td>
-                        <td className="px-4 py-3 align-top">
-                           {b.category && (
-                            <span className="text-[10px] uppercase font-bold text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-1.5 py-0.5 rounded-full block w-max mb-1">
-                              {b.category}
-                            </span>
-                          )}
-                          {b.author && (
-                            <span className="text-[10px] text-muted-foreground/60 block">by {b.author}</span>
-                          )}
-                        </td>
-                        <td className="px-4 py-3 align-top text-right space-x-2 whitespace-nowrap">
-                          <button
-                            onClick={() => {
-                              setEditingBlog(b);
-                              setTitle(b.title);
-                              setSlug(b.slug);
-                              setSummary(b.summary);
-                              setContent(b.content);
-                              setCategory(b.category || "Guides");
-                              setAuthor(b.author || "Saurav Temgire");
-                              setSeoTitle(b.seoTitle || "");
-                              setSeoDesc(b.seoDesc || "");
-                              setSeoKeywords(b.seoKeywords || "");
-                              setImagePreview(b.image || null);
-                              setImageFile(undefined);
-                              if (b.seoTitle || b.seoDesc) setShowSeoFields(true);
-                              window.scrollTo({ top: 0, behavior: "smooth" });
-                            }}
-                            className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition inline-flex"
-                            title="Edit Article"
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </button>
-                          <button
-                            onClick={() => {
-                              if (confirm(`Remove "${b.title}" from website?`)) {
-                                deleteMutation.mutate({ id: b.id });
-                              }
-                            }}
-                            disabled={deleteMutation.isPending}
-                            className="p-1.5 text-muted-foreground hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition inline-flex"
-                            title="Delete Article"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        </td>
+                <div className="overflow-x-auto rounded-xl border border-white/10 bg-white/5">
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-black/20 text-muted-foreground">
+                      <tr>
+                        <th className="px-4 py-3 font-medium">Image</th>
+                        <th className="px-4 py-3 font-medium">Article Details</th>
+                        <th className="px-4 py-3 font-medium">Category / Author</th>
+                        <th className="px-4 py-3 font-medium text-right">Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-                
-                {totalPages > 1 && (
-                  <div className="flex items-center justify-between px-4 py-3 border-t border-white/10 bg-black/10">
-                    <span className="text-xs text-muted-foreground">
-                      Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} to {Math.min(currentPage * ITEMS_PER_PAGE, blogs.length)} of {blogs.length}
-                    </span>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        disabled={currentPage === 1}
-                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                        className="h-7 text-xs"
-                      >
-                        Previous
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        disabled={currentPage === totalPages}
-                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                        className="h-7 text-xs"
-                      >
-                        Next
-                      </Button>
+                    </thead>
+                    <tbody className="divide-y divide-white/10">
+                      {paginatedBlogs.map((b: any) => (
+                        <tr key={b.id} className="hover:bg-white/5 transition">
+                          <td className="px-4 py-3 align-top">
+                            {b.image ? (
+                              <div className="w-16 h-12 rounded overflow-hidden relative border border-border/40">
+                                <img
+                                  src={b.image}
+                                  alt=""
+                                  className="absolute inset-0 w-full h-full object-cover"
+                                />
+                              </div>
+                            ) : (
+                              <div className="w-16 h-12 rounded bg-muted flex items-center justify-center text-muted-foreground border border-border/40">
+                                <FileImage className="h-4 w-4" />
+                              </div>
+                            )}
+                          </td>
+                          <td className="px-4 py-3 align-top">
+                            <h3 className="font-display font-semibold text-sm leading-snug max-w-[200px] line-clamp-2">
+                              {b.title}
+                            </h3>
+                            <div className="text-[10px] font-mono text-muted-foreground/60 mt-1 flex items-center gap-1">
+                              <Calendar className="h-3 w-3" />
+                              {new Date(b.createdAt).toLocaleDateString("en-IN", {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              })}
+                            </div>
+                            <div className="text-[10px] font-mono text-muted-foreground/50 mt-0.5">
+                              /{b.slug}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 align-top">
+                            {b.category && (
+                              <span className="text-[10px] uppercase font-bold text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-1.5 py-0.5 rounded-full block w-max mb-1">
+                                {b.category}
+                              </span>
+                            )}
+                            {b.author && (
+                              <span className="text-[10px] text-muted-foreground/60 block">
+                                by {b.author}
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3 align-top text-right space-x-2 whitespace-nowrap">
+                            <button
+                              onClick={() => {
+                                setEditingBlog(b);
+                                setTitle(b.title);
+                                setSlug(b.slug);
+                                setSummary(b.summary);
+                                setContent(b.content);
+                                setCategory(b.category || "Guides");
+                                setAuthor(b.author || "Saurav Temgire");
+                                setSeoTitle(b.seoTitle || "");
+                                setSeoDesc(b.seoDesc || "");
+                                setSeoKeywords(b.seoKeywords || "");
+                                setImagePreview(b.image || null);
+                                setImageFile(undefined);
+                                if (b.seoTitle || b.seoDesc) setShowSeoFields(true);
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                              }}
+                              className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition inline-flex"
+                              title="Edit Article"
+                            >
+                              <Pencil className="h-4 w-4" />
+                            </button>
+                            <button
+                              onClick={() => {
+                                if (confirm(`Remove "${b.title}" from website?`)) {
+                                  deleteMutation.mutate({ id: b.id });
+                                }
+                              }}
+                              disabled={deleteMutation.isPending}
+                              className="p-1.5 text-muted-foreground hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition inline-flex"
+                              title="Delete Article"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                  {totalPages > 1 && (
+                    <div className="flex items-center justify-between px-4 py-3 border-t border-white/10 bg-black/10">
+                      <span className="text-xs text-muted-foreground">
+                        Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} to{" "}
+                        {Math.min(currentPage * ITEMS_PER_PAGE, blogs.length)} of {blogs.length}
+                      </span>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          disabled={currentPage === 1}
+                          onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                          className="h-7 text-xs"
+                        >
+                          Previous
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          disabled={currentPage === totalPages}
+                          onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                          className="h-7 text-xs"
+                        >
+                          Next
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="text-center py-16 border border-dashed border-border rounded-2xl bg-card/10 text-muted-foreground">
-                <FileText className="h-8 w-8 mx-auto opacity-50 mb-2" />
-                <div className="text-xs">
-                  No blog articles registered. Use the form to write one.
+                  )}
                 </div>
-              </div>
-            );
+              ) : (
+                <div className="text-center py-16 border border-dashed border-border rounded-2xl bg-card/10 text-muted-foreground">
+                  <FileText className="h-8 w-8 mx-auto opacity-50 mb-2" />
+                  <div className="text-xs">
+                    No blog articles registered. Use the form to write one.
+                  </div>
+                </div>
+              );
             })()}
           </div>
         </div>

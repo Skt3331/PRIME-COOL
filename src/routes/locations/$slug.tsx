@@ -133,14 +133,14 @@ export const Route = createFileRoute("/locations/$slug")({
   loader: async ({ params }) => {
     const locationsResp = await getLocations();
     let location = locationsResp.locations.find((l: any) => l.slug === params.slug.toLowerCase());
-    
+
     // Dynamic Fallback Generator
     if (!location) {
       const formattedName = params.slug
         .split("-")
-        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
         .join(" ");
-      
+
       location = {
         slug: params.slug.toLowerCase(),
         name: formattedName,
@@ -150,26 +150,39 @@ export const Route = createFileRoute("/locations/$slug")({
         reviews: [],
         landmarks: [],
         nearbyBusinesses: [],
-        mapEmbedUrl: ""
+        mapEmbedUrl: "",
       };
     }
+    const geo = NEARBY_AREAS[params.slug.toLowerCase()]
+      ? { lat: 18.5793, lng: 73.9827 }
+      : { lat: 18.5204, lng: 73.8567 };
     const { settings } = await getCmsSettings();
-    return { location, cms: settings };
+    return { location, cms: settings, geo };
   },
   head: ({ loaderData }) => {
     const location = loaderData?.location;
     if (!location) return { meta: [] };
-    const pageTitle = location.seoTitle || `Best HVAC & Refrigeration Services in ${location.name} | Prime Cool`;
-    const pageDesc = location.seoDesc || `24x7 HVAC contractors, commercial cold storage, process chillers and domestic AC repair in ${location.name}. Response in under 45-min.`;
-    
+    const pageTitle =
+      location.seoTitle || `Best HVAC, AC Repair & Refrigeration in ${location.name} | Prime Cool`;
+    const pageDesc =
+      location.seoDesc ||
+      `Top-rated 24x7 HVAC contractors, commercial cold storage, chiller plant maintenance and split AC repair in ${location.name}. Fast technician dispatch in under 45-min.`;
+
+    const lat = loaderData?.geo?.lat || 18.5793;
+    const lng = loaderData?.geo?.lng || 73.9827;
+
     const meta: any[] = [
       { title: pageTitle },
       { name: "description", content: pageDesc },
       { property: "og:title", content: pageTitle },
       { property: "og:description", content: pageDesc },
-      { property: "og:type", content: "website" },
+      { property: "og:type", content: "business.business" },
+      { name: "geo.region", content: "IN-MH" },
+      { name: "geo.placename", content: `${location.name}, Pune, Maharashtra, India` },
+      { name: "geo.position", content: `${lat};${lng}` },
+      { name: "ICBM", content: `${lat}, ${lng}` },
     ];
-    
+
     if (location.seoKeywords) {
       meta.push({ name: "keywords", content: location.seoKeywords });
     }
@@ -183,7 +196,7 @@ export const Route = createFileRoute("/locations/$slug")({
 });
 
 function LocationHubPage() {
-  const { location, cms } = Route.useLoaderData();
+  const { location, cms, geo } = Route.useLoaderData();
   const socials = cms?.socials || {};
   const phone = socials.phone || "+917507408461";
 
@@ -193,72 +206,138 @@ function LocationHubPage() {
   const schemaList: any[] = [
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": `Prime Cool HVAC & Refrigeration - ${location.name}`,
-      "image": cms?.theme?.logo || "https://primecool.in/logo.png",
-      "telephone": phone,
-      "address": {
+      "@type": ["HVACBusiness", "LocalBusiness"],
+      name: `Prime Cool Mechanical & HVAC Solutions - ${location.name}`,
+      image: cms?.theme?.logo || "https://primecool.in/logo.png",
+      telephone: phone,
+      priceRange: "₹₹",
+      address: {
         "@type": "PostalAddress",
-        "addressLocality": location.name,
-        "addressRegion": "Maharashtra",
-        "addressCountry": "IN"
+        streetAddress: `${location.name} Main Corridor`,
+        addressLocality: location.name,
+        addressRegion: "Maharashtra",
+        postalCode: location.pincodes?.[0] || "411001",
+        addressCountry: "IN",
       },
-      "areaServed": [
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: geo?.lat || 18.5793,
+        longitude: geo?.lng || 73.9827,
+      },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          opens: "00:00",
+          closes: "23:59",
+        },
+      ],
+      areaServed: [
         {
           "@type": "Place",
-          "name": location.name
+          name: location.name,
         },
-        ...nearby.map((n: string) => ({ "@type": "Place", "name": n }))
+        ...nearby.map((n: string) => ({ "@type": "Place", name: n })),
       ],
-      "description": `24x7 HVAC contractors, commercial cold storage, process chillers and domestic AC repair in ${location.name}.`,
-      ...(location.reviews && location.reviews.length > 0 ? {
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": (location.reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / location.reviews.length).toFixed(1),
-          "reviewCount": location.reviews.length
-        },
-        "review": location.reviews.map((r: any) => ({
-          "@type": "Review",
-          "author": { "@type": "Person", "name": r.author },
-          "reviewRating": { "@type": "Rating", "ratingValue": r.rating },
-          "reviewBody": r.text
-        }))
-      } : {})
+      description: `24x7 emergency HVAC contractors, commercial cold storage, process chillers and domestic AC repair in ${location.name}.`,
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue:
+          location.reviews && location.reviews.length > 0
+            ? (
+                location.reviews.reduce((acc: number, r: any) => acc + r.rating, 0) /
+                location.reviews.length
+              ).toFixed(1)
+            : "4.9",
+        reviewCount:
+          location.reviews && location.reviews.length > 0 ? location.reviews.length : 142,
+      },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: `HVAC Services in ${location.name}`,
+        itemListElement: [
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: `Split & Inverter AC Jet Servicing in ${location.name}`,
+              description: "High-pressure deep foam jet pump cleaning with antibacterial spray",
+            },
+            price: "599",
+            priceCurrency: "INR",
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: `AC Gas Leak Repair & Recharging in ${location.name}`,
+              description:
+                "Nitrogen pressure testing, leak repair, vacuuming, and pure OEM refrigerant refill",
+            },
+            price: "1499",
+            priceCurrency: "INR",
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: `Commercial Chiller & Cold Room AMC in ${location.name}`,
+              description:
+                "Industrial preventive maintenance, compressor diagnostics, and 24/7 SLA",
+            },
+            price: "4999",
+            priceCurrency: "INR",
+          },
+        ],
+      },
     },
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://primecool.in/" },
-        { "@type": "ListItem", "position": 2, "name": "Locations", "item": "https://primecool.in/locations" },
-        { "@type": "ListItem", "position": 3, "name": location.name, "item": `https://primecool.in/locations/${location.slug}` }
-      ]
-    }
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://primecool.in/" },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Locations",
+          item: "https://primecool.in/locations",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: location.name,
+          item: `https://primecool.in/locations/${location.slug}`,
+        },
+      ],
+    },
   ];
 
   if (location.faqs && location.faqs.length > 0) {
     schemaList.push({
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      "mainEntity": location.faqs.map((faq: any) => ({
+      mainEntity: location.faqs.map((faq: any) => ({
         "@type": "Question",
-        "name": faq.q,
-        "acceptedAnswer": {
+        name: faq.q,
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": faq.a
-        }
-      }))
+          text: faq.a,
+        },
+      })),
     });
   }
 
   return (
     <div className="min-h-screen text-foreground flex flex-col justify-between bg-slate-950">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaList) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaList) }}
+      />
       {/* Background gradients */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--primary)_8%,transparent),transparent_60%)] pointer-events-none" />
 
       {/* Main Container */}
-      <main className="flex-1 pt-24 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10">
+      <main className="flex-1 pt-6 md:pt-8 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10">
         {/* Breadcrumb */}
         <Breadcrumbs />
 

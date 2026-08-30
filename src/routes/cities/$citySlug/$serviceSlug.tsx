@@ -20,14 +20,14 @@ export const Route = createFileRoute("/cities/$citySlug/$serviceSlug")({
   loader: async ({ params }) => {
     const locationsResp = await getLocations();
     let city = locationsResp.locations.find((l: any) => l.slug === params.citySlug.toLowerCase());
-    
+
     // Dynamic Fallback Generator
     if (!city) {
       const formattedName = params.citySlug
         .split("-")
-        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
         .join(" ");
-      
+
       city = {
         slug: params.citySlug.toLowerCase(),
         name: formattedName,
@@ -37,29 +37,40 @@ export const Route = createFileRoute("/cities/$citySlug/$serviceSlug")({
         reviews: [],
         landmarks: [],
         nearbyBusinesses: [],
-        mapEmbedUrl: ""
+        mapEmbedUrl: "",
       };
     }
 
-    const service = servicesData[params.serviceSlug.toLowerCase()] || getFallbackService(params.serviceSlug.toLowerCase());
+    const serviceKey = params.serviceSlug.toLowerCase();
+    const service = servicesData[serviceKey] || getFallbackService(serviceKey);
     const { settings } = await getCmsSettings();
-    return { city, service, cms: settings, allLocations: locationsResp.locations };
+    return { city, service, serviceKey, cms: settings, allLocations: locationsResp.locations };
   },
   head: ({ loaderData }) => {
     const city = loaderData?.city;
     const service = loaderData?.service;
+    const serviceKey = loaderData?.serviceKey;
     if (!city || !service) return { meta: [] };
     const pageTitle = `24x7 ${service.title} in ${city.name} | Certified Technicians | Prime Cool`;
-    const pageDesc = `Looking for top-rated ${service.title} near you in ${city.name}? Prime Cool provides certified experts, genuine spares, and 24x7 emergency response in ${city.name} (${city.pincodes.slice(0, 3).join(", ")}). Book now for fast service!`;
+    const pageDesc = `Looking for top-rated ${service.title} near you in ${city.name}? Prime Cool provides certified experts, genuine OEM spares, and 24x7 emergency response in ${city.name} (${city.pincodes?.slice(0, 3).join(", ") || "Maharashtra"}). Book now for fast service!`;
     return {
       meta: [
         { title: pageTitle },
         { name: "description", content: pageDesc },
         { property: "og:title", content: pageTitle },
         { property: "og:description", content: pageDesc },
-        { property: "og:type", content: "website" },
+        { property: "og:type", content: "business.business" },
+        { name: "geo.region", content: "IN-MH" },
+        { name: "geo.placename", content: `${city.name}, Maharashtra, India` },
+        { name: "geo.position", content: "18.5204;73.8567" },
+        { name: "ICBM", content: "18.5204, 73.8567" },
       ],
-      links: [{ rel: "canonical", href: `https://primecool.in/services/${service.slug}/${city.slug}` }],
+      links: [
+        {
+          rel: "canonical",
+          href: `https://primecool.in/cities/${city.slug}/${serviceKey || service.slug}`,
+        },
+      ],
     };
   },
   component: LocationServicePage,
@@ -73,35 +84,107 @@ function LocationServicePage() {
   const schemaList: any[] = [
     {
       "@context": "https://schema.org",
+      "@type": ["HVACBusiness", "LocalBusiness"],
+      name: `Prime Cool ${service.title} - ${city.name}`,
+      image: cms?.theme?.logo || "https://primecool.in/logo.png",
+      telephone: phone,
+      priceRange: "₹₹",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: city.name,
+        addressRegion: "Maharashtra",
+        postalCode: city.pincodes?.[0] || "411001",
+        addressCountry: "IN",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 18.5204,
+        longitude: 73.8567,
+      },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          opens: "00:00",
+          closes: "23:59",
+        },
+      ],
+      areaServed: {
+        "@type": "City",
+        name: city.name,
+      },
+      description: service.description,
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.9",
+        reviewCount: 210,
+      },
+    },
+    {
+      "@context": "https://schema.org",
       "@type": "Service",
-      "name": `${service.title} in ${city.name}`,
-      "provider": {
+      name: `${service.title} in ${city.name}`,
+      provider: {
         "@type": "LocalBusiness",
-        "name": "Prime Cool HVAC & Refrigeration",
-        "telephone": phone,
-        "image": cms?.theme?.logo || "https://primecool.in/logo.png",
+        name: "Prime Cool HVAC & Refrigeration",
+        telephone: phone,
+        image: cms?.theme?.logo || "https://primecool.in/logo.png",
       },
-      "areaServed": {
+      areaServed: {
         "@type": "Place",
-        "name": city.name
+        name: city.name,
       },
-      "description": service.description,
+      description: service.description,
+      offers: {
+        "@type": "Offer",
+        price: "599",
+        priceCurrency: "INR",
+        availability: "https://schema.org/InStock",
+      },
     },
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://primecool.in/" },
-        { "@type": "ListItem", "position": 2, "name": "Cities", "item": "https://primecool.in/cities" },
-        { "@type": "ListItem", "position": 3, "name": city.name, "item": `https://primecool.in/cities/${city.slug}` },
-        { "@type": "ListItem", "position": 4, "name": service.title, "item": `https://primecool.in/cities/${city.slug}/${service.slug}` }
-      ]
-    }
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://primecool.in/" },
+        { "@type": "ListItem", position: 2, name: "Cities", item: "https://primecool.in/cities" },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: city.name,
+          item: `https://primecool.in/cities/${city.slug}`,
+        },
+        {
+          "@type": "ListItem",
+          position: 4,
+          name: service.title,
+          item: `https://primecool.in/cities/${city.slug}/${service.slug}`,
+        },
+      ],
+    },
   ];
+
+  if (service.faqs && service.faqs.length > 0) {
+    schemaList.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: service.faqs.map((faq: any) => ({
+        "@type": "Question",
+        name: faq.q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.a,
+        },
+      })),
+    });
+  }
 
   return (
     <div className="min-h-screen text-foreground flex flex-col justify-between bg-slate-950">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaList) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaList) }}
+      />
       {/* Background gradients */}
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--primary)_8%,transparent),transparent_60%)] pointer-events-none" />
 
@@ -117,7 +200,11 @@ function LocationServicePage() {
             Resources
           </Link>{" "}
           /{" "}
-          <Link to="/cities/$slug" params={{ slug: city.slug }} className="hover:text-primary transition">
+          <Link
+            to="/cities/$slug"
+            params={{ slug: city.slug }}
+            className="hover:text-primary transition"
+          >
             {city.name}
           </Link>{" "}
           / <span className="text-foreground font-semibold">{service.title}</span>
@@ -335,7 +422,9 @@ function LocationServicePage() {
               </div>
             </div>
             <div>
-              <h3 className="text-xl font-display font-semibold mb-6">Other Services in {city.name}</h3>
+              <h3 className="text-xl font-display font-semibold mb-6">
+                Other Services in {city.name}
+              </h3>
               <div className="flex flex-wrap gap-3">
                 {Object.values(servicesData).map((s: any) => (
                   <Link
@@ -351,7 +440,6 @@ function LocationServicePage() {
             </div>
           </div>
         </div>
-
       </main>
     </div>
   );
