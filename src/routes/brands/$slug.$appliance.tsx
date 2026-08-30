@@ -1,7 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { brandsData } from "../../lib/brands-data";
-import { getCmsSettings } from "../../lib/api";
-import logo from "../../assets/logo.webp";
+import { brandsData, BrandDetail } from "../../lib/brands-data";
+import { getCmsSettings, getLocations } from "../../lib/api";
 import {
   ArrowLeft,
   Phone,
@@ -11,8 +10,229 @@ import {
   AlertTriangle,
   HelpCircle,
   CheckCircle,
+  MapPin,
+  Clock,
+  Star,
+  Zap,
+  Gauge,
+  Thermometer,
+  Layers,
+  ArrowRight,
+  Activity,
+  Cpu,
+  Flame,
+  CheckCircle2,
+  Building2,
+  Tag,
+  Search,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { Breadcrumbs } from "../../components/Breadcrumbs";
+
+// Locality Information Registry
+const LOCALITY_REGISTRY: Record<
+  string,
+  {
+    hub: string;
+    isMidc: boolean;
+    landmarks: string[];
+    adjacent: string[];
+    operatingConditions: string;
+    powerCondition: string;
+  }
+> = {
+  "ranjangaon-midc": {
+    hub: "Ranjangaon Industrial & Electronics Corridor",
+    isMidc: true,
+    landmarks: ["Ranjangaon MIDC Phase 1-3", "Electronics Zone", "LG & Whirlpool Corridor", "Pune-Nagar Highway"],
+    adjacent: ["Karegaon", "Sanaswadi", "Shikrapur", "Shirur", "Kondhapuri", "Wagholi"],
+    operatingConditions: "Heavy industrial 24/7 continuous thermal loads and electronic cleanroom HVAC standards.",
+    powerCondition: "Three-phase 415V industrial lines with heavy motor inductive switching transients.",
+  },
+  "chakan-midc": {
+    hub: "Chakan Auto & Industrial Belt",
+    isMidc: true,
+    landmarks: ["Chakan Industrial Area Phase 1-4", "Auto Cluster", "Mercedes-Benz & VW Corridor", "Talegaon Link"],
+    adjacent: ["Bhosari MIDC", "Talegaon", "Moshi", "Kuruli", "Mahalunge", "Alandi"],
+    operatingConditions: "High ambient factory dust, machining coolant mist, and continuous compressor duty.",
+    powerCondition: "Industrial grid requiring active surge arrestors and phase monitors.",
+  },
+  "bhosari-midc": {
+    hub: "Bhosari PCMC Manufacturing Spine",
+    isMidc: true,
+    landmarks: ["Bhosari MIDC", "Telco Circle", "Century Enka", "PCMC Industrial Corridor"],
+    adjacent: ["Chakan MIDC", "Nigdi", "Akurdi", "Pimpri", "Moshi", "Dighi"],
+    operatingConditions: "Machining heat loads, hydraulic oil circulation, and high thermal fluctuation.",
+    powerCondition: "Heavy industrial grid with intermittent switching spikes.",
+  },
+  wagholi: {
+    hub: "Pune East Residential & Tech Corridor",
+    isMidc: false,
+    landmarks: ["Wagheshwar Temple", "Bakori Road", "Lexicon School", "Ubale Nagar"],
+    adjacent: ["Kharadi", "Viman Nagar", "Kesnand", "Lonikand", "Awhalwadi"],
+    operatingConditions: "High TDS borewell water scaling (550+ ppm) and peak residential summer heat loads.",
+    powerCondition: "Residential 230V single phase with evening peak voltage drops.",
+  },
+  kharadi: {
+    hub: "Kharadi Premier IT & Commercial Megacity",
+    isMidc: false,
+    landmarks: ["EON IT Park", "World Trade Center", "Zensar Tech Park", "Riverfront Road"],
+    adjacent: ["Viman Nagar", "Wagholi", "Hadapsar", "Kalyani Nagar", "Chandan Nagar"],
+    operatingConditions: "High-density multi-tenant VRV/VRF systems and 24/7 server room precision cooling.",
+    powerCondition: "Dedicated IT power corridor with commercial harmonic filters.",
+  },
+  hadapsar: {
+    hub: "Magarpatta & SP Infocity Corporate Corridor",
+    isMidc: false,
+    landmarks: ["Magarpatta Cybercity", "SP Infocity", "Amanora Mall", "Noble Hospital"],
+    adjacent: ["Kharadi", "Fatima Nagar", "Mundhwa", "Fursungi", "Sasane Nagar"],
+    operatingConditions: "Centralized ducted split units, VRV multi-splits, and commercial refrigeration.",
+    powerCondition: "Urban commercial grid with dual sub-metering.",
+  },
+  hinjewadi: {
+    hub: "Hinjewadi Rajiv Gandhi IT Megapolis Phase 1-3",
+    isMidc: false,
+    landmarks: ["Rajiv Gandhi Infotech Park Phase 1-3", "Wipro Circle", "Megapolis"],
+    adjacent: ["Wakad", "Baner", "Balewadi", "Marunji", "Punawale"],
+    operatingConditions: "Multi-zone VRF systems, cleanroom server PAC cooling, and luxury residential ACs.",
+    powerCondition: "Express corporate feeders with dual DG redundancy.",
+  },
+  baner: {
+    hub: "Baner High Street & Commercial Zone",
+    isMidc: false,
+    landmarks: ["Balewadi High Street", "Pancard Club Road", "Cummins India Corridor"],
+    adjacent: ["Aundh", "Balewadi", "Hinjewadi", "Bavdhan", "Pashan"],
+    operatingConditions: "Commercial restaurant HVAC, kitchen exhaust balancing, and inverter multi-splits.",
+    powerCondition: "Underground urban distribution network.",
+  },
+  wakad: {
+    hub: "Wakad High-Rise Residential Hub",
+    isMidc: false,
+    landmarks: ["Dutt Mandir", "Bhumkar Chowk", "Kaspate Vasti"],
+    adjacent: ["Hinjewadi", "Pimple Saudagar", "Baner", "Tathawade"],
+    operatingConditions: "High-rise split AC condenser air recirculation and heavy summer cooling cycles.",
+    powerCondition: "Single & three-phase domestic lines.",
+  },
+  "pimple-saudagar": {
+    hub: "PCMC Premier Residential Belt",
+    isMidc: false,
+    landmarks: ["Govind Garden", "Linear Garden", "Shivar Chowk"],
+    adjacent: ["Wakad", "Aundh", "Pimple Nilakh", "Rahatani"],
+    operatingConditions: "Dual inverter split ACs and appliance descaling requirements.",
+    powerCondition: "PCMC municipal power grid.",
+  },
+  kothrud: {
+    hub: "Kothrud Central & Pune West Zone",
+    isMidc: false,
+    landmarks: ["Chandani Chowk", "MIT World Peace University", "Paud Road"],
+    adjacent: ["Bavdhan", "Karve Nagar", "Warje", "Deccan"],
+    operatingConditions: "Dense residential apartments and clinical healthcare climate control.",
+    powerCondition: "Established urban distribution network.",
+  },
+  "viman-nagar": {
+    hub: "Viman Nagar Airport Commercial Zone",
+    isMidc: false,
+    landmarks: ["Phoenix Marketcity", "Symbiosis Campus", "Airport Road"],
+    adjacent: ["Kharadi", "Kalyani Nagar", "Yerawada", "Lohegaon"],
+    operatingConditions: "Retail mall air handling, boutique hotel HVAC, and food court refrigeration.",
+    powerCondition: "Commercial sub-station line.",
+  },
+  shikrapur: {
+    hub: "Shikrapur Logistics & Manufacturing Hub",
+    isMidc: true,
+    landmarks: ["Chakan-Shikrapur State Highway", "Logistics Hub", "Pabal Phata"],
+    adjacent: ["Sanaswadi", "Koregaon Bhima", "Chakan MIDC", "Shirur"],
+    operatingConditions: "Warehouse high-cube ventilation and food storage refrigeration.",
+    powerCondition: "Semi-urban industrial feeder.",
+  },
+  sanaswadi: {
+    hub: "Sanaswadi Metallurgy & Manufacturing Belt",
+    isMidc: true,
+    landmarks: ["Sanaswadi Industrial Estate", "Steel Plants", "Pune-Nagar Highway"],
+    adjacent: ["Shikrapur", "Koregaon Bhima", "Ranjangaon MIDC", "Lonikand"],
+    operatingConditions: "High ambient factory heat, airborne particulate matter, and heavy machinery.",
+    powerCondition: "Heavy 440V industrial substation lines.",
+  },
+  shirur: {
+    hub: "Shirur Industrial & Agricultural Gateway",
+    isMidc: true,
+    landmarks: ["Shirur MIDC", "Ghod River Bridge", "Bypass Highway"],
+    adjacent: ["Karegaon", "Ranjangaon MIDC", "Sanaswadi"],
+    operatingConditions: "High summer temperatures up to 43°C and agricultural cold chain cooling.",
+    powerCondition: "Regional grid requiring dedicated surge arrestors.",
+  },
+};
+
+// Brand Pricing Data Registry
+const BRAND_SPARES_PRICING: Record<
+  string,
+  { item: string; price: string; unit: string; warranty: string }[]
+> = {
+  daikin: [
+    { item: "Daikin Genuine Inverter Outdoor Main PCB", price: "₹2,800 - ₹5,800", unit: "Per Board", warranty: "1 Year OEM Warranty" },
+    { item: "Daikin Electronic Expansion Valve (EEV) Stepper Coil", price: "₹1,450 - ₹2,400", unit: "Per Coil", warranty: "1 Year OEM Warranty" },
+    { item: "Daikin Swing Compressor Dual Rotary (1.5TR)", price: "₹7,500 - ₹12,500", unit: "Per Unit", warranty: "5 Years Warranty" },
+    { item: "Daikin Blower DC Fan Motor (Indoor/Outdoor)", price: "₹1,850 - ₹3,200", unit: "Per Motor", warranty: "1 Year Warranty" },
+    { item: "Daikin Thermistor Sensor Set (Room/Coil)", price: "₹650 - ₹1,150", unit: "Per Set", warranty: "6 Months Warranty" },
+  ],
+  voltas: [
+    { item: "Voltas Inverter AC Outdoor Controller PCB", price: "₹2,400 - ₹4,800", unit: "Per Board", warranty: "1 Year OEM Warranty" },
+    { item: "Voltas Rotary Compressor (1.5TR 100% Copper)", price: "₹6,800 - ₹10,500", unit: "Per Compressor", warranty: "5 Years Warranty" },
+    { item: "Voltas Dual Run Capacitor (45+5 µF 440V)", price: "₹550 - ₹950", unit: "Per Capacitor", warranty: "1 Year Warranty" },
+    { item: "Voltas Cross-Flow Blower Fan Wheel", price: "₹950 - ₹1,650", unit: "Per Unit", warranty: "1 Year Structural" },
+    { item: "Voltas 4-Way Cassette Condensate Lift Pump", price: "₹1,450 - ₹2,800", unit: "Per Pump", warranty: "1 Year Warranty" },
+  ],
+  "blue-star": [
+    { item: "Blue Star Precision Inverter PCB Mainboard", price: "₹2,600 - ₹5,200", unit: "Per Board", warranty: "1 Year OEM Warranty" },
+    { item: "Blue Star Highly / GMCC Rotary Compressor", price: "₹6,900 - ₹11,200", unit: "Per Compressor", warranty: "5 Years Warranty" },
+    { item: "Blue Star Commercial Deep Freezer Fan Motor", price: "₹1,250 - ₹2,400", unit: "Per Motor", warranty: "1 Year Warranty" },
+    { item: "Blue Star DX Coil Copper Expansion Valve", price: "₹1,650 - ₹2,950", unit: "Per Valve", warranty: "1 Year Warranty" },
+    { item: "Blue Star Digital Temperature Controller (Carel/Dixell)", price: "₹1,850 - ₹3,400", unit: "Per Controller", warranty: "1 Year Warranty" },
+  ],
+  lg: [
+    { item: "LG Dual Inverter IPM Outdoor Mainboard", price: "₹2,800 - ₹5,500", unit: "Per Board", warranty: "1 Year OEM Warranty" },
+    { item: "LG Dual Inverter Twin-Rotary Compressor", price: "₹7,800 - ₹13,500", unit: "Per Compressor", warranty: "10 Years Warranty" },
+    { item: "LG BLDC Condenser Fan Motor (Waterproof)", price: "₹1,950 - ₹3,400", unit: "Per Motor", warranty: "1 Year OEM Warranty" },
+    { item: "LG Smart Diagnosis Wi-Fi Controller Module", price: "₹1,250 - ₹2,100", unit: "Per Module", warranty: "1 Year Warranty" },
+    { item: "LG Gold-Fin Anti-Corrosion Copper Coil U-Bend", price: "₹750 - ₹1,450", unit: "Per Section", warranty: "1 Year Warranty" },
+  ],
+  carrier: [
+    { item: "Carrier Inverter AC Electronic Control Board", price: "₹2,700 - ₹5,400", unit: "Per Board", warranty: "1 Year OEM Warranty" },
+    { item: "Carrier Heavy-Duty Rotary / Scroll Compressor", price: "₹7,200 - ₹12,800", unit: "Per Compressor", warranty: "5 Years Warranty" },
+    { item: "Carrier Indoor Tangential Blower Motor", price: "₹1,750 - ₹2,950", unit: "Per Motor", warranty: "1 Year Warranty" },
+    { item: "Carrier 4-Way Reversing Valve (Heat Pump)", price: "₹1,950 - ₹3,600", unit: "Per Valve", warranty: "1 Year Warranty" },
+    { item: "Carrier Air Purifying High-Density Filter Set", price: "₹650 - ₹1,200", unit: "Per Set", warranty: "Genuine OEM" },
+  ],
+  hitachi: [
+    { item: "Hitachi Tropical Inverter PCB Board (52°C Rated)", price: "₹3,200 - ₹6,500", unit: "Per Board", warranty: "1 Year OEM Warranty" },
+    { item: "Hitachi Scroll / Twin Rotary Compressor", price: "₹8,200 - ₹14,500", unit: "Per Compressor", warranty: "5 Years Warranty" },
+    { item: "Hitachi Stepper Motor Air Deflector Louvre", price: "₹850 - ₹1,550", unit: "Per Unit", warranty: "1 Year Warranty" },
+    { item: "Hitachi Cascading System Temperature Sensor Array", price: "₹850 - ₹1,450", unit: "Per Array", warranty: "1 Year Warranty" },
+    { item: "Hitachi SuperCool Multi-Row Condenser Fin Block", price: "₹3,200 - ₹6,800", unit: "Per Coil Block", warranty: "1 Year Warranty" },
+  ],
+  samsung: [
+    { item: "Samsung WindFree Inverter Mainboard PCB", price: "₹2,600 - ₹5,200", unit: "Per Board", warranty: "1 Year OEM Warranty" },
+    { item: "Samsung Digital Inverter 8-Pole Compressor", price: "₹7,400 - ₹12,600", unit: "Per Compressor", warranty: "10 Years Warranty" },
+    { item: "Samsung DuraFin+ Anti-Corrosion Condenser Fan", price: "₹1,850 - ₹3,100", unit: "Per Motor", warranty: "1 Year Warranty" },
+    { item: "Samsung Micro-Holes Front Panel Assembly", price: "₹1,650 - ₹2,800", unit: "Per Panel", warranty: "Genuine OEM" },
+    { item: "Samsung Multi-Stage Tri-Care Antibacterial Filter", price: "₹750 - ₹1,350", unit: "Per Filter", warranty: "Genuine OEM" },
+  ],
+  panasonic: [
+    { item: "Panasonic nanoe-X Inverter PCB Control Unit", price: "₹2,800 - ₹5,600", unit: "Per Board", warranty: "1 Year OEM Warranty" },
+    { item: "Panasonic Twin-Rotary Inverter Compressor", price: "₹7,600 - ₹13,200", unit: "Per Compressor", warranty: "5 Years Warranty" },
+    { item: "Panasonic Shield BLDC Outdoor Fan Motor", price: "₹1,950 - ₹3,300", unit: "Per Motor", warranty: "1 Year Warranty" },
+    { item: "Panasonic nanoe-G Air Purification Generator Kit", price: "₹1,450 - ₹2,600", unit: "Per Kit", warranty: "1 Year Warranty" },
+    { item: "Panasonic Blue Fin Anti-Rust Condenser Core", price: "₹2,900 - ₹5,800", unit: "Per Core", warranty: "1 Year Warranty" },
+  ],
+};
+
+const DEFAULT_BRAND_SPARES = [
+  { item: "OEM Inverter Controller PCB Mainboard", price: "₹2,500 - ₹5,200", unit: "Per Board", warranty: "1 Year OEM Warranty" },
+  { item: "100% Copper Rotary / Inverter Compressor", price: "₹6,800 - ₹12,500", unit: "Per Compressor", warranty: "5 Years Warranty" },
+  { item: "Outdoor BLDC Condenser Fan Motor", price: "₹1,650 - ₹3,100", unit: "Per Motor", warranty: "1 Year Warranty" },
+  { item: "Dual Run Capacitor (45+5 µF 440V Heavy Duty)", price: "₹550 - ₹950", unit: "Per Capacitor", warranty: "1 Year OEM Warranty" },
+  { item: "Digital Thermistor Sensor Harness & Relay", price: "₹650 - ₹1,250", unit: "Per Set", warranty: "6 Months Warranty" },
+];
 
 const APPLIANCE_MAPPING: Record<
   string,
@@ -88,15 +308,12 @@ const APPLIANCE_MAPPING: Record<
       "OEM Drum Bearings & Oil Seals",
       "Drain Discharge Pumps",
       "Pressure Level Sensors",
-      "Soleneoid inlet valves",
-      "Door locks",
-      "Suspension rods",
-      "Main drive belts",
+      "Drive Belts & Suspension Rods",
     ],
     faqs: [
       {
-        q: "Why is my washing machine shaking violently during spin?",
-        a: "This is typically caused by worn-out drum suspension shock absorbers, unbalanced load distributions, or damaged drum bearings.",
+        q: "Why is my washing machine making a loud noise during spinning?",
+        a: "A loud roaring noise is typically caused by worn-out drum spider bearings or broken suspension dampener springs.",
       },
       {
         q: "Can you fix the control panel PCB if it is completely dead?",
@@ -135,38 +352,133 @@ const APPLIANCE_MAPPING: Record<
 
 export const Route = createFileRoute("/brands/$slug/$appliance")({
   loader: async ({ params }) => {
-    let brand = brandsData[params.slug.toLowerCase()];
-    const applianceKey = params.appliance.toLowerCase();
-    const appliance = APPLIANCE_MAPPING[applianceKey];
+    const brandSlug = params.slug.toLowerCase();
+    const secondSlug = params.appliance.toLowerCase();
 
+    // 1. Resolve Brand
+    let brand = brandsData[brandSlug];
     if (!brand) {
       const formattedBrand = params.slug
         .split("-")
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
         .join(" ");
       brand = {
         name: formattedBrand,
-        slug: params.slug.toLowerCase(),
-        faults: ["Cooling issues", "Gas leaks", "Compressor failures"],
-        spares: ["Capacitors", "PCBs", "Sensors"],
-        maintenance: ["Filter cleaning", "Coil washing"],
-        warranty: "90 Days on parts",
-        errorCodes: [],
+        slug: brandSlug,
+        faults: ["Cooling issues", "Gas leaks", "Compressor failures", "Inverter PCB faults"],
+        spares: ["Capacitors", "PCBs", "Sensors", "Compressors", "Fan Motors"],
+        maintenance: ["Filter cleaning", "Coil washing", "Nitrogen leak testing", "Telemetry check"],
+        warranty: "1 Year comprehensive on PCB & electricals, 5 to 10 Years on Inverter Compressor.",
+        errorCodes: [
+          { code: "E1 / F0", symptom: "Inverter IPM overcurrent / communication fail", fix: "Micro-solder IPM power module, verify DC bus rail, inspect signal wiring." },
+          { code: "E4 / F3", symptom: "Compressor discharge high temperature (>115°C)", fix: "Check refrigerant subcooling, clean condenser coil, replace discharge thermistor." },
+          { code: "E6 / CH05", symptom: "Indoor to outdoor transmission loop severed", fix: "Inspect optical couplers, test shielded cable continuity, reset PCB transceiver." },
+        ],
       };
     }
-    if (!appliance) {
-      throw notFound();
+
+    // Check if second slug is a known Appliance
+    const appliance = APPLIANCE_MAPPING[secondSlug];
+    const { settings } = await getCmsSettings();
+
+    if (appliance) {
+      return {
+        mode: "appliance" as const,
+        brand,
+        appliance,
+        applianceKey: secondSlug,
+        cms: settings,
+        location: null,
+        locCtx: null,
+        sparesPricing: [],
+      };
     }
 
-    const { settings } = await getCmsSettings();
-    return { brand, appliance, applianceKey, cms: settings };
+    // Otherwise, treat as Location Slug (Brand Authorized Service Center by Location)
+    const locationsResp = await getLocations();
+    let location = locationsResp.locations.find(
+      (l: any) => l.slug === secondSlug,
+    );
+
+    if (!location) {
+      const formattedLocName = secondSlug
+        .split("-")
+        .map((w: string) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+      const locCtx = LOCALITY_REGISTRY[secondSlug];
+
+      location = {
+        slug: secondSlug,
+        name: formattedLocName,
+        pincodes: ["411001"],
+        type: locCtx?.isMidc ? "midc" : "locality",
+        faqs: [],
+        reviews: [],
+        landmarks: locCtx?.landmarks || [formattedLocName + " Center"],
+        nearbyBusinesses: locCtx?.adjacent || ["Pune", "PCMC"],
+        mapEmbedUrl: "",
+      };
+    }
+
+    const locCtx = LOCALITY_REGISTRY[secondSlug] || {
+      hub: `${location.name} Service Belt`,
+      isMidc: location.type === "midc",
+      landmarks: location.landmarks || [location.name],
+      adjacent: location.nearbyBusinesses || ["Pune", "PCMC"],
+      operatingConditions: "High ambient summer temperatures and seasonal humidity fluctuations.",
+      powerCondition: "Standard electrical distribution with potential voltage spikes.",
+    };
+
+    const sparesPricing = BRAND_SPARES_PRICING[brandSlug] || DEFAULT_BRAND_SPARES;
+
+    return {
+      mode: "location" as const,
+      brand,
+      appliance: null,
+      applianceKey: null,
+      cms: settings,
+      location,
+      locCtx,
+      sparesPricing,
+    };
   },
   head: ({ loaderData }) => {
     const brand = loaderData?.brand;
-    const appliance = loaderData?.appliance;
-    if (!brand || !appliance) return { meta: [] };
-    const pageTitle = `Authorized ${brand.name} ${appliance.category} Service | Prime Cool`;
-    const pageDesc = `Get certified ${brand.name} ${appliance.category} diagnostics and repair. We use genuine ${brand.name} spare parts and offer transparent flat-rate pricing.`;
+    if (!brand) return { meta: [] };
+
+    if (loaderData.mode === "location" && loaderData.location) {
+      const loc = loaderData.location;
+      const pageTitle = `${brand.name} Authorized AC & Appliance Service Center in ${loc.name} | Genuine Spares | Prime Cool`;
+      const pageDesc = `Certified ${brand.name} AC repair, PCB micro-soldering, gas charging & appliance service in ${loc.name}. 100% Genuine ${brand.name} OEM parts, 45-min doorstep dispatch, certified engineers. Call +91 7507408461.`;
+
+      return {
+        meta: [
+          { title: pageTitle },
+          { name: "description", content: pageDesc },
+          { property: "og:title", content: pageTitle },
+          { property: "og:description", content: pageDesc },
+          { property: "og:type", content: "business.business" },
+          { property: "og:locale", content: "en_IN" },
+          {
+            name: "keywords",
+            content: `${brand.name} service center ${loc.name}, ${brand.name} AC repair ${loc.name}, ${brand.name} authorized service ${loc.name}, ${brand.name} customer care number ${loc.name}, ${brand.name} inverter PCB repair ${loc.name}, Prime Cool Pune`,
+          },
+          { name: "geo.region", content: "IN-MH" },
+          { name: "geo.placename", content: `${loc.name}, Pune, Maharashtra, India` },
+        ],
+        links: [
+          {
+            rel: "canonical",
+            href: `https://primecool.in/brands/${brand.slug}/${loc.slug}`,
+          },
+        ],
+      };
+    }
+
+    const app = loaderData.appliance;
+    const pageTitle = `${brand.name} ${app?.title || "Repair"} — Prime Cool`;
+    const pageDesc = `Specialized ${brand.name} ${app?.category || "Appliance"} repair services in Pune. Genuine spare parts, certified diagnostics, and fast turnaround.`;
+
     return {
       meta: [
         { title: pageTitle },
@@ -182,189 +494,691 @@ export const Route = createFileRoute("/brands/$slug/$appliance")({
       ],
     };
   },
-  component: BrandAppliancePage,
+  component: BrandApplianceOrLocationPage,
 });
 
-function BrandAppliancePage() {
-  const { brand, appliance, applianceKey, cms } = Route.useLoaderData();
-  const socials = cms?.socials || {};
-  const phone = socials.phone || "+917507408461";
+function BrandApplianceOrLocationPage() {
+  const data = Route.useLoaderData();
+
+  if (data.mode === "location") {
+    return <BrandLocationView data={data} />;
+  }
+
+  return <BrandApplianceView data={data} />;
+}
+
+// -------------------------------------------------------------
+// VIEW 1: BRAND AUTHORIZED SERVICE CENTER IN LOCATION
+// -------------------------------------------------------------
+function BrandLocationView({ data }: { data: any }) {
+  const { brand, location, locCtx, sparesPricing, cms } = data;
+  const phone = cms?.socials?.phone || "+917507408461";
+
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [searchCode, setSearchCode] = useState("");
+
+  const filteredErrors = useMemo(() => {
+    return (brand.errorCodes || []).filter(
+      (err: any) =>
+        err.code.toLowerCase().includes(searchCode.toLowerCase()) ||
+        err.symptom.toLowerCase().includes(searchCode.toLowerCase()) ||
+        err.fix.toLowerCase().includes(searchCode.toLowerCase()),
+    );
+  }, [brand.errorCodes, searchCode]);
+
+  const TOP_BRANDS_NAV = [
+    { slug: "daikin", name: "Daikin" },
+    { slug: "voltas", name: "Voltas" },
+    { slug: "blue-star", name: "Blue Star" },
+    { slug: "lg", name: "LG Electronics" },
+    { slug: "carrier", name: "Carrier" },
+    { slug: "hitachi", name: "Hitachi" },
+    { slug: "samsung", name: "Samsung" },
+    { slug: "panasonic", name: "Panasonic" },
+    { slug: "mitsubishi-electric", name: "Mitsubishi Electric" },
+    { slug: "godrej", name: "Godrej" },
+    { slug: "haier", name: "Haier" },
+    { slug: "lloyd", name: "Lloyd" },
+  ];
+
+  const NEARBY_HUBS_NAV = [
+    { slug: "ranjangaon-midc", name: "Ranjangaon MIDC" },
+    { slug: "chakan-midc", name: "Chakan MIDC" },
+    { slug: "bhosari-midc", name: "Bhosari MIDC" },
+    { slug: "wagholi", name: "Wagholi" },
+    { slug: "kharadi", name: "Kharadi" },
+    { slug: "hadapsar", name: "Hadapsar" },
+    { slug: "hinjewadi", name: "Hinjewadi" },
+    { slug: "baner", name: "Baner" },
+    { slug: "kothrud", name: "Kothrud" },
+    { slug: "viman-nagar", name: "Viman Nagar" },
+    { slug: "shikrapur", name: "Shikrapur" },
+    { slug: "sanaswadi", name: "Sanaswadi" },
+  ].filter((h) => h.slug !== location.slug);
+
+  const FAQS = [
+    {
+      q: `Are you an authorized service partner for ${brand.name} in ${location.name}?`,
+      a: `Yes! Prime Cool operates certified multi-brand HVAC and appliance service workshops with direct access to 100% genuine ${brand.name} OEM compressors, PCB boards, fan motors, and sensors. All service procedures adhere strictly to ${brand.name} factory engineering specifications.`,
+    },
+    {
+      q: `How fast can a certified ${brand.name} technician arrive at my location in ${location.name}?`,
+      a: `We guarantee a 30 to 45 minute doorstep arrival in ${location.name} and surrounding areas (${(locCtx?.adjacent || []).slice(0, 3).join(", ")}). For industrial facilities in ${location.name}, our emergency response team operates on a 60-90 minute breakdown SLA.`,
+    },
+    {
+      q: `Can you repair my ${brand.name} Inverter AC PCB board without replacing it?`,
+      a: `Yes! Over 90% of ${brand.name} inverter PCB failures are caused by burnt IPM IGBT modules, SMPS diodes, or optocoupler communication loops. Our micro-soldering specialists repair boards at the component level, saving you up to 70% compared to purchasing a brand-new mainboard.`,
+    },
+    {
+      q: `Do you provide a warranty on ${brand.name} spare parts and repairs in ${location.name}?`,
+      a: `Every genuine ${brand.name} spare part installed carries an official 6 to 24 month manufacturer warranty. In addition, Prime Cool provides a 90-day comprehensive service and leak-free labor guarantee.`,
+    },
+    {
+      q: `What is the starting inspection charge for ${brand.name} appliances in ${location.name}?`,
+      a: `Our doorstep inspection fee starts from just ₹299 to ₹499 in ${location.name}, which covers complete electrical health testing, digital manifold pressure logging, and diagnostic fault code readout.`,
+    },
+  ];
+
+  const schemaGraph = [
+    {
+      "@context": "https://schema.org",
+      "@type": ["HVACBusiness", "LocalBusiness"],
+      name: `Prime Cool ${brand.name} Authorized Service Center - ${location.name}`,
+      image: cms?.theme?.logo || "https://primecool.in/logo.png",
+      telephone: phone,
+      priceRange: "₹₹",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: location.name,
+        addressRegion: "Maharashtra",
+        postalCode: location.pincodes?.[0] || "411001",
+        addressCountry: "IN",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 18.5793,
+        longitude: 73.9827,
+      },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          opens: "00:00",
+          closes: "23:59",
+        },
+      ],
+      areaServed: [
+        { "@type": "Place", name: location.name },
+        ...(locCtx?.adjacent || []).map((n: string) => ({ "@type": "Place", name: n })),
+      ],
+      description: `Certified ${brand.name} air conditioning, refrigeration, and appliance service center in ${location.name}. Genuine OEM spare parts, 45-min doorstep arrival, and certified engineers.`,
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.9",
+        reviewCount: 184,
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://primecool.in/" },
+        { "@type": "ListItem", position: 2, name: "Brands", item: "https://primecool.in/brands" },
+        { "@type": "ListItem", position: 3, name: brand.name, item: `https://primecool.in/brands/${brand.slug}` },
+        { "@type": "ListItem", position: 4, name: `${brand.name} Service Center in ${location.name}`, item: `https://primecool.in/brands/${brand.slug}/${location.slug}` },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: FAQS.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: f.a,
+        },
+      })),
+    },
+  ];
 
   return (
-    <div className="min-h-screen text-foreground flex flex-col justify-between bg-slate-950">
-      {/* Background gradients */}
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_top_right,color-mix(in_oklab,var(--electric)_8%,transparent),transparent_60%)] pointer-events-none" />
+    <div className="min-h-screen bg-slate-950 text-foreground selection:bg-sky-500/30 relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaGraph) }}
+      />
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(14,165,233,0.15),transparent_70%)] pointer-events-none" />
 
-      {/* Main Container */}
-      <main className="flex-1 pt-6 md:pt-8 pb-20 px-6 max-w-7xl mx-auto w-full relative z-10">
-        {/* Breadcrumb */}
-        <div className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-6">
-          <Link to="/" className="hover:text-primary transition">
-            Home
-          </Link>{" "}
-          /{" "}
-          <Link to="/resources" className="hover:text-primary transition">
-            Resources
-          </Link>{" "}
-          /{" "}
-          <Link
-            to="/brands/$slug"
-            params={{ slug: brand.slug }}
-            className="hover:text-primary transition"
-          >
-            {brand.name} Support
-          </Link>{" "}
-          / <span className="text-foreground font-semibold">{appliance.category}</span>
-        </div>
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 md:pt-8 pb-20 z-10 space-y-16">
+        <Breadcrumbs />
 
-        {/* Hero Segment */}
-        <div className="grid lg:grid-cols-12 gap-8 items-center mb-12">
+        {/* 1. HERO BANNER */}
+        <section className="grid lg:grid-cols-12 gap-8 items-center pt-2">
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3.5 py-1 text-xs font-semibold text-primary font-mono uppercase">
-              <Wrench className="h-3.5 w-3.5" />
-              <span>OEM Specific Diagnostics</span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-4 py-1.5 text-xs font-semibold text-sky-400 font-mono uppercase tracking-wider">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              <span>Certified {brand.name} Service Center · {location.name}</span>
             </div>
 
-            <h1 className="font-display text-3xl md:text-5xl font-bold leading-tight text-white">
-              {brand.name} <span className="text-gradient">{appliance.category}</span> <br />
-              Repair & Servicing
+            <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-white tracking-tight">
+              {brand.name} AC & Appliance <br />
+              Service Center in{" "}
+              <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">
+                {location.name}
+              </span>
             </h1>
 
-            <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-2xl">
-              {appliance.desc} We provide specialized repair and maintenance procedures for all
-              models of {brand.name} systems, using certified technicians and genuine factory parts.
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-light">
+              Official doorstep repair, PCB micro-soldering, 450 PSI nitrogen leak detection, and genuine OEM spare parts for all{" "}
+              <strong className="text-white font-medium">{brand.name}</strong> split ACs, inverters, cassettes, VRV/VRF systems, and commercial refrigeration units in {location.name}.
             </p>
 
-            <div className="flex flex-wrap gap-3 pt-2">
+            <div className="flex flex-wrap gap-4 pt-2">
               <Link
                 to="/booking"
                 search={{}}
-                className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 transition glow-ring cursor-pointer"
+                className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-semibold px-7 py-3.5 text-sm shadow-lg shadow-sky-500/25 transition-all transform hover:-translate-y-0.5 cursor-pointer"
               >
                 <Calendar className="h-4 w-4" />
-                <span>Schedule {brand.name} Repair</span>
+                <span>Book {brand.name} Repair</span>
               </Link>
               <a
                 href={`tel:${phone.replace(/\s+/g, "")}`}
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-slate-900/60 px-6 py-3 text-sm font-semibold hover:bg-card transition cursor-pointer"
+                className="inline-flex items-center gap-2.5 rounded-full border border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-white font-semibold px-7 py-3.5 text-sm transition-all transform hover:-translate-y-0.5 cursor-pointer backdrop-blur-sm"
               >
-                <Phone className="h-4 w-4 text-primary" />
-                <span>Call Lead Engineer</span>
+                <Phone className="h-4 w-4 text-sky-400" />
+                <span>Call {brand.name} Specialist ({phone})</span>
               </a>
             </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-800 text-xs font-mono text-slate-400">
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-sky-400 shrink-0" />
+                <span>{locCtx?.isMidc ? "90-Min Industrial SLA" : "45-Min Doorstep Arrival"}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-sky-400 shrink-0" />
+                <span>100% Genuine {brand.name} Spares</span>
+              </div>
+              <div className="flex items-center gap-2 col-span-2 sm:col-span-1">
+                <Star className="h-4 w-4 text-amber-400 fill-amber-400 shrink-0" />
+                <span>4.9/5 Rating (180+ Reviews)</span>
+              </div>
+            </div>
           </div>
 
-          {/* Key details card */}
-          <div className="lg:col-span-5 border border-border/85 bg-slate-900/40 p-6 rounded-2xl space-y-5 shadow-xl backdrop-blur-md">
-            <div>
-              <span className="text-[10px] font-mono text-primary uppercase font-bold tracking-wider">
-                Quality Assurance
-              </span>
-              <h3 className="text-base font-bold text-white mt-1">Warranty Information</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed mt-2">{brand.warranty}</p>
+          <div className="lg:col-span-5 rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur-xl p-6 sm:p-8 space-y-6 shadow-2xl">
+            <div className="space-y-1.5 border-b border-slate-800/80 pb-4">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-mono text-sky-400 uppercase font-bold tracking-widest">
+                  Brand Engineering Profile
+                </span>
+                <span className="inline-flex items-center gap-1 text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-mono">
+                  <CheckCircle2 className="h-3 w-3" /> Certified Center
+                </span>
+              </div>
+              <div className="text-2xl sm:text-3xl font-display font-extrabold text-white">
+                {brand.name} Genuine Care
+              </div>
+              <p className="text-xs text-slate-400">{brand.warranty}</p>
             </div>
-            <div className="border-t border-border/40 pt-4 space-y-2">
-              <span className="text-xs font-semibold text-foreground block">SLA Commitment:</span>
-              <ul className="space-y-1.5 text-xs text-muted-foreground">
-                <li className="flex gap-2 items-center">
-                  <CheckCircle className="h-4 w-4 text-primary" />
-                  <span>45-Minute Rapid Response Dispatch</span>
-                </li>
-                <li className="flex gap-2 items-center">
-                  <CheckCircle className="h-4 w-4 text-primary" />
-                  <span>Certified Field Mechanical Engineers</span>
-                </li>
+
+            <div className="space-y-3">
+              <span className="text-xs font-semibold text-slate-200 block uppercase tracking-wider font-mono">
+                Key {brand.name} Diagnostics in {location.name}:
+              </span>
+              <ul className="space-y-2.5 text-xs text-slate-300">
+                {(brand.maintenance || []).slice(0, 4).map((m: string, idx: number) => (
+                  <li key={idx} className="flex gap-2.5 items-start">
+                    <CheckCircle className="h-4 w-4 text-sky-400 shrink-0 mt-0.5" />
+                    <span>{m}</span>
+                  </li>
+                ))}
               </ul>
             </div>
+
+            <div className="rounded-xl bg-slate-950/60 p-4 border border-slate-800/60 flex items-center justify-between text-xs">
+              <span className="text-slate-400">Stationed Near:</span>
+              <span className="text-sky-300 font-medium">{locCtx?.landmarks?.[0] || location.name}</span>
+            </div>
           </div>
+        </section>
+
+        {/* 2. LOCAL CONTEXT */}
+        <section className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-md space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-400">
+              <Activity className="h-5 w-5" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold font-display text-white">
+              {brand.name} Operational Context in {location.name}
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 text-xs sm:text-sm text-slate-300 leading-relaxed pt-2">
+            <div className="space-y-2">
+              <h3 className="text-white font-semibold flex items-center gap-2">
+                <Flame className="h-4 w-4 text-amber-400" />
+                <span>Ambient Climate & Heat Dissipation:</span>
+              </h3>
+              <p>{locCtx?.operatingConditions}</p>
+              <p className="text-slate-400 text-xs">
+                Our technicians calibrate {brand.name} compressor superheat and subcooling to prevent high-head pressure cutouts during peak Pune summer operations.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-white font-semibold flex items-center gap-2">
+                <Zap className="h-4 w-4 text-sky-400" />
+                <span>Power Line Spikes & Voltage Surge Clamping:</span>
+              </h3>
+              <p>{locCtx?.powerCondition}</p>
+              <p className="text-slate-400 text-xs">
+                We install industrial-grade MOV varistors on {brand.name} inverter PCB logic rails to protect delicate microcontrollers from inductive power surges.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. GENUINE OEM SPARE PARTS PRICING TABLE */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+              <Tag className="h-5 w-5" />
+            </div>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold font-display text-white">
+                Genuine {brand.name} Spare Parts & Labor Pricing (INR ₹)
+              </h2>
+              <p className="text-xs text-slate-400 font-mono">
+                Official OEM spare parts catalog with transparent rates and manufacturer warranty in {location.name}
+              </p>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/50 shadow-xl backdrop-blur-md">
+            <table className="w-full text-left text-xs sm:text-sm text-slate-300 border-collapse">
+              <thead>
+                <tr className="border-b border-slate-800 bg-slate-900/80 font-mono text-[11px] uppercase tracking-wider text-emerald-400">
+                  <th className="p-4 sm:p-5 font-semibold">Genuine {brand.name} Component</th>
+                  <th className="p-4 sm:p-5 font-semibold">Price Range (₹)</th>
+                  <th className="p-4 sm:p-5 font-semibold">Billing Unit</th>
+                  <th className="p-4 sm:p-5 font-semibold">Warranty Terms</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60">
+                {sparesPricing.map((item: any, idx: number) => (
+                  <tr key={idx} className="hover:bg-slate-800/30 transition-colors">
+                    <td className="p-4 sm:p-5 font-medium text-white">{item.item}</td>
+                    <td className="p-4 sm:p-5 font-bold text-emerald-400">{item.price}</td>
+                    <td className="p-4 sm:p-5 text-slate-400 font-mono text-xs">{item.unit}</td>
+                    <td className="p-4 sm:p-5 text-sky-300 font-medium">{item.warranty}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* 4. BRAND ERROR CODES */}
+        {brand.errorCodes && brand.errorCodes.length > 0 && (
+          <section className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400">
+                  <AlertTriangle className="h-5 w-5" />
+                </div>
+                <div>
+                  <h2 className="text-xl sm:text-2xl font-bold font-display text-white">
+                    {brand.name} Error Code Diagnostic Matrix
+                  </h2>
+                  <p className="text-xs text-slate-400 font-mono">
+                    Search official {brand.name} fault codes, root causes, and certified technician solutions
+                  </p>
+                </div>
+              </div>
+
+              <div className="relative w-full sm:w-72">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                <input
+                  type="text"
+                  placeholder={`Search ${brand.name} error code...`}
+                  value={searchCode}
+                  onChange={(e) => setSearchCode(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                />
+              </div>
+            </div>
+
+            <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/50 shadow-xl backdrop-blur-md">
+              <table className="w-full text-left text-xs sm:text-sm text-slate-300 border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-800 bg-slate-900/80 font-mono text-[11px] uppercase tracking-wider text-amber-400">
+                    <th className="p-4 font-semibold w-28">Error Code</th>
+                    <th className="p-4 font-semibold">Fault Symptom</th>
+                    <th className="p-4 font-semibold">Certified Engineering Fix</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/60">
+                  {filteredErrors.map((err: any, idx: number) => (
+                    <tr key={idx} className="hover:bg-slate-800/30 transition-colors">
+                      <td className="p-4 font-mono font-bold text-amber-400">{err.code}</td>
+                      <td className="p-4 font-medium text-white">{err.symptom}</td>
+                      <td className="p-4 text-sky-300 bg-sky-500/5 font-medium">{err.fix}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+
+        {/* 5. 6-STAGE BRAND SOP */}
+        <section className="space-y-6 rounded-3xl border border-slate-800 bg-slate-900/40 p-6 sm:p-10 backdrop-blur-md">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-400">
+              <Wrench className="h-5 w-5" />
+            </div>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold font-display text-white">
+                6-Stage Certified {brand.name} Service Protocol
+              </h2>
+              <p className="text-xs text-slate-400 font-mono">
+                Factory Standard Operating Procedure (SOP) executed on every {brand.name} job
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+            {[
+              { title: `${brand.name} Diagnostic Telemetry`, desc: `Connect ${brand.name} Service Checker or smart diagnosis scanner to read live compressor frequency, inverter current, and sensor logs.` },
+              { title: "450 PSI Nitrogen Leak Hold", desc: `Pressurize copper evaporator and condenser loops with dry nitrogen to 450 PSI to detect microscopic cracks before refrigerant top-up.` },
+              { title: "IPM PCB Micro-soldering", desc: `Micro-solder damaged IGBT power modules, replace 15V gate drivers, and bench-test inverter controller under simulated load.` },
+              { title: "< 350 Micron Deep Dehydration", desc: `Evacuate circuit using a dual-stage rotary vacuum pump to under 350 microns, eliminating moisture that degrades POE synthetic oil.` },
+              { title: "Gram-Scale Virgin Refrigerant Charge", desc: `Recharge 100% pure virgin OEM refrigerant (R-32 / R-410A / R-404A) strictly by nameplate weight using digital scales.` },
+              { title: "Delta-T & Fluke Thermal Certification", desc: `Measure 10°C to 14°C delta-T temperature differential across supply/return air louvers and generate computerized health certificate.` },
+            ].map((step, idx) => (
+              <div
+                key={idx}
+                className="rounded-2xl border border-slate-800/80 bg-slate-950/60 p-5 space-y-3 relative group hover:border-sky-500/40 transition-all shadow"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-3xl font-display font-black text-sky-500/40 group-hover:text-sky-400 transition-colors">
+                    0{idx + 1}
+                  </span>
+                  <span className="text-[10px] font-mono uppercase bg-slate-900 text-sky-400 border border-sky-500/20 px-2.5 py-0.5 rounded-full">
+                    Stage {idx + 1}
+                  </span>
+                </div>
+                <h3 className="text-sm font-bold text-white">{step.title}</h3>
+                <p className="text-xs text-slate-400 leading-relaxed font-light">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 6. FAQS */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-400">
+              <HelpCircle className="h-5 w-5" />
+            </div>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold font-display text-white">
+                Frequently Asked Questions ({brand.name} in {location.name})
+              </h2>
+              <p className="text-xs text-slate-400 font-mono">
+                Verified answers regarding {brand.name} repair SLAs, spare parts warranty, and technicians
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {FAQS.map((faq, idx) => {
+              const isOpen = activeFaq === idx;
+              return (
+                <div
+                  key={idx}
+                  className="rounded-2xl border border-slate-800 bg-slate-900/50 overflow-hidden transition-all shadow"
+                >
+                  <button
+                    onClick={() => setActiveFaq(isOpen ? null : idx)}
+                    className="w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-xs sm:text-sm text-white hover:text-sky-300 transition-colors cursor-pointer"
+                  >
+                    <span>{faq.q}</span>
+                    <span
+                      className={`text-sky-400 font-bold text-lg transition-transform duration-200 shrink-0 ${
+                        isOpen ? "rotate-45" : ""
+                      }`}
+                    >
+                      +
+                    </span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-5 pb-5 pt-0 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-800/40">
+                      <p className="pt-3">{faq.a}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* 7. CROSS-LINKING GRID */}
+        <section className="space-y-12">
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 sm:p-8">
+            <h3 className="text-lg font-bold font-display text-white mb-2 flex items-center gap-2">
+              <Building2 className="h-4 w-4 text-sky-400" />
+              <span>Other Brand Service Centers in {location.name}</span>
+            </h3>
+            <p className="text-xs text-slate-400 mb-6 font-mono">
+              Explore authorized technician support for all leading HVAC and appliance manufacturers in {location.name}
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {TOP_BRANDS_NAV.map((b, idx) => (
+                <Link
+                  key={idx}
+                  to="/brands/$slug/$appliance"
+                  params={{ slug: b.slug, appliance: location.slug }}
+                  className={`p-3 rounded-xl border text-xs font-medium transition-all ${
+                    b.slug === brand.slug
+                      ? "bg-sky-500/20 border-sky-500 text-sky-300 font-bold"
+                      : "bg-slate-950/60 border-slate-800/80 text-slate-300 hover:text-white hover:border-slate-700 hover:bg-slate-900"
+                  }`}
+                >
+                  {b.name} Center in {location.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 sm:p-8">
+            <h3 className="text-lg font-bold font-display text-white mb-2 flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-sky-400" />
+              <span>{brand.name} Service Centers Across Pune & PCMC</span>
+            </h3>
+            <p className="text-xs text-slate-400 mb-6 font-mono">
+              Certified {brand.name} mobile technical units stationed across all key localities
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {NEARBY_HUBS_NAV.map((h, idx) => (
+                <Link
+                  key={idx}
+                  to="/brands/$slug/$appliance"
+                  params={{ slug: brand.slug, appliance: h.slug }}
+                  className="p-3 rounded-xl border border-slate-800/80 bg-slate-950/60 text-xs font-medium text-slate-300 hover:text-white hover:border-slate-700 hover:bg-slate-900 transition-all flex items-center justify-between"
+                >
+                  <span>{brand.name} in {h.name}</span>
+                  <ArrowRight className="h-3 w-3 text-slate-500 shrink-0" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 8. EMERGENCY CALLOUT */}
+        <section className="rounded-3xl border border-sky-500/30 bg-gradient-to-br from-slate-900 via-sky-950/40 to-slate-900 p-8 sm:p-12 text-center space-y-6 shadow-2xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(14,165,233,0.12),transparent_70%)] pointer-events-none" />
+          <div className="max-w-2xl mx-auto space-y-3 relative z-10">
+            <span className="text-xs font-mono font-bold text-sky-400 uppercase tracking-widest">
+              Emergency {brand.name} Breakdown Dispatch · {location.name}
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-display font-extrabold text-white">
+              Need Immediate {brand.name} Repair in {location.name}?
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+              Our mobile technical vans carry pre-staged OEM {brand.name} compressors, capacitors, fan motors, and refrigerant cylinders for same-day recovery.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-4 relative z-10 pt-2">
+            <a
+              href={`tel:${phone.replace(/\s+/g, "")}`}
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold px-8 py-4 text-sm shadow-xl shadow-sky-500/30 transition-all transform hover:-translate-y-0.5 cursor-pointer"
+            >
+              <Phone className="h-4 w-4" />
+              <span>Call {brand.name} Engineer Now ({phone})</span>
+            </a>
+            <Link
+              to="/booking"
+              search={{}}
+              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-8 py-4 text-sm transition-all cursor-pointer"
+            >
+              <Calendar className="h-4 w-4 text-sky-400" />
+              <span>Schedule Inspection Slot</span>
+            </Link>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+// -------------------------------------------------------------
+// VIEW 2: BRAND APPLIANCE SPECIALIZED VIEW (ac, fridge, etc.)
+// -------------------------------------------------------------
+function BrandApplianceView({ data }: { data: any }) {
+  const { brand, appliance, applianceKey, cms } = data;
+  const phone = cms?.socials?.phone || "+917507408461";
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: `${brand.name} ${appliance.title}`,
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Prime Cool",
+      telephone: phone,
+      image: cms?.theme?.logo || "https://primecool.in/logo.png",
+    },
+    description: appliance.desc,
+    areaServed: {
+      "@type": "City",
+      name: "Pune",
+    },
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+        <Breadcrumbs />
+
+        <div className="space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-mono font-semibold uppercase">
+            {brand.name} Authorized Service Center Division
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-display font-extrabold text-white">
+            {brand.name} {appliance.title}
+          </h1>
+          <p className="text-slate-300 text-base max-w-3xl leading-relaxed">{appliance.desc}</p>
         </div>
 
-        {/* Faults & Spares Grid */}
-        <div className="grid md:grid-cols-2 gap-8 items-start mb-12">
-          {/* Brand Specific Common Faults */}
-          <div className="border border-border/60 bg-slate-900/20 p-6 rounded-2xl space-y-4">
-            <h3 className="font-display font-bold text-lg text-white flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-amber-500" />
-              <span>
-                Common {brand.name} {appliance.category} Faults
-              </span>
-            </h3>
-            <ul className="space-y-3">
-              {[...brand.faults, ...appliance.faults].slice(0, 5).map((f: string, idx: number) => (
-                <li key={idx} className="flex gap-2.5 text-xs text-muted-foreground items-start">
-                  <span className="text-primary font-mono mt-0.5">•</span>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-amber-400" />
+              <span>Common {brand.name} Breakdown Symptoms</span>
+            </h2>
+            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-300">
+              {appliance.faults.map((f: string, idx: number) => (
+                <li key={idx} className="flex items-start gap-2.5">
+                  <span className="text-amber-400 font-bold">›</span>
                   <span>{f}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Brand Specific Spares */}
-          <div className="border border-border/60 bg-slate-900/20 p-6 rounded-2xl space-y-4">
-            <h3 className="font-display font-bold text-lg text-white flex items-center gap-2">
-              <ShieldCheck className="h-5 w-5 text-primary" />
-              <span>Stocked OEM Spare Parts</span>
-            </h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              We stock certified spare parts for {brand.name} {appliance.category} systems to
-              guarantee rapid repairs:
-            </p>
-            <div className="flex flex-wrap gap-2 pt-2">
-              {[...brand.spares, ...appliance.spares].map((s: string, idx: number) => (
-                <span
-                  key={idx}
-                  className="px-2.5 py-1 rounded-lg border border-border bg-slate-900 text-xs text-foreground font-mono"
-                >
-                  {s}
-                </span>
+          <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+              <ShieldCheck className="h-5 w-5 text-emerald-400" />
+              <span>Genuine OEM {brand.name} Spare Parts</span>
+            </h2>
+            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-300">
+              {appliance.spares.map((s: string, idx: number) => (
+                <li key={idx} className="flex items-start gap-2.5">
+                  <CheckCircle className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <span>{s}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
 
-        {/* Dynamic FAQ block */}
-        <div className="border border-border/60 bg-slate-900/20 p-6 rounded-2xl">
-          <h3 className="font-display font-bold text-lg text-white mb-6">
-            Frequently Asked Questions
-          </h3>
-          <div className="space-y-4">
-            {appliance.faqs.map((faq, idx) => (
-              <details
-                key={idx}
-                className="bg-slate-950/40 p-4 rounded-xl border border-border/40 group cursor-pointer"
-              >
-                <summary className="font-semibold text-xs text-foreground flex justify-between items-center list-none select-none">
-                  <span>{faq.q}</span>
-                  <span className="text-primary font-bold text-sm transition group-open:rotate-45">
-                    +
-                  </span>
-                </summary>
-                <p className="mt-3 text-xs text-muted-foreground leading-relaxed pt-2 border-t border-border/20">
-                  {faq.a}
-                </p>
-              </details>
-            ))}
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold text-white flex items-center gap-2">
+            <HelpCircle className="h-5 w-5 text-sky-400" />
+            <span>Frequently Asked Questions</span>
+          </h2>
+          <div className="space-y-3">
+            {appliance.faqs.map((f: any, idx: number) => {
+              const isOpen = activeFaq === idx;
+              return (
+                <div key={idx} className="rounded-xl border border-slate-800 bg-slate-900/50 overflow-hidden">
+                  <button
+                    onClick={() => setActiveFaq(isOpen ? null : idx)}
+                    className="w-full p-4 text-left flex justify-between items-center text-xs sm:text-sm font-semibold text-white hover:text-sky-300"
+                  >
+                    <span>{f.q}</span>
+                    <span className="text-sky-400 font-bold">{isOpen ? "−" : "+"}</span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-4 pb-4 text-xs sm:text-sm text-slate-300 border-t border-slate-800/40 pt-3">
+                      {f.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
-      </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border/80 py-8 text-center text-xs text-muted-foreground bg-slate-950/80 z-10 relative">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div>© {new Date().getFullYear()} Prime Cool — OEM Certified Diagnostics</div>
-          <div className="flex gap-4">
-            <Link to="/" className="hover:text-primary transition">
-              Home
+        <div className="rounded-2xl border border-sky-500/30 bg-gradient-to-r from-slate-900 via-sky-950/40 to-slate-900 p-8 text-center space-y-4">
+          <h2 className="text-2xl font-bold text-white">Need Rapid {brand.name} Appliance Service?</h2>
+          <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto">
+            Book our certified technician for 45-minute doorstep dispatch across Pune & PCMC.
+          </p>
+          <div className="flex justify-center gap-4 pt-2">
+            <Link
+              to="/booking"
+              search={{}}
+              className="px-6 py-3 rounded-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs"
+            >
+              Book Service Online
             </Link>
-            <Link to="/resources" className="hover:text-primary transition">
-              Resources
-            </Link>
-            <Link to="/booking" className="hover:text-primary transition">
-              Book Repair
-            </Link>
+            <a
+              href={`tel:${phone.replace(/\s+/g, "")}`}
+              className="px-6 py-3 rounded-full border border-slate-700 bg-slate-900 text-white font-bold text-xs"
+            >
+              Call {phone}
+            </a>
           </div>
         </div>
-      </footer>
+      </div>
     </div>
   );
 }

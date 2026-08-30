@@ -583,6 +583,15 @@ export async function generateSitemap() {
         category: "brands",
       });
     }
+
+    // Brand Authorized Service Centers x Locations Matrix
+    for (const loc of LOCATIONS) {
+      addUrl(`/brands/${brand}/${loc}`, {
+        changefreq: "weekly",
+        priority: "0.80",
+        category: "brands",
+      });
+    }
   }
 
   for (const comp of COMPARISONS) {

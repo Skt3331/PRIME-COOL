@@ -315,7 +315,7 @@ function ServicesDirectoryPage() {
     { id: "commercial", label: "🏢 Commercial HVAC & VRF", icon: Building2 },
     { id: "refrigeration", label: "🧊 Cold Chain & Freezers", icon: Thermometer },
     { id: "industrial", label: "🏭 Industrial Chillers & Plants", icon: Factory },
-    { id: "pcb", label: "⚡ Inverter PCB Electronics (50+)", icon: Cpu },
+    { id: "pcb", label: "⚡ Inverter PCB Electronics (30)", icon: Cpu },
   ];
 
   // Key Pune / PCMC / MIDC Locations for Local Service Matrix

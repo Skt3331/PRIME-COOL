@@ -1,0 +1,327 @@
+================================================================================
+PRIME COOL INDIA — COMPLETE WEBSITE & ARCHITECTURE STRUCTURE
+Domain: https://primecool.in
+Last Updated: August 2026
+Total Sitemaps: 29 sub-sitemaps (113,723 unique indexed URLs)
+Tech Stack: React 19, TanStack Start (SSR), TanStack Router, Vite, TailwindCSS, Lucide
+================================================================================
+
+--------------------------------------------------------------------------------
+1. PUBLIC URL ROUTE HIERARCHY & SEO DIRECTORY
+--------------------------------------------------------------------------------
+
+[MAIN & CORE PAGES]
+├── /                                           -> Home / Landing Hub with 24/7 Dispatch
+├── /about                                      -> Company Profile, Engineering Certifications
+├── /contact                                    -> Direct Contact, Map, Inquiries
+├── /booking                                    -> Multi-step Service Booking System
+├── /emergency                                  -> High-Priority 24/7 Breakdown Dispatch (<45 min SLA)
+├── /portfolio                                  -> Commercial & Industrial Project Showcase
+├── /terms                                      -> Terms of Service & Warranty Policies
+├── /privacy                                    -> Privacy Policy
+└── /glossary                                   -> HVAC & Refrigeration Technical Terms Glossary
+
+[SERVICES MATRIX & HUBS]
+├── /services                                   -> Comprehensive Services & Engineering Hub
+├── /services/$slug                             -> Single Service Technical Profile (27 Core + 30 Top PCB Services)
+│   ├── /services/split-ac-repair
+│   ├── /services/ac-gas-charging
+│   ├── /services/inverter-ac-repair
+│   ├── /services/cassette-ac-repair
+│   ├── /services/vrf-systems
+│   ├── /services/cold-rooms
+│   ├── /services/chillers
+│   ├── /services/cooling-towers
+│   ├── /services/ahu
+│   ├── /services/fcu
+│   ├── /services/server-room-cooling
+│   ├── /services/deep-freezers
+│   ├── /services/blast-freezers
+│   ├── [10 AC PCB SERVICES]:
+│   │   ├── /services/pcb-split-ac-inverter-board-repair
+│   │   ├── /services/pcb-daikin-inverter-ac-repair (U4, L5, A6)
+│   │   ├── /services/pcb-voltas-inverter-ac-repair (E1, E6, F1)
+│   │   ├── /services/pcb-lg-dual-inverter-ac-repair (CH05, CH21)
+│   │   ├── /services/pcb-blue-star-inverter-ac-repair (E2, EC, P4)
+│   │   ├── /services/pcb-carrier-inverter-ac-repair (E1, E4, P0)
+│   │   ├── /services/pcb-hitachi-inverter-ac-repair (01, 02, 11)
+│   │   ├── /services/pcb-panasonic-inverter-ac-repair (H11, F99)
+│   │   ├── /services/pcb-samsung-inverter-ac-repair (E101, E464)
+│   │   └── /services/pcb-vrv-vrf-outdoor-inverter-repair
+│   ├── [10 FRIDGE PCB SERVICES]:
+│   │   ├── /services/pcb-inverter-refrigerator-motherboard-repair
+│   │   ├── /services/pcb-lg-double-door-fridge-repair
+│   │   ├── /services/pcb-samsung-digital-inverter-fridge-repair
+│   │   ├── /services/pcb-whirlpool-inverter-fridge-repair
+│   │   ├── /services/pcb-haier-inverter-refrigerator-repair
+│   │   ├── /services/pcb-godrej-inverter-fridge-repair
+│   │   ├── /services/pcb-bosch-siemens-inverter-fridge-repair
+│   │   ├── /services/pcb-panasonic-inverter-fridge-repair
+│   │   ├── /services/pcb-commercial-deep-freezer-controller-repair
+│   │   └── /services/pcb-side-by-side-fridge-display-board-repair
+│   └── [10 WASHING MACHINE PCB SERVICES]:
+│       ├── /services/pcb-front-load-washing-machine-drive-repair
+│       ├── /services/pcb-top-load-washing-machine-motherboard-repair
+│       ├── /services/pcb-ifb-front-load-washing-machine-repair (E01, E08)
+│       ├── /services/pcb-lg-inverter-direct-drive-washing-machine-repair (LE, OE)
+│       ├── /services/pcb-samsung-ecobubble-washing-machine-repair (3C, 5C)
+│       ├── /services/pcb-bosch-series-washing-machine-repair (E18, E57)
+│       ├── /services/pcb-whirlpool-6th-sense-washing-machine-repair (F02, F06)
+│       ├── /services/pcb-panasonic-inverter-washing-machine-repair (U11, U14)
+│       ├── /services/pcb-haier-direct-motion-washing-machine-repair (E4, UNB)
+│       └── /services/pcb-semi-automatic-washing-machine-timer-repair
+└── /services/$serviceSlug/$locationSlug        -> Dynamic High-Intent Matrix Routes (79,000+ Combinations)
+    ├── /services/ac-repair/ranjangaon-midc
+    ├── /services/ac-gas-charging/chakan-midc
+    ├── /services/chillers/bhosari-midc
+    ├── /services/cold-rooms/wagholi
+    ├── /services/vrf-systems/kharadi
+    ├── /services/server-room-cooling/hinjewadi
+    └── ... (All services across 1,563 Pune & Maharashtra locations)
+
+[LOCATIONS & LOCAL SERVICE HUBS]
+├── /locations                                  -> All Locations Master Directory
+├── /locations/$slug                            -> Localized Landing Page (1,563 Locations)
+│   ├── /locations/ranjangaon-midc
+│   ├── /locations/chakan-midc
+│   ├── /locations/bhosari-midc
+│   ├── /locations/wagholi
+│   ├── /locations/kharadi
+│   ├── /locations/hadapsar
+│   ├── /locations/hinjewadi
+│   ├── /locations/baner
+│   ├── /locations/wakad
+│   ├── /locations/kothrud
+│   ├── /locations/viman-nagar
+│   ├── /locations/shikrapur
+│   ├── /locations/sanaswadi
+│   └── /locations/shirur
+└── /cities/$citySlug/$serviceSlug              -> Major Cities Tier-1/2 Matrix (500 Cities)
+    ├── /cities/pune/split-ac-repair
+    ├── /cities/mumbai/chillers
+    ├── /cities/nagpur/cold-rooms
+    └── ...
+
+[BRANDS & AUTHORIZED SERVICE CENTERS]
+├── /brands                                     -> All Brands Directory (22+ Global Manufacturers)
+├── /brands/$slug                               -> Brand Diagnostics, Error Codes & Spare Parts
+│   ├── /brands/daikin
+│   ├── /brands/voltas
+│   ├── /brands/blue-star
+│   ├── /brands/lg
+│   ├── /brands/carrier
+│   ├── /brands/hitachi
+│   ├── /brands/samsung
+│   ├── /brands/panasonic
+│   ├── /brands/mitsubishi-electric
+│   ├── /brands/godrej
+│   └── /brands/haier
+├── /brands/$slug/$appliance                    -> Brand Specialized Appliance Divisions
+│   ├── /brands/daikin/ac
+│   ├── /brands/daikin/fridge
+│   ├── /brands/lg/washing-machine
+│   └── /brands/voltas/hvac
+├── /brands/$brandSlug/$locationSlug            -> Brand Authorized Service Centers by Locality (34,000+ Matrix URLs)
+│   ├── /brands/daikin/ranjangaon-midc
+│   ├── /brands/voltas/chakan-midc
+│   ├── /brands/blue-star/bhosari-midc
+│   ├── /brands/lg/wagholi
+│   ├── /brands/carrier/kharadi
+│   ├── /brands/hitachi/hinjewadi
+│   └── ...
+└── /brands/compare/$comparisonSlug             -> Brand vs Brand Comparison Guides
+    ├── /brands/compare/daikin-vs-voltas
+    ├── /brands/compare/lg-vs-samsung
+    ├── /brands/compare/blue-star-vs-carrier
+    └── ...
+
+[ENGINEERING CALCULATORS, TOOLS & GUIDES]
+├── /calculators                                -> Engineering Interactive Calculators Suite
+│   ├── /calculators/ac-tonnage                 -> Precision Room AC Tonnage Sizing Calculator
+│   ├── /calculators/electricity-cost           -> Monthly Power & Inverter Energy Savings Calculator
+│   ├── /calculators/subcooling-superheat       -> Refrigeration TXV & Subcooling Calculator
+│   ├── /calculators/chiller-efficiency         -> IKW/TR & COP Chiller Efficiency Calculator
+│   └── /calculators/duct-sizing                -> CFM Airflow & Static Pressure Sizing Calculator
+├── /refrigerants                               -> Refrigerant Gas Profiles & PT Reference Charts
+│   ├── /refrigerants/r32
+│   ├── /refrigerants/r410a
+│   ├── /refrigerants/r134a
+│   ├── /refrigerants/r404a
+│   ├── /refrigerants/r290
+│   └── /refrigerants/r600a
+└── /industrial/$topic                          -> Industrial Heat Transfer & Plant Engineering
+    ├── /industrial/chillers
+    ├── /industrial/cooling-towers
+    ├── /industrial/cold-rooms
+    ├── /industrial/compressors
+    ├── /industrial/process-cooling
+    ├── /industrial/dairy-refrigeration
+    └── /industrial/pharma-refrigeration
+
+[AUTOMATED BLOGS & KNOWLEDGE REPOSITORY]
+├── /blogs                                      -> Technical Blogs, Maintenance Tips & Case Studies
+└── /blogs/$slug                                -> 440+ SEO Deep-Dive Articles (750+ words, Schema, Pricing, Error Codes)
+    ├── /blogs/top-10-air-conditioner-maintenance-tips-for-peak-summer-cooling
+    ├── /blogs/complete-guide-to-inverter-ac-pcb-board-repair-and-component-soldering
+    ├── /blogs/industrial-chiller-descaling-and-preventative-maintenance-guide
+    └── ...
+
+[ADMIN & CMS MANAGEMENT (PROTECTED)]
+├── /admin                                      -> Master Dashboard Overview & Metrics
+├── /admin/blogs                                -> Blog Editor, Drafts & Publishing Panel
+├── /admin/locations                            -> Location Pincodes & Hubs Management
+├── /admin/calculators                          -> Calculator Formulas & Electricity Tariff Settings
+├── /admin/cms                                  -> Theme, Hero Banners, Socials, Phone Numbers, Meta SEO
+└── /login                                      -> Administrative Staff Authentication
+
+
+--------------------------------------------------------------------------------
+2. PROJECT REPOSITORY DIRECTORY TREE
+--------------------------------------------------------------------------------
+
+prime-cool/
+├── .env                                        -> Environment variables (DB, API keys, Ports)
+├── package.json                                -> Dependencies, scripts & build pipelines
+├── tsconfig.json                               -> TypeScript strict configuration
+├── vite.config.ts                              -> TanStack Start & Vite SSR bundling setup
+├── database.sql                                -> MySQL schema for blogs, locations, bookings
+│
+├── automation/                                 -> Autonomous AI Blog Regeneration & Cron System
+│   ├── config.js                               -> Daily 50-blog quota (10 Trending, 20 Location, 10 Commercial, 10 Industrial)
+│   ├── prompts.js                              -> SEO Prompts, error code seeds, and spare parts matrices
+│   ├── gemini-bot.js                           -> Google Gemini AI content generator with active deduplication
+│   ├── cron-scheduler.js                       -> 24-hour daily scheduler
+│   └── README.md                               -> Automation documentation & CLI usage
+│
+├── scripts/                                    -> Maintenance & Generation Scripts
+│   ├── generate-sitemap.js                     -> 29 Sub-sitemaps generation pipeline (113,723 URLs)
+│   └── seed-data.js                            -> Database seeding utilities
+│
+├── public/                                     -> Static Assets & Sitemaps
+│   ├── favicon.ico
+│   ├── logo.webp
+│   ├── robots.txt                              -> Search engine crawler rules & sitemap index reference
+│   ├── sitemap.xml                             -> Master Sitemap Index (links to all 29 sub-sitemaps)
+│   ├── sitemap-main.xml
+│   ├── sitemap-services.xml
+│   ├── sitemap-locations.xml
+│   ├── sitemap-cities.xml
+│   ├── sitemap-services-locations-1.xml .. 16.xml
+│   ├── sitemap-brands-1.xml .. 7.xml
+│   ├── sitemap-tools-guides.xml
+│   └── sitemap-blogs.xml
+│
+└── src/
+    ├── main.tsx                                -> Application entry point
+    ├── router.tsx                              -> TanStack Router setup
+    ├── routeTree.gen.ts                        -> Auto-generated type-safe routing tree
+    │
+    ├── assets/                                 -> Optimized WebP images & brand icons
+    │
+    ├── components/                             -> UI & Design System Components
+    │   ├── Breadcrumbs.tsx                     -> Accessible Breadcrumbs with JSON-LD BreadcrumbList
+    │   ├── Header.tsx                          -> Navigation Bar with mobile drawer & hotline
+    │   ├── Footer.tsx                          -> SEO Footer with deep links to all hubs
+    │   ├── EmergencyCallout.tsx                -> Floating 24/7 hotline button
+    │   ├── BookingModal.tsx                    -> Lead capture & booking modal
+    │   ├── ui/                                 -> Buttons, dialogs, inputs, cards, tables
+    │   └── resources/                          -> Calculator views, guides, PT charts
+    │
+    ├── lib/                                    -> Core Data Models & API Helpers
+    │   ├── api.ts                              -> CMS settings, locations & booking API fetchers
+    │   ├── brands-data.ts                      -> 22+ Brand specifications, error codes & spares
+    │   ├── services-data.ts                    -> 49 Core + 50 PCB service technical definitions
+    │   ├── blogs-data.json                     -> Fast offline fallback for published articles
+    │   └── seo.ts                              -> Structured Schema generators (HVACBusiness, FAQPage)
+    │
+    └── routes/                                 -> File-Based Route Tree (TanStack Start SSR)
+        ├── __root.tsx                          -> Root layout, navigation, footer, analytics
+        ├── index.tsx                           -> Home page
+        ├── about.tsx
+        ├── contact.tsx
+        ├── booking.tsx
+        ├── emergency.tsx
+        ├── portfolio.tsx
+        ├── terms.tsx
+        ├── privacy.tsx
+        ├── glossary.tsx
+        ├── login.tsx
+        │
+        ├── admin/
+        │   ├── index.tsx
+        │   ├── blogs.tsx
+        │   ├── locations.tsx
+        │   ├── calculators.tsx
+        │   └── cms.tsx
+        │
+        ├── services/
+        │   ├── index.tsx                       -> Redesigned Services Hub with SOP & Pricing
+        │   ├── $slug.tsx                       -> Single Service view
+        │   └── $serviceSlug.$locationSlug.tsx  -> Dynamic Service x Location Matrix
+        │
+        ├── locations/
+        │   ├── index.tsx                       -> Locations directory
+        │   └── $slug.tsx                       -> Single Location landing page
+        │
+        ├── cities/
+        │   ├── index.tsx
+        │   └── $citySlug.$serviceSlug.tsx      -> City x Service Matrix
+        │
+        ├── brands/
+        │   ├── index.tsx                       -> Brands directory
+        │   ├── $slug.tsx                       -> Brand diagnosis & error codes
+        │   ├── $slug.$appliance.tsx            -> Brand Authorized Service Centers by Location & Appliances
+        │   └── compare.$comparisonSlug.tsx     -> Brand comparisons
+        │
+        ├── calculators/
+        │   ├── index.tsx
+        │   ├── ac-tonnage.tsx
+        │   ├── electricity-cost.tsx
+        │   ├── subcooling-superheat.tsx
+        │   ├── chiller-efficiency.tsx
+        │   └── duct-sizing.tsx
+        │
+        ├── refrigerants/
+        │   ├── index.tsx
+        │   ├── r32.tsx
+        │   ├── r410a.tsx
+        │   ├── r134a.tsx
+        │   ├── r404a.tsx
+        │   ├── r290.tsx
+        │   └── r600a.tsx
+        │
+        ├── industrial/
+        │   ├── index.tsx
+        │   └── $topic.tsx
+        │
+        └── blogs/
+            ├── index.tsx
+            └── $slug.tsx
+
+
+--------------------------------------------------------------------------------
+3. SEO & SEARCH ENGINE INDEXING METRICS
+--------------------------------------------------------------------------------
+
+- Master Sitemap Index: https://primecool.in/sitemap.xml
+- Total Sub-Sitemaps: 29
+  ├── sitemap-main.xml (16 URLs)
+  ├── sitemap-services.xml (49 URLs)
+  ├── sitemap-locations.xml (1,563 URLs)
+  ├── sitemap-cities.xml (500 URLs)
+  ├── sitemap-services-locations-1.xml .. 16.xml (76,587 URLs)
+  ├── sitemap-brands-1.xml .. 7.xml (34,511 URLs)
+  ├── sitemap-tools-guides.xml (57 URLs)
+  └── sitemap-blogs.xml (440 URLs)
+- Total Unique URLs Indexed: 113,723
+- JSON-LD Schemas Deployed:
+  ├── HVACBusiness / LocalBusiness (Geo coordinates, Address, Rating, Hours)
+  ├── Service (Offers, Provider, Warranty)
+  ├── FAQPage (5-6 Dynamic localized Q&As per page)
+  ├── ItemList (Directory structures)
+  ├── BreadcrumbList (Hierarchical site navigation)
+  └── TechArticle (Diagnostic guides & blogs)
+
+================================================================================
+END OF PRIME COOL WEBSITE STRUCTURE DOCUMENTATION
+================================================================================
